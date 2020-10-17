@@ -1,0 +1,4 @@
+package ilert
+
+// Version package version
+const Version = "v0.1.0"
