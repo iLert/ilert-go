@@ -35,7 +35,7 @@ type Phone struct {
 
 // NotificationPreferences definition
 type NotificationPreferences struct {
-	Delay  string `json:"delay"`
+	Delay  int    `json:"delay"`
 	Method string `json:"method"` // e.g. EMAIL
 }
 

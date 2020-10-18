@@ -32,10 +32,6 @@ func NewClient(options ...ClientOptions) *Client {
 		apiEndpoint: apiEndpoint,
 	}
 
-	for _, opt := range options {
-		opt(&c)
-	}
-
 	c.httpClient = resty.New()
 	c.httpClient.SetHostURL(apiEndpoint)
 	c.httpClient.SetTimeout(apiTimeoutMs * time.Millisecond)
@@ -43,6 +39,10 @@ func NewClient(options ...ClientOptions) *Client {
 	c.httpClient.SetHeader("Content-Type", "application/json")
 	c.httpClient.SetHeader("User-Agent", fmt.Sprintf("ilert-go/%s", Version))
 	c.httpClient.SetHeader("Accept-Encoding", "gzip")
+
+	for _, opt := range options {
+		opt(&c)
+	}
 
 	return &c
 }
