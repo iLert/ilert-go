@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-// User definition https://api.ilert.dev/api-docs/#!/Users
+// User definition https://api.ilert.com/api-docs/#!/Users
 type User struct {
 	ID                                        int64                     `json:"id"`
 	Username                                  string                    `json:"username"`
@@ -25,6 +25,15 @@ type User struct {
 	OnCallNotificationPreferences             []NotificationPreferences `json:"onCallNotificationPreferences"`
 	SubscribedIncidentUpdateStates            []string                  `json:"subscribedIncidentUpdateStates"`
 	SubscribedIncidentUpdateNotificationTypes []string                  `json:"subscribedIncidentUpdateNotificationTypes"`
+}
+
+// UserShort definition
+type UserShort struct {
+	ID        int64  `json:"id"`
+	Username  string `json:"username"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
 }
 
 // Phone definition
@@ -85,6 +94,45 @@ var UserLanguage = struct {
 }{
 	English: "en",
 	German:  "de",
+}
+
+// CreateUserInput represents the input of a CreateUser operation.
+type CreateUserInput struct {
+	_    struct{}
+	User *User
+}
+
+// CreateUserOutput represents the output of a CreateUser operation.
+type CreateUserOutput struct {
+	_    struct{}
+	User *User
+}
+
+// CreateUser creates a new user. Requires ADMIN privileges. https://api.ilert.com/api-docs/#tag/Users/paths/~1users/post
+func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
+	if input == nil {
+		return nil, errors.New("Input is required")
+	}
+	if input.User == nil {
+		return nil, errors.New("User input is required")
+	}
+	resp, err := c.httpClient.R().SetBody(input.User).Post("/api/v1/users")
+	if err != nil {
+		return nil, err
+	}
+	if err = catchGenericAPIError(resp, 201); err != nil {
+		return nil, err
+	}
+
+	user := &User{}
+	err = json.Unmarshal(resp.Body(), user)
+	if err != nil {
+		return nil, err
+	}
+
+	output := &CreateUserOutput{User: user}
+
+	return output, nil
 }
 
 // GetUserInput represents the input of a GetUser operation.
@@ -267,44 +315,5 @@ func (c *Client) DeleteUser(input *DeleteUserInput) (*DeleteUserOutput, error) {
 	}
 
 	output := &DeleteUserOutput{}
-	return output, nil
-}
-
-// CreateUserInput represents the input of a CreateUser operation.
-type CreateUserInput struct {
-	_    struct{}
-	User *User
-}
-
-// CreateUserOutput represents the output of a CreateUser operation.
-type CreateUserOutput struct {
-	_    struct{}
-	User *User
-}
-
-// CreateUser updates an existing user. https://api.ilert.com/api-docs/#tag/Users/paths/~1users/post
-func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
-	if input == nil {
-		return nil, errors.New("Input is required")
-	}
-	if input.User == nil {
-		return nil, errors.New("User input is required")
-	}
-	resp, err := c.httpClient.R().SetBody(input.User).Post("/api/v1/users")
-	if err != nil {
-		return nil, err
-	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
-	}
-
-	user := &User{}
-	err = json.Unmarshal(resp.Body(), user)
-	if err != nil {
-		return nil, err
-	}
-
-	output := &CreateUserOutput{User: user}
-
 	return output, nil
 }
