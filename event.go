@@ -2,10 +2,10 @@ package ilert
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 )
 
-// Event https://app.ilert.com/api-docs/#tag/Events
+// Event represents the incident event https://api.ilert.com/api-docs/#tag/Events
 type Event struct {
 	// Required. The API key of the alert source.
 	APIKey string `json:"apiKey"`
@@ -35,14 +35,14 @@ type Event struct {
 	CustomDetails map[string]interface{} `json:"customDetails"`
 }
 
-// EventImage event image
+// EventImage represents event image
 type EventImage struct {
 	Src  string `json:"src"`
 	Href string `json:"href"`
 	Alt  string `json:"alt"`
 }
 
-// EventLink event link
+// EventLink represents event link
 type EventLink struct {
 	Text string `json:"text"`
 	Href string `json:"href"`
@@ -66,27 +66,40 @@ type EventResponse struct {
 	ResponseCode string `json:"responseCode"`
 }
 
-// CreateEvent creates an incident event. https://app.ilert.com/api-docs/#tag/Events/paths/~1events/post
-func (c *Client) CreateEvent(event *Event) (*EventResponse, error) {
-	resp, err := c.httpClient.R().SetBody(event).Post("/api/v1/events")
+// CreateEventInput represents the input of a CreateEvent operation.
+type CreateEventInput struct {
+	_     struct{}
+	Event *Event
+}
+
+// CreateEventOutput represents the output of a CreateEvent operation.
+type CreateEventOutput struct {
+	_             struct{}
+	EventResponse *EventResponse
+}
+
+// CreateEvent creates an incident event. https://api.ilert.com/api-docs/#tag/Events/paths/~1events/post
+func (c *Client) CreateEvent(input *CreateEventInput) (*CreateEventOutput, error) {
+	if input == nil {
+		return nil, errors.New("Input is required")
+	}
+	if input.Event == nil {
+		return nil, errors.New("Input event is required")
+	}
+	output := &CreateEventOutput{}
+	resp, err := c.httpClient.R().SetBody(input.Event).Post("/api/v1/events")
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode() != 200 {
-		restErr := fmt.Errorf("Wrong status code %d", resp.StatusCode())
-		respBody := &GenericErrorResponse{}
-		err := json.Unmarshal(resp.Body(), respBody)
-		if err == nil && respBody.Message != "" {
-			restErr = fmt.Errorf("%s: %s", respBody.Code, respBody.Message)
-		}
-		return nil, restErr
+	if err = catchGenericAPIError(resp, 200); err != nil {
+		return nil, err
 	}
-
-	respBody := &EventResponse{}
-	err = json.Unmarshal(resp.Body(), respBody)
+	eventResponse := &EventResponse{}
+	err = json.Unmarshal(resp.Body(), eventResponse)
 	if err != nil {
 		return nil, err
 	}
+	output.EventResponse = eventResponse
 
-	return respBody, nil
+	return output, nil
 }

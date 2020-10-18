@@ -1,6 +1,7 @@
 package ilert
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -69,4 +70,18 @@ func WithAPIEndpoint(endpoint string) ClientOptions {
 		c.apiEndpoint = endpoint
 		c.httpClient.SetHostURL(endpoint)
 	}
+}
+
+func catchGenericAPIError(response *resty.Response, expectedStatusCode int) error {
+	if response.StatusCode() != expectedStatusCode {
+		restErr := fmt.Errorf("Wrong status code %d", response.StatusCode())
+		respBody := &GenericErrorResponse{}
+		err := json.Unmarshal(response.Body(), respBody)
+		if err == nil && respBody.Message != "" {
+			restErr = fmt.Errorf("%s: %s", respBody.Code, respBody.Message)
+		}
+		return restErr
+	}
+
+	return nil
 }

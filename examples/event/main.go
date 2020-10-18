@@ -14,11 +14,12 @@ func main() {
 		Summary:     "My test incident summary",
 		IncidentKey: "123456",
 	}
+	input := &ilert.CreateEventInput{Event: event}
 	client := ilert.NewClient()
-	resp, err := client.CreateEvent(event)
+	result, err := client.CreateEvent(input)
 	if err != nil {
-		log.Println(resp)
+		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println("Incident key:", resp.IncidentKey)
+	log.Println("Incident key:", result.EventResponse.IncidentKey)
 }
