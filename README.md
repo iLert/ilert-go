@@ -2,18 +2,20 @@
 
 **The official iLert Go api bindings.**
 
-## Create manual incident
+## Create an incident (manually)
 
 ```go
 package main
 
 import (
 	"log"
-
 	"github.com/iLert/ilert-go"
 )
 
 func main() {
+
+	client := ilert.NewClient()
+
 	var apiKey = "alert source API Key"
 	event := &ilert.Event{
 		APIKey:      apiKey,
@@ -21,13 +23,14 @@ func main() {
 		Summary:     "My test incident summary",
 		IncidentKey: "123456",
 	}
+	
 	input := &ilert.CreateEventInput{Event: event}
-	client := ilert.NewClient()
 	result, err := client.CreateEvent(input)
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
+	
 	log.Println("Incident key:", result.EventResponse.IncidentKey)
 }
 ```
@@ -39,21 +42,24 @@ package main
 
 import (
 	"log"
-
 	"github.com/iLert/ilert-go"
 )
 
 func main() {
-	var apiKey = "heartbeat API Key"
+
 	client := ilert.NewClient()
+
+	var apiKey = "heartbeat API Key"
 	result, err := client.PingHeartbeat(&ilert.PingHeartbeatInput{
 		APIKey: ilert.String(apiKey),
 		Method: ilert.String(ilert.HeartbeatMethods.HEAD),
 	})
+	
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
+	
 	log.Println("Heartbeat is ok!")
 }
 ```
