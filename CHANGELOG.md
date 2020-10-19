@@ -6,3 +6,4 @@
 - add escalation policy
 - add schedule
 - add number
+- add uptime monitor
