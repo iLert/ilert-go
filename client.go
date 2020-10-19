@@ -77,6 +77,13 @@ func WithAPIEndpoint(endpoint string) ClientOptions {
 	}
 }
 
+// WithUserAgent replace user agent to the client
+func WithUserAgent(agent string) ClientOptions {
+	return func(c *Client) {
+		c.httpClient.SetHeader("User-Agent", agent)
+	}
+}
+
 func catchGenericAPIError(response *resty.Response, expectedStatusCode ...int) error {
 	if !intSliceContains(expectedStatusCode, response.StatusCode()) {
 		restErr := fmt.Errorf("Wrong status code %d", response.StatusCode())

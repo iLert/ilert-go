@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.10.2020, Version 1.0.1
+
+- add user agent option for tools like terraform
+
 ## 19.10.2020, Version 1.0.0
 
 - add events
