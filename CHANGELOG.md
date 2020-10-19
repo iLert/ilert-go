@@ -3,7 +3,8 @@
 - add events
 - add users
 - add alert sources
-- add escalation policy
-- add schedule
-- add number
-- add uptime monitor
+- add escalation policies
+- add schedules
+- add numbers
+- add uptime monitors
+- add incidents

@@ -103,9 +103,9 @@ func (c *Client) GetSchedules(input *GetSchedulesInput) (*GetSchedulesOutput, er
 type GetScheduleShiftsInput struct {
 	_                struct{}
 	ScheduleID       *int64
-	From             string // Date time string in ISO format
-	Until            string // Date time string in ISO format
-	ExcludeOverrides bool
+	From             *string // Date time string in ISO format
+	Until            *string // Date time string in ISO format
+	ExcludeOverrides *bool
 }
 
 // GetScheduleShiftsOutput represents the output of a GetScheduleShifts operation.
@@ -124,16 +124,15 @@ func (c *Client) GetScheduleShifts(input *GetScheduleShiftsInput) (*GetScheduleS
 	}
 
 	q := url.Values{}
-	if input.From != "" {
-		q.Add("from", input.From)
+	if input.From != nil {
+		q.Add("from", *input.From)
 	}
-	if input.Until != "" {
-		q.Add("until", input.From)
+	if input.Until != nil {
+		q.Add("until", *input.From)
 	}
-	if input.Until != "" {
-		q.Add("until", input.From)
+	if input.ExcludeOverrides != nil {
+		q.Add("exclude-overrides", strconv.FormatBool(*input.ExcludeOverrides))
 	}
-	q.Add("exclude-overrides", strconv.FormatBool(input.ExcludeOverrides))
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/schedules/%d/shifts?%s", *input.ScheduleID, q.Encode()))
 	if err != nil {

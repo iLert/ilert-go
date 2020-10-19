@@ -26,26 +26,13 @@ type Event struct {
 	Priority string `json:"priority"`
 
 	// Optional. A list of images containing src, href and alt.
-	Images []EventImage `json:"images"`
+	Images []IncidentImage `json:"images"`
 
 	// Optional. A list of links, containing href and text.
-	Links []EventLink `json:"links"`
+	Links []IncidentLink `json:"links"`
 
 	// Optional. Additional custom details for the event.
 	CustomDetails map[string]interface{} `json:"customDetails"`
-}
-
-// EventImage represents event image
-type EventImage struct {
-	Src  string `json:"src"`
-	Href string `json:"href"`
-	Alt  string `json:"alt"`
-}
-
-// EventLink represents event link
-type EventLink struct {
-	Text string `json:"text"`
-	Href string `json:"href"`
 }
 
 // EventTypes defines event types

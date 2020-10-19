@@ -10,6 +10,11 @@ func Int64(v int64) *int64 {
 	return &v
 }
 
+// Int returns a pointer to the int value passed in.
+func Int(v int) *int {
+	return &v
+}
+
 func intSliceContains(s []int, e int) bool {
 	for _, a := range s {
 		if a == e {

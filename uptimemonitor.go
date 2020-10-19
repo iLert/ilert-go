@@ -256,3 +256,35 @@ func (c *Client) DeleteUptimeMonitor(input *DeleteUptimeMonitorInput) (*DeleteUp
 	output := &DeleteUptimeMonitorOutput{}
 	return output, nil
 }
+
+// GetUptimeMonitorsCountInput represents the input of a GetUptimeMonitorsCount operation.
+type GetUptimeMonitorsCountInput struct {
+	_ struct{}
+}
+
+// GetUptimeMonitorsCountOutput represents the output of a GetUptimeMonitorsCount operation.
+type GetUptimeMonitorsCountOutput struct {
+	_     struct{}
+	Count int
+}
+
+// GetUptimeMonitorsCount gets list uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1count/get
+func (c *Client) GetUptimeMonitorsCount(input *GetUptimeMonitorsCountInput) (*GetUptimeMonitorsCountOutput, error) {
+	resp, err := c.httpClient.R().Get("/api/v1/uptime-monitors/count")
+	if err != nil {
+		return nil, err
+	}
+	if err = catchGenericAPIError(resp, 200); err != nil {
+		return nil, err
+	}
+
+	body := &GenericCountResponse{}
+	err = json.Unmarshal(resp.Body(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	output := &GetUptimeMonitorsCountOutput{Count: body.Count}
+
+	return output, nil
+}

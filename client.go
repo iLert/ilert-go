@@ -26,6 +26,11 @@ type GenericErrorResponse struct {
 	Code    string `json:"code"`
 }
 
+// GenericCountResponse describes generic resources count response
+type GenericCountResponse struct {
+	Count int `json:"count"`
+}
+
 // NewClient creates an API client using an API token
 func NewClient(options ...ClientOptions) *Client {
 	c := Client{
