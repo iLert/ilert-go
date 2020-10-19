@@ -72,8 +72,8 @@ func WithAPIEndpoint(endpoint string) ClientOptions {
 	}
 }
 
-func catchGenericAPIError(response *resty.Response, expectedStatusCode int) error {
-	if response.StatusCode() != expectedStatusCode {
+func catchGenericAPIError(response *resty.Response, expectedStatusCode ...int) error {
+	if !intSliceContains(expectedStatusCode, response.StatusCode()) {
 		restErr := fmt.Errorf("Wrong status code %d", response.StatusCode())
 		respBody := &GenericErrorResponse{}
 		err := json.Unmarshal(response.Body(), respBody)

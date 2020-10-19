@@ -23,13 +23,6 @@ type EscalationRule struct {
 	Type              string   `json:"type,omitempty"`
 }
 
-// Schedule definition
-type Schedule struct {
-	ID                int64   `json:"id"`
-	Name              string  `json:"name"`
-	ScheduleMemberIDs []int64 `json:"scheduleMemberIds"`
-}
-
 // CreateEscalationPolicyInput represents the input of a CreateEscalationPolicy operation.
 type CreateEscalationPolicyInput struct {
 	_                struct{}

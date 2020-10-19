@@ -4,3 +4,4 @@
 - add users
 - add alert sources
 - add escalation policy
+- add schedule

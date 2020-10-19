@@ -9,3 +9,12 @@ func String(v string) *string {
 func Int64(v int64) *int64 {
 	return &v
 }
+
+func intSliceContains(s []int, e int) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
