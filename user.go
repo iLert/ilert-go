@@ -27,15 +27,6 @@ type User struct {
 	SubscribedIncidentUpdateNotificationTypes []string                  `json:"subscribedIncidentUpdateNotificationTypes"`
 }
 
-// UserShort definition
-type UserShort struct {
-	ID        int64  `json:"id"`
-	Username  string `json:"username"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-}
-
 // Phone definition
 type Phone struct {
 	RegionCode string `json:"regionCode"`
