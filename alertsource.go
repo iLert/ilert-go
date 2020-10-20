@@ -22,11 +22,11 @@ type AlertSource struct {
 	Status                 string                 `json:"status"`
 	EmailPredicates        []EmailPredicate       `json:"emailPredicates"`
 	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates"`
-	ResolveKeyExtractor    []EmailPredicate       `json:"resolveKeyExtractor"`
+	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor"`
 	FilterOperator         string                 `json:"filterOperator"`
 	ResolveFilterOperator  string                 `json:"resolveFilterOperator"`
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule"`
-	SupportHours           SupportHours           `json:"supportHours"`
+	SupportHours           *SupportHours          `json:"supportHours"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"`
@@ -48,13 +48,13 @@ type SupportHours struct {
 
 // SupportDays definition
 type SupportDays struct {
-	MONDAY    SupportDay `json:"MONDAY"`
-	TUESDAY   SupportDay `json:"TUESDAY"`
-	WEDNESDAY SupportDay `json:"WEDNESDAY"`
-	THURSDAY  SupportDay `json:"THURSDAY"`
-	FRIDAY    SupportDay `json:"FRIDAY"`
-	SATURDAY  SupportDay `json:"SATURDAY"`
-	SUNDAY    SupportDay `json:"SUNDAY"`
+	MONDAY    *SupportDay `json:"MONDAY"`
+	TUESDAY   *SupportDay `json:"TUESDAY"`
+	WEDNESDAY *SupportDay `json:"WEDNESDAY"`
+	THURSDAY  *SupportDay `json:"THURSDAY"`
+	FRIDAY    *SupportDay `json:"FRIDAY"`
+	SATURDAY  *SupportDay `json:"SATURDAY"`
+	SUNDAY    *SupportDay `json:"SUNDAY"`
 }
 
 // SupportDay definition
