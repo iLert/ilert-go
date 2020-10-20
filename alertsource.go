@@ -19,6 +19,7 @@ type AlertSource struct {
 	EmailFiltered          bool                   `json:"emailFiltered"`
 	EmailResolveFiltered   bool                   `json:"emailResolveFiltered"`
 	Active                 bool                   `json:"active"`
+	Status                 string                 `json:"status"`
 	EmailPredicates        []EmailPredicate       `json:"emailPredicates"`
 	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates"`
 	ResolveKeyExtractor    []EmailPredicate       `json:"resolveKeyExtractor"`
@@ -28,7 +29,7 @@ type AlertSource struct {
 	SupportHours           SupportHours           `json:"supportHours"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`
-	AutotaskMetadata       map[string]interface{} `json:"autotaskMetadata,omitempty"`
+	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"`
 	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`
 }
 
@@ -60,6 +61,13 @@ type SupportDays struct {
 type SupportDay struct {
 	Start string `json:"start"`
 	End   string `json:"end"`
+}
+
+// AutotaskMetadata definition
+type AutotaskMetadata struct {
+	Username  string `json:"userName"`
+	Secret    string `json:"secret"`
+	WebServer string `json:"webServer"`
 }
 
 // Heartbeat definition

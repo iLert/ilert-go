@@ -1,5 +1,9 @@
 # Changelog
 
+## 20.10.2020, Version 1.0.2
+
+- fix alert source type definition
+
 ## 19.10.2020, Version 1.0.1
 
 - add user agent option for tools like terraform
