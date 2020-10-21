@@ -20,11 +20,11 @@ type User struct {
 	Timezone                                  string                         `json:"timezone"`
 	Language                                  string                         `json:"language"`
 	Role                                      string                         `json:"role"`
-	NotificationPreferences                   []NotificationPreference       `json:"notificationPreferences"`
-	LowNotificationPreferences                []NotificationPreference       `json:"lowPriorityNotificationPreferences"`
-	OnCallNotificationPreferences             []OnCallNotificationPreference `json:"onCallNotificationPreferences"`
-	SubscribedIncidentUpdateStates            []string                       `json:"subscribedIncidentUpdateStates"`
-	SubscribedIncidentUpdateNotificationTypes []string                       `json:"subscribedIncidentUpdateNotificationTypes"`
+	NotificationPreferences                   []NotificationPreference       `json:"notificationPreferences,omitempty"`
+	LowNotificationPreferences                []NotificationPreference       `json:"lowPriorityNotificationPreferences,omitempty"`
+	OnCallNotificationPreferences             []OnCallNotificationPreference `json:"onCallNotificationPreferences,omitempty"`
+	SubscribedIncidentUpdateStates            []string                       `json:"subscribedIncidentUpdateStates,omitempty"`
+	SubscribedIncidentUpdateNotificationTypes []string                       `json:"subscribedIncidentUpdateNotificationTypes,omitempty"`
 }
 
 // Phone definition
