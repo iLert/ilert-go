@@ -1,11 +1,12 @@
 # Changelog
 
-## 20.10.2020, Version 1.0.2, 1.0.3, 1.0.4
+## 20.10.2020, Version 1.0.2, 1.0.3, 1.0.4, 1.0.5
 
 - fix alert source type definition
 - fix incident type definition
 - fix uptime monitor type definition
 - fix user type definition
+- add auto resolution timeout option to alert source
 
 ## 19.10.2020, Version 1.0.0, 1.0.1
 

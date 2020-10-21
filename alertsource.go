@@ -20,6 +20,7 @@ type AlertSource struct {
 	EmailResolveFiltered   bool                   `json:"emailResolveFiltered"`
 	Active                 bool                   `json:"active"`
 	Status                 string                 `json:"status"`
+	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"` // e.g. PT4H
 	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`
 	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"`
 	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`
