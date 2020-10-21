@@ -14,8 +14,8 @@ type Schedule struct {
 	Name         string `json:"name"`
 	Timezone     string `json:"timezone"`
 	StartsOn     string `json:"startsOn"` // Date time string in ISO format
-	CurrentShift Shift  `json:"currentShift"`
-	NextShift    Shift  `json:"nextShift"`
+	CurrentShift Shift  `json:"currentShift,omitempty"`
+	NextShift    Shift  `json:"nextShift,omitempty"`
 }
 
 // Shift definition

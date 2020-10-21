@@ -20,13 +20,13 @@ type AlertSource struct {
 	EmailResolveFiltered   bool                   `json:"emailResolveFiltered"`
 	Active                 bool                   `json:"active"`
 	Status                 string                 `json:"status"`
-	EmailPredicates        []EmailPredicate       `json:"emailPredicates"`
-	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates"`
-	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor"`
+	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`
+	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"`
+	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`
 	FilterOperator         string                 `json:"filterOperator"`
 	ResolveFilterOperator  string                 `json:"resolveFilterOperator"`
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule"`
-	SupportHours           *SupportHours          `json:"supportHours"`
+	SupportHours           *SupportHours          `json:"supportHours,omitempty"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"`

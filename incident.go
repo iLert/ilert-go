@@ -10,18 +10,17 @@ import (
 
 // Incident definition
 type Incident struct {
-	ID             int64        `json:"id"`
-	Summary        string       `json:"summary"`
-	Details        string       `json:"details"`
-	ReportTime     string       `json:"reportTime"` // Date time string in ISO format
-	ResolvedOn     string       `json:"resolvedOn"` // Date time string in ISO format
-	Status         string       `json:"status"`
-	AlertSource    *AlertSource `json:"alertSource"`
-	Priority       string       `json:"priority"`
-	IncidentKey    string       `json:"incidentKey"`
-	AssignedTo     *User        `json:"assignedTo"`
-	NextEscalation string       `json:"nextEscalation"` // Date time string in ISO format
-
+	ID                 int64                  `json:"id"`
+	Summary            string                 `json:"summary"`
+	Details            string                 `json:"details"`
+	ReportTime         string                 `json:"reportTime"` // Date time string in ISO format
+	ResolvedOn         string                 `json:"resolvedOn"` // Date time string in ISO format
+	Status             string                 `json:"status"`
+	AlertSource        *AlertSource           `json:"alertSource,omitempty"`
+	Priority           string                 `json:"priority"`
+	IncidentKey        string                 `json:"incidentKey"`
+	AssignedTo         *User                  `json:"assignedTo,omitempty"`
+	NextEscalation     string                 `json:"nextEscalation"` // Date time string in ISO format
 	CallRoutingNumber  *CallRoutingNumber     `json:"callRoutingNumber,omitempty"`
 	AcknowledgedBy     *User                  `json:"acknowledgedBy,omitempty"`
 	AcknowledgedByType string                 `json:"acknowledgedByType,omitempty"`

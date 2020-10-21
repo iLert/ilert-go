@@ -13,8 +13,8 @@ type User struct {
 	FirstName                                 string                    `json:"firstName"`
 	LastName                                  string                    `json:"lastName"`
 	Email                                     string                    `json:"email"`
-	Mobile                                    *Phone                    `json:"mobile"`
-	Landline                                  *Phone                    `json:"landline"`
+	Mobile                                    *Phone                    `json:"mobile,omitempty"`
+	Landline                                  *Phone                    `json:"landline,omitempty"`
 	Position                                  string                    `json:"position"`
 	Department                                string                    `json:"department"`
 	Timezone                                  string                    `json:"timezone"`

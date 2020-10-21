@@ -12,11 +12,11 @@ type UptimeMonitor struct {
 	Name                            string                   `json:"name"`
 	Region                          string                   `json:"region"`
 	CheckType                       string                   `json:"checkType"`
-	CheckParams                     UptimeMonitorCheckParams `json:"checkParams"`
+	CheckParams                     UptimeMonitorCheckParams `json:"checkParams,omitempty"`
 	IntervalSec                     int                      `json:"intervalSec"`                     // default: 300
 	TimeoutMs                       int                      `json:"timeoutMs"`                       // default: 30000
 	CreateIncidentAfterFailedChecks int                      `json:"createIncidentAfterFailedChecks"` // default: 1
-	EscalationPolicy                *EscalationPolicy        `json:"escalationPolicy"`
+	EscalationPolicy                *EscalationPolicy        `json:"escalationPolicy,omitempty"`
 	Paused                          bool                     `json:"paused"`   // default: false
 	EmbedURL                        string                   `json:"embedURL"` // read only
 	ShareURL                        string                   `json:"shareURL"` // read only
