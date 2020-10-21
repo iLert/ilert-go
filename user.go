@@ -8,23 +8,23 @@ import (
 
 // User definition https://api.ilert.com/api-docs/#!/Users
 type User struct {
-	ID                                        int64                     `json:"id"`
-	Username                                  string                    `json:"username"`
-	FirstName                                 string                    `json:"firstName"`
-	LastName                                  string                    `json:"lastName"`
-	Email                                     string                    `json:"email"`
-	Mobile                                    *Phone                    `json:"mobile,omitempty"`
-	Landline                                  *Phone                    `json:"landline,omitempty"`
-	Position                                  string                    `json:"position"`
-	Department                                string                    `json:"department"`
-	Timezone                                  string                    `json:"timezone"`
-	Language                                  string                    `json:"language"`
-	Role                                      string                    `json:"role"`
-	NotificationPreferences                   []NotificationPreferences `json:"notificationPreferences"`
-	LowNotificationPreferences                []NotificationPreferences `json:"lowPriorityNotificationPreferences"`
-	OnCallNotificationPreferences             []NotificationPreferences `json:"onCallNotificationPreferences"`
-	SubscribedIncidentUpdateStates            []string                  `json:"subscribedIncidentUpdateStates"`
-	SubscribedIncidentUpdateNotificationTypes []string                  `json:"subscribedIncidentUpdateNotificationTypes"`
+	ID                                        int64                          `json:"id"`
+	Username                                  string                         `json:"username"`
+	FirstName                                 string                         `json:"firstName"`
+	LastName                                  string                         `json:"lastName"`
+	Email                                     string                         `json:"email"`
+	Mobile                                    *Phone                         `json:"mobile,omitempty"`
+	Landline                                  *Phone                         `json:"landline,omitempty"`
+	Position                                  string                         `json:"position"`
+	Department                                string                         `json:"department"`
+	Timezone                                  string                         `json:"timezone"`
+	Language                                  string                         `json:"language"`
+	Role                                      string                         `json:"role"`
+	NotificationPreferences                   []NotificationPreference       `json:"notificationPreferences"`
+	LowNotificationPreferences                []NotificationPreference       `json:"lowPriorityNotificationPreferences"`
+	OnCallNotificationPreferences             []OnCallNotificationPreference `json:"onCallNotificationPreferences"`
+	SubscribedIncidentUpdateStates            []string                       `json:"subscribedIncidentUpdateStates"`
+	SubscribedIncidentUpdateNotificationTypes []string                       `json:"subscribedIncidentUpdateNotificationTypes"`
 }
 
 // Phone definition
@@ -33,10 +33,16 @@ type Phone struct {
 	Number     string `json:"number"`
 }
 
-// NotificationPreferences definition
-type NotificationPreferences struct {
+// NotificationPreference definition
+type NotificationPreference struct {
 	Delay  int    `json:"delay"`
 	Method string `json:"method"` // e.g. EMAIL
+}
+
+// OnCallNotificationPreference definition
+type OnCallNotificationPreference struct {
+	BeforeMin int    `json:"beforeMin"`
+	Method    string `json:"method"` // e.g. EMAIL
 }
 
 // UserRole defines user roles
