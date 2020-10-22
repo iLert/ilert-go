@@ -20,7 +20,6 @@ type EscalationRule struct {
 	User              *User     `json:"user,omitempty"`
 	Schedule          *Schedule `json:"schedule,omitempty"`
 	EscalationTimeout int       `json:"escalationTimeout"`
-	Type              string    `json:"type,omitempty"`
 }
 
 // CreateEscalationPolicyInput represents the input of a CreateEscalationPolicy operation.
