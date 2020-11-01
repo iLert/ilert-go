@@ -3,6 +3,7 @@ package ilert
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 // Event represents the incident event https://api.ilert.com/api-docs/#tag/Events
@@ -74,7 +75,7 @@ func (c *Client) CreateEvent(input *CreateEventInput) (*CreateEventOutput, error
 		return nil, errors.New("Input event is required")
 	}
 	output := &CreateEventOutput{}
-	resp, err := c.httpClient.R().SetBody(input.Event).Post("/api/v1/events")
+	resp, err := c.httpClient.R().SetBody(input.Event).Post(fmt.Sprintf("%s", apiRoutes.events))
 	if err != nil {
 		return nil, err
 	}

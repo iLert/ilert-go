@@ -1,7 +1,10 @@
 # Changelog
 
-## (Unreleased)
+## (Unreleased), Version 1.1.0
 
+- add connections
+- add connectors
+- add application default environment variables
 - remove type property from escalation rule
 
 ## 20.10.2020, Version 1.0.2, 1.0.3, 1.0.4, 1.0.5, 1.0.6, 1.0.7, 1.0.8, 1.0.9

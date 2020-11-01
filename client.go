@@ -3,6 +3,7 @@ package ilert
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -31,6 +32,13 @@ type GenericCountResponse struct {
 	Count int `json:"count"`
 }
 
+type envConfig struct {
+	token          *string
+	organizationID *string
+	username       *string
+	password       *string
+}
+
 // NewClient creates an API client using an API token
 func NewClient(options ...ClientOptions) *Client {
 	c := Client{
@@ -44,6 +52,22 @@ func NewClient(options ...ClientOptions) *Client {
 	c.httpClient.SetHeader("Content-Type", "application/json")
 	c.httpClient.SetHeader("User-Agent", fmt.Sprintf("ilert-go/%s", Version))
 	c.httpClient.SetHeader("Accept-Encoding", "gzip")
+
+	endpoint := getEnv("ILERT_ENDPOINT")
+	if endpoint != nil {
+		c.httpClient.SetHostURL(*endpoint)
+	}
+
+	apiToken := getEnv("ILERT_API_TOKEN")
+	organizationID := getEnv("ILERT_ORGANIZATION")
+	username := getEnv("ILERT_USERNAME")
+	password := getEnv("ILERT_PASSWORD")
+
+	if apiToken != nil {
+		WithAPIToken(*apiToken)(&c)
+	} else if organizationID != nil && username != nil && password != nil {
+		WithBasicAuth(*organizationID, *username, *password)(&c)
+	}
 
 	for _, opt := range options {
 		opt(&c)
@@ -93,6 +117,40 @@ func catchGenericAPIError(response *resty.Response, expectedStatusCode ...int) e
 			restErr = fmt.Errorf("%s: %s", respBody.Code, respBody.Message)
 		}
 		return restErr
+	}
+
+	return nil
+}
+
+// apiRoutes defines api routes
+var apiRoutes = struct {
+	alertSources       string
+	connections        string
+	connectors         string
+	escalationPolicies string
+	events             string
+	heartbeats         string
+	incidents          string
+	numbers            string
+	schedules          string
+	uptimeMonitors     string
+	users              string
+}{
+	connections:        "/api/v1/connections",
+	connectors:         "/api/v1/connectors",
+	escalationPolicies: "/api/v1/escalation-policies",
+	events:             "/api/v1/events",
+	heartbeats:         "/api/v1/heartbeats",
+	incidents:          "/api/v1/incidents",
+	numbers:            "/api/v1/numbers",
+	schedules:          "/api/v1/schedules",
+	uptimeMonitors:     "/api/v1/uptime-monitors",
+	users:              "/api/v1/users",
+}
+
+func getEnv(key string) *string {
+	if v := os.Getenv(key); len(v) != 0 {
+		return String(v)
 	}
 
 	return nil

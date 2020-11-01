@@ -185,7 +185,7 @@ func (c *Client) GetIncident(input *GetIncidentInput) (*GetIncidentOutput, error
 		return nil, errors.New("Incident id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/incidents/%d", *input.IncidentID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}
@@ -277,7 +277,7 @@ func (c *Client) GetIncidents(input *GetIncidentsInput) (*GetIncidentsOutput, er
 		q.Add("assigned-to", *username)
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/incidents?%s", q.Encode()))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.incidents, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -357,7 +357,7 @@ func (c *Client) GetIncidentsCount(input *GetIncidentsCountInput) (*GetIncidents
 		q.Add("assigned-to", *username)
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/incidents/count?%s", q.Encode()))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/count?%s", apiRoutes.incidents, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -407,7 +407,7 @@ func (c *Client) GetIncidentResponder(input *GetIncidentResponderInput) (*GetInc
 		}
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/incidents/%d/responder", *input.IncidentID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/responder", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}
@@ -471,7 +471,7 @@ func (c *Client) AssignIncident(input *AssignIncidentInput) (*AssignIncidentOutp
 		q.Add("schedule-id", strconv.FormatInt(*input.ScheduleID, 10))
 	}
 
-	resp, err := c.httpClient.R().Put(fmt.Sprintf("/api/v1/incidents/%d/assign?%s", *input.IncidentID, q.Encode()))
+	resp, err := c.httpClient.R().Put(fmt.Sprintf("%s/%d/assign?%s", apiRoutes.incidents, *input.IncidentID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -513,7 +513,7 @@ func (c *Client) AcceptIncident(input *AcceptIncidentInput) (*AcceptIncidentOutp
 		return nil, errors.New("Incident id is required")
 	}
 
-	resp, err := c.httpClient.R().Put(fmt.Sprintf("/api/v1/incidents/%d/accept", *input.IncidentID))
+	resp, err := c.httpClient.R().Put(fmt.Sprintf("%s/%d/accept", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}
@@ -555,7 +555,7 @@ func (c *Client) ResolveIncident(input *ResolveIncidentInput) (*ResolveIncidentO
 		return nil, errors.New("Incident id is required")
 	}
 
-	resp, err := c.httpClient.R().Put(fmt.Sprintf("/api/v1/incidents/%d/resolve", *input.IncidentID))
+	resp, err := c.httpClient.R().Put(fmt.Sprintf("%s/%d/resolve", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}
@@ -607,7 +607,7 @@ func (c *Client) GetIncidentLogEntries(input *GetIncidentLogEntriesInput) (*GetI
 		}
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/incidents/%d/log-entries", *input.IncidentID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/log-entries", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}
@@ -651,7 +651,7 @@ func (c *Client) GetIncidentActions(input *GetIncidentActionsInput) (*GetInciden
 		return nil, errors.New("Incident id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/incidents/%d/actions", *input.IncidentID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/actions", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}
@@ -697,7 +697,7 @@ func (c *Client) InvokeIncidentAction(input *InvokeIncidentActionInput) (*Invoke
 		return nil, errors.New("Action input is required")
 	}
 
-	resp, err := c.httpClient.R().SetBody(input.Action).Post(fmt.Sprintf("/api/v1/incidents/%d/actions", *input.IncidentID))
+	resp, err := c.httpClient.R().SetBody(input.Action).Post(fmt.Sprintf("%s/%d/actions", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}

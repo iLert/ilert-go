@@ -40,7 +40,7 @@ func (c *Client) PingHeartbeat(input *PingHeartbeatInput) (*PingHeartbeatOutput,
 		input.Method = String(HeartbeatMethods.HEAD)
 	}
 
-	resp, err := c.httpClient.R().Execute(*input.Method, fmt.Sprintf("/api/v1/heartbeats/%s", *input.APIKey))
+	resp, err := c.httpClient.R().Execute(*input.Method, fmt.Sprintf("%s/%s", apiRoutes.heartbeats, *input.APIKey))
 	if err != nil {
 		return nil, err
 	}

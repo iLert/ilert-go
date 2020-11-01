@@ -46,7 +46,7 @@ func (c *Client) GetSchedule(input *GetScheduleInput) (*GetScheduleOutput, error
 		return nil, errors.New("Schedule id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/schedules/%d", *input.ScheduleID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.schedules, *input.ScheduleID))
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ type GetSchedulesOutput struct {
 
 // GetSchedules gets list on-call schedules. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules/get
 func (c *Client) GetSchedules(input *GetSchedulesInput) (*GetSchedulesOutput, error) {
-	resp, err := c.httpClient.R().Get("/api/v1/schedules")
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.schedules))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func (c *Client) GetScheduleShifts(input *GetScheduleShiftsInput) (*GetScheduleS
 		q.Add("exclude-overrides", strconv.FormatBool(*input.ExcludeOverrides))
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/schedules/%d/shifts?%s", *input.ScheduleID, q.Encode()))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/shifts?%s", apiRoutes.schedules, *input.ScheduleID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -174,7 +174,7 @@ func (c *Client) GetScheduleOverrides(input *GetScheduleOverridesInput) (*GetSch
 		return nil, errors.New("Schedule id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/schedules/%d/overrides", *input.ScheduleID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/overrides", apiRoutes.schedules, *input.ScheduleID))
 	if err != nil {
 		return nil, err
 	}
@@ -214,7 +214,7 @@ func (c *Client) GetScheduleUserOnCall(input *GetScheduleUserOnCallInput) (*GetS
 		return nil, errors.New("Schedule id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/schedules/%d/user-on-call", *input.ScheduleID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/user-on-call", apiRoutes.schedules, *input.ScheduleID))
 	if err != nil {
 		return nil, err
 	}

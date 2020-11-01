@@ -193,7 +193,7 @@ func (c *Client) CreateAlertSource(input *CreateAlertSourceInput) (*CreateAlertS
 	if input.AlertSource == nil {
 		return nil, errors.New("Alert source input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.AlertSource).Post("/api/v1/alert-sources")
+	resp, err := c.httpClient.R().SetBody(input.AlertSource).Post(fmt.Sprintf("%s", apiRoutes.alertSources))
 	if err != nil {
 		return nil, err
 	}
@@ -233,7 +233,7 @@ func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutp
 		return nil, errors.New("AlertSource id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/alert-sources/%d", *input.AlertSourceID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
 	if err != nil {
 		return nil, err
 	}
@@ -267,7 +267,7 @@ type GetAlertSourcesOutput struct {
 
 // GetAlertSources lists alert sources. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources/get
 func (c *Client) GetAlertSources(input *GetAlertSourcesInput) (*GetAlertSourcesOutput, error) {
-	resp, err := c.httpClient.R().Get("/api/v1/alert-sources")
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.alertSources))
 	if err != nil {
 		return nil, err
 	}
@@ -311,7 +311,7 @@ func (c *Client) UpdateAlertSource(input *UpdateAlertSourceInput) (*UpdateAlertS
 		return nil, errors.New("Alert source id is required")
 	}
 
-	resp, err := c.httpClient.R().SetBody(input.AlertSource).Put(fmt.Sprintf("/api/v1/alert-sources/%d", *input.AlertSourceID))
+	resp, err := c.httpClient.R().SetBody(input.AlertSource).Put(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
 	if err != nil {
 		return nil, err
 	}
@@ -350,7 +350,7 @@ func (c *Client) DeleteAlertSource(input *DeleteAlertSourceInput) (*DeleteAlertS
 		return nil, errors.New("AlertSource id is required")
 	}
 
-	resp, err := c.httpClient.R().Delete(fmt.Sprintf("/api/v1/alert-sources/%d", *input.AlertSourceID))
+	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
 	if err != nil {
 		return nil, err
 	}

@@ -42,7 +42,7 @@ func (c *Client) CreateEscalationPolicy(input *CreateEscalationPolicyInput) (*Cr
 	if input.EscalationPolicy == nil {
 		return nil, errors.New("Escalation policy input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.EscalationPolicy).Post("/api/v1/escalation-policies")
+	resp, err := c.httpClient.R().SetBody(input.EscalationPolicy).Post(fmt.Sprintf("%s", apiRoutes.escalationPolicies))
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ func (c *Client) GetEscalationPolicy(input *GetEscalationPolicyInput) (*GetEscal
 		return nil, errors.New("EscalationPolicy id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("/api/v1/escalation-policies/%d", *input.EscalationPolicyID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.escalationPolicies, *input.EscalationPolicyID))
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ type GetEscalationPoliciesOutput struct {
 
 // GetEscalationPolicies lists escalation policies. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies/get
 func (c *Client) GetEscalationPolicies(input *GetEscalationPoliciesInput) (*GetEscalationPoliciesOutput, error) {
-	resp, err := c.httpClient.R().Get("/api/v1/escalation-policies")
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.escalationPolicies))
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +160,7 @@ func (c *Client) UpdateEscalationPolicy(input *UpdateEscalationPolicyInput) (*Up
 		return nil, errors.New("Escalation policy id is required")
 	}
 
-	resp, err := c.httpClient.R().SetBody(input.EscalationPolicy).Put(fmt.Sprintf("/api/v1/escalation-policies/%d", *input.EscalationPolicyID))
+	resp, err := c.httpClient.R().SetBody(input.EscalationPolicy).Put(fmt.Sprintf("%s/%d", apiRoutes.escalationPolicies, *input.EscalationPolicyID))
 	if err != nil {
 		return nil, err
 	}
@@ -199,7 +199,7 @@ func (c *Client) DeleteEscalationPolicy(input *DeleteEscalationPolicyInput) (*De
 		return nil, errors.New("EscalationPolicy id is required")
 	}
 
-	resp, err := c.httpClient.R().Delete(fmt.Sprintf("/api/v1/escalation-policies/%d", *input.EscalationPolicyID))
+	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%d", apiRoutes.escalationPolicies, *input.EscalationPolicyID))
 	if err != nil {
 		return nil, err
 	}

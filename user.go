@@ -113,7 +113,7 @@ func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
 	if input.User == nil {
 		return nil, errors.New("User input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.User).Post("/api/v1/users")
+	resp, err := c.httpClient.R().SetBody(input.User).Post(fmt.Sprintf("%s", apiRoutes.users))
 	if err != nil {
 		return nil, err
 	}
@@ -161,9 +161,9 @@ func (c *Client) GetUser(input *GetUserInput) (*GetUserOutput, error) {
 	}
 	var url string
 	if input.UserID != nil {
-		url = fmt.Sprintf("/api/v1/users/%d", *input.UserID)
+		url = fmt.Sprintf("%s/%d", apiRoutes.users, *input.UserID)
 	} else {
-		url = fmt.Sprintf("/api/v1/users/%s", *input.Username)
+		url = fmt.Sprintf("%s/%s", apiRoutes.users, *input.Username)
 	}
 	resp, err := c.httpClient.R().Get(url)
 	if err != nil {
@@ -199,7 +199,7 @@ type GetUsersOutput struct {
 
 // GetUsers lists existing users. https://api.ilert.com/api-docs/#tag/Users/paths/~1users/get
 func (c *Client) GetUsers(input *GetUsersInput) (*GetUsersOutput, error) {
-	resp, err := c.httpClient.R().Get("/api/v1/users")
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.users))
 	if err != nil {
 		return nil, err
 	}
@@ -254,9 +254,9 @@ func (c *Client) UpdateUser(input *UpdateUserInput) (*UpdateUserOutput, error) {
 	}
 	var url string
 	if input.UserID != nil {
-		url = fmt.Sprintf("/api/v1/users/%d", *input.UserID)
+		url = fmt.Sprintf("%s/%d", apiRoutes.users, *input.UserID)
 	} else {
-		url = fmt.Sprintf("/api/v1/users/%s", *input.Username)
+		url = fmt.Sprintf("%s/%s", apiRoutes.users, *input.Username)
 	}
 	resp, err := c.httpClient.R().SetBody(input.User).Put(url)
 	if err != nil {
@@ -299,9 +299,9 @@ func (c *Client) DeleteUser(input *DeleteUserInput) (*DeleteUserOutput, error) {
 	}
 	var url string
 	if input.UserID != nil {
-		url = fmt.Sprintf("/api/v1/users/%d", *input.UserID)
+		url = fmt.Sprintf("%s/%d", apiRoutes.users, *input.UserID)
 	} else {
-		url = fmt.Sprintf("/api/v1/users/%s", *input.Username)
+		url = fmt.Sprintf("%s/%s", apiRoutes.users, *input.Username)
 	}
 	resp, err := c.httpClient.R().Delete(url)
 	if err != nil {
