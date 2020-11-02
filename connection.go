@@ -8,14 +8,16 @@ import (
 
 // Connection definition https://api.ilert.com/api-docs/#!/Connections
 type Connection struct {
-	ID             string       `json:"id"`
-	Name           string       `json:"name"`
-	AlertSourceIDs []int64      `json:"alertSourceIds"`
-	ConnectorID    string       `json:"connectorId"`
-	ConnectorType  string       `json:"connectorType"`
-	TriggerMode    string       `json:"triggerMode"`
-	TriggerTypes   []string     `json:"triggerTypes,omitempty"`
-	Params         *interface{} `json:"params"`
+	ID             string      `json:"id"`
+	Name           string      `json:"name"`
+	AlertSourceIDs []int64     `json:"alertSourceIds"`
+	ConnectorID    string      `json:"connectorId"`
+	ConnectorType  string      `json:"connectorType"`
+	TriggerMode    string      `json:"triggerMode"`
+	TriggerTypes   []string    `json:"triggerTypes,omitempty"`
+	CreatedAt      string      `json:"createdAt"` // date time string in ISO 8601
+	UpdatedAt      string      `json:"updatedAt"` // date time string in ISO 8601
+	Params         interface{} `json:"params"`
 }
 
 // ConnectionOutput definition https://api.ilert.com/api-docs/#!/Connections
@@ -151,43 +153,43 @@ type ConnectionParamsZapier struct {
 	WebhookURL string `json:"webhookUrl,omitempty"`
 }
 
-// ConnectionTypes defines connection types
-var ConnectionTypes = struct {
-	Autotask       string
-	AWSLambda      string
-	AzureFAAS      string
-	Datadog        string
-	Discord        string
-	Email          string
-	Github         string
-	GoogleFAAS     string
-	Jira           string
-	MicrosoftTeams string
-	ServiceNow     string
-	Slack          string
-	Sysdig         string
-	Topdesk        string
-	Webhook        string
-	Zapier         string
-	Zendesk        string
+// ConnectionTriggerModes defines connection trigger modes
+var ConnectionTriggerModes = struct {
+	Automatic string
+	Manual    string
 }{
-	Autotask:       "autotask",
-	AWSLambda:      "aws_lambda",
-	AzureFAAS:      "azure_faas",
-	Datadog:        "datadog",
-	Discord:        "discord",
-	Email:          "email",
-	Github:         "github",
-	GoogleFAAS:     "google_faas",
-	Jira:           "jira",
-	MicrosoftTeams: "microsoft_teams",
-	ServiceNow:     "servicenow",
-	Slack:          "slack",
-	Sysdig:         "sysdig",
-	Topdesk:        "topdesk",
-	Webhook:        "webhook",
-	Zapier:         "zapier",
-	Zendesk:        "zendesk",
+	Automatic: "AUTOMATIC",
+	Manual:    "MANUAL",
+}
+
+// ConnectionTriggerTypes defines connection trigger types
+var ConnectionTriggerTypes = struct {
+	IncidentCreated       string
+	IncidentAssigned      string
+	IncidentAutoEscalated string
+	IncidentAcknowledged  string
+	IncidentRaised        string
+	IncidentCommentAdded  string
+	IncidentResolved      string
+}{
+	IncidentCreated:       "incident-created",
+	IncidentAssigned:      "incident-assigned",
+	IncidentAutoEscalated: "incident-auto-escalated",
+	IncidentAcknowledged:  "incident-acknowledged",
+	IncidentRaised:        "incident-raised",
+	IncidentCommentAdded:  "incident-comment-added",
+	IncidentResolved:      "incident-resolved",
+}
+
+// ConnectionTriggerTypesAll defines all connection trigger types
+var ConnectionTriggerTypesAll = []string{
+	ConnectionTriggerTypes.IncidentCreated,
+	ConnectionTriggerTypes.IncidentAssigned,
+	ConnectionTriggerTypes.IncidentAutoEscalated,
+	ConnectionTriggerTypes.IncidentAcknowledged,
+	ConnectionTriggerTypes.IncidentRaised,
+	ConnectionTriggerTypes.IncidentCommentAdded,
+	ConnectionTriggerTypes.IncidentResolved,
 }
 
 // CreateConnectionInput represents the input of a CreateConnection operation.
