@@ -8,10 +8,11 @@ import (
 )
 
 func main() {
-	var org = "your organization"
-	var username = "your username"
-	var password = "your password"
-	client := ilert.NewClient(ilert.WithBasicAuth(org, username, password))
+	// set your environment variables:
+	// ILERT_ORGANIZATION="your organization"
+	// ILERT_USERNAME="your username"
+	// ILERT_PASSWORD="your password"
+	client := ilert.NewClient()
 	result, err := client.GetAlertSources(&ilert.GetAlertSourcesInput{})
 	if err != nil {
 		log.Println(result)

@@ -18,22 +18,22 @@ type Event struct {
 	Summary string `json:"summary"`
 
 	// Optional. The event details. Will be used as the incident details if a new incident is created.
-	Details string `json:"details"`
+	Details string `json:"details,omitempty"`
 
 	// Optional. For ALERT events, the incident key can be used to deduplicate or group events. If an open incident with the key already exists, the event will be appended to the incident's event log. Otherwise a new incident will be created. For ACCEPT and RESOLVE events, the incident key is used to reference the open incident which is to be accepted or resolved by this event.
-	IncidentKey string `json:"incidentKey"`
+	IncidentKey string `json:"incidentKey,omitempty"`
 
 	// Optional. For ALERT events, the incident key can be used to deduplicate or group events. If an open incident with the key already exists, the event will be appended to the incident's event log. Otherwise a new incident will be created. For ACCEPT and RESOLVE events, the incident key is used to reference the open incident which is to be accepted or resolved by this event.
-	Priority string `json:"priority"`
+	Priority string `json:"priority,omitempty"`
 
 	// Optional. A list of images containing src, href and alt.
-	Images []IncidentImage `json:"images"`
+	Images []IncidentImage `json:"images,omitempty"`
 
 	// Optional. A list of links, containing href and text.
-	Links []IncidentLink `json:"links"`
+	Links []IncidentLink `json:"links,omitempty"`
 
 	// Optional. Additional custom details for the event.
-	CustomDetails map[string]interface{} `json:"customDetails"`
+	CustomDetails map[string]interface{} `json:"customDetails,omitempty"`
 }
 
 // EventTypes defines event types

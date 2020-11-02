@@ -8,15 +8,15 @@ import (
 
 // Connection definition https://api.ilert.com/api-docs/#!/Connections
 type Connection struct {
-	ID             string      `json:"id"`
+	ID             string      `json:"id,omitempty"`
 	Name           string      `json:"name"`
 	AlertSourceIDs []int64     `json:"alertSourceIds"`
 	ConnectorID    string      `json:"connectorId"`
 	ConnectorType  string      `json:"connectorType"`
 	TriggerMode    string      `json:"triggerMode"`
 	TriggerTypes   []string    `json:"triggerTypes,omitempty"`
-	CreatedAt      string      `json:"createdAt"` // date time string in ISO 8601
-	UpdatedAt      string      `json:"updatedAt"` // date time string in ISO 8601
+	CreatedAt      string      `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt      string      `json:"updatedAt,omitempty"` // date time string in ISO 8601
 	Params         interface{} `json:"params"`
 }
 
@@ -29,6 +29,8 @@ type ConnectionOutput struct {
 	ConnectorType  string                  `json:"connectorType"`
 	TriggerMode    string                  `json:"triggerMode"`
 	TriggerTypes   []string                `json:"triggerTypes,omitempty"`
+	CreatedAt      string                  `json:"createdAt"` // date time string in ISO 8601
+	UpdatedAt      string                  `json:"updatedAt"` // date time string in ISO 8601
 	Params         *ConnectionOutputParams `json:"params"`
 }
 

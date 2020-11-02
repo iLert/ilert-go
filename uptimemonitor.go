@@ -8,20 +8,20 @@ import (
 
 // UptimeMonitor definition https://api.ilert.com/api-docs/#tag/Uptime-Monitors
 type UptimeMonitor struct {
-	ID                              int64                    `json:"id"`
+	ID                              int64                    `json:"id,omitempty"`
 	Name                            string                   `json:"name"`
 	Region                          string                   `json:"region"`
 	CheckType                       string                   `json:"checkType"`
 	CheckParams                     UptimeMonitorCheckParams `json:"checkParams,omitempty"`
-	IntervalSec                     int                      `json:"intervalSec"`                     // default: 300
-	TimeoutMs                       int                      `json:"timeoutMs"`                       // default: 30000
-	CreateIncidentAfterFailedChecks int                      `json:"createIncidentAfterFailedChecks"` // default: 1
+	IntervalSec                     int                      `json:"intervalSec,omitempty"`                     // default: 300
+	TimeoutMs                       int                      `json:"timeoutMs,omitempty"`                       // default: 30000
+	CreateIncidentAfterFailedChecks int                      `json:"createIncidentAfterFailedChecks,omitempty"` // default: 1
 	EscalationPolicy                *EscalationPolicy        `json:"escalationPolicy,omitempty"`
-	Paused                          bool                     `json:"paused"`   // default: false
-	EmbedURL                        string                   `json:"embedURL"` // read only
-	ShareURL                        string                   `json:"shareURL"` // read only
-	Status                          string                   `json:"status"`
-	LastStatusChange                string                   `json:"lastStatusChange"` // Date time string in ISO format
+	Paused                          bool                     `json:"paused,omitempty"`   // default: false
+	EmbedURL                        string                   `json:"embedURL,omitempty"` // read only
+	ShareURL                        string                   `json:"shareURL,omitempty"` // read only
+	Status                          string                   `json:"status,omitempty"`
+	LastStatusChange                string                   `json:"lastStatusChange,omitempty"` // Date time string in ISO format
 }
 
 // UptimeMonitorCheckParams definition

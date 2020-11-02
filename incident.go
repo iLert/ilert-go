@@ -26,8 +26,8 @@ type Incident struct {
 	AcknowledgedByType string                 `json:"acknowledgedByType,omitempty"`
 	ResolvedBy         *User                  `json:"resolvedBy,omitempty"`
 	ResolvedByType     string                 `json:"resolvedByType,omitempty"`
-	Images             []IncidentImage        `json:"images"`
-	Links              []IncidentLink         `json:"links"`
+	Images             []IncidentImage        `json:"images,omitempty"`
+	Links              []IncidentLink         `json:"links,omitempty"`
 	CustomDetails      map[string]interface{} `json:"customDetails,omitempty"`
 }
 

@@ -8,18 +8,18 @@ import (
 
 // User definition https://api.ilert.com/api-docs/#!/Users
 type User struct {
-	ID                                        int64                          `json:"id"`
-	Username                                  string                         `json:"username"`
-	FirstName                                 string                         `json:"firstName"`
-	LastName                                  string                         `json:"lastName"`
-	Email                                     string                         `json:"email"`
+	ID                                        int64                          `json:"id,omitempty"`
+	Username                                  string                         `json:"username,omitempty"`
+	FirstName                                 string                         `json:"firstName,omitempty"`
+	LastName                                  string                         `json:"lastName,omitempty"`
+	Email                                     string                         `json:"email,omitempty"`
 	Mobile                                    *Phone                         `json:"mobile,omitempty"`
 	Landline                                  *Phone                         `json:"landline,omitempty"`
-	Position                                  string                         `json:"position"`
-	Department                                string                         `json:"department"`
-	Timezone                                  string                         `json:"timezone"`
-	Language                                  string                         `json:"language"`
-	Role                                      string                         `json:"role"`
+	Position                                  string                         `json:"position,omitempty"`
+	Department                                string                         `json:"department,omitempty"`
+	Timezone                                  string                         `json:"timezone,omitempty"`
+	Language                                  string                         `json:"language,omitempty"`
+	Role                                      string                         `json:"role,omitempty"`
 	NotificationPreferences                   []NotificationPreference       `json:"notificationPreferences,omitempty"`
 	LowNotificationPreferences                []NotificationPreference       `json:"lowPriorityNotificationPreferences,omitempty"`
 	OnCallNotificationPreferences             []OnCallNotificationPreference `json:"onCallNotificationPreferences,omitempty"`

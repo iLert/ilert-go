@@ -8,11 +8,11 @@ import (
 
 // EscalationPolicy definition https://api.ilert.com/api-docs/#!/Escalation_Policies
 type EscalationPolicy struct {
-	ID              int64            `json:"id"`
+	ID              int64            `json:"id,omitempty"`
 	Name            string           `json:"name"`
 	EscalationRules []EscalationRule `json:"escalationRules"`
-	Repeating       bool             `json:"repeating"`
-	Frequency       int              `json:"frequency"`
+	Repeating       bool             `json:"repeating,omitempty"`
+	Frequency       int              `json:"frequency,omitempty"`
 }
 
 // EscalationRule definition

@@ -10,10 +10,10 @@ import (
 
 // Schedule definition https://api.ilert.com/api-docs/#!/Schedules
 type Schedule struct {
-	ID           int64  `json:"id"`
+	ID           int64  `json:"id,omitempty"`
 	Name         string `json:"name"`
-	Timezone     string `json:"timezone"`
-	StartsOn     string `json:"startsOn"` // Date time string in ISO format
+	Timezone     string `json:"timezone,omitempty"`
+	StartsOn     string `json:"startsOn,omitempty"` // Date time string in ISO format
 	CurrentShift Shift  `json:"currentShift,omitempty"`
 	NextShift    Shift  `json:"nextShift,omitempty"`
 }

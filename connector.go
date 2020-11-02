@@ -8,11 +8,11 @@ import (
 
 // Connector definition
 type Connector struct {
-	ID        string      `json:"id"`
+	ID        string      `json:"id,omitempty"`
 	Name      string      `json:"name"`
 	Type      string      `json:"type"`
-	CreatedAt string      `json:"createdAt"` // date time string in ISO 8601
-	UpdatedAt string      `json:"updatedAt"` // date time string in ISO 8601
+	CreatedAt string      `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt string      `json:"updatedAt,omitempty"` // date time string in ISO 8601
 	Params    interface{} `json:"params"`
 }
 
@@ -21,18 +21,19 @@ type ConnectorOutput struct {
 	ID        string                `json:"id"`
 	Name      string                `json:"name"`
 	Type      string                `json:"type"`
-	CreatedAt string                `json:"createdAt"`
-	UpdatedAt string                `json:"updatedAt"`
+	CreatedAt string                `json:"createdAt"` // date time string in ISO 8601
+	UpdatedAt string                `json:"updatedAt"` // date time string in ISO 8601
 	Params    ConnectorOutputParams `json:"params"`
 }
 
 // ConnectorOutputParams definition
 type ConnectorOutputParams struct {
-	APIKey   string `json:"apiKey,omitempty"`   // Datadog or Zendesk or Github or Serverless or Autotask api key
-	URL      string `json:"url,omitempty"`      // Jira or Microsoft Teams or Zendesk or Discord or Autotask server url
-	Email    string `json:"email,omitempty"`    // Jira or ServiceNow or Zendesk username or email
-	Username string `json:"username,omitempty"` // TOPdesk or ServiceNow or Autotask username
-	Password string `json:"password,omitempty"` // Jira or ServiceNow or Autotask user password or api token
+	APIKey        string `json:"apiKey,omitempty"`        // Datadog or Zendesk or Github or Serverless or Autotask api key
+	Authorization string `json:"authorization,omitempty"` // Serverless
+	URL           string `json:"url,omitempty"`           // Jira or Microsoft Teams or Zendesk or Discord or Autotask server url
+	Email         string `json:"email,omitempty"`         // Jira or ServiceNow or Zendesk username or email
+	Username      string `json:"username,omitempty"`      // TOPdesk or ServiceNow or Autotask username
+	Password      string `json:"password,omitempty"`      // Jira or ServiceNow or Autotask user password or api token
 }
 
 // ConnectorParamsDatadog definition
@@ -88,17 +89,17 @@ type ConnectorParamsTopdesk struct {
 
 // ConnectorParamsAWSLambda definition
 type ConnectorParamsAWSLambda struct {
-	APIKey string `json:"apiKey"`
+	Authorization string `json:"authorization,omitempty"`
 }
 
 // ConnectorParamsAzureFunction definition
 type ConnectorParamsAzureFunction struct {
-	APIKey string `json:"apiKey"`
+	Authorization string `json:"authorization,omitempty"`
 }
 
 // ConnectorParamsGoogleFunction definition
 type ConnectorParamsGoogleFunction struct {
-	APIKey string `json:"apiKey"`
+	Authorization string `json:"authorization,omitempty"`
 }
 
 // ConnectorParamsSysdig definition

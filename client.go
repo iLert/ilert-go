@@ -136,6 +136,7 @@ var apiRoutes = struct {
 	uptimeMonitors     string
 	users              string
 }{
+	alertSources:       "/api/v1/alert-sources",
 	connections:        "/api/v1/connections",
 	connectors:         "/api/v1/connectors",
 	escalationPolicies: "/api/v1/escalation-policies",

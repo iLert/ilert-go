@@ -8,27 +8,27 @@ import (
 
 // AlertSource definition
 type AlertSource struct {
-	ID                     int64                  `json:"id"`
+	ID                     int64                  `json:"id,omitempty"`
 	Name                   string                 `json:"name"`
-	IconURL                string                 `json:"iconUrl"`
-	LightIconURL           string                 `json:"lightIconUrl"`
-	DarkIconURL            string                 `json:"darkIconUrl"`
+	IconURL                string                 `json:"iconUrl,omitempty"`
+	LightIconURL           string                 `json:"lightIconUrl,omitempty"`
+	DarkIconURL            string                 `json:"darkIconUrl,omitempty"`
 	IntegrationType        string                 `json:"integrationType"`
-	IntegrationKey         string                 `json:"integrationKey"`
-	IncidentCreation       string                 `json:"incidentCreation"`
-	EmailFiltered          bool                   `json:"emailFiltered"`
-	EmailResolveFiltered   bool                   `json:"emailResolveFiltered"`
-	Active                 bool                   `json:"active"`
-	Status                 string                 `json:"status"`
+	IntegrationKey         string                 `json:"integrationKey,omitempty"`
+	IncidentCreation       string                 `json:"incidentCreation,omitempty"`
+	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`
+	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"`
+	Active                 bool                   `json:"active,omitempty"`
+	Status                 string                 `json:"status,omitempty"`
 	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"` // e.g. PT4H
 	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`
 	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"`
 	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`
-	FilterOperator         string                 `json:"filterOperator"`
-	ResolveFilterOperator  string                 `json:"resolveFilterOperator"`
-	IncidentPriorityRule   string                 `json:"incidentPriorityRule"`
+	FilterOperator         string                 `json:"filterOperator,omitempty"`
+	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`
+	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"`
 	SupportHours           *SupportHours          `json:"supportHours,omitempty"`
-	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy"`
+	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"`
 	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`
