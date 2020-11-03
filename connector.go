@@ -144,6 +144,26 @@ var ConnectorTypes = struct {
 	Zendesk:        "zendesk",
 }
 
+// ConnectorTypesAll defines connector all types list
+var ConnectorTypesAll = []string{
+	ConnectorTypes.AWSLambda,
+	ConnectorTypes.AzureFAAS,
+	ConnectorTypes.Datadog,
+	ConnectorTypes.Discord,
+	ConnectorTypes.Email,
+	ConnectorTypes.Github,
+	ConnectorTypes.GoogleFAAS,
+	ConnectorTypes.Jira,
+	ConnectorTypes.MicrosoftTeams,
+	ConnectorTypes.ServiceNow,
+	ConnectorTypes.Slack,
+	ConnectorTypes.Sysdig,
+	ConnectorTypes.Topdesk,
+	ConnectorTypes.Webhook,
+	ConnectorTypes.Zapier,
+	ConnectorTypes.Zendesk,
+}
+
 // CreateConnectorInput represents the input of a CreateConnector operation.
 type CreateConnectorInput struct {
 	_         struct{}
