@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.11.2020, Version 1.1.1
+## 3.11.2020, Version 1.1.1
 
 - add all connector types list
 
