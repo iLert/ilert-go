@@ -110,24 +110,25 @@ var AlertSourceIncidentCreations = struct {
 
 // AlertSourceIntegrationTypes defines alert source integration types
 var AlertSourceIntegrationTypes = struct {
+	AmazonCloudWatch           string
 	API                        string
 	AppDynamics                string
 	Autotask                   string
 	AWSBudget                  string
 	AWSPersonalHealthDashboard string
-	checkmk                    string
-	AmazonCloudWatch           string
 	CallRoutingNumber          string
+	checkmk                    string
 	Datadog                    string
 	Dynatrace                  string
 	Email                      string
 	Github                     string
+	GoogleStackdriver          string
 	Grafana                    string
 	Heartbeat                  string
 	Icinga                     string
 	Instana                    string
+	Jira                       string
 	KentixAlarmManager         string
-	UptimeMonitor              string
 	Nagios                     string
 	NewRelic                   string
 	Pingdom                    string
@@ -135,30 +136,31 @@ var AlertSourceIntegrationTypes = struct {
 	PRTGNetworkMonitor         string
 	SMS                        string
 	Solarwinds                 string
-	GoogleStackdriver          string
 	StatusCake                 string
 	TOPdesk                    string
+	UptimeMonitor              string
 	UPTIMEROBOT                string
 	Zabbix                     string
 }{
+	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
 	AppDynamics:                "APPDYNAMICS",
 	Autotask:                   "AUTOTASK",
 	AWSBudget:                  "AWSBUDGET",
 	AWSPersonalHealthDashboard: "AWSPHD",
-	checkmk:                    "CHECKMK",
-	AmazonCloudWatch:           "CLOUDWATCH",
 	CallRoutingNumber:          "CRN",
+	checkmk:                    "CHECKMK",
 	Datadog:                    "DATADOG",
 	Dynatrace:                  "DYNATRACE",
 	Email:                      "EMAIL",
 	Github:                     "GITHUB",
+	GoogleStackdriver:          "STACKDRIVER",
 	Grafana:                    "GRAFANA",
 	Heartbeat:                  "HEARTBEAT",
 	Icinga:                     "ICINGA",
 	Instana:                    "INSTANA",
+	Jira:                       "JIRA",
 	KentixAlarmManager:         "KENTIXAM",
-	UptimeMonitor:              "MONITOR",
 	Nagios:                     "NAGIOS",
 	NewRelic:                   "NEWRELIC",
 	Pingdom:                    "PINGDOM",
@@ -166,11 +168,46 @@ var AlertSourceIntegrationTypes = struct {
 	PRTGNetworkMonitor:         "PRTG",
 	SMS:                        "SMS",
 	Solarwinds:                 "SOLARWINDS",
-	GoogleStackdriver:          "STACKDRIVER",
 	StatusCake:                 "STATUSCAKE",
 	TOPdesk:                    "TOPDESK",
+	UptimeMonitor:              "MONITOR",
 	UPTIMEROBOT:                "UPTIMEROBOT",
 	Zabbix:                     "ZABBIX",
+}
+
+// AlertSourceIntegrationTypesAll defines all alert source integration types
+var AlertSourceIntegrationTypesAll = []string{
+	AlertSourceIntegrationTypes.AmazonCloudWatch,
+	AlertSourceIntegrationTypes.API,
+	AlertSourceIntegrationTypes.AppDynamics,
+	AlertSourceIntegrationTypes.Autotask,
+	AlertSourceIntegrationTypes.AWSBudget,
+	AlertSourceIntegrationTypes.AWSPersonalHealthDashboard,
+	AlertSourceIntegrationTypes.CallRoutingNumber,
+	AlertSourceIntegrationTypes.checkmk,
+	AlertSourceIntegrationTypes.Datadog,
+	AlertSourceIntegrationTypes.Dynatrace,
+	AlertSourceIntegrationTypes.Email,
+	AlertSourceIntegrationTypes.Github,
+	AlertSourceIntegrationTypes.GoogleStackdriver,
+	AlertSourceIntegrationTypes.Grafana,
+	AlertSourceIntegrationTypes.Heartbeat,
+	AlertSourceIntegrationTypes.Icinga,
+	AlertSourceIntegrationTypes.Instana,
+	AlertSourceIntegrationTypes.Jira,
+	AlertSourceIntegrationTypes.KentixAlarmManager,
+	AlertSourceIntegrationTypes.Nagios,
+	AlertSourceIntegrationTypes.NewRelic,
+	AlertSourceIntegrationTypes.Pingdom,
+	AlertSourceIntegrationTypes.Prometheus,
+	AlertSourceIntegrationTypes.PRTGNetworkMonitor,
+	AlertSourceIntegrationTypes.SMS,
+	AlertSourceIntegrationTypes.Solarwinds,
+	AlertSourceIntegrationTypes.StatusCake,
+	AlertSourceIntegrationTypes.TOPdesk,
+	AlertSourceIntegrationTypes.UptimeMonitor,
+	AlertSourceIntegrationTypes.UPTIMEROBOT,
+	AlertSourceIntegrationTypes.Zabbix,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.
