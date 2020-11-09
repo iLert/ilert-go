@@ -15,6 +15,7 @@ type AlertSource struct {
 	DarkIconURL            string                 `json:"darkIconUrl,omitempty"`
 	IntegrationType        string                 `json:"integrationType"`
 	IntegrationKey         string                 `json:"integrationKey,omitempty"`
+	IntegrationURL         string                 `json:"integrationUrl,omitempty"`
 	IncidentCreation       string                 `json:"incidentCreation,omitempty"`
 	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`
 	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"`

@@ -1,5 +1,13 @@
 # Changelog
 
+## 9.11.2020, Version 1.1.3
+
+- add integration url to alert source definition
+
+## 8.11.2020, Version 1.1.2
+
+- add jira alert source type
+
 ## 3.11.2020, Version 1.1.1
 
 - add all connector types list

@@ -1,4 +1,4 @@
 package ilert
 
 // Version package version
-const Version = "v1.1.2"
+const Version = "v1.1.3"
