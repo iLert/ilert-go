@@ -8,14 +8,15 @@ import (
 	"strconv"
 )
 
-// Schedule definition https://api.ilert.com/api-docs/#!/Schedules
+// Schedule definition https://api.ilert.com/api-docs/#tag/Schedules
 type Schedule struct {
-	ID           int64  `json:"id,omitempty"`
-	Name         string `json:"name"`
-	Timezone     string `json:"timezone,omitempty"`
-	StartsOn     string `json:"startsOn,omitempty"` // Date time string in ISO format
-	CurrentShift Shift  `json:"currentShift,omitempty"`
-	NextShift    Shift  `json:"nextShift,omitempty"`
+	ID           int64       `json:"id,omitempty"`
+	Name         string      `json:"name"`
+	Timezone     string      `json:"timezone,omitempty"`
+	StartsOn     string      `json:"startsOn,omitempty"` // Date time string in ISO format
+	CurrentShift Shift       `json:"currentShift,omitempty"`
+	NextShift    Shift       `json:"nextShift,omitempty"`
+	Teams        []TeamShort `json:"teams,omitempty"`
 }
 
 // Shift definition

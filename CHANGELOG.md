@@ -1,5 +1,11 @@
 # Changelog
 
+## 23.02.2021, Version 1.2.0
+
+- add teams
+- add url option for create event
+- add autotask types
+
 ## 9.11.2020, Version 1.1.3
 
 - add integration url to alert source definition

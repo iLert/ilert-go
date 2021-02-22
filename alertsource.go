@@ -33,6 +33,7 @@ type AlertSource struct {
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"`
 	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`
+	Teams                  []TeamShort            `json:"teams,omitempty"`
 }
 
 // EmailPredicate definition

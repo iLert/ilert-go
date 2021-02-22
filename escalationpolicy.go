@@ -13,6 +13,7 @@ type EscalationPolicy struct {
 	EscalationRules []EscalationRule `json:"escalationRules"`
 	Repeating       bool             `json:"repeating,omitempty"`
 	Frequency       int              `json:"frequency,omitempty"`
+	Teams           []TeamShort      `json:"teams,omitempty"`
 }
 
 // EscalationRule definition

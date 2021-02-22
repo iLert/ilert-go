@@ -135,6 +135,7 @@ var apiRoutes = struct {
 	schedules          string
 	uptimeMonitors     string
 	users              string
+	teams              string
 }{
 	alertSources:       "/api/v1/alert-sources",
 	connections:        "/api/v1/connections",
@@ -147,6 +148,7 @@ var apiRoutes = struct {
 	schedules:          "/api/v1/schedules",
 	uptimeMonitors:     "/api/v1/uptime-monitors",
 	users:              "/api/v1/users",
+	teams:              "/api/v1/teams",
 }
 
 func getEnv(key string) *string {

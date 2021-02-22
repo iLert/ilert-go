@@ -36,29 +36,42 @@ type ConnectionOutput struct {
 
 // ConnectionOutputParams definition
 type ConnectionOutputParams struct {
-	BodyTemplate string   `json:"bodyTemplate,omitempty"` // Custom, Jira, Email. Used to post data to external server
-	CallerID     string   `json:"callerId,omitempty"`     // ServiceNow: user email
-	ChannelID    string   `json:"channelId,omitempty"`    // Slack
-	ChannelName  string   `json:"channelName,omitempty"`  // Slack
-	EventFilter  string   `json:"eventFilter,omitempty"`  // Sysdig
-	Impact       string   `json:"impact,omitempty"`       // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
-	IssueType    string   `json:"issueType,omitempty"`    // Jira: "Bug" | "Epic" | "Subtask" | "Story" | "Task"
-	Labels       []string `json:"labels,omitempty"`       // Github
-	Name         string   `json:"name,omitempty"`         // Jira or MicrosoftTeams or Zendesk
-	Owner        string   `json:"owner,omitempty"`        // Github
-	Priority     string   `json:"priority,omitempty"`     // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
-	Project      string   `json:"project,omitempty"`      // Jira
-	QueueID      int      `json:"queueID,omitempty"`      // Autotask: Queue ID
-	Recipients   []string `json:"recipients,omitempty"`   // Email
-	Repository   string   `json:"repository,omitempty"`   // Github
-	Site         string   `json:"site,omitempty"`         // Datadog: default `US`. Values: `US` or `EU`
-	Status       string   `json:"status,omitempty"`       // Topdesk: firstLine, secondLine, partial
-	Subject      string   `json:"subject,omitempty"`      // Email
-	Tags         []string `json:"tags,omitempty"`         // Datadog or Sysdig
-	TeamDomain   string   `json:"teamDomain,omitempty"`   // Slack
-	TeamID       string   `json:"teamId,omitempty"`       // Slack
-	Urgency      string   `json:"urgency,omitempty"`      // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
-	WebhookURL   string   `json:"webhookUrl,omitempty"`   // Custom
+	BodyTemplate    string   `json:"bodyTemplate,omitempty"`    // Custom, Jira, Email. Used to post data to external server
+	CallerID        string   `json:"callerId,omitempty"`        // ServiceNow: user email
+	ChannelID       string   `json:"channelId,omitempty"`       // Slack
+	ChannelName     string   `json:"channelName,omitempty"`     // Slack
+	CompanyID       int64    `json:"companyId,omitempty"`       // Autotask: Company ID
+	EventFilter     string   `json:"eventFilter,omitempty"`     // Sysdig
+	Impact          string   `json:"impact,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
+	IssueType       string   `json:"issueType,omitempty"`       // Jira: "Bug" | "Epic" | "Subtask" | "Story" | "Task"
+	IssueTypeNumber int64    `json:"issueTypeNumber,omitempty"` // Autotask: Issue type
+	Labels          []string `json:"labels,omitempty"`          // Github
+	Name            string   `json:"name,omitempty"`            // Jira or MicrosoftTeams or Zendesk
+	Owner           string   `json:"owner,omitempty"`           // Github
+	Priority        string   `json:"priority,omitempty"`        // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
+	Project         string   `json:"project,omitempty"`         // Jira
+	QueueID         int64    `json:"queueId,omitempty"`         // Autotask: Queue ID
+	Recipients      []string `json:"recipients,omitempty"`      // Email
+	Repository      string   `json:"repository,omitempty"`      // Github
+	Site            string   `json:"site,omitempty"`            // Datadog: default `US`. Values: `US` or `EU`
+	Status          string   `json:"status,omitempty"`          // Topdesk: firstLine, secondLine, partial
+	Subject         string   `json:"subject,omitempty"`         // Email
+	Tags            []string `json:"tags,omitempty"`            // Datadog or Sysdig
+	TeamDomain      string   `json:"teamDomain,omitempty"`      // Slack
+	TeamID          string   `json:"teamId,omitempty"`          // Slack
+	TicketCategory  string   `json:"ticketCategory,omitempty"`  // Autotask
+	TicketType      string   `json:"ticketType,omitempty"`      // Autotask
+	Urgency         string   `json:"urgency,omitempty"`         // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
+	WebhookURL      string   `json:"webhookUrl,omitempty"`      // Custom
+}
+
+// ConnectionParamsAutotask definition
+type ConnectionParamsAutotask struct {
+	CompanyID       int64  `json:"companyId,omitempty"`       // Autotask: Company ID
+	IssueTypeNumber int64  `json:"issueTypeNumber,omitempty"` // Autotask: Issue type
+	QueueID         int64  `json:"queueId,omitempty"`         // Autotask: Queue ID
+	TicketCategory  string `json:"ticketCategory,omitempty"`  // Autotask
+	TicketType      string `json:"ticketType,omitempty"`      // Autotask
 }
 
 // ConnectionParamsDatadog definition

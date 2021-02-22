@@ -56,8 +56,11 @@ type EventResponse struct {
 
 // CreateEventInput represents the input of a CreateEvent operation.
 type CreateEventInput struct {
-	_     struct{}
+	_ struct{}
+	// incident event
 	Event *Event
+	// (optional) request url
+	URL *string
 }
 
 // CreateEventOutput represents the output of a CreateEvent operation.
@@ -75,7 +78,11 @@ func (c *Client) CreateEvent(input *CreateEventInput) (*CreateEventOutput, error
 		return nil, errors.New("Input event is required")
 	}
 	output := &CreateEventOutput{}
-	resp, err := c.httpClient.R().SetBody(input.Event).Post(fmt.Sprintf("%s", apiRoutes.events))
+	url := fmt.Sprintf("%s", apiRoutes.events)
+	if input.URL != nil && *input.URL != "" {
+		url = *input.URL
+	}
+	resp, err := c.httpClient.R().SetBody(input.Event).Post(url)
 	if err != nil {
 		return nil, err
 	}
