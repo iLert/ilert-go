@@ -75,7 +75,7 @@ We are happy to respond to [GitHub issues][issues] as well.
 #### License
 
 <sup>
-Licensed under <a href="LICENSE-APACHE">Apache License, Version
+Licensed under <a href="LICENSE">Apache License, Version
 2.0</a>
 </sup>
 
