@@ -23,14 +23,14 @@ func main() {
 		Summary:     "My test incident summary",
 		IncidentKey: "123456",
 	}
-	
+
 	input := &ilert.CreateEventInput{Event: event}
 	result, err := client.CreateEvent(input)
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-	
+
 	log.Println("Incident key:", result.EventResponse.IncidentKey)
 }
 ```
@@ -54,12 +54,12 @@ func main() {
 		APIKey: ilert.String(apiKey),
 		Method: ilert.String(ilert.HeartbeatMethods.HEAD),
 	})
-	
+
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-	
+
 	log.Println("Heartbeat is ok!")
 }
 ```
@@ -75,8 +75,8 @@ We are happy to respond to [GitHub issues][issues] as well.
 #### License
 
 <sup>
-Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
-2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
+Licensed under <a href="LICENSE-APACHE">Apache License, Version
+2.0</a>
 </sup>
 
 <br>
