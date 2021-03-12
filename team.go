@@ -8,10 +8,10 @@ import (
 
 // Team definition https://api.ilert.com/api-docs/#tag/Teams
 type Team struct {
-	ID      int64        `json:"id"`
-	Name    string       `json:"name"`
-	Private bool         `json:"private"`
-	Members []TeamMember `json:"members"`
+	ID         int64        `json:"id"`
+	Name       string       `json:"name"`
+	Visibility string       `json:"visibility"`
+	Members    []TeamMember `json:"members"`
 }
 
 // TeamMember definition
@@ -45,6 +45,21 @@ var TeamMemberRolesAll = []string{
 	TeamMemberRoles.User,
 	TeamMemberRoles.Responder,
 	TeamMemberRoles.Stakeholder,
+}
+
+// TeamVisibility defines team visibility
+var TeamVisibility = struct {
+	Public  string
+	Private string
+}{
+	Public:  "PUBLIC",
+	Private: "PRIVATE",
+}
+
+// TeamVisibilityAll defines team visibility list
+var TeamVisibilityAll = []string{
+	TeamVisibility.Public,
+	TeamVisibility.Private,
 }
 
 // Ownership definition
