@@ -39,6 +39,14 @@ var TeamMemberRoles = struct {
 	Stakeholder: "STAKEHOLDER",
 }
 
+// TeamMemberRolesAll defines team member roles list
+var TeamMemberRolesAll = []string{
+	TeamMemberRoles.Admin,
+	TeamMemberRoles.User,
+	TeamMemberRoles.Responder,
+	TeamMemberRoles.Stakeholder,
+}
+
 // Ownership definition
 type Ownership struct {
 	TeamID int64 `json:"teamId"`

@@ -1,5 +1,9 @@
 # Changelog
 
+## 12.03.2021, Version 1.2.1
+
+- add team member role list
+
 ## 23.02.2021, Version 1.2.0
 
 - add teams
