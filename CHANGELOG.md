@@ -1,5 +1,9 @@
 # Changelog
 
+## 07.04.2021, Version 1.3.1
+
+- add default retry option to the client
+
 ## 07.04.2021, Version 1.3.0
 
 - add retry exponential backoff option

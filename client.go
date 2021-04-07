@@ -40,6 +40,12 @@ type envConfig struct {
 	password       *string
 }
 
+func retryCondition(r *resty.Response, err error) bool {
+	return err != nil ||
+		r.StatusCode() == http.StatusTooManyRequests ||
+		r.StatusCode() >= http.StatusInternalServerError
+}
+
 // NewClient creates an API client using an API token
 func NewClient(options ...ClientOptions) *Client {
 	c := Client{
@@ -53,6 +59,10 @@ func NewClient(options ...ClientOptions) *Client {
 	c.httpClient.SetHeader("Content-Type", "application/json")
 	c.httpClient.SetHeader("User-Agent", fmt.Sprintf("ilert-go/%s", Version))
 	c.httpClient.SetHeader("Accept-Encoding", "gzip")
+	c.httpClient.SetRetryCount(4).
+		SetRetryWaitTime(1 * time.Second).
+		SetRetryMaxWaitTime(5 * time.Second).
+		AddRetryCondition(retryCondition)
 
 	endpoint := getEnv("ILERT_ENDPOINT")
 	if endpoint != nil {
@@ -122,11 +132,7 @@ func WithRetry(retryCount int, retryWaitTime time.Duration, retryMaxWaitTime tim
 			SetRetryCount(retryCount).
 			SetRetryWaitTime(retryWaitTime).
 			SetRetryMaxWaitTime(retryMaxWaitTime).
-			AddRetryCondition(func(r *resty.Response, err error) bool {
-				return err != nil ||
-					r.StatusCode() == http.StatusTooManyRequests ||
-					r.StatusCode() >= http.StatusInternalServerError
-			})
+			AddRetryCondition(retryCondition)
 	}
 }
 
