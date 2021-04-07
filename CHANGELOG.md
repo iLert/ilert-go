@@ -1,5 +1,10 @@
 # Changelog
 
+## 07.04.2021, Version 1.3.0
+
+- add retry exponential backoff option
+- upgrade to golang 1.6
+
 ## 12.03.2021, Version 1.2.2
 
 - fix team visibility

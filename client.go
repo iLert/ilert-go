@@ -3,6 +3,7 @@ package ilert
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
@@ -108,9 +109,30 @@ func WithUserAgent(agent string) ClientOptions {
 	}
 }
 
+// WithRetry enables retry logic with exponential backoff for the following errors:
+//
+// - any network errors
+//
+// - 5xx errors: this indicates an error in iLert
+//
+// - 429 Too Many Requests: you have reached your rate limit
+func WithRetry(retryCount int, retryWaitTime time.Duration, retryMaxWaitTime time.Duration) ClientOptions {
+	return func(c *Client) {
+		c.httpClient.
+			SetRetryCount(retryCount).
+			SetRetryWaitTime(retryWaitTime).
+			SetRetryMaxWaitTime(retryMaxWaitTime).
+			AddRetryCondition(func(r *resty.Response, err error) bool {
+				return err != nil ||
+					r.StatusCode() == http.StatusTooManyRequests ||
+					r.StatusCode() >= http.StatusInternalServerError
+			})
+	}
+}
+
 func catchGenericAPIError(response *resty.Response, expectedStatusCode ...int) error {
 	if !intSliceContains(expectedStatusCode, response.StatusCode()) {
-		restErr := fmt.Errorf("Wrong status code %d", response.StatusCode())
+		restErr := fmt.Errorf("wrong status code %d", response.StatusCode())
 		respBody := &GenericErrorResponse{}
 		err := json.Unmarshal(response.Body(), respBody)
 		if err == nil && respBody.Message != "" {

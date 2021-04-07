@@ -14,7 +14,8 @@ import (
 
 func main() {
 
-	client := ilert.NewClient()
+	// We strongly recommend to enable a retry logic if an error occurs
+	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second))
 
 	var apiKey = "alert source API Key"
 	event := &ilert.Event{
