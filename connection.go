@@ -67,11 +67,11 @@ type ConnectionOutputParams struct {
 
 // ConnectionParamsAutotask definition
 type ConnectionParamsAutotask struct {
-	CompanyID       int64  `json:"companyId,omitempty"`       // Autotask: Company ID
-	IssueTypeNumber int64  `json:"issueTypeNumber,omitempty"` // Autotask: Issue type
-	QueueID         int64  `json:"queueId,omitempty"`         // Autotask: Queue ID
-	TicketCategory  string `json:"ticketCategory,omitempty"`  // Autotask
-	TicketType      string `json:"ticketType,omitempty"`      // Autotask
+	CompanyID      string `json:"companyId,omitempty"`      // Autotask: Company ID
+	IssueType      string `json:"issueType,omitempty"`      // Autotask: Issue type
+	QueueID        int64  `json:"queueId,omitempty"`        // Autotask: Queue ID
+	TicketCategory string `json:"ticketCategory,omitempty"` // Autotask ticket category
+	TicketType     string `json:"ticketType,omitempty"`     // Autotask ticket type
 }
 
 // ConnectionParamsDatadog definition
@@ -168,6 +168,16 @@ type ConnectionParamsZapier struct {
 	WebhookURL string `json:"webhookUrl,omitempty"`
 }
 
+// ConnectionParamsZammad definition
+type ConnectionParamsZammad struct {
+	Email string `json:"email,omitempty"`
+}
+
+// ConnectionParamsStatusPageIO definition
+type ConnectionParamsStatusPageIO struct {
+	PageID string `json:"pageId,omitempty"`
+}
+
 // ConnectionTriggerModes defines connection trigger modes
 var ConnectionTriggerModes = struct {
 	Automatic string
@@ -222,17 +232,17 @@ type CreateConnectionOutput struct {
 // CreateConnection creates a new connection. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections/post
 func (c *Client) CreateConnection(input *CreateConnectionInput) (*CreateConnectionOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.Connection == nil {
 		return nil, errors.New("Connection input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.Connection).Post(fmt.Sprintf("%s", apiRoutes.connections))
+	resp, err := c.httpClient.R().SetBody(input.Connection).Post(apiRoutes.connections)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connection := &ConnectionOutput{}
@@ -241,9 +251,7 @@ func (c *Client) CreateConnection(input *CreateConnectionInput) (*CreateConnecti
 		return nil, err
 	}
 
-	output := &CreateConnectionOutput{Connection: connection}
-
-	return output, nil
+	return &CreateConnectionOutput{Connection: connection}, nil
 }
 
 // GetConnectionInput represents the input of a GetConnection operation.
@@ -261,7 +269,7 @@ type GetConnectionOutput struct {
 // GetConnection gets the connection with specified id. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections~1{id}/get
 func (c *Client) GetConnection(input *GetConnectionInput) (*GetConnectionOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ConnectionID == nil {
 		return nil, errors.New("Connection id is required")
@@ -271,8 +279,8 @@ func (c *Client) GetConnection(input *GetConnectionInput) (*GetConnectionOutput,
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connection := &ConnectionOutput{}
@@ -281,11 +289,7 @@ func (c *Client) GetConnection(input *GetConnectionInput) (*GetConnectionOutput,
 		return nil, err
 	}
 
-	output := &GetConnectionOutput{
-		Connection: connection,
-	}
-
-	return output, nil
+	return &GetConnectionOutput{Connection: connection}, nil
 }
 
 // GetConnectionsInput represents the input of a GetConnections operation.
@@ -301,12 +305,12 @@ type GetConnectionsOutput struct {
 
 // GetConnections lists connections. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections/get
 func (c *Client) GetConnections(input *GetConnectionsInput) (*GetConnectionsOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.connections))
+	resp, err := c.httpClient.R().Get(apiRoutes.connections)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connections := make([]*ConnectionOutput, 0)
@@ -315,9 +319,7 @@ func (c *Client) GetConnections(input *GetConnectionsInput) (*GetConnectionsOutp
 		return nil, err
 	}
 
-	output := &GetConnectionsOutput{Connections: connections}
-
-	return output, nil
+	return &GetConnectionsOutput{Connections: connections}, nil
 }
 
 // UpdateConnectionInput represents the input of a UpdateConnection operation.
@@ -336,7 +338,7 @@ type UpdateConnectionOutput struct {
 // UpdateConnection updates an existing connection. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections~1{id}/put
 func (c *Client) UpdateConnection(input *UpdateConnectionInput) (*UpdateConnectionOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.Connection == nil {
 		return nil, errors.New("Connection input is required")
@@ -349,8 +351,8 @@ func (c *Client) UpdateConnection(input *UpdateConnectionInput) (*UpdateConnecti
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connection := &ConnectionOutput{}
@@ -359,9 +361,7 @@ func (c *Client) UpdateConnection(input *UpdateConnectionInput) (*UpdateConnecti
 		return nil, err
 	}
 
-	output := &UpdateConnectionOutput{Connection: connection}
-
-	return output, nil
+	return &UpdateConnectionOutput{Connection: connection}, nil
 }
 
 // DeleteConnectionInput represents the input of a DeleteConnection operation.
@@ -378,7 +378,7 @@ type DeleteConnectionOutput struct {
 // DeleteConnection deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections~1{id}/delete
 func (c *Client) DeleteConnection(input *DeleteConnectionInput) (*DeleteConnectionOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ConnectionID == nil {
 		return nil, errors.New("Connection id is required")
@@ -388,10 +388,9 @@ func (c *Client) DeleteConnection(input *DeleteConnectionInput) (*DeleteConnecti
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &DeleteConnectionOutput{}
-	return output, nil
+	return &DeleteConnectionOutput{}, nil
 }

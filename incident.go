@@ -179,7 +179,7 @@ type GetIncidentOutput struct {
 // GetIncident gets the incident with specified id. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}/get
 func (c *Client) GetIncident(input *GetIncidentInput) (*GetIncidentOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
@@ -189,8 +189,8 @@ func (c *Client) GetIncident(input *GetIncidentInput) (*GetIncidentOutput, error
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incident := &Incident{}
@@ -199,11 +199,7 @@ func (c *Client) GetIncident(input *GetIncidentInput) (*GetIncidentOutput, error
 		return nil, err
 	}
 
-	output := &GetIncidentOutput{
-		Incident: incident,
-	}
-
-	return output, nil
+	return &GetIncidentOutput{Incident: incident}, nil
 }
 
 // GetIncidentsInput represents the input of a GetIncidents operation.
@@ -281,8 +277,8 @@ func (c *Client) GetIncidents(input *GetIncidentsInput) (*GetIncidentsOutput, er
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incidents := make([]*Incident, 0)
@@ -291,11 +287,7 @@ func (c *Client) GetIncidents(input *GetIncidentsInput) (*GetIncidentsOutput, er
 		return nil, err
 	}
 
-	output := &GetIncidentsOutput{
-		Incidents: incidents,
-	}
-
-	return output, nil
+	return &GetIncidentsOutput{Incidents: incidents}, nil
 }
 
 // GetIncidentsCountInput represents the input of a GetIncidentsCount operation.
@@ -361,8 +353,8 @@ func (c *Client) GetIncidentsCount(input *GetIncidentsCountInput) (*GetIncidents
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	body := &GenericCountResponse{}
@@ -371,9 +363,7 @@ func (c *Client) GetIncidentsCount(input *GetIncidentsCountInput) (*GetIncidents
 		return nil, err
 	}
 
-	output := &GetIncidentsCountOutput{Count: body.Count}
-
-	return output, nil
+	return &GetIncidentsCountOutput{Count: body.Count}, nil
 }
 
 // GetIncidentResponderInput represents the input of a GetIncidentResponder operation.
@@ -392,7 +382,7 @@ type GetIncidentResponderOutput struct {
 // GetIncidentResponder gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1responder/get
 func (c *Client) GetIncidentResponder(input *GetIncidentResponderInput) (*GetIncidentResponderOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
@@ -411,8 +401,8 @@ func (c *Client) GetIncidentResponder(input *GetIncidentResponderInput) (*GetInc
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incidentResponders := make([]*IncidentResponder, 0)
@@ -421,11 +411,7 @@ func (c *Client) GetIncidentResponder(input *GetIncidentResponderInput) (*GetInc
 		return nil, err
 	}
 
-	output := &GetIncidentResponderOutput{
-		Responders: incidentResponders,
-	}
-
-	return output, nil
+	return &GetIncidentResponderOutput{Responders: incidentResponders}, nil
 }
 
 // AssignIncidentInput represents the input of a AssignIncident operation.
@@ -447,14 +433,14 @@ type AssignIncidentOutput struct {
 // AssignIncident gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1assign/put
 func (c *Client) AssignIncident(input *AssignIncidentInput) (*AssignIncidentOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
 	}
 
 	if input.UserID == nil && input.Username == nil && input.EscalationPolicyID == nil && input.ScheduleID == nil {
-		return nil, errors.New("One of assignments is required")
+		return nil, errors.New("one of assignments is required")
 	}
 
 	q := url.Values{}
@@ -475,8 +461,8 @@ func (c *Client) AssignIncident(input *AssignIncidentInput) (*AssignIncidentOutp
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incident := &Incident{}
@@ -485,11 +471,7 @@ func (c *Client) AssignIncident(input *AssignIncidentInput) (*AssignIncidentOutp
 		return nil, err
 	}
 
-	output := &AssignIncidentOutput{
-		Incident: incident,
-	}
-
-	return output, nil
+	return &AssignIncidentOutput{Incident: incident}, nil
 }
 
 // AcceptIncidentInput represents the input of a AcceptIncident operation.
@@ -507,7 +489,7 @@ type AcceptIncidentOutput struct {
 // AcceptIncident gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1accept/put
 func (c *Client) AcceptIncident(input *AcceptIncidentInput) (*AcceptIncidentOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
@@ -517,8 +499,8 @@ func (c *Client) AcceptIncident(input *AcceptIncidentInput) (*AcceptIncidentOutp
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incident := &Incident{}
@@ -527,11 +509,7 @@ func (c *Client) AcceptIncident(input *AcceptIncidentInput) (*AcceptIncidentOutp
 		return nil, err
 	}
 
-	output := &AcceptIncidentOutput{
-		Incident: incident,
-	}
-
-	return output, nil
+	return &AcceptIncidentOutput{Incident: incident}, nil
 }
 
 // ResolveIncidentInput represents the input of a ResolveIncident operation.
@@ -549,7 +527,7 @@ type ResolveIncidentOutput struct {
 // ResolveIncident gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1resolve/put
 func (c *Client) ResolveIncident(input *ResolveIncidentInput) (*ResolveIncidentOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
@@ -559,8 +537,8 @@ func (c *Client) ResolveIncident(input *ResolveIncidentInput) (*ResolveIncidentO
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incident := &Incident{}
@@ -569,11 +547,7 @@ func (c *Client) ResolveIncident(input *ResolveIncidentInput) (*ResolveIncidentO
 		return nil, err
 	}
 
-	output := &ResolveIncidentOutput{
-		Incident: incident,
-	}
-
-	return output, nil
+	return &ResolveIncidentOutput{Incident: incident}, nil
 }
 
 // GetIncidentLogEntriesInput represents the input of a GetIncidentLogEntries operation.
@@ -592,7 +566,7 @@ type GetIncidentLogEntriesOutput struct {
 // GetIncidentLogEntries gets log entries for the specified incident. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1log-entries/get
 func (c *Client) GetIncidentLogEntries(input *GetIncidentLogEntriesInput) (*GetIncidentLogEntriesOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
@@ -611,8 +585,8 @@ func (c *Client) GetIncidentLogEntries(input *GetIncidentLogEntriesInput) (*GetI
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incidentLogEntries := make([]*IncidentLogEntry, 0)
@@ -621,14 +595,10 @@ func (c *Client) GetIncidentLogEntries(input *GetIncidentLogEntriesInput) (*GetI
 		return nil, err
 	}
 
-	output := &GetIncidentLogEntriesOutput{
-		LogEntries: incidentLogEntries,
-	}
-
-	return output, nil
+	return &GetIncidentLogEntriesOutput{LogEntries: incidentLogEntries}, nil
 }
 
-// TODO https://yacut.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1notifications/get
+// TODO https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1notifications/get
 
 // GetIncidentActionsInput represents the input of a GetIncidentsAction operation.
 type GetIncidentActionsInput struct {
@@ -645,7 +615,7 @@ type GetIncidentActionsOutput struct {
 // GetIncidentActions gets the incident with specified id. https://api.ilert.com/api-docs/#tag/Incident-Actions/paths/~1incidents~1{id}~1actions/get
 func (c *Client) GetIncidentActions(input *GetIncidentActionsInput) (*GetIncidentActionsOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
@@ -655,8 +625,8 @@ func (c *Client) GetIncidentActions(input *GetIncidentActionsInput) (*GetInciden
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incidentActions := make([]*IncidentAction, 0)
@@ -665,11 +635,7 @@ func (c *Client) GetIncidentActions(input *GetIncidentActionsInput) (*GetInciden
 		return nil, err
 	}
 
-	output := &GetIncidentActionsOutput{
-		Actions: incidentActions,
-	}
-
-	return output, nil
+	return &GetIncidentActionsOutput{Actions: incidentActions}, nil
 }
 
 // InvokeIncidentActionInput represents the input of a InvokeIncidentAction operation.
@@ -688,21 +654,21 @@ type InvokeIncidentActionOutput struct {
 // InvokeIncidentAction creates a new alert source. https://api.ilert.com/api-docs/#tag/Incident-Actions/paths/~1incidents~1{id}~1actions/post
 func (c *Client) InvokeIncidentAction(input *InvokeIncidentActionInput) (*InvokeIncidentActionOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.IncidentID == nil {
 		return nil, errors.New("Incident id is required")
 	}
 	if input.Action == nil {
-		return nil, errors.New("Action input is required")
+		return nil, errors.New("action input is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.Action).Post(fmt.Sprintf("%s/%d/actions", apiRoutes.incidents, *input.IncidentID))
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	incidentAction := &IncidentAction{}
@@ -711,9 +677,5 @@ func (c *Client) InvokeIncidentAction(input *InvokeIncidentActionInput) (*Invoke
 		return nil, err
 	}
 
-	output := &InvokeIncidentActionOutput{
-		Action: incidentAction,
-	}
-
-	return output, nil
+	return &InvokeIncidentActionOutput{Action: incidentAction}, nil
 }

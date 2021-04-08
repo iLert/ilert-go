@@ -41,7 +41,7 @@ type GetScheduleOutput struct {
 // GetSchedule gets the on-call schedule with the specified id. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}/get
 func (c *Client) GetSchedule(input *GetScheduleInput) (*GetScheduleOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ScheduleID == nil {
 		return nil, errors.New("Schedule id is required")
@@ -51,8 +51,8 @@ func (c *Client) GetSchedule(input *GetScheduleInput) (*GetScheduleOutput, error
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	schedule := &Schedule{}
@@ -61,11 +61,7 @@ func (c *Client) GetSchedule(input *GetScheduleInput) (*GetScheduleOutput, error
 		return nil, err
 	}
 
-	output := &GetScheduleOutput{
-		Schedule: schedule,
-	}
-
-	return output, nil
+	return &GetScheduleOutput{Schedule: schedule}, nil
 }
 
 // GetSchedulesInput represents the input of a GetSchedules operation.
@@ -81,12 +77,12 @@ type GetSchedulesOutput struct {
 
 // GetSchedules gets list on-call schedules. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules/get
 func (c *Client) GetSchedules(input *GetSchedulesInput) (*GetSchedulesOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.schedules))
+	resp, err := c.httpClient.R().Get(apiRoutes.schedules)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	schedules := make([]*Schedule, 0)
@@ -95,9 +91,7 @@ func (c *Client) GetSchedules(input *GetSchedulesInput) (*GetSchedulesOutput, er
 		return nil, err
 	}
 
-	output := &GetSchedulesOutput{Schedules: schedules}
-
-	return output, nil
+	return &GetSchedulesOutput{Schedules: schedules}, nil
 }
 
 // GetScheduleShiftsInput represents the input of a GetScheduleShifts operation.
@@ -118,7 +112,7 @@ type GetScheduleShiftsOutput struct {
 // GetScheduleShifts gets shifts for the specified schedule and date range. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}~1shifts/get
 func (c *Client) GetScheduleShifts(input *GetScheduleShiftsInput) (*GetScheduleShiftsOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ScheduleID == nil {
 		return nil, errors.New("Schedule id is required")
@@ -139,8 +133,8 @@ func (c *Client) GetScheduleShifts(input *GetScheduleShiftsInput) (*GetScheduleS
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	shifts := make([]*Shift, 0)
@@ -149,9 +143,7 @@ func (c *Client) GetScheduleShifts(input *GetScheduleShiftsInput) (*GetScheduleS
 		return nil, err
 	}
 
-	output := &GetScheduleShiftsOutput{Shifts: shifts}
-
-	return output, nil
+	return &GetScheduleShiftsOutput{Shifts: shifts}, nil
 }
 
 // GetScheduleOverridesInput represents the input of a GetScheduleOverrides operation.
@@ -169,7 +161,7 @@ type GetScheduleOverridesOutput struct {
 // GetScheduleOverrides gets overrides for the specified schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}~1overrides/get
 func (c *Client) GetScheduleOverrides(input *GetScheduleOverridesInput) (*GetScheduleOverridesOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ScheduleID == nil {
 		return nil, errors.New("Schedule id is required")
@@ -179,8 +171,8 @@ func (c *Client) GetScheduleOverrides(input *GetScheduleOverridesInput) (*GetSch
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	overrides := make([]*Shift, 0)
@@ -189,9 +181,7 @@ func (c *Client) GetScheduleOverrides(input *GetScheduleOverridesInput) (*GetSch
 		return nil, err
 	}
 
-	output := &GetScheduleOverridesOutput{Overrides: overrides}
-
-	return output, nil
+	return &GetScheduleOverridesOutput{Overrides: overrides}, nil
 }
 
 // GetScheduleUserOnCallInput represents the input of a GetScheduleUserOnCall operation.
@@ -209,7 +199,7 @@ type GetScheduleUserOnCallOutput struct {
 // GetScheduleUserOnCall gets overrides for the specified schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}~1user-on-call/get
 func (c *Client) GetScheduleUserOnCall(input *GetScheduleUserOnCallInput) (*GetScheduleUserOnCallOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ScheduleID == nil {
 		return nil, errors.New("Schedule id is required")
@@ -219,13 +209,12 @@ func (c *Client) GetScheduleUserOnCall(input *GetScheduleUserOnCallInput) (*GetS
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &GetScheduleUserOnCallOutput{}
 	if resp.StatusCode() == 204 {
-		return output, nil
+		return &GetScheduleUserOnCallOutput{}, nil
 	}
 
 	shift := &Shift{}
@@ -234,7 +223,5 @@ func (c *Client) GetScheduleUserOnCall(input *GetScheduleUserOnCallInput) (*GetS
 		return nil, err
 	}
 
-	output.Shift = shift
-
-	return output, nil
+	return &GetScheduleUserOnCallOutput{Shift: shift}, nil
 }

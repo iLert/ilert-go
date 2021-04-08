@@ -82,17 +82,17 @@ type CreateTeamOutput struct {
 // CreateTeam creates a new team. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams/posts
 func (c *Client) CreateTeam(input *CreateTeamInput) (*CreateTeamOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.Team == nil {
 		return nil, errors.New("Team input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.Team).Post(fmt.Sprintf("%s", apiRoutes.teams))
+	resp, err := c.httpClient.R().SetBody(input.Team).Post(apiRoutes.teams)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	team := &Team{}
@@ -101,9 +101,7 @@ func (c *Client) CreateTeam(input *CreateTeamInput) (*CreateTeamOutput, error) {
 		return nil, err
 	}
 
-	output := &CreateTeamOutput{Team: team}
-
-	return output, nil
+	return &CreateTeamOutput{Team: team}, nil
 }
 
 // GetTeamInput represents the input of a GetTeam operation.
@@ -121,7 +119,7 @@ type GetTeamOutput struct {
 // GetTeam gets the team with specified id. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams~1{id}/get
 func (c *Client) GetTeam(input *GetTeamInput) (*GetTeamOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.TeamID == nil {
 		return nil, errors.New("Team id is required")
@@ -131,8 +129,8 @@ func (c *Client) GetTeam(input *GetTeamInput) (*GetTeamOutput, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	team := &Team{}
@@ -141,11 +139,7 @@ func (c *Client) GetTeam(input *GetTeamInput) (*GetTeamOutput, error) {
 		return nil, err
 	}
 
-	output := &GetTeamOutput{
-		Team: team,
-	}
-
-	return output, nil
+	return &GetTeamOutput{Team: team}, nil
 }
 
 // GetTeamsInput represents the input of a GetTeams operation.
@@ -161,12 +155,12 @@ type GetTeamsOutput struct {
 
 // GetTeams gets list teams. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams/get
 func (c *Client) GetTeams(input *GetTeamsInput) (*GetTeamsOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.teams))
+	resp, err := c.httpClient.R().Get(apiRoutes.teams)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	teams := make([]*Team, 0)
@@ -175,9 +169,7 @@ func (c *Client) GetTeams(input *GetTeamsInput) (*GetTeamsOutput, error) {
 		return nil, err
 	}
 
-	output := &GetTeamsOutput{Teams: teams}
-
-	return output, nil
+	return &GetTeamsOutput{Teams: teams}, nil
 }
 
 // UpdateTeamInput represents the input of a UpdateTeam operation.
@@ -196,7 +188,7 @@ type UpdateTeamOutput struct {
 // UpdateTeam updates an existing team. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams~1{id}/put
 func (c *Client) UpdateTeam(input *UpdateTeamInput) (*UpdateTeamOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.Team == nil {
 		return nil, errors.New("Team input is required")
@@ -209,8 +201,8 @@ func (c *Client) UpdateTeam(input *UpdateTeamInput) (*UpdateTeamOutput, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	team := &Team{}
@@ -219,9 +211,7 @@ func (c *Client) UpdateTeam(input *UpdateTeamInput) (*UpdateTeamOutput, error) {
 		return nil, err
 	}
 
-	output := &UpdateTeamOutput{Team: team}
-
-	return output, nil
+	return &UpdateTeamOutput{Team: team}, nil
 }
 
 // DeleteTeamInput represents the input of a DeleteTeam operation.
@@ -238,7 +228,7 @@ type DeleteTeamOutput struct {
 // DeleteTeam deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams~1{id}/delete
 func (c *Client) DeleteTeam(input *DeleteTeamInput) (*DeleteTeamOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.TeamID == nil {
 		return nil, errors.New("Team id is required")
@@ -248,10 +238,9 @@ func (c *Client) DeleteTeam(input *DeleteTeamInput) (*DeleteTeamOutput, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &DeleteTeamOutput{}
-	return output, nil
+	return &DeleteTeamOutput{}, nil
 }

@@ -38,17 +38,17 @@ type CreateEscalationPolicyOutput struct {
 // CreateEscalationPolicy creates a new escalation policy. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies/post
 func (c *Client) CreateEscalationPolicy(input *CreateEscalationPolicyInput) (*CreateEscalationPolicyOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.EscalationPolicy == nil {
-		return nil, errors.New("Escalation policy input is required")
+		return nil, errors.New("escalation policy input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.EscalationPolicy).Post(fmt.Sprintf("%s", apiRoutes.escalationPolicies))
+	resp, err := c.httpClient.R().SetBody(input.EscalationPolicy).Post(apiRoutes.escalationPolicies)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	escalationPolicy := &EscalationPolicy{}
@@ -57,9 +57,7 @@ func (c *Client) CreateEscalationPolicy(input *CreateEscalationPolicyInput) (*Cr
 		return nil, err
 	}
 
-	output := &CreateEscalationPolicyOutput{EscalationPolicy: escalationPolicy}
-
-	return output, nil
+	return &CreateEscalationPolicyOutput{EscalationPolicy: escalationPolicy}, nil
 }
 
 // GetEscalationPolicyInput represents the input of a GetEscalationPolicy operation.
@@ -77,7 +75,7 @@ type GetEscalationPolicyOutput struct {
 // GetEscalationPolicy gets the escalation policy with specified id. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies~1{id}/get
 func (c *Client) GetEscalationPolicy(input *GetEscalationPolicyInput) (*GetEscalationPolicyOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.EscalationPolicyID == nil {
 		return nil, errors.New("EscalationPolicy id is required")
@@ -87,8 +85,8 @@ func (c *Client) GetEscalationPolicy(input *GetEscalationPolicyInput) (*GetEscal
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	escalationPolicy := &EscalationPolicy{}
@@ -97,11 +95,7 @@ func (c *Client) GetEscalationPolicy(input *GetEscalationPolicyInput) (*GetEscal
 		return nil, err
 	}
 
-	output := &GetEscalationPolicyOutput{
-		EscalationPolicy: escalationPolicy,
-	}
-
-	return output, nil
+	return &GetEscalationPolicyOutput{EscalationPolicy: escalationPolicy}, nil
 }
 
 // GetEscalationPoliciesInput represents the input of a GetEscalationPolicies operation.
@@ -117,12 +111,12 @@ type GetEscalationPoliciesOutput struct {
 
 // GetEscalationPolicies lists escalation policies. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies/get
 func (c *Client) GetEscalationPolicies(input *GetEscalationPoliciesInput) (*GetEscalationPoliciesOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.escalationPolicies))
+	resp, err := c.httpClient.R().Get(apiRoutes.escalationPolicies)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	escalationPolicies := make([]*EscalationPolicy, 0)
@@ -131,9 +125,7 @@ func (c *Client) GetEscalationPolicies(input *GetEscalationPoliciesInput) (*GetE
 		return nil, err
 	}
 
-	output := &GetEscalationPoliciesOutput{EscalationPolicies: escalationPolicies}
-
-	return output, nil
+	return &GetEscalationPoliciesOutput{EscalationPolicies: escalationPolicies}, nil
 }
 
 // UpdateEscalationPolicyInput represents the input of a UpdateEscalationPolicy operation.
@@ -152,21 +144,21 @@ type UpdateEscalationPolicyOutput struct {
 // UpdateEscalationPolicy updates an existing escalation policy. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies~1{id}/put
 func (c *Client) UpdateEscalationPolicy(input *UpdateEscalationPolicyInput) (*UpdateEscalationPolicyOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.EscalationPolicy == nil {
 		return nil, errors.New("EscalationPolicy input is required")
 	}
 	if input.EscalationPolicyID == nil {
-		return nil, errors.New("Escalation policy id is required")
+		return nil, errors.New("escalation policy id is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.EscalationPolicy).Put(fmt.Sprintf("%s/%d", apiRoutes.escalationPolicies, *input.EscalationPolicyID))
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	escalationPolicy := &EscalationPolicy{}
@@ -175,9 +167,7 @@ func (c *Client) UpdateEscalationPolicy(input *UpdateEscalationPolicyInput) (*Up
 		return nil, err
 	}
 
-	output := &UpdateEscalationPolicyOutput{EscalationPolicy: escalationPolicy}
-
-	return output, nil
+	return &UpdateEscalationPolicyOutput{EscalationPolicy: escalationPolicy}, nil
 }
 
 // DeleteEscalationPolicyInput represents the input of a DeleteEscalationPolicy operation.
@@ -194,7 +184,7 @@ type DeleteEscalationPolicyOutput struct {
 // DeleteEscalationPolicy deletes the specified escalation policy. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies~1{id}/delete
 func (c *Client) DeleteEscalationPolicy(input *DeleteEscalationPolicyInput) (*DeleteEscalationPolicyOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.EscalationPolicyID == nil {
 		return nil, errors.New("EscalationPolicy id is required")
@@ -204,8 +194,8 @@ func (c *Client) DeleteEscalationPolicy(input *DeleteEscalationPolicyInput) (*De
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
 	output := &DeleteEscalationPolicyOutput{}

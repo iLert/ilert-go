@@ -107,41 +107,82 @@ type ConnectorParamsSysdig struct {
 	APIKey string `json:"apiKey"`
 }
 
+// ConnectorParamsAutotask definition
+type ConnectorParamsAutotask struct {
+	URL      string `json:"url"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+// ConnectorParamsMattermost definition
+type ConnectorParamsMattermost struct {
+	URL string `json:"url"`
+}
+
+// ConnectorParamsZammad definition
+type ConnectorParamsZammad struct {
+	URL    string `json:"url"`
+	APIKey string `json:"apiKey"`
+}
+
+// ConnectorParamsStatusPageIO definition
+type ConnectorParamsStatusPageIO struct {
+	APIKey string `json:"apiKey"`
+}
+
 // ConnectorTypes defines connector types
 var ConnectorTypes = struct {
-	AWSLambda      string
-	AzureFAAS      string
-	Datadog        string
-	Discord        string
-	Email          string
-	Github         string
-	GoogleFAAS     string
-	Jira           string
-	MicrosoftTeams string
-	ServiceNow     string
-	Slack          string
-	Sysdig         string
-	Topdesk        string
-	Webhook        string
-	Zapier         string
-	Zendesk        string
+	AWSLambda             string
+	AzureFAAS             string
+	Datadog               string
+	Discord               string
+	Email                 string
+	Github                string
+	GoogleFAAS            string
+	Jira                  string
+	MicrosoftTeams        string
+	ServiceNow            string
+	Slack                 string
+	Sysdig                string
+	Topdesk               string
+	Webhook               string
+	Zapier                string
+	Zendesk               string
+	MicrosoftTeamsChat    string
+	MicrosoftTeamsMeeting string
+	Autotask              string
+	Mattermost            string
+	Zammad                string
+	ZoomChat              string
+	ZoomMeeting           string
+	StatusPageIO          string
+	Webex                 string
 }{
-	AWSLambda:      "aws_lambda",
-	AzureFAAS:      "azure_faas",
-	Datadog:        "datadog",
-	Discord:        "discord",
-	Email:          "email",
-	Github:         "github",
-	GoogleFAAS:     "google_faas",
-	Jira:           "jira",
-	MicrosoftTeams: "microsoft_teams",
-	ServiceNow:     "servicenow",
-	Slack:          "slack",
-	Sysdig:         "sysdig",
-	Topdesk:        "topdesk",
-	Webhook:        "webhook",
-	Zapier:         "zapier",
-	Zendesk:        "zendesk",
+	AWSLambda:             "aws_lambda",
+	AzureFAAS:             "azure_faas",
+	Datadog:               "datadog",
+	Discord:               "discord",
+	Email:                 "email",
+	Github:                "github",
+	GoogleFAAS:            "google_faas",
+	Jira:                  "jira",
+	MicrosoftTeams:        "microsoft_teams",
+	ServiceNow:            "servicenow",
+	Slack:                 "slack",
+	Sysdig:                "sysdig",
+	Topdesk:               "topdesk",
+	Webhook:               "webhook",
+	Zapier:                "zapier",
+	Zendesk:               "zendesk",
+	MicrosoftTeamsChat:    "microsoft_teams_chat",
+	MicrosoftTeamsMeeting: "microsoft_teams_meeting",
+	Autotask:              "autotask",
+	Mattermost:            "mattermost",
+	Zammad:                "zammad",
+	ZoomChat:              "zoom_chat",
+	ZoomMeeting:           "zoom_meeting",
+	StatusPageIO:          "status_page_io",
+	Webex:                 "webex",
 }
 
 // ConnectorTypesAll defines connector all types list
@@ -162,6 +203,15 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.Webhook,
 	ConnectorTypes.Zapier,
 	ConnectorTypes.Zendesk,
+	ConnectorTypes.MicrosoftTeamsChat,
+	ConnectorTypes.MicrosoftTeamsMeeting,
+	ConnectorTypes.Autotask,
+	ConnectorTypes.Mattermost,
+	ConnectorTypes.Zammad,
+	ConnectorTypes.ZoomChat,
+	ConnectorTypes.ZoomMeeting,
+	ConnectorTypes.StatusPageIO,
+	ConnectorTypes.Webex,
 }
 
 // CreateConnectorInput represents the input of a CreateConnector operation.
@@ -179,17 +229,17 @@ type CreateConnectorOutput struct {
 // CreateConnector creates a new connector. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/post
 func (c *Client) CreateConnector(input *CreateConnectorInput) (*CreateConnectorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.Connector == nil {
 		return nil, errors.New("Connector input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.Connector).Post(fmt.Sprintf("%s", apiRoutes.connectors))
+	resp, err := c.httpClient.R().SetBody(input.Connector).Post(apiRoutes.connectors)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connector := &ConnectorOutput{}
@@ -198,9 +248,7 @@ func (c *Client) CreateConnector(input *CreateConnectorInput) (*CreateConnectorO
 		return nil, err
 	}
 
-	output := &CreateConnectorOutput{Connector: connector}
-
-	return output, nil
+	return &CreateConnectorOutput{Connector: connector}, nil
 }
 
 // GetConnectorInput represents the input of a GetConnector operation.
@@ -218,7 +266,7 @@ type GetConnectorOutput struct {
 // GetConnector gets the connector with specified id. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors~1{id}/get
 func (c *Client) GetConnector(input *GetConnectorInput) (*GetConnectorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ConnectorID == nil {
 		return nil, errors.New("Connector id is required")
@@ -228,8 +276,8 @@ func (c *Client) GetConnector(input *GetConnectorInput) (*GetConnectorOutput, er
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connector := &ConnectorOutput{}
@@ -238,11 +286,7 @@ func (c *Client) GetConnector(input *GetConnectorInput) (*GetConnectorOutput, er
 		return nil, err
 	}
 
-	output := &GetConnectorOutput{
-		Connector: connector,
-	}
-
-	return output, nil
+	return &GetConnectorOutput{Connector: connector}, nil
 }
 
 // GetConnectorsInput represents the input of a GetConnectors operation.
@@ -258,12 +302,12 @@ type GetConnectorsOutput struct {
 
 // GetConnectors lists connectors. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/get
 func (c *Client) GetConnectors(input *GetConnectorsInput) (*GetConnectorsOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.connectors))
+	resp, err := c.httpClient.R().Get(apiRoutes.connectors)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connectors := make([]*ConnectorOutput, 0)
@@ -272,9 +316,7 @@ func (c *Client) GetConnectors(input *GetConnectorsInput) (*GetConnectorsOutput,
 		return nil, err
 	}
 
-	output := &GetConnectorsOutput{Connectors: connectors}
-
-	return output, nil
+	return &GetConnectorsOutput{Connectors: connectors}, nil
 }
 
 // UpdateConnectorInput represents the input of a UpdateConnector operation.
@@ -293,7 +335,7 @@ type UpdateConnectorOutput struct {
 // UpdateConnector updates an existing connector. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors~1{id}/put
 func (c *Client) UpdateConnector(input *UpdateConnectorInput) (*UpdateConnectorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.Connector == nil {
 		return nil, errors.New("Connector input is required")
@@ -306,8 +348,8 @@ func (c *Client) UpdateConnector(input *UpdateConnectorInput) (*UpdateConnectorO
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	connector := &ConnectorOutput{}
@@ -316,9 +358,7 @@ func (c *Client) UpdateConnector(input *UpdateConnectorInput) (*UpdateConnectorO
 		return nil, err
 	}
 
-	output := &UpdateConnectorOutput{Connector: connector}
-
-	return output, nil
+	return &UpdateConnectorOutput{Connector: connector}, nil
 }
 
 // DeleteConnectorInput represents the input of a DeleteConnector operation.
@@ -335,7 +375,7 @@ type DeleteConnectorOutput struct {
 // DeleteConnector deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors~1{id}/delete
 func (c *Client) DeleteConnector(input *DeleteConnectorInput) (*DeleteConnectorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.ConnectorID == nil {
 		return nil, errors.New("Connector id is required")
@@ -345,10 +385,9 @@ func (c *Client) DeleteConnector(input *DeleteConnectorInput) (*DeleteConnectorO
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &DeleteConnectorOutput{}
-	return output, nil
+	return &DeleteConnectorOutput{}, nil
 }

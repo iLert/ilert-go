@@ -1,5 +1,12 @@
 # Changelog
 
+## 08.04.2021, Version 1.4.0
+
+- return generic api error for each resource output if an api error occurred
+- add new alert source types
+- add new connector types
+- add new connection types
+
 ## 07.04.2021, Version 1.3.1
 
 - add default retry option to the client

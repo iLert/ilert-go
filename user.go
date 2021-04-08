@@ -108,17 +108,17 @@ type CreateUserOutput struct {
 // CreateUser creates a new user. Requires ADMIN privileges. https://api.ilert.com/api-docs/#tag/Users/paths/~1users/post
 func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.User == nil {
 		return nil, errors.New("User input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.User).Post(fmt.Sprintf("%s", apiRoutes.users))
+	resp, err := c.httpClient.R().SetBody(input.User).Post(apiRoutes.users)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	user := &User{}
@@ -127,9 +127,7 @@ func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
 		return nil, err
 	}
 
-	output := &CreateUserOutput{User: user}
-
-	return output, nil
+	return &CreateUserOutput{User: user}, nil
 }
 
 // GetUserInput represents the input of a GetUser operation.
@@ -154,7 +152,7 @@ func (c *Client) GetCurrentUser() (*GetUserOutput, error) {
 // GetUser gets information about a user including contact methods and notification preferences. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1{user-id}/get
 func (c *Client) GetUser(input *GetUserInput) (*GetUserOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.UserID == nil && input.Username == nil {
 		return nil, errors.New("User id or username is required")
@@ -169,8 +167,8 @@ func (c *Client) GetUser(input *GetUserInput) (*GetUserOutput, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	user := &User{}
@@ -179,11 +177,7 @@ func (c *Client) GetUser(input *GetUserInput) (*GetUserOutput, error) {
 		return nil, err
 	}
 
-	output := &GetUserOutput{
-		User: user,
-	}
-
-	return output, nil
+	return &GetUserOutput{User: user}, nil
 }
 
 // GetUsersInput represents the input of a GetUsers operation.
@@ -199,12 +193,12 @@ type GetUsersOutput struct {
 
 // GetUsers lists existing users. https://api.ilert.com/api-docs/#tag/Users/paths/~1users/get
 func (c *Client) GetUsers(input *GetUsersInput) (*GetUsersOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.users))
+	resp, err := c.httpClient.R().Get(apiRoutes.users)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	users := make([]*User, 0)
@@ -213,9 +207,7 @@ func (c *Client) GetUsers(input *GetUsersInput) (*GetUsersOutput, error) {
 		return nil, err
 	}
 
-	output := &GetUsersOutput{Users: users}
-
-	return output, nil
+	return &GetUsersOutput{Users: users}, nil
 }
 
 // UpdateUserInput represents the input of a UpdateUser operation.
@@ -235,7 +227,7 @@ type UpdateUserOutput struct {
 // UpdateCurrentUser updates the currently authenticated user. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1current/put
 func (c *Client) UpdateCurrentUser(input *UpdateUserInput) (*UpdateUserOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	input.Username = String("current")
 	return c.UpdateUser(input)
@@ -244,7 +236,7 @@ func (c *Client) UpdateCurrentUser(input *UpdateUserInput) (*UpdateUserOutput, e
 // UpdateUser updates an existing user. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1{user-id}/put
 func (c *Client) UpdateUser(input *UpdateUserInput) (*UpdateUserOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.User == nil {
 		return nil, errors.New("User input is required")
@@ -262,8 +254,8 @@ func (c *Client) UpdateUser(input *UpdateUserInput) (*UpdateUserOutput, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	user := &User{}
@@ -272,9 +264,7 @@ func (c *Client) UpdateUser(input *UpdateUserInput) (*UpdateUserOutput, error) {
 		return nil, err
 	}
 
-	output := &UpdateUserOutput{User: user}
-
-	return output, nil
+	return &UpdateUserOutput{User: user}, nil
 }
 
 // DeleteUserInput represents the input of a DeleteUser operation.
@@ -292,7 +282,7 @@ type DeleteUserOutput struct {
 // DeleteUser deletes the specified user. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1{user-id}/delete
 func (c *Client) DeleteUser(input *DeleteUserInput) (*DeleteUserOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.UserID == nil && input.Username == nil {
 		return nil, errors.New("User id or username is required")
@@ -307,10 +297,9 @@ func (c *Client) DeleteUser(input *DeleteUserInput) (*DeleteUserOutput, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &DeleteUserOutput{}
-	return output, nil
+	return &DeleteUserOutput{}, nil
 }

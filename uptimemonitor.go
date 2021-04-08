@@ -83,17 +83,17 @@ type CreateUptimeMonitorOutput struct {
 // CreateUptimeMonitor creates a new uptime monitor. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors/post
 func (c *Client) CreateUptimeMonitor(input *CreateUptimeMonitorInput) (*CreateUptimeMonitorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.UptimeMonitor == nil {
-		return nil, errors.New("Uptime monitor input is required")
+		return nil, errors.New("uptime monitor input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.UptimeMonitor).Post(fmt.Sprintf("%s", apiRoutes.uptimeMonitors))
+	resp, err := c.httpClient.R().SetBody(input.UptimeMonitor).Post(apiRoutes.uptimeMonitors)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	uptimeMonitor := &UptimeMonitor{}
@@ -102,9 +102,7 @@ func (c *Client) CreateUptimeMonitor(input *CreateUptimeMonitorInput) (*CreateUp
 		return nil, err
 	}
 
-	output := &CreateUptimeMonitorOutput{UptimeMonitor: uptimeMonitor}
-
-	return output, nil
+	return &CreateUptimeMonitorOutput{UptimeMonitor: uptimeMonitor}, nil
 }
 
 // GetUptimeMonitorInput represents the input of a GetUptimeMonitor operation.
@@ -122,18 +120,18 @@ type GetUptimeMonitorOutput struct {
 // GetUptimeMonitor gets the uptime monitor with specified id. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1{id}/get
 func (c *Client) GetUptimeMonitor(input *GetUptimeMonitorInput) (*GetUptimeMonitorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.UptimeMonitorID == nil {
-		return nil, errors.New("Uptime monitor id is required")
+		return nil, errors.New("uptime monitor id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.uptimeMonitors, *input.UptimeMonitorID))
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	uptimeMonitor := &UptimeMonitor{}
@@ -142,11 +140,7 @@ func (c *Client) GetUptimeMonitor(input *GetUptimeMonitorInput) (*GetUptimeMonit
 		return nil, err
 	}
 
-	output := &GetUptimeMonitorOutput{
-		UptimeMonitor: uptimeMonitor,
-	}
-
-	return output, nil
+	return &GetUptimeMonitorOutput{UptimeMonitor: uptimeMonitor}, nil
 }
 
 // GetUptimeMonitorsInput represents the input of a GetUptimeMonitors operation.
@@ -162,12 +156,12 @@ type GetUptimeMonitorsOutput struct {
 
 // GetUptimeMonitors gets list uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors/get
 func (c *Client) GetUptimeMonitors(input *GetUptimeMonitorsInput) (*GetUptimeMonitorsOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.uptimeMonitors))
+	resp, err := c.httpClient.R().Get(apiRoutes.uptimeMonitors)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	uptimeMonitors := make([]*UptimeMonitor, 0)
@@ -176,9 +170,7 @@ func (c *Client) GetUptimeMonitors(input *GetUptimeMonitorsInput) (*GetUptimeMon
 		return nil, err
 	}
 
-	output := &GetUptimeMonitorsOutput{UptimeMonitors: uptimeMonitors}
-
-	return output, nil
+	return &GetUptimeMonitorsOutput{UptimeMonitors: uptimeMonitors}, nil
 }
 
 // UpdateUptimeMonitorInput represents the input of a UpdateUptimeMonitor operation.
@@ -197,21 +189,21 @@ type UpdateUptimeMonitorOutput struct {
 // UpdateUptimeMonitor updates an existing uptime monitor. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1{id}/put
 func (c *Client) UpdateUptimeMonitor(input *UpdateUptimeMonitorInput) (*UpdateUptimeMonitorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.UptimeMonitor == nil {
-		return nil, errors.New("Uptime monitor input is required")
+		return nil, errors.New("uptime monitor input is required")
 	}
 	if input.UptimeMonitorID == nil {
-		return nil, errors.New("Uptime monitor id is required")
+		return nil, errors.New("uptime monitor id is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.UptimeMonitor).Put(fmt.Sprintf("%s/%d", apiRoutes.uptimeMonitors, *input.UptimeMonitorID))
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	uptimeMonitor := &UptimeMonitor{}
@@ -220,9 +212,7 @@ func (c *Client) UpdateUptimeMonitor(input *UpdateUptimeMonitorInput) (*UpdateUp
 		return nil, err
 	}
 
-	output := &UpdateUptimeMonitorOutput{UptimeMonitor: uptimeMonitor}
-
-	return output, nil
+	return &UpdateUptimeMonitorOutput{UptimeMonitor: uptimeMonitor}, nil
 }
 
 // DeleteUptimeMonitorInput represents the input of a DeleteUptimeMonitor operation.
@@ -239,7 +229,7 @@ type DeleteUptimeMonitorOutput struct {
 // DeleteUptimeMonitor deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1{id}/delete
 func (c *Client) DeleteUptimeMonitor(input *DeleteUptimeMonitorInput) (*DeleteUptimeMonitorOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.UptimeMonitorID == nil {
 		return nil, errors.New("UptimeMonitor id is required")
@@ -249,12 +239,11 @@ func (c *Client) DeleteUptimeMonitor(input *DeleteUptimeMonitorInput) (*DeleteUp
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &DeleteUptimeMonitorOutput{}
-	return output, nil
+	return &DeleteUptimeMonitorOutput{}, nil
 }
 
 // GetUptimeMonitorsCountInput represents the input of a GetUptimeMonitorsCount operation.
@@ -274,8 +263,8 @@ func (c *Client) GetUptimeMonitorsCount(input *GetUptimeMonitorsCountInput) (*Ge
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	body := &GenericCountResponse{}
@@ -284,7 +273,5 @@ func (c *Client) GetUptimeMonitorsCount(input *GetUptimeMonitorsCountInput) (*Ge
 		return nil, err
 	}
 
-	output := &GetUptimeMonitorsCountOutput{Count: body.Count}
-
-	return output, nil
+	return &GetUptimeMonitorsCountOutput{Count: body.Count}, nil
 }

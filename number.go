@@ -2,7 +2,6 @@ package ilert
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // Number definition https://api.ilert.com/api-docs/#tag/Numbers
@@ -35,12 +34,12 @@ type GetNumbersOutput struct {
 
 // GetNumbers gets list available iLert phone numbers. https://api.ilert.com/api-docs/#tag/Numbers/paths/~1numbers/get
 func (c *Client) GetNumbers(input *GetNumbersInput) (*GetNumbersOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.numbers))
+	resp, err := c.httpClient.R().Get(apiRoutes.numbers)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	numbers := make([]*Number, 0)
@@ -49,7 +48,5 @@ func (c *Client) GetNumbers(input *GetNumbersInput) (*GetNumbersOutput, error) {
 		return nil, err
 	}
 
-	output := &GetNumbersOutput{Numbers: numbers}
-
-	return output, nil
+	return &GetNumbersOutput{Numbers: numbers}, nil
 }

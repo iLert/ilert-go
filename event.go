@@ -3,7 +3,6 @@ package ilert
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 )
 
 // Event represents the incident event https://api.ilert.com/api-docs/#tag/Events
@@ -72,13 +71,12 @@ type CreateEventOutput struct {
 // CreateEvent creates an incident event. https://api.ilert.com/api-docs/#tag/Events/paths/~1events/post
 func (c *Client) CreateEvent(input *CreateEventInput) (*CreateEventOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.Event == nil {
-		return nil, errors.New("Input event is required")
+		return nil, errors.New("input event is required")
 	}
-	output := &CreateEventOutput{}
-	url := fmt.Sprintf("%s", apiRoutes.events)
+	url := apiRoutes.events
 	if input.URL != nil && *input.URL != "" {
 		url = *input.URL
 	}
@@ -86,15 +84,14 @@ func (c *Client) CreateEvent(input *CreateEventInput) (*CreateEventOutput, error
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 	eventResponse := &EventResponse{}
 	err = json.Unmarshal(resp.Body(), eventResponse)
 	if err != nil {
 		return nil, err
 	}
-	output.EventResponse = eventResponse
 
-	return output, nil
+	return &CreateEventOutput{EventResponse: eventResponse}, nil
 }

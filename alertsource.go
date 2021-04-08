@@ -143,6 +143,20 @@ var AlertSourceIntegrationTypes = struct {
 	UptimeMonitor              string
 	UPTIMEROBOT                string
 	Zabbix                     string
+	Consul                     string
+	Zammad                     string
+	SignalFx                   string
+	Splunk                     string
+	Kubernetes                 string
+	Sematext                   string
+	Sentry                     string
+	Sumologic                  string
+	Raygun                     string
+	MXToolBox                  string
+	ESWatcher                  string
+	AmazonSNS                  string
+	Kapacitor                  string
+	CortexXSOAR                string
 }{
 	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
@@ -175,6 +189,20 @@ var AlertSourceIntegrationTypes = struct {
 	UptimeMonitor:              "MONITOR",
 	UPTIMEROBOT:                "UPTIMEROBOT",
 	Zabbix:                     "ZABBIX",
+	Consul:                     "CONSUL",
+	Zammad:                     "ZAMMAD",
+	SignalFx:                   "SIGNALFX",
+	Splunk:                     "SPLUNK",
+	Kubernetes:                 "KUBERNETES",
+	Sematext:                   "SEMATEXT",
+	Sentry:                     "SENTRY",
+	Sumologic:                  "SUMOLOGIC",
+	Raygun:                     "RAYGUN",
+	MXToolBox:                  "MXTOOLBOX",
+	ESWatcher:                  "ESWATCHER",
+	AmazonSNS:                  "AMAZONSNS",
+	Kapacitor:                  "KAPACITOR",
+	CortexXSOAR:                "CORTEXXSOAR",
 }
 
 // AlertSourceIntegrationTypesAll defines all alert source integration types
@@ -210,6 +238,20 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.UptimeMonitor,
 	AlertSourceIntegrationTypes.UPTIMEROBOT,
 	AlertSourceIntegrationTypes.Zabbix,
+	AlertSourceIntegrationTypes.Consul,
+	AlertSourceIntegrationTypes.Zammad,
+	AlertSourceIntegrationTypes.SignalFx,
+	AlertSourceIntegrationTypes.Splunk,
+	AlertSourceIntegrationTypes.Kubernetes,
+	AlertSourceIntegrationTypes.Sematext,
+	AlertSourceIntegrationTypes.Sentry,
+	AlertSourceIntegrationTypes.Sumologic,
+	AlertSourceIntegrationTypes.Raygun,
+	AlertSourceIntegrationTypes.MXToolBox,
+	AlertSourceIntegrationTypes.ESWatcher,
+	AlertSourceIntegrationTypes.AmazonSNS,
+	AlertSourceIntegrationTypes.Kapacitor,
+	AlertSourceIntegrationTypes.CortexXSOAR,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.
@@ -227,17 +269,17 @@ type CreateAlertSourceOutput struct {
 // CreateAlertSource creates a new alert source. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources/post
 func (c *Client) CreateAlertSource(input *CreateAlertSourceInput) (*CreateAlertSourceOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.AlertSource == nil {
-		return nil, errors.New("Alert source input is required")
+		return nil, errors.New("alert source input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.AlertSource).Post(fmt.Sprintf("%s", apiRoutes.alertSources))
+	resp, err := c.httpClient.R().SetBody(input.AlertSource).Post(apiRoutes.alertSources)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 201); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
+		return nil, apiErr
 	}
 
 	alertSource := &AlertSource{}
@@ -246,9 +288,7 @@ func (c *Client) CreateAlertSource(input *CreateAlertSourceInput) (*CreateAlertS
 		return nil, err
 	}
 
-	output := &CreateAlertSourceOutput{AlertSource: alertSource}
-
-	return output, nil
+	return &CreateAlertSourceOutput{AlertSource: alertSource}, nil
 }
 
 // GetAlertSourceInput represents the input of a GetAlertSource operation.
@@ -266,7 +306,7 @@ type GetAlertSourceOutput struct {
 // GetAlertSource gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources~1{id}/get
 func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.AlertSourceID == nil {
 		return nil, errors.New("AlertSource id is required")
@@ -276,8 +316,8 @@ func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutp
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	alertSource := &AlertSource{}
@@ -286,11 +326,7 @@ func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutp
 		return nil, err
 	}
 
-	output := &GetAlertSourceOutput{
-		AlertSource: alertSource,
-	}
-
-	return output, nil
+	return &GetAlertSourceOutput{AlertSource: alertSource}, nil
 }
 
 // GetAlertSourcesInput represents the input of a GetAlertSources operation.
@@ -306,12 +342,12 @@ type GetAlertSourcesOutput struct {
 
 // GetAlertSources lists alert sources. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources/get
 func (c *Client) GetAlertSources(input *GetAlertSourcesInput) (*GetAlertSourcesOutput, error) {
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s", apiRoutes.alertSources))
+	resp, err := c.httpClient.R().Get(apiRoutes.alertSources)
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	alertSources := make([]*AlertSource, 0)
@@ -320,9 +356,7 @@ func (c *Client) GetAlertSources(input *GetAlertSourcesInput) (*GetAlertSourcesO
 		return nil, err
 	}
 
-	output := &GetAlertSourcesOutput{AlertSources: alertSources}
-
-	return output, nil
+	return &GetAlertSourcesOutput{AlertSources: alertSources}, nil
 }
 
 // UpdateAlertSourceInput represents the input of a UpdateAlertSource operation.
@@ -341,21 +375,21 @@ type UpdateAlertSourceOutput struct {
 // UpdateAlertSource updates an existing alert source. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources~1{id}/put
 func (c *Client) UpdateAlertSource(input *UpdateAlertSourceInput) (*UpdateAlertSourceOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.AlertSource == nil {
 		return nil, errors.New("AlertSource input is required")
 	}
 	if input.AlertSourceID == nil {
-		return nil, errors.New("Alert source id is required")
+		return nil, errors.New("alert source id is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.AlertSource).Put(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 200); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
 	}
 
 	alertSource := &AlertSource{}
@@ -364,9 +398,7 @@ func (c *Client) UpdateAlertSource(input *UpdateAlertSourceInput) (*UpdateAlertS
 		return nil, err
 	}
 
-	output := &UpdateAlertSourceOutput{AlertSource: alertSource}
-
-	return output, nil
+	return &UpdateAlertSourceOutput{AlertSource: alertSource}, nil
 }
 
 // DeleteAlertSourceInput represents the input of a DeleteAlertSource operation.
@@ -383,7 +415,7 @@ type DeleteAlertSourceOutput struct {
 // DeleteAlertSource deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources~1{id}/delete
 func (c *Client) DeleteAlertSource(input *DeleteAlertSourceInput) (*DeleteAlertSourceOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.AlertSourceID == nil {
 		return nil, errors.New("AlertSource id is required")
@@ -393,10 +425,9 @@ func (c *Client) DeleteAlertSource(input *DeleteAlertSourceInput) (*DeleteAlertS
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 204); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 204); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &DeleteAlertSourceOutput{}
-	return output, nil
+	return &DeleteAlertSourceOutput{}, nil
 }

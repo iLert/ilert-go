@@ -21,23 +21,21 @@ type Client struct {
 	httpClient  *resty.Client
 }
 
-// GenericErrorResponse describes generic API error response
-type GenericErrorResponse struct {
+// GenericAPIError describes generic API response error e.g. bad request
+type GenericAPIError struct {
+	error
 	Status  int    `json:"status"`
 	Message string `json:"message"`
 	Code    string `json:"code"`
 }
 
+func (aerr *GenericAPIError) Error() string {
+	return fmt.Sprintf("Error occurred with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
+}
+
 // GenericCountResponse describes generic resources count response
 type GenericCountResponse struct {
 	Count int `json:"count"`
-}
-
-type envConfig struct {
-	token          *string
-	organizationID *string
-	username       *string
-	password       *string
 }
 
 func retryCondition(r *resty.Response, err error) bool {
@@ -136,15 +134,22 @@ func WithRetry(retryCount int, retryWaitTime time.Duration, retryMaxWaitTime tim
 	}
 }
 
-func catchGenericAPIError(response *resty.Response, expectedStatusCode ...int) error {
+// getGenericAPIError extract API response error
+func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) *GenericAPIError {
 	if !intSliceContains(expectedStatusCode, response.StatusCode()) {
-		restErr := fmt.Errorf("wrong status code %d", response.StatusCode())
-		respBody := &GenericErrorResponse{}
-		err := json.Unmarshal(response.Body(), respBody)
-		if err == nil && respBody.Message != "" {
-			restErr = fmt.Errorf("%s: %s", respBody.Code, respBody.Message)
+		out := &GenericAPIError{}
+		err := json.Unmarshal(response.Body(), out)
+		if err != nil {
+			return &GenericAPIError{
+				Status:  response.StatusCode(),
+				Code:    "ERROR",
+				Message: "An error occurred",
+			}
 		}
-		return restErr
+		if out.Message == "" {
+			return nil
+		}
+		return out
 	}
 
 	return nil

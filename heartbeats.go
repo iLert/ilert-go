@@ -31,7 +31,7 @@ type PingHeartbeatOutput struct {
 // PingHeartbeat gets list available iLert phone numbers. https://api.ilert.com/api-docs/#tag/Heartbeats/paths/~1heartbeats~1{key}/get
 func (c *Client) PingHeartbeat(input *PingHeartbeatInput) (*PingHeartbeatOutput, error) {
 	if input == nil {
-		return nil, errors.New("Input is required")
+		return nil, errors.New("input is required")
 	}
 	if input.APIKey == nil {
 		return nil, errors.New("APIKey is required")
@@ -44,11 +44,9 @@ func (c *Client) PingHeartbeat(input *PingHeartbeatInput) (*PingHeartbeatOutput,
 	if err != nil {
 		return nil, err
 	}
-	if err = catchGenericAPIError(resp, 202); err != nil {
-		return nil, err
+	if apiErr := getGenericAPIError(resp, 202); apiErr != nil {
+		return nil, apiErr
 	}
 
-	output := &PingHeartbeatOutput{}
-
-	return output, nil
+	return &PingHeartbeatOutput{}, nil
 }
