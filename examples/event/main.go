@@ -25,7 +25,7 @@ func main() {
 				log.Println("WARN:", apiErr.Error())
 				os.Exit(0)
 			} else {
-				log.Fatalln("ERROR:", err)
+				log.Fatalln("ERROR:", apiErr.Error())
 			}
 		} else {
 			log.Println(result)
