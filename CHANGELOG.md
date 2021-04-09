@@ -1,5 +1,9 @@
 # Changelog
 
+## 09.04.2021, Version 1.4.1
+
+- fix connection output types
+
 ## 08.04.2021, Version 1.4.0
 
 - return generic api error for each resource output if an api error occurred

@@ -63,6 +63,8 @@ type ConnectionOutputParams struct {
 	TicketType      string   `json:"ticketType,omitempty"`      // Autotask
 	Urgency         string   `json:"urgency,omitempty"`         // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
 	WebhookURL      string   `json:"webhookUrl,omitempty"`      // Custom
+	Email           string   `json:"email,omitempty"`           // Zammad
+	PageID          string   `json:"pageId,omitempty"`          // StatusPage.io
 }
 
 // ConnectionParamsAutotask definition
