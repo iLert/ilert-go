@@ -117,6 +117,13 @@ func WithUserAgent(agent string) ClientOptions {
 	}
 }
 
+// WithProxy setting a Proxy URL and Port
+func WithProxy(url string) ClientOptions {
+	return func(c *Client) {
+		c.httpClient.SetProxy(url)
+	}
+}
+
 // WithRetry enables retry logic with exponential backoff for the following errors:
 //
 // - any network errors

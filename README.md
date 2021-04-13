@@ -65,6 +65,22 @@ func main() {
 }
 ```
 
+## Using proxy
+
+```go
+package main
+
+import (
+	"log"
+	"github.com/iLert/ilert-go"
+)
+
+func main() {
+	client := ilert.NewClient(ilert.WithProxy("http://proxyserver:8888"))
+	...
+}
+```
+
 ## Getting help
 
 We are happy to respond to [GitHub issues][issues] as well.

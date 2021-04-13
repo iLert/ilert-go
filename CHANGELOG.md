@@ -1,5 +1,9 @@
 # Changelog
 
+## 13.04.2021, Version 1.5.0
+
+- add proxy option to the client
+
 ## 09.04.2021, Version 1.4.1
 
 - fix connection output types
