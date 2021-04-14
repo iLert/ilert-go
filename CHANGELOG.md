@@ -1,5 +1,9 @@
 # Changelog
 
+## 14.04.2021, Version 1.5.1
+
+- add auto raise incidents prop to support hours
+
 ## 13.04.2021, Version 1.5.0
 
 - add proxy option to the client

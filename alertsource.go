@@ -45,8 +45,9 @@ type EmailPredicate struct {
 
 // SupportHours definition
 type SupportHours struct {
-	Timezone    string      `json:"timezone"`
-	SupportDays SupportDays `json:"supportDays"`
+	Timezone           string      `json:"timezone"`
+	AutoRaiseIncidents bool        `json:"autoRaiseIncidents,omitempty"` // Raise priority of all pending incidents for this alert source to 'high' when support hours begin
+	SupportDays        SupportDays `json:"supportDays"`
 }
 
 // SupportDays definition
