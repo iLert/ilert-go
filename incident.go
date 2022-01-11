@@ -254,7 +254,7 @@ func (c *Client) GetIncidents(input *GetIncidentsInput) (*GetIncidentsOutput, er
 		q.Add("from", *input.From)
 	}
 	if input.Until != nil {
-		q.Add("until", *input.From)
+		q.Add("until", *input.Until)
 	}
 
 	for _, state := range input.States {
