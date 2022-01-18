@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.01.2022, Version 1.6.1
+
+- fix ssl uptime monitor check params
+
 ## 18.01.2022, Version 1.6.0
 
 - add more uptime monitor check params

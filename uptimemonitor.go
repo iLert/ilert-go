@@ -29,9 +29,9 @@ type UptimeMonitorCheckParams struct {
 	Host                     string   `json:"host,omitempty"`
 	Port                     int      `json:"port,omitempty"`
 	URL                      string   `json:"url,omitempty"`
-	ResponseKeywords         []string `json:"responseKeywords,omitempty"`         // only for `http`
-	AlertBeforeSec           int      `json:"alertBeforeSec,omitempty"`           // only for `ssl`
-	AlertOnFingerprintChange bool     `json:"alertOnFingerprintChange,omitempty"` // only for `ssl`
+	ResponseKeywords         []string `json:"responseKeywords,omitempty"` // only for `http`
+	AlertBeforeSec           int      `json:"alertBeforeSec,omitempty"`   // only for `ssl`
+	AlertOnFingerprintChange bool     `json:"alertOnFingerprintChange"`   // only for `ssl`
 }
 
 // UptimeMonitorStatuses defines uptime monitor statuses
