@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.01.2022, Version 1.6.0
+
+- add more uptime monitor check params
+
 ## 14.04.2021, Version 1.5.1
 
 - add auto raise incidents prop to support hours
