@@ -120,7 +120,7 @@ var AlertSourceIntegrationTypes = struct {
 	AWSBudget                  string
 	AWSPersonalHealthDashboard string
 	CallRoutingNumber          string
-	checkmk                    string
+	CheckMK                    string
 	Datadog                    string
 	Dynatrace                  string
 	Email                      string
@@ -158,6 +158,32 @@ var AlertSourceIntegrationTypes = struct {
 	AmazonSNS                  string
 	Kapacitor                  string
 	CortexXSOAR                string
+	Sysdig                     string
+	ServerDensity              string
+	Zapier                     string
+	ServiceNow                 string
+	SearchGuard                string
+	AzureAlerts                string
+	TerraformCloud             string
+	Zendesk                    string
+	Auvik                      string
+	Sensu                      string
+	NCentral                   string
+	JumpCloud                  string
+	Salesforce                 string
+	GuardDuty                  string
+	StatusHub                  string
+	IXON                       string
+	ApiFortress                string
+	FreshService               string
+	AppSignal                  string
+	LightStep                  string
+	IBMCloudFunctions          string
+	CrowdStrike                string
+	Humio                      string
+	OhDear                     string
+	MongodbAtlas               string
+	Gitlab                     string
 }{
 	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
@@ -166,7 +192,7 @@ var AlertSourceIntegrationTypes = struct {
 	AWSBudget:                  "AWSBUDGET",
 	AWSPersonalHealthDashboard: "AWSPHD",
 	CallRoutingNumber:          "CRN",
-	checkmk:                    "CHECKMK",
+	CheckMK:                    "CHECKMK",
 	Datadog:                    "DATADOG",
 	Dynatrace:                  "DYNATRACE",
 	Email:                      "EMAIL",
@@ -204,6 +230,32 @@ var AlertSourceIntegrationTypes = struct {
 	AmazonSNS:                  "AMAZONSNS",
 	Kapacitor:                  "KAPACITOR",
 	CortexXSOAR:                "CORTEXXSOAR",
+	Sysdig:                     "SYSDIG",
+	ServerDensity:              "SERVERDENSITY",
+	Zapier:                     "ZAPIER",
+	ServiceNow:                 "SERVICENOW",
+	SearchGuard:                "SEARCHGUARD",
+	AzureAlerts:                "AZUREALERTS",
+	TerraformCloud:             "TERRAFORMCLOUD",
+	Zendesk:                    "ZENDESK",
+	Auvik:                      "AUVIK",
+	Sensu:                      "SENSU",
+	NCentral:                   "NCENTRAL",
+	JumpCloud:                  "JUMPCLOUD",
+	Salesforce:                 "SALESFORCE",
+	GuardDuty:                  "GUARDDUTY",
+	StatusHub:                  "STATUSHUB",
+	IXON:                       "IXON",
+	ApiFortress:                "APIFORTRESS",
+	FreshService:               "FRESHSERVICE",
+	AppSignal:                  "APPSIGNAL",
+	LightStep:                  "LIGHTSTEP",
+	IBMCloudFunctions:          "IBMCLOUDFUNCTIONS",
+	CrowdStrike:                "CROWDSTRIKE",
+	Humio:                      "HUMIO",
+	OhDear:                     "OHDEAR",
+	MongodbAtlas:               "MONGODBATLAS",
+	Gitlab:                     "GITLAB",
 }
 
 // AlertSourceIntegrationTypesAll defines all alert source integration types
@@ -215,7 +267,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.AWSBudget,
 	AlertSourceIntegrationTypes.AWSPersonalHealthDashboard,
 	AlertSourceIntegrationTypes.CallRoutingNumber,
-	AlertSourceIntegrationTypes.checkmk,
+	AlertSourceIntegrationTypes.CheckMK,
 	AlertSourceIntegrationTypes.Datadog,
 	AlertSourceIntegrationTypes.Dynatrace,
 	AlertSourceIntegrationTypes.Email,
@@ -253,6 +305,32 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.AmazonSNS,
 	AlertSourceIntegrationTypes.Kapacitor,
 	AlertSourceIntegrationTypes.CortexXSOAR,
+	AlertSourceIntegrationTypes.Sysdig,
+	AlertSourceIntegrationTypes.ServerDensity,
+	AlertSourceIntegrationTypes.Zapier,
+	AlertSourceIntegrationTypes.ServiceNow,
+	AlertSourceIntegrationTypes.SearchGuard,
+	AlertSourceIntegrationTypes.AzureAlerts,
+	AlertSourceIntegrationTypes.TerraformCloud,
+	AlertSourceIntegrationTypes.Zendesk,
+	AlertSourceIntegrationTypes.Auvik,
+	AlertSourceIntegrationTypes.Sensu,
+	AlertSourceIntegrationTypes.NCentral,
+	AlertSourceIntegrationTypes.JumpCloud,
+	AlertSourceIntegrationTypes.Salesforce,
+	AlertSourceIntegrationTypes.GuardDuty,
+	AlertSourceIntegrationTypes.StatusHub,
+	AlertSourceIntegrationTypes.IXON,
+	AlertSourceIntegrationTypes.ApiFortress,
+	AlertSourceIntegrationTypes.FreshService,
+	AlertSourceIntegrationTypes.AppSignal,
+	AlertSourceIntegrationTypes.LightStep,
+	AlertSourceIntegrationTypes.IBMCloudFunctions,
+	AlertSourceIntegrationTypes.CrowdStrike,
+	AlertSourceIntegrationTypes.Humio,
+	AlertSourceIntegrationTypes.OhDear,
+	AlertSourceIntegrationTypes.MongodbAtlas,
+	AlertSourceIntegrationTypes.Gitlab,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.

@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.01.2022, Version 1.6.2
+
+- add new alert source types
+
 ## 18.01.2022, Version 1.6.1
 
 - fix ssl uptime monitor check params
