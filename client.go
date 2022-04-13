@@ -33,6 +33,18 @@ func (aerr *GenericAPIError) Error() string {
 	return fmt.Sprintf("Error occurred with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
 }
 
+// RetryableAPIError describes retryable API response error e.g. too many requests
+type RetryableAPIError struct {
+	error
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+	Code    string `json:"code"`
+}
+
+func (aerr *RetryableAPIError) Error() string {
+	return fmt.Sprintf("Error occurred with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
+}
+
 // GenericCountResponse describes generic resources count response
 type GenericCountResponse struct {
 	Count int `json:"count"`
@@ -142,7 +154,7 @@ func WithRetry(retryCount int, retryWaitTime time.Duration, retryMaxWaitTime tim
 }
 
 // getGenericAPIError extract API response error
-func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) *GenericAPIError {
+func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) error {
 	if !intSliceContains(expectedStatusCode, response.StatusCode()) {
 		out := &GenericAPIError{}
 		err := json.Unmarshal(response.Body(), out)
@@ -153,8 +165,15 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) *Ge
 				Message: "An error occurred",
 			}
 		}
-		if out.Message == "" {
-			return nil
+		if out.Status == 0 {
+			out.Status = response.StatusCode()
+		}
+		if retryCondition(response, out) {
+			return &RetryableAPIError{
+				Status:  response.StatusCode(),
+				Code:    out.Code,
+				Message: out.Message,
+			}
 		}
 		return out
 	}

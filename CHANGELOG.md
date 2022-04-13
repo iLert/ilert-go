@@ -1,5 +1,9 @@
 # Changelog
 
+## 13.04.2022, Version 1.6.3
+
+- add retryable errors
+
 ## 18.01.2022, Version 1.6.2
 
 - add new alert source types
