@@ -1,5 +1,9 @@
 # Changelog
 
+## 16.04.2022, Version 1.6.4
+
+- fix connector types
+
 ## 13.04.2022, Version 1.6.3
 
 - add retryable errors

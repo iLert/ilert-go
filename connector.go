@@ -132,57 +132,55 @@ type ConnectorParamsStatusPageIO struct {
 
 // ConnectorTypes defines connector types
 var ConnectorTypes = struct {
-	AWSLambda             string
-	AzureFAAS             string
-	Datadog               string
-	Discord               string
-	Email                 string
-	Github                string
-	GoogleFAAS            string
-	Jira                  string
-	MicrosoftTeams        string
-	ServiceNow            string
-	Slack                 string
-	Sysdig                string
-	Topdesk               string
-	Webhook               string
-	Zapier                string
-	Zendesk               string
-	MicrosoftTeamsChat    string
-	MicrosoftTeamsMeeting string
-	Autotask              string
-	Mattermost            string
-	Zammad                string
-	ZoomChat              string
-	ZoomMeeting           string
-	StatusPageIO          string
-	Webex                 string
+	AWSLambda         string
+	AzureFAAS         string
+	Datadog           string
+	Discord           string
+	Email             string
+	Github            string
+	GoogleFAAS        string
+	Jira              string
+	MicrosoftTeams    string
+	MicrosoftTeamsBot string
+	ServiceNow        string
+	Slack             string
+	Sysdig            string
+	Topdesk           string
+	Webhook           string
+	Zapier            string
+	Zendesk           string
+	Autotask          string
+	Mattermost        string
+	Zammad            string
+	ZoomChat          string
+	ZoomMeeting       string
+	StatusPageIO      string
+	Webex             string
 }{
-	AWSLambda:             "aws_lambda",
-	AzureFAAS:             "azure_faas",
-	Datadog:               "datadog",
-	Discord:               "discord",
-	Email:                 "email",
-	Github:                "github",
-	GoogleFAAS:            "google_faas",
-	Jira:                  "jira",
-	MicrosoftTeams:        "microsoft_teams",
-	ServiceNow:            "servicenow",
-	Slack:                 "slack",
-	Sysdig:                "sysdig",
-	Topdesk:               "topdesk",
-	Webhook:               "webhook",
-	Zapier:                "zapier",
-	Zendesk:               "zendesk",
-	MicrosoftTeamsChat:    "microsoft_teams_chat",
-	MicrosoftTeamsMeeting: "microsoft_teams_meeting",
-	Autotask:              "autotask",
-	Mattermost:            "mattermost",
-	Zammad:                "zammad",
-	ZoomChat:              "zoom_chat",
-	ZoomMeeting:           "zoom_meeting",
-	StatusPageIO:          "status_page_io",
-	Webex:                 "webex",
+	AWSLambda:         "aws_lambda",
+	AzureFAAS:         "azure_faas",
+	Datadog:           "datadog",
+	Discord:           "discord",
+	Email:             "email",
+	Github:            "github",
+	GoogleFAAS:        "google_faas",
+	Jira:              "jira",
+	MicrosoftTeams:    "microsoft_teams",
+	MicrosoftTeamsBot: "microsoft_teams_bot",
+	ServiceNow:        "servicenow",
+	Slack:             "slack",
+	Sysdig:            "sysdig",
+	Topdesk:           "topdesk",
+	Webhook:           "webhook",
+	Zapier:            "zapier",
+	Zendesk:           "zendesk",
+	Autotask:          "autotask",
+	Mattermost:        "mattermost",
+	Zammad:            "zammad",
+	ZoomChat:          "zoom_chat",
+	ZoomMeeting:       "zoom_meeting",
+	StatusPageIO:      "status_page_io",
+	Webex:             "webex",
 }
 
 // ConnectorTypesAll defines connector all types list
@@ -196,6 +194,7 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.GoogleFAAS,
 	ConnectorTypes.Jira,
 	ConnectorTypes.MicrosoftTeams,
+	ConnectorTypes.MicrosoftTeamsBot,
 	ConnectorTypes.ServiceNow,
 	ConnectorTypes.Slack,
 	ConnectorTypes.Sysdig,
@@ -203,8 +202,6 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.Webhook,
 	ConnectorTypes.Zapier,
 	ConnectorTypes.Zendesk,
-	ConnectorTypes.MicrosoftTeamsChat,
-	ConnectorTypes.MicrosoftTeamsMeeting,
 	ConnectorTypes.Autotask,
 	ConnectorTypes.Mattermost,
 	ConnectorTypes.Zammad,
