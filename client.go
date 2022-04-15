@@ -42,7 +42,19 @@ type RetryableAPIError struct {
 }
 
 func (aerr *RetryableAPIError) Error() string {
-	return fmt.Sprintf("Error occurred with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
+	return fmt.Sprintf("Retryable error occurred with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
+}
+
+// NotFoundAPIError describes not-found API response error e.g. resource deleted or never exists
+type NotFoundAPIError struct {
+	error
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+	Code    string `json:"code"`
+}
+
+func (aerr *NotFoundAPIError) Error() string {
+	return fmt.Sprintf("Not found: api respond with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
 }
 
 // GenericCountResponse describes generic resources count response
@@ -168,9 +180,16 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 		if out.Status == 0 {
 			out.Status = response.StatusCode()
 		}
+		if out.Status == http.StatusNotFound {
+			return &NotFoundAPIError{
+				Status:  out.Status,
+				Code:    out.Code,
+				Message: out.Message,
+			}
+		}
 		if retryCondition(response, out) {
 			return &RetryableAPIError{
-				Status:  response.StatusCode(),
+				Status:  out.Status,
 				Code:    out.Code,
 				Message: out.Message,
 			}
