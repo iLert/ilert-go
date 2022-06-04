@@ -211,6 +211,7 @@ var apiRoutes = struct {
 	incidents          string
 	numbers            string
 	schedules          string
+	statusPages        string
 	uptimeMonitors     string
 	users              string
 	teams              string
@@ -224,6 +225,7 @@ var apiRoutes = struct {
 	incidents:          "/api/v1/incidents",
 	numbers:            "/api/v1/numbers",
 	schedules:          "/api/v1/schedules",
+	statusPages:        "/api/status-pages",
 	uptimeMonitors:     "/api/v1/uptime-monitors",
 	users:              "/api/v1/users",
 	teams:              "/api/v1/teams",
