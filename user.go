@@ -8,23 +8,23 @@ import (
 
 // User definition https://api.ilert.com/api-docs/#!/Users
 type User struct {
-	ID                                        int64                          `json:"id,omitempty"`
-	Username                                  string                         `json:"username,omitempty"`
-	FirstName                                 string                         `json:"firstName,omitempty"`
-	LastName                                  string                         `json:"lastName,omitempty"`
-	Email                                     string                         `json:"email,omitempty"`
-	Mobile                                    *Phone                         `json:"mobile,omitempty"`
-	Landline                                  *Phone                         `json:"landline,omitempty"`
-	Position                                  string                         `json:"position,omitempty"`
-	Department                                string                         `json:"department,omitempty"`
-	Timezone                                  string                         `json:"timezone,omitempty"`
-	Language                                  string                         `json:"language,omitempty"`
-	Role                                      string                         `json:"role,omitempty"`
-	NotificationPreferences                   []NotificationPreference       `json:"notificationPreferences,omitempty"`
-	LowNotificationPreferences                []NotificationPreference       `json:"lowPriorityNotificationPreferences,omitempty"`
-	OnCallNotificationPreferences             []OnCallNotificationPreference `json:"onCallNotificationPreferences,omitempty"`
-	SubscribedIncidentUpdateStates            []string                       `json:"subscribedIncidentUpdateStates,omitempty"`
-	SubscribedIncidentUpdateNotificationTypes []string                       `json:"subscribedIncidentUpdateNotificationTypes,omitempty"`
+	ID                                     int64                          `json:"id,omitempty"`
+	Username                               string                         `json:"username,omitempty"`
+	FirstName                              string                         `json:"firstName,omitempty"`
+	LastName                               string                         `json:"lastName,omitempty"`
+	Email                                  string                         `json:"email,omitempty"`
+	Mobile                                 *Phone                         `json:"mobile,omitempty"`
+	Landline                               *Phone                         `json:"landline,omitempty"`
+	Position                               string                         `json:"position,omitempty"`
+	Department                             string                         `json:"department,omitempty"`
+	Timezone                               string                         `json:"timezone,omitempty"`
+	Language                               string                         `json:"language,omitempty"`
+	Role                                   string                         `json:"role,omitempty"`
+	NotificationPreferences                []NotificationPreference       `json:"notificationPreferences,omitempty"`
+	LowNotificationPreferences             []NotificationPreference       `json:"lowPriorityNotificationPreferences,omitempty"`
+	OnCallNotificationPreferences          []OnCallNotificationPreference `json:"onCallNotificationPreferences,omitempty"`
+	SubscribedAlertUpdateStates            []string                       `json:"subscribedAlertUpdateStates,omitempty"`
+	SubscribedAlertUpdateNotificationTypes []string                       `json:"subscribedAlertUpdateNotificationTypes,omitempty"`
 }
 
 // Phone definition
@@ -56,8 +56,8 @@ var UserRole = struct {
 	Stakeholder: "STAKEHOLDER",
 }
 
-// UserIncidentUpdateStates defines user incident update states
-var UserIncidentUpdateStates = struct {
+// UserAlertUpdateStates defines user alert update states
+var UserAlertUpdateStates = struct {
 	Accepted  string
 	Escalated string
 	Resolved  string
@@ -67,8 +67,8 @@ var UserIncidentUpdateStates = struct {
 	Resolved:  "RESOLVED",
 }
 
-// UserIncidentUpdateNotificationTypes defines user incident update notification types
-var UserIncidentUpdateNotificationTypes = struct {
+// UserAlertUpdateNotificationTypes defines user alert update notification types
+var UserAlertUpdateNotificationTypes = struct {
 	Email         string
 	PushAndroid   string
 	PushIPhone    string
@@ -103,6 +103,10 @@ type CreateUserInput struct {
 type CreateUserOutput struct {
 	_    struct{}
 	User *User
+}
+
+func (u *User) GetUsername() string {
+	return u.Username
 }
 
 // CreateUser creates a new user. Requires ADMIN privileges. https://api.ilert.com/api-docs/#tag/Users/paths/~1users/post

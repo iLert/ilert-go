@@ -15,7 +15,7 @@ type Service struct {
 	Teams               []TeamShort   `json:"teams"`
 	Subscribed          bool          `json:"subscribed,omitempty"`
 	Uptime              ServiceUptime `json:"uptime,omitempty"`
-	Incidents           Incident      `json:"incidents,omitempty"`
+	Alerts              Alert         `json:"alerts,omitempty"`
 }
 
 //ServiceUptime defines services uptime

@@ -202,8 +202,9 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 
 // apiRoutes defines api routes
 var apiRoutes = struct {
+	alerts             string
+	alertActions       string
 	alertSources       string
-	connections        string
 	connectors         string
 	escalationPolicies string
 	events             string
@@ -217,8 +218,9 @@ var apiRoutes = struct {
 	users              string
 	teams              string
 }{
+	alerts:             "/api/alerts",
+	alertActions:       "/api/alert-actions",
 	alertSources:       "/api/v1/alert-sources",
-	connections:        "/api/v1/connections",
 	connectors:         "/api/v1/connectors",
 	escalationPolicies: "/api/v1/escalation-policies",
 	events:             "/api/v1/events",

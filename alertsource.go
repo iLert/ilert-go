@@ -16,7 +16,7 @@ type AlertSource struct {
 	IntegrationType        string                 `json:"integrationType"`
 	IntegrationKey         string                 `json:"integrationKey,omitempty"`
 	IntegrationURL         string                 `json:"integrationUrl,omitempty"`
-	IncidentCreation       string                 `json:"incidentCreation,omitempty"`
+	AlertCreation          string                 `json:"alertCreation,omitempty"`
 	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`
 	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"`
 	Active                 bool                   `json:"active,omitempty"`
@@ -27,7 +27,7 @@ type AlertSource struct {
 	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`
 	FilterOperator         string                 `json:"filterOperator,omitempty"`
 	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`
-	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"`
+	AlertPriorityRule      string                 `json:"alertPriorityRule,omitempty"`
 	SupportHours           *SupportHours          `json:"supportHours,omitempty"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`
@@ -45,9 +45,9 @@ type EmailPredicate struct {
 
 // SupportHours definition
 type SupportHours struct {
-	Timezone           string      `json:"timezone"`
-	AutoRaiseIncidents bool        `json:"autoRaiseIncidents,omitempty"` // Raise priority of all pending incidents for this alert source to 'high' when support hours begin
-	SupportDays        SupportDays `json:"supportDays"`
+	Timezone        string      `json:"timezone"`
+	AutoRaiseAlerts bool        `json:"autoRaiseAlerts,omitempty"` // Raise priority of all pending alerts for this alert source to 'high' when support hours begin
+	SupportDays     SupportDays `json:"supportDays"`
 }
 
 // SupportDays definition
@@ -96,19 +96,19 @@ var AlertSourceStatuses = struct {
 	Disabled:      "DISABLED",
 }
 
-// AlertSourceIncidentCreations defines alert source incident creations
-var AlertSourceIncidentCreations = struct {
-	OneIncidentPerEmail        string
-	OneIncidentPerEmailSubject string
-	OnePendingIncidentAllowed  string
-	OneOpenIncidentAllowed     string
-	OpenResolveOnExtraction    string
+// AlertSourceAlertCreations defines alert source alert creations
+var AlertSourceAlertCreations = struct {
+	OneAlertPerEmail        string
+	OneAlertPerEmailSubject string
+	OnePendingAlertAllowed  string
+	OneOpenAlertAllowed     string
+	OpenResolveOnExtraction string
 }{
-	OneIncidentPerEmail:        "ONE_INCIDENT_PER_EMAIL",
-	OneIncidentPerEmailSubject: "ONE_INCIDENT_PER_EMAIL_SUBJECT",
-	OnePendingIncidentAllowed:  "ONE_PENDING_INCIDENT_ALLOWED",
-	OneOpenIncidentAllowed:     "ONE_OPEN_INCIDENT_ALLOWED",
-	OpenResolveOnExtraction:    "OPEN_RESOLVE_ON_EXTRACTION",
+	OneAlertPerEmail:        "ONE_INCIDENT_PER_EMAIL",
+	OneAlertPerEmailSubject: "ONE_INCIDENT_PER_EMAIL_SUBJECT",
+	OnePendingAlertAllowed:  "ONE_PENDING_INCIDENT_ALLOWED",
+	OneOpenAlertAllowed:     "ONE_OPEN_INCIDENT_ALLOWED",
+	OpenResolveOnExtraction: "OPEN_RESOLVE_ON_EXTRACTION",
 }
 
 // AlertSourceIntegrationTypes defines alert source integration types
