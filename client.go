@@ -225,7 +225,7 @@ var apiRoutes = struct {
 	escalationPolicies: "/api/v1/escalation-policies",
 	events:             "/api/v1/events",
 	heartbeats:         "/api/v1/heartbeats",
-	incidents:          "/api/v1/incidents",
+	incidents:          "/api/incidents",
 	numbers:            "/api/v1/numbers",
 	schedules:          "/api/v1/schedules",
 	services:           "/api/services",

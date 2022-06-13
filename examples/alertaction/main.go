@@ -10,13 +10,13 @@ import (
 func main() {
 	client := ilert.NewClient()
 
-	// result, err := client.GetConnections(&ilert.GetConnectionsInput{})
+	// result, err := client.GetAlertActions(&ilert.GetAlertActionsInput{})
 	// if err != nil {
 	// 	log.Println(result)
 	// 	log.Fatalln("ERROR:", err)
 	// }
-	// log.Println(fmt.Sprintf("Found %d connections\n\n ", len(result.Connections)))
-	// for _, connection := range result.Connections {
+	// log.Println(fmt.Sprintf("Found %d connections\n\n ", len(result.AlertActions)))
+	// for _, connection := range result.AlertActions {
 	// 	s, _ := json.Marshal(connection)
 	// 	log.Println(fmt.Sprintf("%+v\n", string(s)))
 	// }
@@ -64,15 +64,15 @@ func main() {
 	}
 	log.Println(fmt.Sprintf("New connector is created:\n%+v\n", *rcr.Connector))
 
-	rcn, err := client.CreateConnection(&ilert.CreateConnectionInput{
-		Connection: &ilert.Connection{
-			Name:           "Test GitHub Connection",
+	rcn, err := client.CreateAlertAction(&ilert.CreateAlertActionInput{
+		AlertAction: &ilert.AlertAction{
+			Name:           "Test GitHub AlertAction",
 			ConnectorType:  ilert.ConnectorTypes.Github,
 			ConnectorID:    rcr.Connector.ID,
-			TriggerMode:    ilert.ConnectionTriggerModes.Automatic,
-			TriggerTypes:   ilert.ConnectionTriggerTypesAll,
+			TriggerMode:    ilert.AlertActionTriggerModes.Automatic,
+			TriggerTypes:   ilert.AlertActionTriggerTypesAll,
 			AlertSourceIDs: []int64{ras.AlertSource.ID},
-			Params: ilert.ConnectionParamsGithub{
+			Params: ilert.AlertActionParamsGithub{
 				Owner:      "my-org",
 				Repository: "my-repo",
 			},
@@ -82,5 +82,5 @@ func main() {
 		log.Println(rcn)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("New connection is created:\n%+v\n", *rcn.Connection))
+	log.Println(fmt.Sprintf("New alert action is created:\n%+v\n", *rcn.AlertAction))
 }
