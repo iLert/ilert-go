@@ -23,7 +23,7 @@ func main() {
 
 	var apiToken = "your API token"
 	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
-	incidentId := int64(44504) //your specific incident id
+	incidentId := int64(0) //your specific incident id
 	input := &ilert.GetIncidentInput{
 		IncidentID: &incidentId,
 		Include:    []*string{&ilert.Include.AffectedTeams},
