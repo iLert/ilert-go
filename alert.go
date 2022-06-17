@@ -146,6 +146,14 @@ var AlertLogEntryTypes = struct {
 	UserResponseLogEntry:          "UserResponseLogEntry",
 }
 
+var AlertInclude = struct {
+	EscalationRules    string
+	NextEscalationUser string
+}{
+	EscalationRules:    "escalationRules",
+	NextEscalationUser: "nextEscalationUser",
+}
+
 // // AlertAction definition
 // type AlertAction struct {
 // 	Name        string              `json:"name"`
@@ -169,6 +177,9 @@ var AlertLogEntryTypes = struct {
 type GetAlertInput struct {
 	_       struct{}
 	AlertID *int64
+
+	// describes optional properties that should be included in the response
+	Include []*string
 }
 
 // GetAlertOutput represents the output of a GetAlert operation.
@@ -186,7 +197,13 @@ func (c *Client) GetAlert(input *GetAlertInput) (*GetAlertOutput, error) {
 		return nil, errors.New("Alert id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.alerts, *input.AlertID))
+	q := url.Values{}
+
+	for _, include := range input.Include {
+		q.Add("include", *include)
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d?%s", apiRoutes.alerts, *input.AlertID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}

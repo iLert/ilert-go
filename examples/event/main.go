@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/iLert/ilert-go"
+	"github.com/iLert/ilert-go/v2"
 )
 
 func main() {

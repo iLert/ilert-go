@@ -208,6 +208,7 @@ type GetIncidentInput struct {
 type GetIncidentOutput struct {
 	_        struct{}
 	Incident *Incident
+	ETag     *string
 }
 
 // GetIncident gets an incident by ID. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}/get
@@ -241,7 +242,13 @@ func (c *Client) GetIncident(input *GetIncidentInput) (*GetIncidentOutput, error
 		return nil, err
 	}
 
-	return &GetIncidentOutput{Incident: incident}, nil
+	output := &GetIncidentOutput{Incident: incident}
+	etag := resp.Header().Get("ETag")
+	if etag != "" {
+		output.ETag = String(etag)
+	}
+
+	return output, nil
 }
 
 // GetIncidentSubscribersInput represents the input of a GetIncidentSubscribers operation.
@@ -372,6 +379,7 @@ type UpdateIncidentInput struct {
 	_          struct{}
 	IncidentID *int64
 	Incident   *Incident
+	ETag       *string
 }
 
 // UpdateIncidentOutput represents the output of a UpdateIncident operation.
@@ -394,7 +402,11 @@ func (c *Client) UpdateIncident(input *UpdateIncidentInput) (*UpdateIncidentOutp
 
 	url := fmt.Sprintf("%s/%d", apiRoutes.incidents, *input.IncidentID)
 
-	resp, err := c.httpClient.R().SetBody(input.Incident).Put(url)
+	req := c.httpClient.R()
+	if input.ETag != nil && *input.ETag != "" {
+		req.SetHeader("If-Match", *input.ETag)
+	}
+	resp, err := req.SetBody(input.Incident).Put(url)
 	if err != nil {
 		return nil, err
 	}
