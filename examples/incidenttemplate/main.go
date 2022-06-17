@@ -18,7 +18,7 @@ func main() {
 	}
 	log.Println(fmt.Sprintf("Found %d IncidentTemplates\n\n ", len(result.IncidentTemplates)))
 	for _, incidentTemplate := range result.IncidentTemplates {
-		log.Println(fmt.Sprintf("IncidentTemplates:\n\n %+v\n", *incidentTemplate))
+		log.Println(fmt.Sprintf("IncidentTemplate:\n\n %+v\n", *incidentTemplate))
 	}
 
 	// id := int64(your incidenttemplate id)
