@@ -39,18 +39,6 @@ type ServiceOutage struct {
 	Until  string `json:"until"` // Date time string in ISO format
 }
 
-//ServiceUptimeOnly defines services
-type ServiceUptimeOnly struct {
-	Id                  int64         `json:"id"`
-	Name                string        `json:"name"`
-	Status              string        `json:"status"`
-	Description         string        `json:"description"`
-	OneOpenIncidentOnly bool          `json:"oneOpenIncidentOnly"`
-	ShowUptimeHistory   bool          `json:"showUptimeHistory"`
-	Teams               []TeamShort   `json:"teams"`
-	Uptime              ServiceUptime `json:"uptime"`
-}
-
 var ServiceStatus = struct {
 	Operational      string
 	UnderMaintenance string
@@ -182,7 +170,7 @@ type GetServiceOutput struct {
 	Service *Service
 }
 
-// GetService gets an service by ID. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}/get
+// GetService gets a service by ID. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}/get
 func (c *Client) GetService(input *GetServiceInput) (*GetServiceOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -225,7 +213,7 @@ type GetServiceSubscribersInput struct {
 // GetServiceSubscribersOutput represents the output of a GetServiceSubscribers operation.
 type GetServiceSubscribersOutput struct {
 	_           struct{}
-	Subscribers []*Subscribers
+	Subscribers []*Subscriber
 }
 
 // GetServiceSubscribers gets subscribers of a service by ID. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}~1private-subscribers/get
@@ -247,7 +235,7 @@ func (c *Client) GetServiceSubscribers(input *GetServiceSubscribersInput) (*GetS
 		return nil, apiErr
 	}
 
-	subscribers := make([]*Subscribers, 0)
+	subscribers := make([]*Subscriber, 0)
 	err = json.Unmarshal(resp.Body(), &subscribers)
 	if err != nil {
 		return nil, err
@@ -304,7 +292,7 @@ func (c *Client) UpdateService(input *UpdateServiceInput) (*UpdateServiceOutput,
 type AddServiceSubscribersInput struct {
 	_           struct{}
 	ServiceID   *int64
-	Subscribers *[]Subscribers
+	Subscribers *[]Subscriber
 }
 
 // AddServiceSubscribersOutput represents the output of a AddServiceSubscribers operation.
@@ -334,7 +322,7 @@ func (c *Client) AddServiceSubscribers(input *AddServiceSubscribersInput) (*AddS
 		return nil, apiErr
 	}
 
-	subscribers := make([]*Subscribers, 0)
+	subscribers := make([]*Subscriber, 0)
 	err = json.Unmarshal(resp.Body(), &subscribers)
 	if err != nil {
 		return nil, err

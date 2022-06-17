@@ -27,7 +27,7 @@ type AffectedServices struct {
 	Service Service `json:"service"`
 }
 
-type Subscribers struct {
+type Subscriber struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 	Type string `json:"type"`
@@ -241,7 +241,7 @@ type GetIncidentSubscribersInput struct {
 // GetIncidentSubscribersOutput represents the output of a GetIncidentSubscribers operation.
 type GetIncidentSubscribersOutput struct {
 	_           struct{}
-	Subscribers []*Subscribers
+	Subscribers []*Subscriber
 }
 
 // GetIncidentSubscribers gets subscribers of an incident by ID. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1private-subscribers/get
@@ -263,7 +263,7 @@ func (c *Client) GetIncidentSubscribers(input *GetIncidentSubscribersInput) (*Ge
 		return nil, apiErr
 	}
 
-	subscribers := make([]*Subscribers, 0)
+	subscribers := make([]*Subscriber, 0)
 	err = json.Unmarshal(resp.Body(), &subscribers)
 	if err != nil {
 		return nil, err
@@ -316,7 +316,7 @@ func (c *Client) GetIncidentAffected(input *GetIncidentAffectedInput) (*GetIncid
 type AddIncidentSubscribersInput struct {
 	_           struct{}
 	IncidentID  *int64
-	Subscribers *[]Subscribers
+	Subscribers *[]Subscriber
 }
 
 // AddIncidentSubscribersOutput represents the output of a AddIncidentSubscribers operation.
@@ -346,7 +346,7 @@ func (c *Client) AddIncidentSubscribers(input *AddIncidentSubscribersInput) (*Ad
 		return nil, apiErr
 	}
 
-	subscribers := make([]*Subscribers, 0)
+	subscribers := make([]*Subscriber, 0)
 	err = json.Unmarshal(resp.Body(), &subscribers)
 	if err != nil {
 		return nil, err
