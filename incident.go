@@ -9,17 +9,17 @@ import (
 )
 
 type Incident struct {
-	ID               int64               `json:"id"`
-	Summary          string              `json:"summary"`
-	Status           string              `json:"status"`
-	Message          string              `json:"message"`
-	SendNotification bool                `json:"sendNotification"`
-	CreatedAt        string              `json:"createdAt"` // Date time string in ISO format
-	UpdatedAt        string              `json:"updatedAt"` // Date time string in ISO format
-	AffectedServices *[]AffectedServices `json:"affectedServices"`
-	ResolvedOn       string              `json:"resolvedOn,omitempty"` // Date time string in ISO format
-	Subscribed       bool                `json:"subscribed,omitempty"`
-	AffectedTeams    *[]TeamShort        `json:"affectedTeams,omitempty"`
+	ID               int64              `json:"id"`
+	Summary          string             `json:"summary"`
+	Status           string             `json:"status"`
+	Message          string             `json:"message"`
+	SendNotification bool               `json:"sendNotification"`
+	CreatedAt        string             `json:"createdAt"` // Date time string in ISO format
+	UpdatedAt        string             `json:"updatedAt"` // Date time string in ISO format
+	AffectedServices []AffectedServices `json:"affectedServices"`
+	ResolvedOn       string             `json:"resolvedOn,omitempty"` // Date time string in ISO format
+	Subscribed       bool               `json:"subscribed,omitempty"`
+	AffectedTeams    []TeamShort        `json:"affectedTeams,omitempty"`
 }
 
 type AffectedServices struct {
@@ -62,6 +62,18 @@ var IncidentType = struct {
 }{
 	User: "USER",
 	Team: "TEAM",
+}
+
+var IncidentStatus = struct {
+	Investigating string
+	Identified    string
+	Monitoring    string
+	Resolved      string
+}{
+	Investigating: "INVESTIGATING",
+	Identified:    "IDENTIFIED",
+	Monitoring:    "MONITORING",
+	Resolved:      "RESOLVED",
 }
 
 // CreateIncidentInput represents the input of a CreateIncident operation.

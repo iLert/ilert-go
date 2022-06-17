@@ -8,31 +8,33 @@ import (
 	"strconv"
 )
 
+// Service definition https://api.ilert.com/api-docs/#tag/Services
 type Service struct {
-	ID                  int64         `json:"id"`
-	Name                string        `json:"name"`
-	Status              string        `json:"status"`
-	Description         string        `json:"description"`
-	OneOpenIncidentOnly bool          `json:"oneOpenIncidentOnly"`
-	ShowUptimeHistory   bool          `json:"showUptimeHistory"`
-	Teams               []TeamShort   `json:"teams"`
-	Subscribed          bool          `json:"subscribed,omitempty"`
-	Uptime              ServiceUptime `json:"uptime,omitempty"`
-	Incidents           []Incident    `json:"incidents,omitempty"`
+	ID                  int64          `json:"id"`
+	Name                string         `json:"name"`
+	Status              string         `json:"status"`
+	Description         string         `json:"description"`
+	OneOpenIncidentOnly bool           `json:"oneOpenIncidentOnly"`
+	ShowUptimeHistory   bool           `json:"showUptimeHistory"`
+	Teams               []TeamShort    `json:"teams"`
+	Subscribed          bool           `json:"subscribed,omitempty"`
+	Uptime              *ServiceUptime `json:"uptime,omitempty"`
+	Incidents           []Incident     `json:"incidents,omitempty"`
 }
 
-//ServiceUptime defines services uptime
+// ServiceUptime defines services uptime
 type ServiceUptime struct {
 	UptimePercentage ServiceUptimePercentage `json:"uptimePercentage"`
 }
 
-//ServiceUptimePercentage defines service uptime percentage
+// ServiceUptimePercentage defines service uptime percentage
 type ServiceUptimePercentage struct {
 	RangeStart string        `json:"rangeStart"` // Date time string in ISO format
 	RangeEnd   string        `json:"rangeEnd"`   // Date time string in ISO format
 	Outages    ServiceOutage `json:"outages"`
 }
 
+// ServiceOutage defines services outage
 type ServiceOutage struct {
 	Status string `json:"status"`
 	From   string `json:"from"`  // Date time string in ISO format
