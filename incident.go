@@ -46,7 +46,7 @@ type Affected struct {
 	PublicSubscribers  int64      `json:"publicSubscribers"`
 }
 
-var Include = struct {
+var IncidentInclude = struct {
 	Subscribed    string
 	AffectedTeams string
 	History       string
@@ -56,7 +56,7 @@ var Include = struct {
 	History:       "history",
 }
 
-var Type = struct {
+var IncidentType = struct {
 	User string
 	Team string
 }{
@@ -241,7 +241,7 @@ type GetIncidentSubscribersInput struct {
 // GetIncidentSubscribersOutput represents the output of a GetIncidentSubscribers operation.
 type GetIncidentSubscribersOutput struct {
 	_           struct{}
-	Subscribers *[]Subscribers
+	Subscribers []*Subscribers
 }
 
 // GetIncidentSubscribers gets subscribers of an incident by ID. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1private-subscribers/get
@@ -263,8 +263,8 @@ func (c *Client) GetIncidentSubscribers(input *GetIncidentSubscribersInput) (*Ge
 		return nil, apiErr
 	}
 
-	subscribers := &[]Subscribers{}
-	err = json.Unmarshal(resp.Body(), subscribers)
+	subscribers := make([]*Subscribers, 0)
+	err = json.Unmarshal(resp.Body(), &subscribers)
 	if err != nil {
 		return nil, err
 	}
@@ -316,7 +316,7 @@ func (c *Client) GetIncidentAffected(input *GetIncidentAffectedInput) (*GetIncid
 type AddIncidentSubscribersInput struct {
 	_           struct{}
 	IncidentID  *int64
-	Subscribers *Subscribers
+	Subscribers *[]Subscribers
 }
 
 // AddIncidentSubscribersOutput represents the output of a AddIncidentSubscribers operation.
@@ -346,8 +346,8 @@ func (c *Client) AddIncidentSubscribers(input *AddIncidentSubscribersInput) (*Ad
 		return nil, apiErr
 	}
 
-	subscribers := &Subscribers{}
-	err = json.Unmarshal(resp.Body(), subscribers)
+	subscribers := make([]*Subscribers, 0)
+	err = json.Unmarshal(resp.Body(), &subscribers)
 	if err != nil {
 		return nil, err
 	}

@@ -26,7 +26,7 @@ func main() {
 	incidentId := int64(0) //your specific incident id
 	input := &ilert.GetIncidentInput{
 		IncidentID: &incidentId,
-		Include:    []*string{&ilert.Include.AffectedTeams},
+		Include:    []*string{&ilert.IncidentInclude.AffectedTeams},
 	}
 	result, err := client.GetIncident(input)
 	if err != nil {
