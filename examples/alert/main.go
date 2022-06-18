@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	var apiToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGVydCIsImlsX3QiOiJBUEkiLCJpbF92IjoxLCJpbF9rIjoiOGQ1ODU3NGY5Y2FhNGFlNGE2YmE1ZDVkZjRlNzgzZjYifQ.7rcm1EyqMNmLuuZ1v40ME5eiDL4T0QYGdfaxMQCQ_jY"
+	var apiToken = "your API token"
 	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
 	result, err := client.GetAlerts(&ilert.GetAlertsInput{
 		States: []*string{ilert.String(ilert.AlertStatuses.Accepted)},
