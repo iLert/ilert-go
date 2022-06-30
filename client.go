@@ -206,6 +206,7 @@ var apiRoutes = struct {
 	alertActions       string
 	alertSources       string
 	automationRules    string
+	connections        string
 	connectors         string
 	escalationPolicies string
 	events             string
@@ -224,6 +225,7 @@ var apiRoutes = struct {
 	alertActions:       "/api/alert-actions",
 	alertSources:       "/api/alert-sources",
 	automationRules:    "/api/automation-rules",
+	connections:        "/api/v1/connections",
 	connectors:         "/api/connectors",
 	escalationPolicies: "/api/escalation-policies",
 	events:             "/api/events",

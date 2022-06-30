@@ -8,23 +8,25 @@ import (
 
 // User definition https://api.ilert.com/api-docs/#!/Users
 type User struct {
-	ID                                     int64                          `json:"id,omitempty"`
-	Username                               string                         `json:"username,omitempty"`
-	FirstName                              string                         `json:"firstName,omitempty"`
-	LastName                               string                         `json:"lastName,omitempty"`
-	Email                                  string                         `json:"email,omitempty"`
-	Mobile                                 *Phone                         `json:"mobile,omitempty"`
-	Landline                               *Phone                         `json:"landline,omitempty"`
-	Position                               string                         `json:"position,omitempty"`
-	Department                             string                         `json:"department,omitempty"`
-	Timezone                               string                         `json:"timezone,omitempty"`
-	Language                               string                         `json:"language,omitempty"`
-	Role                                   string                         `json:"role,omitempty"`
-	NotificationPreferences                []NotificationPreference       `json:"notificationPreferences,omitempty"`
-	LowNotificationPreferences             []NotificationPreference       `json:"lowPriorityNotificationPreferences,omitempty"`
-	OnCallNotificationPreferences          []OnCallNotificationPreference `json:"onCallNotificationPreferences,omitempty"`
-	SubscribedAlertUpdateStates            []string                       `json:"subscribedAlertUpdateStates,omitempty"`
-	SubscribedAlertUpdateNotificationTypes []string                       `json:"subscribedAlertUpdateNotificationTypes,omitempty"`
+	ID                                        int64                          `json:"id,omitempty"`
+	Username                                  string                         `json:"username,omitempty"`
+	FirstName                                 string                         `json:"firstName,omitempty"`
+	LastName                                  string                         `json:"lastName,omitempty"`
+	Email                                     string                         `json:"email,omitempty"`
+	Mobile                                    *Phone                         `json:"mobile,omitempty"`
+	Landline                                  *Phone                         `json:"landline,omitempty"`
+	Position                                  string                         `json:"position,omitempty"`
+	Department                                string                         `json:"department,omitempty"`
+	Timezone                                  string                         `json:"timezone,omitempty"`
+	Language                                  string                         `json:"language,omitempty"`
+	Role                                      string                         `json:"role,omitempty"`
+	NotificationPreferences                   []NotificationPreference       `json:"notificationPreferences,omitempty"`
+	LowNotificationPreferences                []NotificationPreference       `json:"lowPriorityNotificationPreferences,omitempty"`
+	OnCallNotificationPreferences             []OnCallNotificationPreference `json:"onCallNotificationPreferences,omitempty"`
+	SubscribedAlertUpdateStates               []string                       `json:"subscribedAlertUpdateStates,omitempty"`
+	SubscribedIncidentUpdateStates            []string                       `json:"subscribedIncidentUpdateStates,omitempty"` // @deprecated
+	SubscribedAlertUpdateNotificationTypes    []string                       `json:"subscribedAlertUpdateNotificationTypes,omitempty"`
+	SubscribedIncidentUpdateNotificationTypes []string                       `json:"subscribedIncidentUpdateNotificationTypes,omitempty"` // @deprecated
 }
 
 // Phone definition
@@ -117,6 +119,23 @@ func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
 	if input.User == nil {
 		return nil, errors.New("User input is required")
 	}
+
+	if len(input.User.SubscribedAlertUpdateNotificationTypes) > 0 && len(input.User.SubscribedIncidentUpdateNotificationTypes) > 0 {
+		input.User.SubscribedIncidentUpdateNotificationTypes = nil
+	}
+	if len(input.User.SubscribedAlertUpdateNotificationTypes) == 0 {
+		input.User.SubscribedAlertUpdateNotificationTypes = input.User.SubscribedIncidentUpdateNotificationTypes
+		input.User.SubscribedIncidentUpdateNotificationTypes = nil
+	}
+
+	if len(input.User.SubscribedAlertUpdateStates) > 0 && len(input.User.SubscribedIncidentUpdateStates) > 0 {
+		input.User.SubscribedIncidentUpdateStates = nil
+	}
+	if len(input.User.SubscribedAlertUpdateStates) == 0 {
+		input.User.SubscribedAlertUpdateStates = input.User.SubscribedIncidentUpdateStates
+		input.User.SubscribedIncidentUpdateStates = nil
+	}
+
 	resp, err := c.httpClient.R().SetBody(input.User).Post(apiRoutes.users)
 	if err != nil {
 		return nil, err
@@ -248,6 +267,23 @@ func (c *Client) UpdateUser(input *UpdateUserInput) (*UpdateUserOutput, error) {
 	if input.UserID == nil && input.Username == nil {
 		return nil, errors.New("User id or username is required")
 	}
+
+	if len(input.User.SubscribedAlertUpdateNotificationTypes) > 0 && len(input.User.SubscribedIncidentUpdateNotificationTypes) > 0 {
+		input.User.SubscribedIncidentUpdateNotificationTypes = nil
+	}
+	if len(input.User.SubscribedAlertUpdateNotificationTypes) == 0 {
+		input.User.SubscribedAlertUpdateNotificationTypes = input.User.SubscribedIncidentUpdateNotificationTypes
+		input.User.SubscribedIncidentUpdateNotificationTypes = nil
+	}
+
+	if len(input.User.SubscribedAlertUpdateStates) > 0 && len(input.User.SubscribedIncidentUpdateStates) > 0 {
+		input.User.SubscribedIncidentUpdateStates = nil
+	}
+	if len(input.User.SubscribedAlertUpdateStates) == 0 {
+		input.User.SubscribedAlertUpdateStates = input.User.SubscribedIncidentUpdateStates
+		input.User.SubscribedIncidentUpdateStates = nil
+	}
+
 	var url string
 	if input.UserID != nil {
 		url = fmt.Sprintf("%s/%d", apiRoutes.users, *input.UserID)
