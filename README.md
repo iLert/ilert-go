@@ -2,6 +2,11 @@
 
 **The official iLert Go api bindings.**
 
+## Legacy API
+
+> If you want to use the old client with v1 resources, please install it with the following command: `go get github.com/iLert/ilert-go`
+
+
 ## Create an incident (manually)
 
 ```go
@@ -9,7 +14,7 @@ package main
 
 import (
 	"log"
-	"github.com/iLert/ilert-go"
+	"github.com/iLert/ilert-go/v2"
 )
 
 func main() {
@@ -21,8 +26,8 @@ func main() {
 	event := &ilert.Event{
 		APIKey:      apiKey,
 		EventType:   ilert.EventTypes.Alert,
-		Summary:     "My test incident summary",
-		IncidentKey: "123456",
+		Summary:     "My test alert summary",
+		AlertKey: "123456",
 	}
 
 	input := &ilert.CreateEventInput{Event: event}
@@ -32,7 +37,7 @@ func main() {
 		log.Fatalln("ERROR:", err)
 	}
 
-	log.Println("Incident key:", result.EventResponse.IncidentKey)
+	log.Println("Event processed!")
 }
 ```
 
@@ -43,7 +48,7 @@ package main
 
 import (
 	"log"
-	"github.com/iLert/ilert-go"
+	"github.com/iLert/ilert-go/v2"
 )
 
 func main() {
@@ -72,7 +77,7 @@ package main
 
 import (
 	"log"
-	"github.com/iLert/ilert-go"
+	"github.com/iLert/ilert-go/v2"
 )
 
 func main() {

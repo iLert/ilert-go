@@ -8,21 +8,21 @@ import (
 
 // UptimeMonitor definition https://api.ilert.com/api-docs/#tag/Uptime-Monitors
 type UptimeMonitor struct {
-	ID                              int64                     `json:"id,omitempty"`
-	Name                            string                    `json:"name"`
-	Region                          string                    `json:"region"`
-	CheckType                       string                    `json:"checkType"`
-	CheckParams                     *UptimeMonitorCheckParams `json:"checkParams,omitempty"`
-	IntervalSec                     int                       `json:"intervalSec,omitempty"`                     // default: 300
-	TimeoutMs                       int                       `json:"timeoutMs,omitempty"`                       // default: 30000
-	CreateIncidentAfterFailedChecks int                       `json:"createIncidentAfterFailedChecks,omitempty"` // @deprecated
-	CreateAlertAfterFailedChecks    int                       `json:"createAlertAfterFailedChecks,omitempty"`    // default: 1
-	EscalationPolicy                *EscalationPolicy         `json:"escalationPolicy,omitempty"`
-	Paused                          bool                      `json:"paused,omitempty"`   // default: false
-	EmbedURL                        string                    `json:"embedURL,omitempty"` // read only
-	ShareURL                        string                    `json:"shareURL,omitempty"` // read only
-	Status                          string                    `json:"status,omitempty"`
-	LastStatusChange                string                    `json:"lastStatusChange,omitempty"` // Date time string in ISO format
+	ID                              int64                    `json:"id,omitempty"`
+	Name                            string                   `json:"name"`
+	Region                          string                   `json:"region"`
+	CheckType                       string                   `json:"checkType"`
+	CheckParams                     UptimeMonitorCheckParams `json:"checkParams"`
+	IntervalSec                     int                      `json:"intervalSec,omitempty"`                     // default: 300
+	TimeoutMs                       int                      `json:"timeoutMs,omitempty"`                       // default: 30000
+	CreateIncidentAfterFailedChecks int                      `json:"createIncidentAfterFailedChecks,omitempty"` // @deprecated
+	CreateAlertAfterFailedChecks    int                      `json:"createAlertAfterFailedChecks,omitempty"`    // default: 1
+	EscalationPolicy                *EscalationPolicy        `json:"escalationPolicy,omitempty"`
+	Paused                          bool                     `json:"paused,omitempty"`   // default: false
+	EmbedURL                        string                   `json:"embedURL,omitempty"` // read only
+	ShareURL                        string                   `json:"shareURL,omitempty"` // read only
+	Status                          string                   `json:"status,omitempty"`
+	LastStatusChange                string                   `json:"lastStatusChange,omitempty"` // Date time string in ISO format
 }
 
 // UptimeMonitorCheckParams definition

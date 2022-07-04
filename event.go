@@ -84,7 +84,7 @@ func (c *Client) CreateEvent(input *CreateEventInput) (*CreateEventOutput, error
 	if err != nil {
 		return nil, err
 	}
-	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+	if apiErr := getGenericAPIError(resp, 200, 202); apiErr != nil {
 		return nil, apiErr
 	}
 	eventResponse := &EventResponse{}
