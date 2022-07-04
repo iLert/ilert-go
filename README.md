@@ -2,12 +2,10 @@
 
 **The official iLert Go api bindings.**
 
-## Backwards compatibility
+## Legacy API
 
-Now features new API resources. If you want to use the old Client with pre-v2 resources, please use the following command:
-```
-go get github.com/iLert/ilert-go
-```
+> If you want to use the old client with v1 resources, please install it with the following command: `go get github.com/iLert/ilert-go`
+
 
 ## Create an incident (manually)
 
