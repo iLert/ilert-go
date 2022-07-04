@@ -33,5 +33,5 @@ func main() {
 		}
 	}
 
-	log.Println("Incident key:", result.EventResponse.AlertKey)
+	log.Println("Alert key:", result.EventResponse.AlertKey)
 }
