@@ -202,31 +202,43 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 
 // apiRoutes defines api routes
 var apiRoutes = struct {
+	alerts             string
+	alertActions       string
 	alertSources       string
+	automationRules    string
 	connections        string
 	connectors         string
 	escalationPolicies string
 	events             string
 	heartbeats         string
 	incidents          string
+	incidentTemplates  string
 	numbers            string
 	schedules          string
+	services           string
+	statusPages        string
 	uptimeMonitors     string
 	users              string
 	teams              string
 }{
-	alertSources:       "/api/v1/alert-sources",
+	alerts:             "/api/alerts",
+	alertActions:       "/api/alert-actions",
+	alertSources:       "/api/alert-sources",
+	automationRules:    "/api/automation-rules",
 	connections:        "/api/v1/connections",
-	connectors:         "/api/v1/connectors",
-	escalationPolicies: "/api/v1/escalation-policies",
-	events:             "/api/v1/events",
-	heartbeats:         "/api/v1/heartbeats",
-	incidents:          "/api/v1/incidents",
-	numbers:            "/api/v1/numbers",
-	schedules:          "/api/v1/schedules",
-	uptimeMonitors:     "/api/v1/uptime-monitors",
-	users:              "/api/v1/users",
-	teams:              "/api/v1/teams",
+	connectors:         "/api/connectors",
+	escalationPolicies: "/api/escalation-policies",
+	events:             "/api/events",
+	heartbeats:         "/api/heartbeats",
+	incidents:          "/api/incidents",
+	incidentTemplates:  "/api/incident-templates",
+	numbers:            "/api/numbers",
+	schedules:          "/api/schedules",
+	services:           "/api/services",
+	statusPages:        "/api/status-pages",
+	uptimeMonitors:     "/api/uptime-monitors",
+	users:              "/api/users",
+	teams:              "/api/teams",
 }
 
 func getEnv(key string) *string {

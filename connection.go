@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-// Connection definition https://api.ilert.com/api-docs/#!/Connections
+// Legacy API - please use alert-actions - for more information see https://docs.ilert.com/rest-api/api-version-history#renaming-connections-to-alert-actions
 type Connection struct {
 	ID             string      `json:"id,omitempty"`
 	Name           string      `json:"name"`
@@ -231,7 +231,7 @@ type CreateConnectionOutput struct {
 	Connection *ConnectionOutput
 }
 
-// CreateConnection creates a new connection. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections/post
+// Legacy API - please use alert-actions - for more information see https://docs.ilert.com/rest-api/api-version-history#renaming-connections-to-alert-actions
 func (c *Client) CreateConnection(input *CreateConnectionInput) (*CreateConnectionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -268,7 +268,7 @@ type GetConnectionOutput struct {
 	Connection *ConnectionOutput
 }
 
-// GetConnection gets the connection with specified id. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections~1{id}/get
+// Legacy API - please use alert-actions - for more information see https://docs.ilert.com/rest-api/api-version-history#renaming-connections-to-alert-actions
 func (c *Client) GetConnection(input *GetConnectionInput) (*GetConnectionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -305,7 +305,7 @@ type GetConnectionsOutput struct {
 	Connections []*ConnectionOutput
 }
 
-// GetConnections lists connections. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections/get
+// Legacy API - please use alert-actions - for more information see https://docs.ilert.com/rest-api/api-version-history#renaming-connections-to-alert-actions
 func (c *Client) GetConnections(input *GetConnectionsInput) (*GetConnectionsOutput, error) {
 	resp, err := c.httpClient.R().Get(apiRoutes.connections)
 	if err != nil {
@@ -337,7 +337,7 @@ type UpdateConnectionOutput struct {
 	Connection *ConnectionOutput
 }
 
-// UpdateConnection updates an existing connection. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections~1{id}/put
+// Legacy API - please use alert-actions - for more information see https://docs.ilert.com/rest-api/api-version-history#renaming-connections-to-alert-actions
 func (c *Client) UpdateConnection(input *UpdateConnectionInput) (*UpdateConnectionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -377,7 +377,7 @@ type DeleteConnectionOutput struct {
 	_ struct{}
 }
 
-// DeleteConnection deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Connections/paths/~1connections~1{id}/delete
+// Legacy API - please use alert-actions - for more information see https://docs.ilert.com/rest-api/api-version-history#renaming-connections-to-alert-actions
 func (c *Client) DeleteConnection(input *DeleteConnectionInput) (*DeleteConnectionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

@@ -5,16 +5,16 @@ import (
 	"os"
 	"time"
 
-	"github.com/iLert/ilert-go"
+	"github.com/iLert/ilert-go/v2"
 )
 
 func main() {
 	var apiKey = "alert source API Key"
 	event := &ilert.Event{
-		APIKey:      apiKey,
-		EventType:   ilert.EventTypes.Alert,
-		Summary:     "My test incident summary",
-		IncidentKey: "123456",
+		APIKey:    apiKey,
+		EventType: ilert.EventTypes.Alert,
+		Summary:   "My test alert summary",
+		AlertKey:  "123456",
 	}
 	input := &ilert.CreateEventInput{Event: event}
 	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second))
@@ -33,5 +33,5 @@ func main() {
 		}
 	}
 
-	log.Println("Incident key:", result.EventResponse.IncidentKey)
+	log.Println("Incident key:", result.EventResponse.AlertKey)
 }
