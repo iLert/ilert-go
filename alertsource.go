@@ -99,6 +99,15 @@ var AlertSourceStatuses = struct {
 	Disabled:      "DISABLED",
 }
 
+// AlertSourceStatusesAll defines alert source statuses list
+var AlertSourceStatusesAll = []string{
+	AlertSourceStatuses.Pending,
+	AlertSourceStatuses.AllAccepted,
+	AlertSourceStatuses.AllResolved,
+	AlertSourceStatuses.InMaintenance,
+	AlertSourceStatuses.Disabled,
+}
+
 // AlertSourceAlertCreations defines alert source alert creations
 var AlertSourceAlertCreations = struct {
 	OneAlertPerEmail        string
@@ -107,11 +116,20 @@ var AlertSourceAlertCreations = struct {
 	OneOpenAlertAllowed     string
 	OpenResolveOnExtraction string
 }{
-	OneAlertPerEmail:        "ONE_INCIDENT_PER_EMAIL",
-	OneAlertPerEmailSubject: "ONE_INCIDENT_PER_EMAIL_SUBJECT",
-	OnePendingAlertAllowed:  "ONE_PENDING_INCIDENT_ALLOWED",
-	OneOpenAlertAllowed:     "ONE_OPEN_INCIDENT_ALLOWED",
+	OneAlertPerEmail:        "ONE_ALERT_PER_EMAIL",
+	OneAlertPerEmailSubject: "ONE_ALERT_PER_EMAIL_SUBJECT",
+	OnePendingAlertAllowed:  "ONE_PENDING_ALERT_ALLOWED",
+	OneOpenAlertAllowed:     "ONE_OPEN_ALERT_ALLOWED",
 	OpenResolveOnExtraction: "OPEN_RESOLVE_ON_EXTRACTION",
+}
+
+// AlertSourceAlertCreationsAll defines alert source alert creations list
+var AlertSourceAlertCreationsAll = []string{
+	AlertSourceAlertCreations.OneAlertPerEmail,
+	AlertSourceAlertCreations.OneAlertPerEmailSubject,
+	AlertSourceAlertCreations.OnePendingAlertAllowed,
+	AlertSourceAlertCreations.OneOpenAlertAllowed,
+	AlertSourceAlertCreations.OpenResolveOnExtraction,
 }
 
 // AlertSourceIntegrationTypes defines alert source integration types

@@ -58,6 +58,13 @@ var UserRole = struct {
 	Stakeholder: "STAKEHOLDER",
 }
 
+// UserRoleAll defines user roles list
+var UserRoleAll = []string{
+	UserRole.User,
+	UserRole.Admin,
+	UserRole.Stakeholder,
+}
+
 // UserAlertUpdateStates defines user alert update states
 var UserAlertUpdateStates = struct {
 	Accepted  string
@@ -67,6 +74,13 @@ var UserAlertUpdateStates = struct {
 	Accepted:  "ACCEPTED",
 	Escalated: "ESCALATED",
 	Resolved:  "RESOLVED",
+}
+
+// UserAlertUpdateStatesAll defines user alert update states list
+var UserAlertUpdateStatesAll = []string{
+	UserAlertUpdateStates.Accepted,
+	UserAlertUpdateStates.Escalated,
+	UserAlertUpdateStates.Resolved,
 }
 
 // UserAlertUpdateNotificationTypes defines user alert update notification types
@@ -86,6 +100,16 @@ var UserAlertUpdateNotificationTypes = struct {
 	VoiceLandline: "VOICE_LANDLINE",
 }
 
+// UserAlertUpdateNotificationTypesAll defines user alert update notification types list
+var UserAlertUpdateNotificationTypesAll = []string{
+	UserAlertUpdateNotificationTypes.Email,
+	UserAlertUpdateNotificationTypes.PushAndroid,
+	UserAlertUpdateNotificationTypes.PushIPhone,
+	UserAlertUpdateNotificationTypes.SMS,
+	UserAlertUpdateNotificationTypes.VoiceMobile,
+	UserAlertUpdateNotificationTypes.VoiceLandline,
+}
+
 // UserLanguage defines user language
 var UserLanguage = struct {
 	English string
@@ -93,6 +117,12 @@ var UserLanguage = struct {
 }{
 	English: "en",
 	German:  "de",
+}
+
+// UserLanguageAll defines user language list
+var UserLanguageAll = []string{
+	UserLanguage.English,
+	UserLanguage.German,
 }
 
 // CreateUserInput represents the input of a CreateUser operation.

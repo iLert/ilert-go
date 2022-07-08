@@ -21,12 +21,19 @@ type AutomationRule struct {
 	SendNotification bool              `json:"sendNotification"`
 }
 
+// AlertType defines the alert type in an automation rule
 var AlertType = struct {
 	Created  string
 	Accepted string
 }{
 	Created:  "CREATED",
 	Accepted: "ACCEPTED",
+}
+
+// AlertType defines the alert type list
+var AlertTypeAll = []string{
+	AlertType.Created,
+	AlertType.Accepted,
 }
 
 // CreateAutomationRuleInput represents the input of a CreateAutomationRule operation.
