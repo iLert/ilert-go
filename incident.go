@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+// Incident definition https://api.ilert.com/api-docs/#tag/Incidents
 type Incident struct {
 	ID               int64              `json:"id"`
 	Summary          string             `json:"summary"`
@@ -22,22 +23,26 @@ type Incident struct {
 	AffectedTeams    []TeamShort        `json:"affectedTeams,omitempty"`
 }
 
+// AffectedServices defines affected services
 type AffectedServices struct {
 	Impact  string  `json:"impact"`
 	Service Service `json:"service"`
 }
 
+// Subscriber defines a subscriber
 type Subscriber struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
 	Type string `json:"type"`
 }
 
+// UIMenuItem defines the ui menu item
 type UIMenuItem struct {
 	ID    int64  `json:"id"`
 	Label string `json:"label"`
 }
 
+// Affected defines affected entities on incident
 type Affected struct {
 	StatusPagesInfo    UIMenuItem `json:"statusPagesInfo"`
 	PrivateStatusPages int64      `json:"privateStatusPages"`
@@ -46,6 +51,7 @@ type Affected struct {
 	PublicSubscribers  int64      `json:"publicSubscribers"`
 }
 
+// IncidentInclude defines incident includes
 var IncidentInclude = struct {
 	Subscribed    string
 	AffectedTeams string
@@ -56,6 +62,14 @@ var IncidentInclude = struct {
 	History:       "history",
 }
 
+// IncidentIncludeAll defines incident includes list
+var IncidentIncludeAll = []string{
+	IncidentInclude.Subscribed,
+	IncidentInclude.AffectedTeams,
+	IncidentInclude.History,
+}
+
+// IncidentType defines incident type
 var IncidentType = struct {
 	User string
 	Team string
@@ -64,6 +78,13 @@ var IncidentType = struct {
 	Team: "TEAM",
 }
 
+// IncidentTypeAll defines incident type list
+var IncidentTypeAll = []string{
+	IncidentType.User,
+	IncidentType.Team,
+}
+
+// IncidentStatus defines incident status
 var IncidentStatus = struct {
 	Investigating string
 	Identified    string
@@ -74,6 +95,14 @@ var IncidentStatus = struct {
 	Identified:    "IDENTIFIED",
 	Monitoring:    "MONITORING",
 	Resolved:      "RESOLVED",
+}
+
+// IncidentStatusAll defines incident status list
+var IncidentStatusAll = []string{
+	IncidentStatus.Investigating,
+	IncidentStatus.Identified,
+	IncidentStatus.Monitoring,
+	IncidentStatus.Resolved,
 }
 
 // CreateIncidentInput represents the input of a CreateIncident operation.

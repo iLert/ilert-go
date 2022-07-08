@@ -44,10 +44,19 @@ var UptimeMonitorStatuses = struct {
 	Unknown string
 }{
 	Up:      "up",
-	Down:    "Down",
+	Down:    "down",
 	Warning: "warn",
 	Paused:  "paused",
 	Unknown: "unknown",
+}
+
+// UptimeMonitorStatusesAll defines uptime monitor statuses list
+var UptimeMonitorStatusesAll = []string{
+	UptimeMonitorStatuses.Up,
+	UptimeMonitorStatuses.Down,
+	UptimeMonitorStatuses.Warning,
+	UptimeMonitorStatuses.Paused,
+	UptimeMonitorStatuses.Unknown,
 }
 
 // UptimeMonitorRegions defines uptime monitor regions
@@ -59,17 +68,34 @@ var UptimeMonitorRegions = struct {
 	US: "US",
 }
 
+// UptimeMonitorRegionsAll defines uptime monitor regions list
+var UptimeMonitorRegionsAll = []string{
+	UptimeMonitorRegions.EU,
+	UptimeMonitorRegions.US,
+}
+
 // UptimeMonitorCheckTypes defines uptime monitor check types
 var UptimeMonitorCheckTypes = struct {
 	HTTP string
 	Ping string
 	TCP  string
 	UDP  string
+	SSL  string
 }{
 	HTTP: "http",
 	Ping: "ping",
 	TCP:  "tcp",
 	UDP:  "udp",
+	SSL:  "ssl",
+}
+
+// UptimeMonitorCheckTypesAll defines uptime monitor check types list
+var UptimeMonitorCheckTypesAll = []string{
+	UptimeMonitorCheckTypes.HTTP,
+	UptimeMonitorCheckTypes.Ping,
+	UptimeMonitorCheckTypes.TCP,
+	UptimeMonitorCheckTypes.UDP,
+	UptimeMonitorCheckTypes.SSL,
 }
 
 // CreateUptimeMonitorInput represents the input of a CreateUptimeMonitor operation.

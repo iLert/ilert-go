@@ -199,6 +199,12 @@ var AlertActionTriggerModes = struct {
 	Manual:    "MANUAL",
 }
 
+// AlertActionTriggerModesAll defines alertAction trigger modes list
+var AlertActionTriggerModesAll = []string{
+	AlertActionTriggerModes.Automatic,
+	AlertActionTriggerModes.Manual,
+}
+
 // AlertActionTriggerTypes defines alertAction trigger types
 var AlertActionTriggerTypes = struct {
 	AlertCreated       string

@@ -32,13 +32,19 @@ type StatusPage struct {
 	Subscribed                bool        `json:"subscribed,omitempty"`
 }
 
-// StatusPage defines status-page visibility
+// StatusPageVisibility defines status page visibility
 var StatusPageVisibility = struct {
 	Public  string
 	Private string
 }{
 	Public:  "PUBLIC",
 	Private: "PRIVATE",
+}
+
+// StatusPageVisibilityAll defines status page visibility list
+var StatusPageVisibilityAll = []string{
+	StatusPageVisibility.Public,
+	StatusPageVisibility.Private,
 }
 
 // CreateStatusPageInput represents the input of a CreateStatusPage operation.

@@ -41,6 +41,7 @@ type ServiceOutage struct {
 	Until  string `json:"until"` // Date time string in ISO format
 }
 
+// ServiceStatus defines services status
 var ServiceStatus = struct {
 	Operational      string
 	UnderMaintenance string
@@ -55,6 +56,16 @@ var ServiceStatus = struct {
 	MajorOutage:      "MAJOR_OUTAGE",
 }
 
+// ServiceStatusAll defines services status list
+var ServiceStatusAll = []string{
+	ServiceStatus.Operational,
+	ServiceStatus.UnderMaintenance,
+	ServiceStatus.Degraded,
+	ServiceStatus.PartialOutage,
+	ServiceStatus.MajorOutage,
+}
+
+// ServiceInclude defines included services
 var ServiceInclude = struct {
 	Subscribed string
 	Uptime     string
@@ -63,6 +74,13 @@ var ServiceInclude = struct {
 	Subscribed: "subscribed",
 	Uptime:     "uptime",
 	Incidents:  "incidents",
+}
+
+// ServiceIncludeAll defines included services list
+var ServiceIncludeAll = []string{
+	ServiceInclude.Subscribed,
+	ServiceInclude.Uptime,
+	ServiceInclude.Incidents,
 }
 
 // CreateServiceInput represents the input of a CreateService operation.

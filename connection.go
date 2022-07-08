@@ -189,6 +189,12 @@ var ConnectionTriggerModes = struct {
 	Manual:    "MANUAL",
 }
 
+// ConnectionTriggerModesAll defines all connection trigger modes
+var ConnectionTriggerModesAll = []string{
+	ConnectionTriggerModes.Automatic,
+	ConnectionTriggerModes.Manual,
+}
+
 // ConnectionTriggerTypes defines connection trigger types
 var ConnectionTriggerTypes = struct {
 	IncidentCreated       string
