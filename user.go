@@ -110,6 +110,7 @@ var UserAlertUpdateNotificationTypesAll = []string{
 	UserAlertUpdateNotificationTypes.SMS,
 	UserAlertUpdateNotificationTypes.VoiceMobile,
 	UserAlertUpdateNotificationTypes.VoiceLandline,
+	UserAlertUpdateNotificationTypes.WhatsApp,
 }
 
 // UserLanguage defines user language
