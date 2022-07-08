@@ -91,6 +91,7 @@ var UserAlertUpdateNotificationTypes = struct {
 	SMS           string
 	VoiceMobile   string
 	VoiceLandline string
+	WhatsApp      string
 }{
 	Email:         "EMAIL",
 	PushAndroid:   "ANDROID",
@@ -98,6 +99,7 @@ var UserAlertUpdateNotificationTypes = struct {
 	SMS:           "SMS",
 	VoiceMobile:   "VOICE_MOBILE",
 	VoiceLandline: "VOICE_LANDLINE",
+	WhatsApp:      "WHATSAPP",
 }
 
 // UserAlertUpdateNotificationTypesAll defines user alert update notification types list
