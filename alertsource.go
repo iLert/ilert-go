@@ -110,33 +110,39 @@ var AlertSourceStatusesAll = []string{
 
 // AlertSourceAlertCreations defines alert source alert creations
 var AlertSourceAlertCreations = struct {
+	// @deprecated
 	OneIncidentPerEmail        string
 	OneIncidentPerEmailSubject string
 	OnePendingIncidentAllowed  string
 	OneOpenIncidentAllowed     string
-	OneAlertPerEmail           string
-	OneAlertPerEmailSubject    string
-	OnePendingAlertAllowed     string
-	OneOpenAlertAllowed        string
-	OpenResolveOnExtraction    string
+
+	OneAlertPerEmail        string
+	OneAlertPerEmailSubject string
+	OnePendingAlertAllowed  string
+	OneOpenAlertAllowed     string
+	OpenResolveOnExtraction string
 }{
+	// @deprecated
 	OneIncidentPerEmail:        "ONE_INCIDENT_PER_EMAIL",
 	OneIncidentPerEmailSubject: "ONE_INCIDENT_PER_EMAIL_SUBJECT",
 	OnePendingIncidentAllowed:  "ONE_PENDING_INCIDENT_ALLOWED",
 	OneOpenIncidentAllowed:     "ONE_OPEN_INCIDENT_ALLOWED",
-	OneAlertPerEmail:           "ONE_ALERT_PER_EMAIL",
-	OneAlertPerEmailSubject:    "ONE_ALERT_PER_EMAIL_SUBJECT",
-	OnePendingAlertAllowed:     "ONE_PENDING_ALERT_ALLOWED",
-	OneOpenAlertAllowed:        "ONE_OPEN_ALERT_ALLOWED",
-	OpenResolveOnExtraction:    "OPEN_RESOLVE_ON_EXTRACTION",
+
+	OneAlertPerEmail:        "ONE_ALERT_PER_EMAIL",
+	OneAlertPerEmailSubject: "ONE_ALERT_PER_EMAIL_SUBJECT",
+	OnePendingAlertAllowed:  "ONE_PENDING_ALERT_ALLOWED",
+	OneOpenAlertAllowed:     "ONE_OPEN_ALERT_ALLOWED",
+	OpenResolveOnExtraction: "OPEN_RESOLVE_ON_EXTRACTION",
 }
 
 // AlertSourceAlertCreationsAll defines alert source alert creations list
 var AlertSourceAlertCreationsAll = []string{
+	// @deprecated
 	AlertSourceAlertCreations.OneIncidentPerEmail,
 	AlertSourceAlertCreations.OneIncidentPerEmailSubject,
 	AlertSourceAlertCreations.OnePendingIncidentAllowed,
 	AlertSourceAlertCreations.OneOpenIncidentAllowed,
+
 	AlertSourceAlertCreations.OneAlertPerEmail,
 	AlertSourceAlertCreations.OneAlertPerEmailSubject,
 	AlertSourceAlertCreations.OnePendingAlertAllowed,
