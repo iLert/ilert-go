@@ -409,7 +409,7 @@ func (c *Client) CreateAlertSource(input *CreateAlertSourceInput) (*CreateAlertS
 		input.AlertSource.IncidentPriorityRule = ""
 	}
 
-	if input.AlertSource.SupportHours.AutoRaiseIncidents {
+	if input.AlertSource.SupportHours != nil && input.AlertSource.SupportHours.AutoRaiseIncidents {
 		input.AlertSource.SupportHours.AutoRaiseAlerts = true
 		input.AlertSource.SupportHours.AutoRaiseIncidents = false
 	}
