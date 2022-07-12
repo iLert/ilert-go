@@ -51,7 +51,7 @@ func (c *Client) GetSchedule(input *GetScheduleInput) (*GetScheduleOutput, error
 	if err != nil {
 		return nil, err
 	}
-	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
 		return nil, apiErr
 	}
 
