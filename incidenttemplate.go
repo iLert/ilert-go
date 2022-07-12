@@ -43,7 +43,7 @@ func (c *Client) CreateIncidentTemplate(input *CreateIncidentTemplateInput) (*Cr
 	if err != nil {
 		return nil, err
 	}
-	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+	if apiErr := getGenericAPIError(resp, 201); apiErr != nil {
 		return nil, apiErr
 	}
 
