@@ -13,6 +13,7 @@ type Schedule struct {
 	ID                   int64           `json:"id,omitempty"`
 	Name                 string          `json:"name"`
 	Timezone             string          `json:"timezone,omitempty"`
+	Type                 string          `json:"type,omitempty"`
 	StartsOn             string          `json:"startsOn,omitempty"` // Date time string in ISO format, @deprecated
 	ScheduleLayers       []ScheduleLayer `json:"scheduleLayers,omitempty"`
 	Shifts               []Shift         `json:"shifts,omitempty"`
@@ -49,6 +50,14 @@ type LayerRestriction struct {
 type TimeOfWeek struct {
 	DayOfWeek string `json:"dayOfWeek"`
 	Time      string `json:"time"` // Time string in format <15:00>
+}
+
+var ScheduleType = struct {
+	Static    string
+	Recurring string
+}{
+	Static:    "STATIC",
+	Recurring: "RECURRING",
 }
 
 var RestrictionType = struct {
