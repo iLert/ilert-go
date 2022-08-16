@@ -10,15 +10,15 @@ import (
 
 // Schedule definition https://api.ilert.com/api-docs/#tag/Schedules
 type Schedule struct {
-	ID                   int64           `json:"id,omitempty"`
+	ID                   int64           `json:"id"`
 	Name                 string          `json:"name"`
-	Timezone             string          `json:"timezone,omitempty"`
-	Type                 string          `json:"type,omitempty"`
+	Timezone             string          `json:"timezone"`
+	Type                 string          `json:"type"`
 	StartsOn             string          `json:"startsOn,omitempty"` // Date time string in ISO format, @deprecated
 	ScheduleLayers       []ScheduleLayer `json:"scheduleLayers,omitempty"`
 	Shifts               []Shift         `json:"shifts,omitempty"`
 	ShowGaps             bool            `json:"showGaps,omitempty"`
-	DefaultShiftDuration string          `json:"defaultShiftDuration,omitempty"` // P7D
+	DefaultShiftDuration string          `json:"defaultShiftDuration,omitempty"` // for ex. P7D (7 Days) or PT8H (8 Hours)
 	CurrentShift         *Shift          `json:"currentShift,omitempty"`
 	NextShift            *Shift          `json:"nextShift,omitempty"`
 	Teams                []TeamShort     `json:"teams,omitempty"`
@@ -106,6 +106,12 @@ func (c *Client) CreateSchedule(input *CreateScheduleInput) (*CreateScheduleOutp
 	}
 	if input.Schedule == nil {
 		return nil, errors.New("schedule input is required")
+	}
+	if input.Schedule.Type == ScheduleType.Static && input.Schedule.Shifts == nil {
+		return nil, errors.New("shifts must be declared on static schedule")
+	}
+	if input.Schedule.Type == ScheduleType.Recurring && input.Schedule.ScheduleLayers == nil {
+		return nil, errors.New("schedule layers must be declared on recurring schedule")
 	}
 
 	q := url.Values{}
