@@ -8,11 +8,8 @@ import (
 )
 
 func main() {
-	// set your environment variables:
-	// ILERT_ORGANIZATION="your organization"
-	// ILERT_USERNAME="your username"
-	// ILERT_PASSWORD="your password"
-	client := ilert.NewClient()
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
 	result, err := client.GetSchedules(&ilert.GetSchedulesInput{})
 	if err != nil {
 		log.Println(result)
@@ -22,5 +19,4 @@ func main() {
 	for _, schedule := range result.Schedules {
 		log.Println(fmt.Sprintf("%+v\n", *schedule))
 	}
-
 }

@@ -1,5 +1,48 @@
 # Changelog
 
+## 26.08.2022, Version 2.1.0
+
+- add schedules
+
+## 12.07.2022, Version 2.0.5
+
+- another fix for alert source support hours check
+
+## 12.07.2022, Version 2.0.4
+
+- fix alert source support hours check
+
+## 12.07.2022, Version 2.0.3
+
+- fix error codes on create resources
+
+## 08.07.2022, Version 2.0.2
+
+- add various lists
+- fix alert source creation
+- add deprecated hints
+- fix user alert notification type list
+
+## 04.07.2022, Version 2.0.1
+
+- fix internal version
+
+## 30.06.2022, Version 2.0.0
+
+- add automation rules
+- add incident templates
+- add services
+- add statuspages
+- migrating API v1 to versionless
+  - rename incident v1 to alert and update fields
+  - add incident
+  - renaming connection to alert action, therefore deprecating connection
+  - update alert source fields
+  - update event fields
+  - update uptime monitor fields
+  - update user fields
+- update examples
+
 ## 16.04.2022, Version 1.6.5
 
 - add not_found error types
