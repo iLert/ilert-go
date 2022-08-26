@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	var apiToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpbGVydCIsImlsX3QiOiJBUEkiLCJpbF92IjoxLCJpbF9rIjoiZDAxYmY5Njg4ZjRlNGMzYmIxNDY5YWNhNjllNTgxY2IifQ.eDSLCoArmP_Qbh60jly9bza1gmVYx1ROdLsvTMF0bvk"
+	var apiToken = "your API token"
 	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
 	result, err := client.GetSchedules(&ilert.GetSchedulesInput{})
 	if err != nil {
