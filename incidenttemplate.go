@@ -146,6 +146,44 @@ func (c *Client) GetIncidentTemplate(input *GetIncidentTemplateInput) (*GetIncid
 	return &GetIncidentTemplateOutput{IncidentTemplate: incidentTemplate}, nil
 }
 
+// SearchIncidentTemplateInput represents the input of a SearchIncidentTemplate operation.
+type SearchIncidentTemplateInput struct {
+	_                    struct{}
+	IncidentTemplateName *string
+}
+
+// SearchIncidentTemplateOutput represents the output of a SearchIncidentTemplate operation.
+type SearchIncidentTemplateOutput struct {
+	_                struct{}
+	IncidentTemplate *IncidentTemplate
+}
+
+// SearchIncidentTemplate gets the incidentTemplate with specified name.
+func (c *Client) SearchIncidentTemplate(input *SearchIncidentTemplateInput) (*SearchIncidentTemplateOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.IncidentTemplateName == nil {
+		return nil, errors.New("incident template name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.incidentTemplates, *input.IncidentTemplateName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	incidentTemplate := &IncidentTemplate{}
+	err = json.Unmarshal(resp.Body(), incidentTemplate)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchIncidentTemplateOutput{IncidentTemplate: incidentTemplate}, nil
+}
+
 // UpdateIncidentTemplateInput represents the input of a UpdateIncidentTemplate operation.
 type UpdateIncidentTemplateInput struct {
 	_                  struct{}

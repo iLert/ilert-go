@@ -359,6 +359,44 @@ func (c *Client) GetScheduleUserOnCall(input *GetScheduleUserOnCallInput) (*GetS
 	return &GetScheduleUserOnCallOutput{Shift: shift}, nil
 }
 
+// SearchScheduleInput represents the input of a SearchSchedule operation.
+type SearchScheduleInput struct {
+	_            struct{}
+	ScheduleName *string
+}
+
+// SearchScheduleOutput represents the output of a SearchSchedule operation.
+type SearchScheduleOutput struct {
+	_        struct{}
+	Schedule *Schedule
+}
+
+// SearchSchedule gets the schedule with specified name.
+func (c *Client) SearchSchedule(input *SearchScheduleInput) (*SearchScheduleOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.ScheduleName == nil {
+		return nil, errors.New("schedule name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.schedules, *input.ScheduleName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	schedule := &Schedule{}
+	err = json.Unmarshal(resp.Body(), schedule)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchScheduleOutput{Schedule: schedule}, nil
+}
+
 // UpdateScheduleInput represents the input of a UpdateSchedule operation.
 type UpdateScheduleInput struct {
 	_           struct{}

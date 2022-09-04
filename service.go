@@ -264,6 +264,44 @@ func (c *Client) GetServiceSubscribers(input *GetServiceSubscribersInput) (*GetS
 	return &GetServiceSubscribersOutput{Subscribers: subscribers}, nil
 }
 
+// SearchServiceInput represents the input of a SearchService operation.
+type SearchServiceInput struct {
+	_           struct{}
+	ServiceName *string
+}
+
+// SearchServiceOutput represents the output of a SearchService operation.
+type SearchServiceOutput struct {
+	_       struct{}
+	Service *Service
+}
+
+// SearchService gets the service with specified name.
+func (c *Client) SearchService(input *SearchServiceInput) (*SearchServiceOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.ServiceName == nil {
+		return nil, errors.New("service name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.services, *input.ServiceName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	service := &Service{}
+	err = json.Unmarshal(resp.Body(), service)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchServiceOutput{Service: service}, nil
+}
+
 // UpdateServiceInput represents the input of a UpdateService operation.
 type UpdateServiceInput struct {
 	_         struct{}
