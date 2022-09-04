@@ -208,6 +208,44 @@ func (c *Client) GetUptimeMonitors(input *GetUptimeMonitorsInput) (*GetUptimeMon
 	return &GetUptimeMonitorsOutput{UptimeMonitors: uptimeMonitors}, nil
 }
 
+// SearchUptimeMonitorInput represents the input of a SearchUptimeMonitor operation.
+type SearchUptimeMonitorInput struct {
+	_                 struct{}
+	UptimeMonitorName *string
+}
+
+// SearchUptimeMonitorOutput represents the output of a SearchUptimeMonitor operation.
+type SearchUptimeMonitorOutput struct {
+	_             struct{}
+	UptimeMonitor *UptimeMonitor
+}
+
+// SearchUptimeMonitor gets the UptimeMonitor with specified name.
+func (c *Client) SearchUptimeMonitor(input *SearchUptimeMonitorInput) (*SearchUptimeMonitorOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.UptimeMonitorName == nil {
+		return nil, errors.New("uptime monitor name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.uptimeMonitors, *input.UptimeMonitorName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	uptimeMonitor := &UptimeMonitor{}
+	err = json.Unmarshal(resp.Body(), uptimeMonitor)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchUptimeMonitorOutput{UptimeMonitor: uptimeMonitor}, nil
+}
+
 // UpdateUptimeMonitorInput represents the input of a UpdateUptimeMonitor operation.
 type UpdateUptimeMonitorInput struct {
 	_               struct{}

@@ -190,7 +190,7 @@ func (c *Client) SearchTeam(input *SearchTeamInput) (*SearchTeamOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.TeamName == nil {
-		return nil, errors.New("Team name is required")
+		return nil, errors.New("team name is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.teams, *input.TeamName))

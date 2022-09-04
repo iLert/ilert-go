@@ -316,6 +316,44 @@ func (c *Client) GetConnectors(input *GetConnectorsInput) (*GetConnectorsOutput,
 	return &GetConnectorsOutput{Connectors: connectors}, nil
 }
 
+// SearchConnectorInput represents the input of a SearchConnector operation.
+type SearchConnectorInput struct {
+	_             struct{}
+	ConnectorName *string
+}
+
+// SearchConnectorOutput represents the output of a SearchConnector operation.
+type SearchConnectorOutput struct {
+	_         struct{}
+	Connector *Connector
+}
+
+// SearchConnector gets the connector with specified name.
+func (c *Client) SearchConnector(input *SearchConnectorInput) (*SearchConnectorOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.ConnectorName == nil {
+		return nil, errors.New("Connector name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.connectors, *input.ConnectorName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	connector := &Connector{}
+	err = json.Unmarshal(resp.Body(), connector)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchConnectorOutput{Connector: connector}, nil
+}
+
 // UpdateConnectorInput represents the input of a UpdateConnector operation.
 type UpdateConnectorInput struct {
 	_           struct{}
