@@ -1,5 +1,9 @@
 # Changelog
 
+## 30.08.2022, Version 2.1.1
+
+- add various validation lists to schedule
+
 ## 26.08.2022, Version 2.1.0
 
 - add schedules

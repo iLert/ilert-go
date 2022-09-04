@@ -60,12 +60,22 @@ var ScheduleType = struct {
 	Recurring: "RECURRING",
 }
 
+var ScheduleTypeAll = []string{
+	ScheduleType.Static,
+	ScheduleType.Recurring,
+}
+
 var RestrictionType = struct {
 	TimeOfWeek string
 	TimeOfDay  string
 }{
 	TimeOfWeek: "TIME_OF_WEEK",
 	TimeOfDay:  "TIME_OF_DAY",
+}
+
+var RestrictionTypeAll = []string{
+	RestrictionType.TimeOfDay,
+	RestrictionType.TimeOfWeek,
 }
 
 var DayOfWeek = struct {
@@ -84,6 +94,16 @@ var DayOfWeek = struct {
 	Friday:    "FRIDAY",
 	Saturday:  "SATURDAY",
 	Sunday:    "SUNDAY",
+}
+
+var DayOfWeekAll = []string{
+	DayOfWeek.Monday,
+	DayOfWeek.Tuesday,
+	DayOfWeek.Wednesday,
+	DayOfWeek.Thursday,
+	DayOfWeek.Friday,
+	DayOfWeek.Saturday,
+	DayOfWeek.Sunday,
 }
 
 // CreateScheduleInput represents the input of a CreateSchedule operation.
