@@ -128,6 +128,44 @@ func (c *Client) GetEscalationPolicies(input *GetEscalationPoliciesInput) (*GetE
 	return &GetEscalationPoliciesOutput{EscalationPolicies: escalationPolicies}, nil
 }
 
+// SearchEscalationPolicyInput represents the input of a SearchEscalationPolicy operation.
+type SearchEscalationPolicyInput struct {
+	_                    struct{}
+	EscalationPolicyName *string
+}
+
+// SearchEscalationPolicyOutput represents the output of a SearchEscalationPolicy operation.
+type SearchEscalationPolicyOutput struct {
+	_                struct{}
+	EscalationPolicy *EscalationPolicy
+}
+
+// SearchEscalationPolicy gets the escalationPolicy with specified name.
+func (c *Client) SearchEscalationPolicy(input *SearchEscalationPolicyInput) (*SearchEscalationPolicyOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.EscalationPolicyName == nil {
+		return nil, errors.New("escalation policy name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.escalationPolicies, *input.EscalationPolicyName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	escalationPolicy := &EscalationPolicy{}
+	err = json.Unmarshal(resp.Body(), escalationPolicy)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchEscalationPolicyOutput{EscalationPolicy: escalationPolicy}, nil
+}
+
 // UpdateEscalationPolicyInput represents the input of a UpdateEscalationPolicy operation.
 type UpdateEscalationPolicyInput struct {
 	_                  struct{}

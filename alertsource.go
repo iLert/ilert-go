@@ -499,6 +499,44 @@ func (c *Client) GetAlertSources(input *GetAlertSourcesInput) (*GetAlertSourcesO
 	return &GetAlertSourcesOutput{AlertSources: alertSources}, nil
 }
 
+// SearchAlertSourceInput represents the input of a SearchAlertSource operation.
+type SearchAlertSourceInput struct {
+	_               struct{}
+	AlertSourceName *string
+}
+
+// SearchAlertSourceOutput represents the output of a SearchAlertSource operation.
+type SearchAlertSourceOutput struct {
+	_           struct{}
+	AlertSource *AlertSource
+}
+
+// SearchAlertSource gets the alertSource with specified name.
+func (c *Client) SearchAlertSource(input *SearchAlertSourceInput) (*SearchAlertSourceOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.AlertSourceName == nil {
+		return nil, errors.New("alert source name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.alertSources, *input.AlertSourceName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	alertSource := &AlertSource{}
+	err = json.Unmarshal(resp.Body(), alertSource)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchAlertSourceOutput{AlertSource: alertSource}, nil
+}
+
 // UpdateAlertSourceInput represents the input of a UpdateAlertSource operation.
 type UpdateAlertSourceInput struct {
 	_             struct{}
