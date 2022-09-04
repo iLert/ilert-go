@@ -228,6 +228,44 @@ func (c *Client) GetStatusPageSubscribers(input *GetStatusPageSubscribersInput) 
 	return &GetStatusPageSubscribersOutput{Subscribers: subscribers}, nil
 }
 
+// SearchStatusPageInput represents the input of a SearchStatusPage operation.
+type SearchStatusPageInput struct {
+	_              struct{}
+	StatusPageName *string
+}
+
+// SearchStatusPageOutput represents the output of a SearchStatusPage operation.
+type SearchStatusPageOutput struct {
+	_          struct{}
+	StatusPage *StatusPage
+}
+
+// SearchStatusPage gets the statusPage with specified name.
+func (c *Client) SearchStatusPage(input *SearchStatusPageInput) (*SearchStatusPageOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.StatusPageName == nil {
+		return nil, errors.New("status page name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.statusPages, *input.StatusPageName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	statusPage := &StatusPage{}
+	err = json.Unmarshal(resp.Body(), statusPage)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchStatusPageOutput{StatusPage: statusPage}, nil
+}
+
 // UpdateStatusPageInput represents the input of a UpdateStatusPage operation.
 type UpdateStatusPageInput struct {
 	_            struct{}
