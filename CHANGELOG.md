@@ -1,19 +1,8 @@
 # Changelog
 
-## 04.09.2022, Version 2.1.2
+## 04.09.2022, Version 2.2.0
 
-- improve data source search for:
-  - alert actions
-  - alert sources
-  - connectors
-  - escalation policies
-  - incident templates
-  - schedules
-  - services
-  - status pages
-  - teams
-  - uptime monitors
-  - users
+- add search by name for all entities
 
 ## 30.08.2022, Version 2.1.1
 
