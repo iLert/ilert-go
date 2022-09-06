@@ -349,7 +349,7 @@ type SearchAlertActionInput struct {
 // SearchAlertActionOutput represents the output of a SearchAlertAction operation.
 type SearchAlertActionOutput struct {
 	_           struct{}
-	AlertAction *AlertAction
+	AlertAction *AlertActionOutput
 }
 
 // SearchAlertAction gets the alertAction with specified name.
@@ -369,7 +369,7 @@ func (c *Client) SearchAlertAction(input *SearchAlertActionInput) (*SearchAlertA
 		return nil, apiErr
 	}
 
-	alertAction := &AlertAction{}
+	alertAction := &AlertActionOutput{}
 	err = json.Unmarshal(resp.Body(), alertAction)
 	if err != nil {
 		return nil, err

@@ -1,5 +1,11 @@
 # Changelog
 
+## 06.09.2022, Version 2.2.1
+
+- fix alert action search method
+- fix connector search method
+- change user search
+
 ## 04.09.2022, Version 2.2.0
 
 - add search by name for all entities

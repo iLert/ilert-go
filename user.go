@@ -268,8 +268,8 @@ func (c *Client) GetUsers(input *GetUsersInput) (*GetUsersOutput, error) {
 
 // SearchUserInput represents the input of a SearchUser operation.
 type SearchUserInput struct {
-	_        struct{}
-	UserName *string
+	_         struct{}
+	UserEmail *string
 }
 
 // SearchUserOutput represents the output of a SearchUser operation.
@@ -283,11 +283,11 @@ func (c *Client) SearchUser(input *SearchUserInput) (*SearchUserOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
-	if input.UserName == nil {
-		return nil, errors.New("username is required")
+	if input.UserEmail == nil {
+		return nil, errors.New("user email is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.users, *input.UserName))
+	resp, err := c.httpClient.R().SetBody(User{Email: *input.UserEmail}).Post(fmt.Sprintf("%s/search-email", apiRoutes.users))
 	if err != nil {
 		return nil, err
 	}
