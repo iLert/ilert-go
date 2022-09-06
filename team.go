@@ -172,6 +172,44 @@ func (c *Client) GetTeams(input *GetTeamsInput) (*GetTeamsOutput, error) {
 	return &GetTeamsOutput{Teams: teams}, nil
 }
 
+// SearchTeamInput represents the input of a SearchTeam operation.
+type SearchTeamInput struct {
+	_        struct{}
+	TeamName *string
+}
+
+// SearchTeamOutput represents the output of a SearchTeam operation.
+type SearchTeamOutput struct {
+	_    struct{}
+	Team *Team
+}
+
+// SearchTeam gets the team with specified name.
+func (c *Client) SearchTeam(input *SearchTeamInput) (*SearchTeamOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.TeamName == nil {
+		return nil, errors.New("team name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.teams, *input.TeamName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	team := &Team{}
+	err = json.Unmarshal(resp.Body(), team)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchTeamOutput{Team: team}, nil
+}
+
 // UpdateTeamInput represents the input of a UpdateTeam operation.
 type UpdateTeamInput struct {
 	_      struct{}

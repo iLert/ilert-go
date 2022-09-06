@@ -340,6 +340,44 @@ func (c *Client) GetAlertActions(input *GetAlertActionsInput) (*GetAlertActionsO
 	return &GetAlertActionsOutput{AlertActions: alertActions}, nil
 }
 
+// SearchAlertActionInput represents the input of a SearchAlertAction operation.
+type SearchAlertActionInput struct {
+	_               struct{}
+	AlertActionName *string
+}
+
+// SearchAlertActionOutput represents the output of a SearchAlertAction operation.
+type SearchAlertActionOutput struct {
+	_           struct{}
+	AlertAction *AlertAction
+}
+
+// SearchAlertAction gets the alertAction with specified name.
+func (c *Client) SearchAlertAction(input *SearchAlertActionInput) (*SearchAlertActionOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.AlertActionName == nil {
+		return nil, errors.New("alert action name is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.alertActions, *input.AlertActionName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	alertAction := &AlertAction{}
+	err = json.Unmarshal(resp.Body(), alertAction)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchAlertActionOutput{AlertAction: alertAction}, nil
+}
+
 // UpdateAlertActionInput represents the input of a UpdateAlertAction operation.
 type UpdateAlertActionInput struct {
 	_             struct{}

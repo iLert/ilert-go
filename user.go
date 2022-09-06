@@ -266,6 +266,44 @@ func (c *Client) GetUsers(input *GetUsersInput) (*GetUsersOutput, error) {
 	return &GetUsersOutput{Users: users}, nil
 }
 
+// SearchUserInput represents the input of a SearchUser operation.
+type SearchUserInput struct {
+	_        struct{}
+	UserName *string
+}
+
+// SearchUserOutput represents the output of a SearchUser operation.
+type SearchUserOutput struct {
+	_    struct{}
+	User *User
+}
+
+// SearchUser gets the user with specified name.
+func (c *Client) SearchUser(input *SearchUserInput) (*SearchUserOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.UserName == nil {
+		return nil, errors.New("username is required")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.users, *input.UserName))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	user := &User{}
+	err = json.Unmarshal(resp.Body(), user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SearchUserOutput{User: user}, nil
+}
+
 // UpdateUserInput represents the input of a UpdateUser operation.
 type UpdateUserInput struct {
 	_        struct{}

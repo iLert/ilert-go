@@ -1,5 +1,9 @@
 # Changelog
 
+## 04.09.2022, Version 2.2.0
+
+- add search by name for all entities
+
 ## 30.08.2022, Version 2.1.1
 
 - add various validation lists to schedule
