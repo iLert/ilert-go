@@ -287,7 +287,7 @@ func (c *Client) SearchUser(input *SearchUserInput) (*SearchUserOutput, error) {
 		return nil, errors.New("user email is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/email/%s", apiRoutes.users, *input.UserEmail))
+	resp, err := c.httpClient.R().SetBody(User{Email: *input.UserEmail}).Post(fmt.Sprintf("%s/search-email", apiRoutes.users))
 	if err != nil {
 		return nil, err
 	}
