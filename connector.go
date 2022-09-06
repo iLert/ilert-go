@@ -325,7 +325,7 @@ type SearchConnectorInput struct {
 // SearchConnectorOutput represents the output of a SearchConnector operation.
 type SearchConnectorOutput struct {
 	_         struct{}
-	Connector *Connector
+	Connector *ConnectorOutput
 }
 
 // SearchConnector gets the connector with specified name.
@@ -345,7 +345,7 @@ func (c *Client) SearchConnector(input *SearchConnectorInput) (*SearchConnectorO
 		return nil, apiErr
 	}
 
-	connector := &Connector{}
+	connector := &ConnectorOutput{}
 	err = json.Unmarshal(resp.Body(), connector)
 	if err != nil {
 		return nil, err
