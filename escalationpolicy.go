@@ -18,9 +18,11 @@ type EscalationPolicy struct {
 
 // EscalationRule definition
 type EscalationRule struct {
-	User              *User     `json:"user,omitempty"`
-	Schedule          *Schedule `json:"schedule,omitempty"`
-	EscalationTimeout int       `json:"escalationTimeout"`
+	User              *User      `json:"user,omitempty"`
+	Users             []User     `json:"users,omitempty"`
+	Schedule          *Schedule  `json:"schedule,omitempty"`
+	Schedules         []Schedule `json:"schedules,omitempty"`
+	EscalationTimeout int        `json:"escalationTimeout"`
 }
 
 // CreateEscalationPolicyInput represents the input of a CreateEscalationPolicy operation.
