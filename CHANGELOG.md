@@ -1,5 +1,9 @@
 # Changelog
 
+## 08.09.2022, Version 2.2.2
+
+- add fields for multiple responders in escalation rule (escalation policy)
+
 ## 06.09.2022, Version 2.2.1
 
 - fix alert action search method
