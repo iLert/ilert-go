@@ -65,6 +65,7 @@ type ConnectionOutputParams struct {
 	WebhookURL      string   `json:"webhookUrl,omitempty"`      // Custom
 	Email           string   `json:"email,omitempty"`           // Zammad
 	PageID          string   `json:"pageId,omitempty"`          // StatusPage.io
+	URL             string   `json:"url,omitempty"`             // DingTalk
 }
 
 // ConnectionParamsAutotask definition
@@ -81,6 +82,11 @@ type ConnectionParamsDatadog struct {
 	Tags     []string `json:"tags,omitempty"`
 	Priority string   `json:"priority,omitempty"` // "normal" | "low"
 	Site     string   `json:"site,omitempty"`     // `US` | `EU`
+}
+
+// ConnectionParamsDingTalkAction definition
+type ConnectionParamsDingTalkAction struct {
+	URL string `json:"url,omitempty"`
 }
 
 // ConnectionParamsJira definition

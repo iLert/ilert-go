@@ -156,6 +156,8 @@ var ConnectorTypes = struct {
 	ZoomMeeting       string
 	StatusPageIO      string
 	Webex             string
+	DingTalk          string
+	DingTalkAction    string
 }{
 	AWSLambda:         "aws_lambda",
 	AzureFAAS:         "azure_faas",
@@ -181,6 +183,8 @@ var ConnectorTypes = struct {
 	ZoomMeeting:       "zoom_meeting",
 	StatusPageIO:      "status_page_io",
 	Webex:             "webex",
+	DingTalk:          "dingtalk",
+	DingTalkAction:    "dingtalk_action",
 }
 
 // ConnectorTypesAll defines connector all types list
@@ -209,6 +213,8 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.ZoomMeeting,
 	ConnectorTypes.StatusPageIO,
 	ConnectorTypes.Webex,
+	ConnectorTypes.DingTalk,
+	ConnectorTypes.DingTalkAction,
 }
 
 // CreateConnectorInput represents the input of a CreateConnector operation.

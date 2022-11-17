@@ -1,5 +1,9 @@
 # Changelog
 
+## 17.11.2022, Version 2.2.3
+
+- add dingtalk alert action and connector support
+
 ## 08.09.2022, Version 2.2.2
 
 - add fields for multiple responders in escalation rule (escalation policy)
