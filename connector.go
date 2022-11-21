@@ -130,6 +130,9 @@ type ConnectorParamsStatusPageIO struct {
 	APIKey string `json:"apiKey"`
 }
 
+// ConnectorParamsAutomationRule definition
+type ConnectorParamsAutomationRule struct{}
+
 // ConnectorTypes defines connector types
 var ConnectorTypes = struct {
 	AWSLambda         string
@@ -158,6 +161,7 @@ var ConnectorTypes = struct {
 	Webex             string
 	DingTalk          string
 	DingTalkAction    string
+	AutomationRule    string
 }{
 	AWSLambda:         "aws_lambda",
 	AzureFAAS:         "azure_faas",
@@ -185,6 +189,7 @@ var ConnectorTypes = struct {
 	Webex:             "webex",
 	DingTalk:          "dingtalk",
 	DingTalkAction:    "dingtalk_action",
+	AutomationRule:    "automation_rule",
 }
 
 // ConnectorTypesAll defines connector all types list
@@ -215,6 +220,7 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.Webex,
 	ConnectorTypes.DingTalk,
 	ConnectorTypes.DingTalkAction,
+	ConnectorTypes.AutomationRule,
 }
 
 // CreateConnectorInput represents the input of a CreateConnector operation.

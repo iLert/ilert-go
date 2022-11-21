@@ -180,6 +180,16 @@ type AlertActionParamsStatusPageIO struct {
 	PageID string `json:"pageId,omitempty"`
 }
 
+// AlertActionParamsAutomationRule definition
+type AlertActionParamsAutomationRule struct {
+	AlertType        string  `json:"alertType"`
+	ResolveIncident  bool    `json:"resolveIncident,omitempty"`
+	ServiceStatus    string  `json:"serviceStatus"`
+	TemplateId       int64   `json:"templateId,omitempty"`
+	SendNotification bool    `json:"sendNotification,omitempty"`
+	ServiceIds       []int64 `json:"serviceIds"`
+}
+
 // AlertActionResult definition
 type AlertActionResult struct {
 	ID          string `json:"id"`
