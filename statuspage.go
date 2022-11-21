@@ -30,6 +30,7 @@ type StatusPage struct {
 	Timezone                  string      `json:"timezone,omitempty"`
 	Services                  []Service   `json:"services,omitempty"`
 	Subscribed                bool        `json:"subscribed,omitempty"`
+	IpWhitelist               []string    `json:"ipWhitelist,omitempty"`
 }
 
 // StatusPageVisibility defines status page visibility
