@@ -180,6 +180,14 @@ type AlertActionParamsStatusPageIO struct {
 	PageID string `json:"pageId,omitempty"`
 }
 
+// AlertActionParamsDingTalk definition
+type AlertActionParamsDingTalk struct {
+	URL       string   `json:"url,omitempty"`
+	Secret    string   `json:"secret,omitempty"`
+	IsAtAll   bool     `json:"isAtAll,omitempty"`
+	AtMobiles []string `json:"atMobiles,omitempty"`
+}
+
 // AlertActionParamsAutomationRule definition
 type AlertActionParamsAutomationRule struct {
 	AlertType        string  `json:"alertType"`

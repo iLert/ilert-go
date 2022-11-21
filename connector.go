@@ -130,6 +130,12 @@ type ConnectorParamsStatusPageIO struct {
 	APIKey string `json:"apiKey"`
 }
 
+// ConnectorParamsDingTalk definition
+type ConnectorParamsDingTalk struct {
+	URL    string `json:"url,omitempty"`
+	Secret string `json:"secret,omitempty"`
+}
+
 // ConnectorParamsAutomationRule definition
 type ConnectorParamsAutomationRule struct{}
 
