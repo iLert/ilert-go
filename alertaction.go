@@ -65,6 +65,7 @@ type AlertActionOutputParams struct {
 	WebhookURL      string   `json:"webhookUrl,omitempty"`      // Custom
 	Email           string   `json:"email,omitempty"`           // Zammad
 	PageID          string   `json:"pageId,omitempty"`          // StatusPage.io
+	URL             string   `json:"url,omitempty"`             // DingTalk
 }
 
 // AlertActionParamsAutotask definition
@@ -186,6 +187,11 @@ type AlertActionParamsDingTalk struct {
 	Secret    string   `json:"secret,omitempty"`
 	IsAtAll   bool     `json:"isAtAll,omitempty"`
 	AtMobiles []string `json:"atMobiles,omitempty"`
+}
+
+// AlertActionParamsDingTalkAction definition
+type AlertActionParamsDingTalkAction struct {
+	URL string `json:"url,omitempty"`
 }
 
 // AlertActionParamsAutomationRule definition
