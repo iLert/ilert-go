@@ -34,6 +34,7 @@ type ConnectorOutputParams struct {
 	Email         string `json:"email,omitempty"`         // Jira or ServiceNow or Zendesk username or email
 	Username      string `json:"username,omitempty"`      // TOPdesk or ServiceNow or Autotask username
 	Password      string `json:"password,omitempty"`      // Jira or ServiceNow or Autotask user password or api token
+	Secret        string `json:"secret,omitempty"`        // DingTalk
 }
 
 // ConnectorParamsDatadog definition
@@ -130,6 +131,12 @@ type ConnectorParamsStatusPageIO struct {
 	APIKey string `json:"apiKey"`
 }
 
+// ConnectorParamsDingTalk definition
+type ConnectorParamsDingTalk struct {
+	URL    string `json:"url,omitempty"`
+	Secret string `json:"secret,omitempty"`
+}
+
 // ConnectorTypes defines connector types
 var ConnectorTypes = struct {
 	AWSLambda         string
@@ -157,7 +164,6 @@ var ConnectorTypes = struct {
 	StatusPageIO      string
 	Webex             string
 	DingTalk          string
-	DingTalkAction    string
 }{
 	AWSLambda:         "aws_lambda",
 	AzureFAAS:         "azure_faas",
@@ -184,7 +190,6 @@ var ConnectorTypes = struct {
 	StatusPageIO:      "status_page_io",
 	Webex:             "webex",
 	DingTalk:          "dingtalk",
-	DingTalkAction:    "dingtalk_action",
 }
 
 // ConnectorTypesAll defines connector all types list
@@ -214,7 +219,6 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.StatusPageIO,
 	ConnectorTypes.Webex,
 	ConnectorTypes.DingTalk,
-	ConnectorTypes.DingTalkAction,
 }
 
 // CreateConnectorInput represents the input of a CreateConnector operation.
