@@ -24,14 +24,17 @@ type Service struct {
 
 // ServiceUptime defines services uptime
 type ServiceUptime struct {
-	UptimePercentage ServiceUptimePercentage `json:"uptimePercentage"`
+	RangeStart       string                   `json:"rangeStart"` // Date time string in ISO format
+	RangeEnd         string                   `json:"rangeEnd"`   // Date time string in ISO format
+	Outages          []ServiceOutage          `json:"outages"`
+	UptimePercentage *ServiceUptimePercentage `json:"uptimePercentage"`
 }
 
 // ServiceUptimePercentage defines service uptime percentage
 type ServiceUptimePercentage struct {
-	RangeStart string        `json:"rangeStart"` // Date time string in ISO format
-	RangeEnd   string        `json:"rangeEnd"`   // Date time string in ISO format
-	Outages    ServiceOutage `json:"outages"`
+	P90 float64 `json:"p90"`
+	P60 float64 `json:"p60"`
+	P30 float64 `json:"p30"`
 }
 
 // ServiceOutage defines services outage
