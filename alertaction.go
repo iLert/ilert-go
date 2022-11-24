@@ -8,16 +8,17 @@ import (
 
 // AlertAction definition https://api.ilert.com/api-docs/#tag/Alert-Actions
 type AlertAction struct {
-	ID             string      `json:"id,omitempty"`
-	Name           string      `json:"name"`
-	AlertSourceIDs []int64     `json:"alertSourceIds"`
-	ConnectorID    string      `json:"connectorId"`
-	ConnectorType  string      `json:"connectorType"`
-	TriggerMode    string      `json:"triggerMode"`
-	TriggerTypes   []string    `json:"triggerTypes,omitempty"`
-	CreatedAt      string      `json:"createdAt,omitempty"` // date time string in ISO 8601
-	UpdatedAt      string      `json:"updatedAt,omitempty"` // date time string in ISO 8601
-	Params         interface{} `json:"params"`
+	ID             string       `json:"id,omitempty"`
+	Name           string       `json:"name"`
+	AlertSourceIDs []int64      `json:"alertSourceIds"`
+	ConnectorID    string       `json:"connectorId"`
+	ConnectorType  string       `json:"connectorType"`
+	TriggerMode    string       `json:"triggerMode"`
+	TriggerTypes   []string     `json:"triggerTypes,omitempty"`
+	CreatedAt      string       `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt      string       `json:"updatedAt,omitempty"` // date time string in ISO 8601
+	Params         interface{}  `json:"params"`
+	AlertFilter    *AlertFilter `json:"alertFilter,omitempty"`
 }
 
 // AlertActionOutput definition https://api.ilert.com/api-docs/#tag/Alert-Actions
@@ -32,6 +33,7 @@ type AlertActionOutput struct {
 	CreatedAt      string                   `json:"createdAt"` // date time string in ISO 8601
 	UpdatedAt      string                   `json:"updatedAt"` // date time string in ISO 8601
 	Params         *AlertActionOutputParams `json:"params"`
+	AlertFilter    *AlertFilter             `json:"alertFilter,omitempty"`
 }
 
 // AlertActionOutputParams definition
@@ -223,6 +225,19 @@ type AlertActionResult struct {
 	Actor       User   `json:"actor"`
 }
 
+// AlertFilter definition
+type AlertFilter struct {
+	Operator   string                 `json:"operator"`
+	Predicates []AlertFilterPredicate `json:"predicates"`
+}
+
+// AlertFilterPredicate definition
+type AlertFilterPredicate struct {
+	Field    string `json:"field"`
+	Criteria string `json:"criteria"`
+	Value    string `json:"value"`
+}
+
 // AlertActionTriggerModes defines alertAction trigger modes
 var AlertActionTriggerModes = struct {
 	Automatic string
@@ -266,6 +281,75 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertRaised,
 	AlertActionTriggerTypes.AlertCommentAdded,
 	AlertActionTriggerTypes.AlertResolved,
+}
+
+// AlertFilterOperator defines alertFilter operator
+var AlertFilterOperator = struct {
+	And string
+	Or  string
+}{
+	And: "AND",
+	Or:  "OR",
+}
+
+// AlertFilterOperatorAll defines all alertFilter operator
+var AlertFilterOperatorAll = []string{
+	AlertFilterOperator.And,
+	AlertFilterOperator.Or,
+}
+
+// AlertFilterPredicateFields defines alertFilter predicate fields
+var AlertFilterPredicateFields = struct {
+	AlertSummary     string
+	AlertDetails     string
+	EscalationPolicy string
+	AlertPriority    string
+}{
+	AlertSummary:     "ALERT_SUMMARY",
+	AlertDetails:     "ALERT_DETAILS",
+	EscalationPolicy: "ESCALATION_POLICY",
+	AlertPriority:    "ALERT_PRIORITY",
+}
+
+// AlertFilterPredicateFieldsAll defines all alertFilter predicate fields
+var AlertFilterPredicateFieldsAll = []string{
+	AlertFilterPredicateFields.AlertSummary,
+	AlertFilterPredicateFields.AlertDetails,
+	AlertFilterPredicateFields.EscalationPolicy,
+	AlertFilterPredicateFields.AlertPriority,
+}
+
+// AlertFilterPredicateCriteria defines alertFilter predicate criteria
+var AlertFilterPredicateCriteria = struct {
+	ContainsAnyWords  string
+	ContainsNotWords  string
+	ContainsString    string
+	ContainsNotString string
+	IsString          string
+	IsNotString       string
+	MatchesRegex      string
+	MatchesNotRegex   string
+}{
+	ContainsAnyWords:  "CONTAINS_ANY_WORDS",
+	ContainsNotWords:  "CONTAINS_NOT_WORDS",
+	ContainsString:    "CONTAINS_STRING",
+	ContainsNotString: "CONTAINS_NOT_STRING",
+	IsString:          "IS_STRING",
+	IsNotString:       "IS_NOT_STRING",
+	MatchesRegex:      "MATCHES_REGEX",
+	MatchesNotRegex:   "MATCHES_NOT_REGEX",
+}
+
+// AlertFilterPredicateCriteriaAll defines all alertFilter predicate criteria
+var AlertFilterPredicateCriteriaAll = []string{
+	AlertFilterPredicateCriteria.ContainsAnyWords,
+	AlertFilterPredicateCriteria.ContainsNotWords,
+	AlertFilterPredicateCriteria.ContainsString,
+	AlertFilterPredicateCriteria.ContainsNotString,
+	AlertFilterPredicateCriteria.IsString,
+	AlertFilterPredicateCriteria.IsNotString,
+	AlertFilterPredicateCriteria.MatchesRegex,
+	AlertFilterPredicateCriteria.MatchesNotRegex,
 }
 
 // CreateAlertActionInput represents the input of a CreateAlertAction operation.
