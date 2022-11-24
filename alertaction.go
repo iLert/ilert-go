@@ -364,13 +364,13 @@ type CreateAlertActionOutput struct {
 	AlertAction *AlertActionOutput
 }
 
-// CreateAlertAction creates a new alertAction https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
+// CreateAlertAction creates a new alert action https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) CreateAlertAction(input *CreateAlertActionInput) (*CreateAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.AlertAction == nil {
-		return nil, errors.New("AlertAction input is required")
+		return nil, errors.New("alert action input is required")
 	}
 	resp, err := c.httpClient.R().SetBody(input.AlertAction).Post(apiRoutes.alertActions)
 	if err != nil {
@@ -401,13 +401,13 @@ type GetAlertActionOutput struct {
 	AlertAction *AlertActionOutput
 }
 
-// GetAlertAction gets the alertAction with specified id. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/get
+// GetAlertAction gets the alert action with specified id. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/get
 func (c *Client) GetAlertAction(input *GetAlertActionInput) (*GetAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.AlertActionID == nil {
-		return nil, errors.New("AlertAction id is required")
+		return nil, errors.New("alert action id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))
@@ -438,7 +438,7 @@ type GetAlertActionsOutput struct {
 	AlertActions []*AlertActionOutput
 }
 
-// GetAlertActions lists alertActions. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/get
+// GetAlertActions lists alert actions. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/get
 func (c *Client) GetAlertActions(input *GetAlertActionsInput) (*GetAlertActionsOutput, error) {
 	resp, err := c.httpClient.R().Get(apiRoutes.alertActions)
 	if err != nil {
@@ -469,7 +469,7 @@ type SearchAlertActionOutput struct {
 	AlertAction *AlertActionOutput
 }
 
-// SearchAlertAction gets the alertAction with specified name.
+// SearchAlertAction gets the alert action with specified name.
 func (c *Client) SearchAlertAction(input *SearchAlertActionInput) (*SearchAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -495,29 +495,29 @@ func (c *Client) SearchAlertAction(input *SearchAlertActionInput) (*SearchAlertA
 	return &SearchAlertActionOutput{AlertAction: alertAction}, nil
 }
 
-// UpdateAlertActionInput represents the input of a UpdateAlertAction operation.
+// UpdateAlertActionInput represents the input of an UpdateAlertAction operation.
 type UpdateAlertActionInput struct {
 	_             struct{}
 	AlertActionID *string
 	AlertAction   *AlertAction
 }
 
-// UpdateAlertActionOutput represents the output of a UpdateAlertAction operation.
+// UpdateAlertActionOutput represents the output of an UpdateAlertAction operation.
 type UpdateAlertActionOutput struct {
 	_           struct{}
 	AlertAction *AlertActionOutput
 }
 
-// UpdateAlertAction updates an existing alertAction. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/put
+// UpdateAlertAction updates an existing alert action. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/put
 func (c *Client) UpdateAlertAction(input *UpdateAlertActionInput) (*UpdateAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.AlertAction == nil {
-		return nil, errors.New("AlertAction input is required")
+		return nil, errors.New("alert action input is required")
 	}
 	if input.AlertActionID == nil {
-		return nil, errors.New("AlertAction id is required")
+		return nil, errors.New("alert action id is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.AlertAction).Put(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))
@@ -554,7 +554,7 @@ func (c *Client) DeleteAlertAction(input *DeleteAlertActionInput) (*DeleteAlertA
 		return nil, errors.New("input is required")
 	}
 	if input.AlertActionID == nil {
-		return nil, errors.New("AlertAction id is required")
+		return nil, errors.New("alert action id is required")
 	}
 
 	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))
