@@ -8,16 +8,17 @@ import (
 
 // AlertAction definition https://api.ilert.com/api-docs/#tag/Alert-Actions
 type AlertAction struct {
-	ID             string      `json:"id,omitempty"`
-	Name           string      `json:"name"`
-	AlertSourceIDs []int64     `json:"alertSourceIds"`
-	ConnectorID    string      `json:"connectorId"`
-	ConnectorType  string      `json:"connectorType"`
-	TriggerMode    string      `json:"triggerMode"`
-	TriggerTypes   []string    `json:"triggerTypes,omitempty"`
-	CreatedAt      string      `json:"createdAt,omitempty"` // date time string in ISO 8601
-	UpdatedAt      string      `json:"updatedAt,omitempty"` // date time string in ISO 8601
-	Params         interface{} `json:"params"`
+	ID             string       `json:"id,omitempty"`
+	Name           string       `json:"name"`
+	AlertSourceIDs []int64      `json:"alertSourceIds"`
+	ConnectorID    string       `json:"connectorId"`
+	ConnectorType  string       `json:"connectorType"`
+	TriggerMode    string       `json:"triggerMode"`
+	TriggerTypes   []string     `json:"triggerTypes,omitempty"`
+	CreatedAt      string       `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt      string       `json:"updatedAt,omitempty"` // date time string in ISO 8601
+	Params         interface{}  `json:"params"`
+	AlertFilter    *AlertFilter `json:"alertFilter,omitempty"`
 }
 
 // AlertActionOutput definition https://api.ilert.com/api-docs/#tag/Alert-Actions
@@ -32,6 +33,7 @@ type AlertActionOutput struct {
 	CreatedAt      string                   `json:"createdAt"` // date time string in ISO 8601
 	UpdatedAt      string                   `json:"updatedAt"` // date time string in ISO 8601
 	Params         *AlertActionOutputParams `json:"params"`
+	AlertFilter    *AlertFilter             `json:"alertFilter,omitempty"`
 }
 
 // AlertActionOutputParams definition
@@ -223,6 +225,19 @@ type AlertActionResult struct {
 	Actor       User   `json:"actor"`
 }
 
+// AlertFilter definition
+type AlertFilter struct {
+	Operator   string                 `json:"operator"`
+	Predicates []AlertFilterPredicate `json:"predicates"`
+}
+
+// AlertFilterPredicate definition
+type AlertFilterPredicate struct {
+	Field    string `json:"field"`
+	Criteria string `json:"criteria"`
+	Value    string `json:"value"`
+}
+
 // AlertActionTriggerModes defines alertAction trigger modes
 var AlertActionTriggerModes = struct {
 	Automatic string
@@ -268,6 +283,75 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertResolved,
 }
 
+// AlertFilterOperator defines alertFilter operator
+var AlertFilterOperator = struct {
+	And string
+	Or  string
+}{
+	And: "AND",
+	Or:  "OR",
+}
+
+// AlertFilterOperatorAll defines all alertFilter operator
+var AlertFilterOperatorAll = []string{
+	AlertFilterOperator.And,
+	AlertFilterOperator.Or,
+}
+
+// AlertFilterPredicateFields defines alertFilter predicate fields
+var AlertFilterPredicateFields = struct {
+	AlertSummary     string
+	AlertDetails     string
+	EscalationPolicy string
+	AlertPriority    string
+}{
+	AlertSummary:     "ALERT_SUMMARY",
+	AlertDetails:     "ALERT_DETAILS",
+	EscalationPolicy: "ESCALATION_POLICY",
+	AlertPriority:    "ALERT_PRIORITY",
+}
+
+// AlertFilterPredicateFieldsAll defines all alertFilter predicate fields
+var AlertFilterPredicateFieldsAll = []string{
+	AlertFilterPredicateFields.AlertSummary,
+	AlertFilterPredicateFields.AlertDetails,
+	AlertFilterPredicateFields.EscalationPolicy,
+	AlertFilterPredicateFields.AlertPriority,
+}
+
+// AlertFilterPredicateCriteria defines alertFilter predicate criteria
+var AlertFilterPredicateCriteria = struct {
+	ContainsAnyWords  string
+	ContainsNotWords  string
+	ContainsString    string
+	ContainsNotString string
+	IsString          string
+	IsNotString       string
+	MatchesRegex      string
+	MatchesNotRegex   string
+}{
+	ContainsAnyWords:  "CONTAINS_ANY_WORDS",
+	ContainsNotWords:  "CONTAINS_NOT_WORDS",
+	ContainsString:    "CONTAINS_STRING",
+	ContainsNotString: "CONTAINS_NOT_STRING",
+	IsString:          "IS_STRING",
+	IsNotString:       "IS_NOT_STRING",
+	MatchesRegex:      "MATCHES_REGEX",
+	MatchesNotRegex:   "MATCHES_NOT_REGEX",
+}
+
+// AlertFilterPredicateCriteriaAll defines all alertFilter predicate criteria
+var AlertFilterPredicateCriteriaAll = []string{
+	AlertFilterPredicateCriteria.ContainsAnyWords,
+	AlertFilterPredicateCriteria.ContainsNotWords,
+	AlertFilterPredicateCriteria.ContainsString,
+	AlertFilterPredicateCriteria.ContainsNotString,
+	AlertFilterPredicateCriteria.IsString,
+	AlertFilterPredicateCriteria.IsNotString,
+	AlertFilterPredicateCriteria.MatchesRegex,
+	AlertFilterPredicateCriteria.MatchesNotRegex,
+}
+
 // CreateAlertActionInput represents the input of a CreateAlertAction operation.
 type CreateAlertActionInput struct {
 	_           struct{}
@@ -280,13 +364,13 @@ type CreateAlertActionOutput struct {
 	AlertAction *AlertActionOutput
 }
 
-// CreateAlertAction creates a new alertAction https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
+// CreateAlertAction creates a new alert action https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) CreateAlertAction(input *CreateAlertActionInput) (*CreateAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.AlertAction == nil {
-		return nil, errors.New("AlertAction input is required")
+		return nil, errors.New("alert action input is required")
 	}
 	resp, err := c.httpClient.R().SetBody(input.AlertAction).Post(apiRoutes.alertActions)
 	if err != nil {
@@ -317,13 +401,13 @@ type GetAlertActionOutput struct {
 	AlertAction *AlertActionOutput
 }
 
-// GetAlertAction gets the alertAction with specified id. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/get
+// GetAlertAction gets the alert action with specified id. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/get
 func (c *Client) GetAlertAction(input *GetAlertActionInput) (*GetAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.AlertActionID == nil {
-		return nil, errors.New("AlertAction id is required")
+		return nil, errors.New("alert action id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))
@@ -354,7 +438,7 @@ type GetAlertActionsOutput struct {
 	AlertActions []*AlertActionOutput
 }
 
-// GetAlertActions lists alertActions. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/get
+// GetAlertActions lists alert actions. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/get
 func (c *Client) GetAlertActions(input *GetAlertActionsInput) (*GetAlertActionsOutput, error) {
 	resp, err := c.httpClient.R().Get(apiRoutes.alertActions)
 	if err != nil {
@@ -385,7 +469,7 @@ type SearchAlertActionOutput struct {
 	AlertAction *AlertActionOutput
 }
 
-// SearchAlertAction gets the alertAction with specified name.
+// SearchAlertAction gets the alert action with specified name.
 func (c *Client) SearchAlertAction(input *SearchAlertActionInput) (*SearchAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -411,29 +495,29 @@ func (c *Client) SearchAlertAction(input *SearchAlertActionInput) (*SearchAlertA
 	return &SearchAlertActionOutput{AlertAction: alertAction}, nil
 }
 
-// UpdateAlertActionInput represents the input of a UpdateAlertAction operation.
+// UpdateAlertActionInput represents the input of an UpdateAlertAction operation.
 type UpdateAlertActionInput struct {
 	_             struct{}
 	AlertActionID *string
 	AlertAction   *AlertAction
 }
 
-// UpdateAlertActionOutput represents the output of a UpdateAlertAction operation.
+// UpdateAlertActionOutput represents the output of an UpdateAlertAction operation.
 type UpdateAlertActionOutput struct {
 	_           struct{}
 	AlertAction *AlertActionOutput
 }
 
-// UpdateAlertAction updates an existing alertAction. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/put
+// UpdateAlertAction updates an existing alert action. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/put
 func (c *Client) UpdateAlertAction(input *UpdateAlertActionInput) (*UpdateAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.AlertAction == nil {
-		return nil, errors.New("AlertAction input is required")
+		return nil, errors.New("alert action input is required")
 	}
 	if input.AlertActionID == nil {
-		return nil, errors.New("AlertAction id is required")
+		return nil, errors.New("alert action id is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.AlertAction).Put(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))
@@ -470,7 +554,7 @@ func (c *Client) DeleteAlertAction(input *DeleteAlertActionInput) (*DeleteAlertA
 		return nil, errors.New("input is required")
 	}
 	if input.AlertActionID == nil {
-		return nil, errors.New("AlertAction id is required")
+		return nil, errors.New("alert action id is required")
 	}
 
 	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))
