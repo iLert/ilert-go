@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/post
+// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 type AutomationRule struct {
 	ID               string            `json:"id"`
 	AlertType        string            `json:"alertType"`
@@ -48,7 +48,7 @@ type CreateAutomationRuleOutput struct {
 	AutomationRule *AutomationRule
 }
 
-// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/post
+// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) CreateAutomationRule(input *CreateAutomationRuleInput) (*CreateAutomationRuleOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -93,7 +93,7 @@ type GetAutomationRulesOutput struct {
 	AutomationRules []*AutomationRule
 }
 
-// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/post
+// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) GetAutomationRules(input *GetAutomationRulesInput) (*GetAutomationRulesOutput, error) {
 	if input == nil {
 		input = &GetAutomationRulesInput{}
@@ -142,7 +142,7 @@ type GetAutomationRuleOutput struct {
 	AutomationRule *AutomationRule
 }
 
-// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/post
+// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) GetAutomationRule(input *GetAutomationRuleInput) (*GetAutomationRuleOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -185,7 +185,7 @@ type UpdateAutomationRuleOutput struct {
 	AutomationRule *AutomationRule
 }
 
-// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/post
+// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) UpdateAutomationRule(input *UpdateAutomationRuleInput) (*UpdateAutomationRuleOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -227,7 +227,7 @@ type DeleteAutomationRuleOutput struct {
 	_ struct{}
 }
 
-// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/post
+// Legacy API - please use alert-actions of type 'automation_rule' - for more information see https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) DeleteAutomationRule(input *DeleteAutomationRuleInput) (*DeleteAutomationRuleOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

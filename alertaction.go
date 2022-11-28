@@ -194,15 +194,16 @@ type AlertActionParamsStatusPageIO struct {
 
 // AlertActionParamsDingTalk definition
 type AlertActionParamsDingTalk struct {
-	URL       string   `json:"url,omitempty"`
-	Secret    string   `json:"secret,omitempty"`
 	IsAtAll   bool     `json:"isAtAll,omitempty"`
 	AtMobiles []string `json:"atMobiles,omitempty"`
 }
 
 // AlertActionParamsDingTalkAction definition
 type AlertActionParamsDingTalkAction struct {
-	URL string `json:"url,omitempty"`
+	URL       string   `json:"url,omitempty"`
+	Secret    string   `json:"secret,omitempty"`
+	IsAtAll   bool     `json:"isAtAll,omitempty"`
+	AtMobiles []string `json:"atMobiles,omitempty"`
 }
 
 // AlertActionParamsAutomationRule definition
@@ -262,6 +263,7 @@ var AlertActionTriggerTypes = struct {
 	AlertRaised        string
 	AlertCommentAdded  string
 	AlertResolved      string
+	AlertAutoResolved  string
 }{
 	AlertCreated:       "alert-created",
 	AlertAssigned:      "alert-assigned",
@@ -270,6 +272,7 @@ var AlertActionTriggerTypes = struct {
 	AlertRaised:        "alert-raised",
 	AlertCommentAdded:  "alert-comment-added",
 	AlertResolved:      "alert-resolved",
+	AlertAutoResolved:  "alert-auto-resolved",
 }
 
 // AlertActionTriggerTypesAll defines all alertAction trigger types
@@ -281,6 +284,7 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertRaised,
 	AlertActionTriggerTypes.AlertCommentAdded,
 	AlertActionTriggerTypes.AlertResolved,
+	AlertActionTriggerTypes.AlertAutoResolved,
 }
 
 // AlertFilterOperator defines alertFilter operator

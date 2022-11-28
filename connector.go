@@ -191,8 +191,8 @@ var ConnectorTypes = struct {
 	ZoomMeeting:       "zoom_meeting",
 	StatusPageIO:      "status_page_io",
 	Webex:             "webex",
-	DingTalk:          "ding_talk",
-	DingTalkAction:    "ding_talk_action",
+	DingTalk:          "dingtalk",
+	DingTalkAction:    "dingtalk_action",
 	AutomationRule:    "automation_rule",
 }
 
