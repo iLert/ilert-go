@@ -194,15 +194,16 @@ type AlertActionParamsStatusPageIO struct {
 
 // AlertActionParamsDingTalk definition
 type AlertActionParamsDingTalk struct {
-	URL       string   `json:"url,omitempty"`
-	Secret    string   `json:"secret,omitempty"`
 	IsAtAll   bool     `json:"isAtAll,omitempty"`
 	AtMobiles []string `json:"atMobiles,omitempty"`
 }
 
 // AlertActionParamsDingTalkAction definition
 type AlertActionParamsDingTalkAction struct {
-	URL string `json:"url,omitempty"`
+	URL       string   `json:"url,omitempty"`
+	Secret    string   `json:"secret,omitempty"`
+	IsAtAll   bool     `json:"isAtAll,omitempty"`
+	AtMobiles []string `json:"atMobiles,omitempty"`
 }
 
 // AlertActionParamsAutomationRule definition
