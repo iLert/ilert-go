@@ -263,6 +263,7 @@ var AlertActionTriggerTypes = struct {
 	AlertRaised        string
 	AlertCommentAdded  string
 	AlertResolved      string
+	AlertAutoResolved  string
 }{
 	AlertCreated:       "alert-created",
 	AlertAssigned:      "alert-assigned",
@@ -271,6 +272,7 @@ var AlertActionTriggerTypes = struct {
 	AlertRaised:        "alert-raised",
 	AlertCommentAdded:  "alert-comment-added",
 	AlertResolved:      "alert-resolved",
+	AlertAutoResolved:  "alert-auto-resolved",
 }
 
 // AlertActionTriggerTypesAll defines all alertAction trigger types
@@ -282,6 +284,7 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertRaised,
 	AlertActionTriggerTypes.AlertCommentAdded,
 	AlertActionTriggerTypes.AlertResolved,
+	AlertActionTriggerTypes.AlertAutoResolved,
 }
 
 // AlertFilterOperator defines alertFilter operator
