@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // AlertSource definition
@@ -472,6 +474,13 @@ func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutp
 // GetAlertSourcesInput represents the input of a GetAlertSources operation.
 type GetAlertSourcesInput struct {
 	_ struct{}
+
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Maximum: 50
+	MaxResults *int
 }
 
 // GetAlertSourcesOutput represents the output of a GetAlertSources operation.
@@ -482,7 +491,15 @@ type GetAlertSourcesOutput struct {
 
 // GetAlertSources lists alert sources. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources/get
 func (c *Client) GetAlertSources(input *GetAlertSourcesInput) (*GetAlertSourcesOutput, error) {
-	resp, err := c.httpClient.R().Get(apiRoutes.alertSources)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.alertSources, q.Encode()))
 	if err != nil {
 		return nil, err
 	}

@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // Team definition https://api.ilert.com/api-docs/#tag/Teams
@@ -145,6 +147,13 @@ func (c *Client) GetTeam(input *GetTeamInput) (*GetTeamOutput, error) {
 // GetTeamsInput represents the input of a GetTeams operation.
 type GetTeamsInput struct {
 	_ struct{}
+
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Maximum: 100
+	MaxResults *int
 }
 
 // GetTeamsOutput represents the output of a GetTeams operation.
@@ -155,7 +164,15 @@ type GetTeamsOutput struct {
 
 // GetTeams gets list teams. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams/get
 func (c *Client) GetTeams(input *GetTeamsInput) (*GetTeamsOutput, error) {
-	resp, err := c.httpClient.R().Get(apiRoutes.teams)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.teams, q.Encode()))
 	if err != nil {
 		return nil, err
 	}

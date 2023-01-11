@@ -224,10 +224,11 @@ func (c *Client) GetAlert(input *GetAlertInput) (*GetAlertOutput, error) {
 type GetAlertsInput struct {
 	_ struct{}
 	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	// Default: 0
 	StartIndex *int
 
 	// the maximum number of results when paging through a list of entities.
-	// Default: 50
+	// Default: 50, Maximum: 100
 	MaxResults *int
 
 	// state of the alert
@@ -264,9 +265,13 @@ func (c *Client) GetAlerts(input *GetAlertsInput) (*GetAlertsOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
 		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	} else {
+		q.Add("start-index", "0")
 	}
 	if input.MaxResults != nil {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	} else {
+		q.Add("max-results", "50")
 	}
 	if input.From != nil {
 		q.Add("from", *input.From)

@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // AlertAction definition https://api.ilert.com/api-docs/#tag/Alert-Actions
@@ -434,6 +436,14 @@ func (c *Client) GetAlertAction(input *GetAlertActionInput) (*GetAlertActionOutp
 // GetAlertActionsInput represents the input of a GetAlertActions operation.
 type GetAlertActionsInput struct {
 	_ struct{}
+
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	// Default: 0
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Default: 50, Maximum: 100
+	MaxResults *int
 }
 
 // GetAlertActionsOutput represents the output of a GetAlertActions operation.
@@ -444,7 +454,19 @@ type GetAlertActionsOutput struct {
 
 // GetAlertActions lists alert actions. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/get
 func (c *Client) GetAlertActions(input *GetAlertActionsInput) (*GetAlertActionsOutput, error) {
-	resp, err := c.httpClient.R().Get(apiRoutes.alertActions)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	} else {
+		q.Add("start-index", "0")
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	} else {
+		q.Add("max-results", "50")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.alertActions, q.Encode()))
 	if err != nil {
 		return nil, err
 	}

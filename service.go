@@ -127,10 +127,11 @@ func (c *Client) CreateService(input *CreateServiceInput) (*CreateServiceOutput,
 type GetServicesInput struct {
 	_ struct{}
 	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	// Default: 0
 	StartIndex *int
 
 	// the maximum number of results when paging through a list of entities.
-	// Default: 50, Maximum: 100
+	// Default: 10, Maximum: 25 or 100 without include
 	MaxResults *int
 
 	// describes optional properties that should be included in the response
@@ -152,9 +153,13 @@ func (c *Client) GetServices(input *GetServicesInput) (*GetServicesOutput, error
 	q := url.Values{}
 	if input.StartIndex != nil {
 		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	} else {
+		q.Add("start-index", "0")
 	}
 	if input.MaxResults != nil {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	} else {
+		q.Add("max-results", "10")
 	}
 
 	for _, include := range input.Include {

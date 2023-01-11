@@ -77,6 +77,7 @@ func (c *Client) CreateAutomationRule(input *CreateAutomationRuleInput) (*Create
 type GetAutomationRulesInput struct {
 	_ struct{}
 	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	// Default: 0
 	StartIndex *int
 
 	// the maximum number of results when paging through a list of entities.
@@ -105,9 +106,13 @@ func (c *Client) GetAutomationRules(input *GetAutomationRulesInput) (*GetAutomat
 	q := url.Values{}
 	if input.StartIndex != nil {
 		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	} else {
+		q.Add("start-index", "0")
 	}
 	if input.MaxResults != nil {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	} else {
+		q.Add("max-results", "50")
 	}
 	if input.Service != nil {
 		q.Add("service", strconv.Itoa(*input.Service))

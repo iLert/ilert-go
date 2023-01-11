@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // User definition https://api.ilert.com/api-docs/#!/Users
@@ -239,6 +241,13 @@ func (c *Client) GetUser(input *GetUserInput) (*GetUserOutput, error) {
 // GetUsersInput represents the input of a GetUsers operation.
 type GetUsersInput struct {
 	_ struct{}
+
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Maximum: 100
+	MaxResults *int
 }
 
 // GetUsersOutput represents the output of a GetUsers operation.
@@ -249,7 +258,15 @@ type GetUsersOutput struct {
 
 // GetUsers lists existing users. https://api.ilert.com/api-docs/#tag/Users/paths/~1users/get
 func (c *Client) GetUsers(input *GetUsersInput) (*GetUsersOutput, error) {
-	resp, err := c.httpClient.R().Get(apiRoutes.users)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.users, q.Encode()))
 	if err != nil {
 		return nil, err
 	}

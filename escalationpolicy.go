@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // EscalationPolicy definition https://api.ilert.com/api-docs/#!/Escalation_Policies
@@ -103,6 +105,13 @@ func (c *Client) GetEscalationPolicy(input *GetEscalationPolicyInput) (*GetEscal
 // GetEscalationPoliciesInput represents the input of a GetEscalationPolicies operation.
 type GetEscalationPoliciesInput struct {
 	_ struct{}
+
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Maximum: 50
+	MaxResults *int
 }
 
 // GetEscalationPoliciesOutput represents the output of a GetEscalationPolicies operation.
@@ -113,7 +122,15 @@ type GetEscalationPoliciesOutput struct {
 
 // GetEscalationPolicies lists escalation policies. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies/get
 func (c *Client) GetEscalationPolicies(input *GetEscalationPoliciesInput) (*GetEscalationPoliciesOutput, error) {
-	resp, err := c.httpClient.R().Get(apiRoutes.escalationPolicies)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.escalationPolicies, q.Encode()))
 	if err != nil {
 		return nil, err
 	}

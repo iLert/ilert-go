@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // Connector definition
@@ -305,6 +307,14 @@ func (c *Client) GetConnector(input *GetConnectorInput) (*GetConnectorOutput, er
 // GetConnectorsInput represents the input of a GetConnectors operation.
 type GetConnectorsInput struct {
 	_ struct{}
+
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	// Default: 0
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Default: 50, Maximum: 100
+	MaxResults *int
 }
 
 // GetConnectorsOutput represents the output of a GetConnectors operation.
@@ -315,7 +325,19 @@ type GetConnectorsOutput struct {
 
 // GetConnectors lists connectors. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/get
 func (c *Client) GetConnectors(input *GetConnectorsInput) (*GetConnectorsOutput, error) {
-	resp, err := c.httpClient.R().Get(apiRoutes.connectors)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	} else {
+		q.Add("start-index", "0")
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	} else {
+		q.Add("max-results", "50")
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.connectors, q.Encode()))
 	if err != nil {
 		return nil, err
 	}

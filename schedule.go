@@ -208,6 +208,14 @@ func (c *Client) GetSchedule(input *GetScheduleInput) (*GetScheduleOutput, error
 type GetSchedulesInput struct {
 	_ struct{}
 
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	// Default: 0
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Default: 20, Maximum: 20
+	MaxResults *int
+
 	// describes optional properties that should be included in the response
 	Include []*string
 }
@@ -225,6 +233,12 @@ func (c *Client) GetSchedules(input *GetSchedulesInput) (*GetSchedulesOutput, er
 	}
 
 	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
 
 	for _, include := range input.Include {
 		q.Add("include", *include)

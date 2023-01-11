@@ -1,5 +1,22 @@
 # Changelog
 
+## 11.01.2023, Version 2.4.0
+
+- add pagination for alert actions
+- add pagination for alert sources
+- add pagination for connectors
+- add pagination for escalation policies
+- add pagination for schedules
+- add pagination for teams
+- add pagination for uptime monitors
+- add pagination for users
+- enforce pagination for alerts
+- enforce pagination for automation rules
+- enforce pagination for incident templates
+- enforce pagination for incidents
+- enforce pagination for services
+- enforce pagination for status pages
+
 ## 17.11.2022, Version 2.2.3
 
 - add dingtalk alert action and connector support

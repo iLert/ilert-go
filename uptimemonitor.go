@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // UptimeMonitor definition https://api.ilert.com/api-docs/#tag/Uptime-Monitors
@@ -181,6 +183,13 @@ func (c *Client) GetUptimeMonitor(input *GetUptimeMonitorInput) (*GetUptimeMonit
 // GetUptimeMonitorsInput represents the input of a GetUptimeMonitors operation.
 type GetUptimeMonitorsInput struct {
 	_ struct{}
+
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Maximum: 100
+	MaxResults *int
 }
 
 // GetUptimeMonitorsOutput represents the output of a GetUptimeMonitors operation.
@@ -191,7 +200,15 @@ type GetUptimeMonitorsOutput struct {
 
 // GetUptimeMonitors gets list uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors/get
 func (c *Client) GetUptimeMonitors(input *GetUptimeMonitorsInput) (*GetUptimeMonitorsOutput, error) {
-	resp, err := c.httpClient.R().Get(apiRoutes.uptimeMonitors)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s?%s", apiRoutes.uptimeMonitors, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
