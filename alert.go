@@ -256,7 +256,7 @@ type GetAlertsOutput struct {
 	Alerts []*Alert
 }
 
-// GetAlerts lists alert sources. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts/get
+// GetAlerts lists alerts. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts/get
 func (c *Client) GetAlerts(input *GetAlertsInput) (*GetAlertsOutput, error) {
 	if input == nil {
 		input = &GetAlertsInput{}
@@ -342,7 +342,7 @@ type GetAlertsCountOutput struct {
 	Count int
 }
 
-// GetAlertsCount gets list uptime monitors. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1count/get
+// GetAlertsCount gets the alert count. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1count/get
 func (c *Client) GetAlertsCount(input *GetAlertsCountInput) (*GetAlertsCountOutput, error) {
 	if input == nil {
 		input = &GetAlertsCountInput{}
@@ -402,7 +402,7 @@ type GetAlertResponderOutput struct {
 	Responders []*AlertResponder
 }
 
-// GetAlertResponder gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1responder/get
+// GetAlertResponder gets the responders on the alert with specified id. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1suggested-responders/get
 func (c *Client) GetAlertResponder(input *GetAlertResponderInput) (*GetAlertResponderOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -420,7 +420,7 @@ func (c *Client) GetAlertResponder(input *GetAlertResponderInput) (*GetAlertResp
 		}
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/responder", apiRoutes.alerts, *input.AlertID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/suggested-responders", apiRoutes.alerts, *input.AlertID))
 	if err != nil {
 		return nil, err
 	}
@@ -453,7 +453,7 @@ type AssignAlertOutput struct {
 	Alert *Alert
 }
 
-// AssignAlert gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1assign/put
+// AssignAlert assigns an alert with specified id to specified entities. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1assign/put
 func (c *Client) AssignAlert(input *AssignAlertInput) (*AssignAlertOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -509,7 +509,7 @@ type AcceptAlertOutput struct {
 	Alert *Alert
 }
 
-// AcceptAlert gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1accept/put
+// AcceptAlert accepts an alert with specified id. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1accept/put
 func (c *Client) AcceptAlert(input *AcceptAlertInput) (*AcceptAlertOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -547,7 +547,7 @@ type ResolveAlertOutput struct {
 	Alert *Alert
 }
 
-// ResolveAlert gets the alert source with specified id. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1resolve/put
+// ResolveAlert resolves an alert with specified id. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1resolve/put
 func (c *Client) ResolveAlert(input *ResolveAlertInput) (*ResolveAlertOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

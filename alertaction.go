@@ -574,7 +574,7 @@ type DeleteAlertActionOutput struct {
 	_ struct{}
 }
 
-// DeleteAlertAction deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/delete
+// DeleteAlertAction deletes the specified alert action. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions~1{id}/delete
 func (c *Client) DeleteAlertAction(input *DeleteAlertActionInput) (*DeleteAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

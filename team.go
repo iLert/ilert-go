@@ -280,7 +280,7 @@ type DeleteTeamOutput struct {
 	_ struct{}
 }
 
-// DeleteTeam deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams~1{id}/delete
+// DeleteTeam deletes the specified team. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams~1{id}/delete
 func (c *Client) DeleteTeam(input *DeleteTeamInput) (*DeleteTeamOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
