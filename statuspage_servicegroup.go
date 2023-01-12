@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"strconv"
 )
 
 // StatusPage ServiceGroup definition https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups/post
@@ -100,7 +102,13 @@ func (c *Client) GetStatusPageServiceGroup(input *GetStatusPageServiceGroupInput
 
 // GetStatusPageServiceGroupsInput represents the input of a GetStatusPageServiceGroups operation.
 type GetStatusPageServiceGroupsInput struct {
-	_            struct{}
+	_ struct{}
+	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
+	StartIndex *int
+
+	// the maximum number of results when paging through a list of entities.
+	// Default: 50, Maximum: 100
+	MaxResults   *int
 	StatusPageID *int64
 }
 
@@ -112,7 +120,15 @@ type GetStatusPageServiceGroupsOutput struct {
 
 // GetStatusPageServiceGroups gets list of StatusPageServiceGroups. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups/get
 func (c *Client) GetStatusPageServiceGroups(input *GetStatusPageServiceGroupsInput) (*GetStatusPageServiceGroupsOutput, error) {
-	url := fmt.Sprintf("%s/%d/groups", apiRoutes.statusPages, *input.StatusPageID)
+	q := url.Values{}
+	if input.StartIndex != nil {
+		q.Add("start-index", strconv.Itoa(*input.StartIndex))
+	}
+	if input.MaxResults != nil {
+		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+
+	url := fmt.Sprintf("%s/%d/groups?%s", apiRoutes.statusPages, *input.StatusPageID, q.Encode())
 	resp, err := c.httpClient.R().Get(url)
 	if err != nil {
 		return nil, err
