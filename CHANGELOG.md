@@ -2,8 +2,8 @@
 
 ## 12.01.2023, Version 2.5.0
 
-- add status page service groups
-- add status page structure for service groups
+- add status page groups
+- add status page structure for groups
 
 ## 11.01.2023, Version 2.4.0
 
