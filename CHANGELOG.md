@@ -1,5 +1,10 @@
 # Changelog
 
+## 12.01.2023, Version 2.5.0
+
+- add status page service groups
+- add status page structure for service groups
+
 ## 11.01.2023, Version 2.4.0
 
 - add pagination for alert actions
@@ -16,6 +21,25 @@
 - enforce pagination for incidents
 - enforce pagination for services
 - enforce pagination for status pages
+
+## 28.11.2022, Version 2.3.3
+
+- fix typo in dingtalk alert action type
+
+## 25.11.2022, Version 2.3.2
+
+- add alert action alert filter
+
+## 24.11.2022, Version 2.3.1
+
+- add missing connector types for Terraform provider
+
+## 21.11.2022, Version 2.3.0
+
+- deprecate automation rule
+- add automation rule as connector type under alert action
+- add status page ip filter
+- add dingtalk as an alert action / connector
 
 ## 17.11.2022, Version 2.2.3
 
