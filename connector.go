@@ -445,7 +445,7 @@ type DeleteConnectorOutput struct {
 	_ struct{}
 }
 
-// DeleteConnector deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors~1{id}/delete
+// DeleteConnector deletes the specified connector. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors~1{id}/delete
 func (c *Client) DeleteConnector(input *DeleteConnectorInput) (*DeleteConnectorOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

@@ -8,29 +8,50 @@ import (
 	"strconv"
 )
 
-// Status-Page definition https://api.ilert.com/api-docs/#!/Status-Pages
+// StatusPage definition https://api.ilert.com/api-docs/#!/Status-Pages
 type StatusPage struct {
-	ID                        int64       `json:"id"`
-	Name                      string      `json:"name"`
-	Domain                    string      `json:"domain"`
-	Subdomain                 string      `json:"subdomain"`
-	CustomCss                 string      `json:"customCss"`
-	FaviconUrl                string      `json:"faviconUrl"`
-	LogoUrl                   string      `json:"logoUrl"`
-	Visibility                string      `json:"visibility"`
-	HiddenFromSearch          bool        `json:"hiddenFromSearch"`
-	ShowSubscribeAction       bool        `json:"showSubscribeAction"`
-	ShowIncidentHistoryOption bool        `json:"showIncidentHistoryOption"`
-	PageTitle                 string      `json:"pageTitle"`
-	PageDescription           string      `json:"pageDescription"`
-	LogoRedirectUrl           string      `json:"logoRedirectUrl"`
-	Activated                 bool        `json:"activated"`
-	Status                    string      `json:"status"`
-	Teams                     []TeamShort `json:"teams"`
-	Timezone                  string      `json:"timezone,omitempty"`
-	Services                  []Service   `json:"services,omitempty"`
-	Subscribed                bool        `json:"subscribed,omitempty"`
-	IpWhitelist               []string    `json:"ipWhitelist,omitempty"`
+	ID                        int64                `json:"id"`
+	Name                      string               `json:"name"`
+	Domain                    string               `json:"domain"`
+	Subdomain                 string               `json:"subdomain"`
+	CustomCss                 string               `json:"customCss"`
+	FaviconUrl                string               `json:"faviconUrl"`
+	LogoUrl                   string               `json:"logoUrl"`
+	Visibility                string               `json:"visibility"`
+	HiddenFromSearch          bool                 `json:"hiddenFromSearch"`
+	ShowSubscribeAction       bool                 `json:"showSubscribeAction"`
+	ShowIncidentHistoryOption bool                 `json:"showIncidentHistoryOption"`
+	PageTitle                 string               `json:"pageTitle"`
+	PageDescription           string               `json:"pageDescription"`
+	LogoRedirectUrl           string               `json:"logoRedirectUrl"`
+	Activated                 bool                 `json:"activated"`
+	Status                    string               `json:"status"`
+	Teams                     []TeamShort          `json:"teams"`
+	Timezone                  string               `json:"timezone,omitempty"`
+	Services                  []Service            `json:"services,omitempty"`
+	Subscribed                bool                 `json:"subscribed,omitempty"`
+	IpWhitelist               []string             `json:"ipWhitelist,omitempty"`
+	Structure                 *StatusPageStructure `json:"structure,omitempty"`
+}
+
+// StatusPageStructure defines status page structure
+type StatusPageStructure struct {
+	Elements []StatusPageElement
+}
+
+// StatusPageElement defines status page element
+type StatusPageElement struct {
+	// Must be either a service ID or status page service group ID.
+	// Provided service or status page service group must already be included in current status page
+	ID int64
+
+	// Must be either "SERVICE" or "GROUP", corresponding to given ID
+	Type string
+
+	// Can only contain StatusPageElement of type "SERVICE".
+	// Must not be set on type "SERVICE".
+	// Must be set on type "GROUP".
+	Children []StatusPageElement
 }
 
 // StatusPageVisibility defines status page visibility
@@ -46,6 +67,21 @@ var StatusPageVisibility = struct {
 var StatusPageVisibilityAll = []string{
 	StatusPageVisibility.Public,
 	StatusPageVisibility.Private,
+}
+
+// StatusPageElementType defines status page element type
+var StatusPageElementType = struct {
+	Service string
+	Group   string
+}{
+	Service: "SERVICE",
+	Group:   "GROUP",
+}
+
+// StatusPageElementTypeAll defines all status page element types
+var StatusPageElementTypeAll = []string{
+	StatusPageElementType.Service,
+	StatusPageElementType.Group,
 }
 
 // CreateStatusPageInput represents the input of a CreateStatusPage operation.

@@ -316,7 +316,7 @@ type DeleteUptimeMonitorOutput struct {
 	_ struct{}
 }
 
-// DeleteUptimeMonitor deletes the specified alert source. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1{id}/delete
+// DeleteUptimeMonitor deletes the specified uptime monitor. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1{id}/delete
 func (c *Client) DeleteUptimeMonitor(input *DeleteUptimeMonitorInput) (*DeleteUptimeMonitorOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
