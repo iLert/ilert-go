@@ -48,7 +48,9 @@ type StatusPageElement struct {
 	// Must be either "SERVICE" or "GROUP", corresponding to given ID
 	Type string
 
-	// Can only contain StatusPageElement of type "SERVICE"
+	// Can only contain StatusPageElement of type "SERVICE".
+	// Must not be set on type "SERVICE".
+	// Must be set on type "GROUP".
 	Children []StatusPageElement
 }
 
