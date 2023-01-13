@@ -1,5 +1,9 @@
 # Changelog
 
+## 13.01.2023, Version 2.5.1
+
+- fix missing json params in status page group
+
 ## 12.01.2023, Version 2.5.0
 
 - add status page groups
