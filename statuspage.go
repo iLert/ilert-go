@@ -36,22 +36,22 @@ type StatusPage struct {
 
 // StatusPageStructure defines status page structure
 type StatusPageStructure struct {
-	Elements []StatusPageElement
+	Elements []StatusPageElement `json:"elements"`
 }
 
 // StatusPageElement defines status page element
 type StatusPageElement struct {
 	// Must be either a service ID or status page service group ID.
 	// Provided service or status page service group must already be included in current status page
-	ID int64
+	ID int64 `json:"id"`
 
 	// Must be either "SERVICE" or "GROUP", corresponding to given ID
-	Type string
+	Type string `json:"type"`
 
 	// Can only contain StatusPageElement of type "SERVICE".
 	// Must not be set on type "SERVICE".
 	// Must be set on type "GROUP".
-	Children []StatusPageElement
+	Children []StatusPageElement `json:"children,omitempty"`
 }
 
 // StatusPageVisibility defines status page visibility
