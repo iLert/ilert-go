@@ -214,6 +214,7 @@ var apiRoutes = struct {
 	incidents          string
 	incidentTemplates  string
 	metrics            string
+	metricDataSources  string
 	numbers            string
 	schedules          string
 	services           string
@@ -234,6 +235,7 @@ var apiRoutes = struct {
 	incidents:          "/api/incidents",
 	incidentTemplates:  "/api/incident-templates",
 	metrics:            "/api/metrics",
+	metricDataSources:  "/api/metric-data-sources",
 	numbers:            "/api/numbers",
 	schedules:          "/api/schedules",
 	services:           "/api/services",

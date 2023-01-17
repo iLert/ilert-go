@@ -10,25 +10,25 @@ import (
 
 // Metric definition https://api.ilert.com/api-docs/#tag/Metrics
 type Metric struct {
-	ID                    int64             `json:"id"`
-	Name                  string            `json:"name"`
-	Description           string            `json:"description,omitempty"`
-	AggregationType       string            `json:"aggregationType"`
-	DisplayType           string            `json:"displayType"`
-	InterpolateGaps       bool              `json:"interpolateGaps,omitempty"`
-	LockYAxisMax          float64           `json:"lockYAxisMax,omitempty"`
-	LockYAxisMin          float64           `json:"lockYAxisMin,omitempty"`
-	MouseOverDecimal      int64             `json:"mouseOverDecimal,omitempty"`
-	ShowValuesOnMouseOver bool              `json:"showValuesOnMouseOver,omitempty"`
-	Teams                 *TeamShort        `json:"teams,omitempty"`
-	UnitLabel             string            `json:"unitLabel,omitempty"`
-	Metadata              *ProviderMetadata `json:"metadata,omitempty"`
-	DataSource            *MetricDataSource `json:"dataSource,omitempty"`
+	ID                    int64                   `json:"id,omitempty"`
+	Name                  string                  `json:"name"`
+	Description           string                  `json:"description,omitempty"`
+	AggregationType       string                  `json:"aggregationType"`
+	DisplayType           string                  `json:"displayType"`
+	InterpolateGaps       bool                    `json:"interpolateGaps,omitempty"`
+	LockYAxisMax          float64                 `json:"lockYAxisMax,omitempty"`
+	LockYAxisMin          float64                 `json:"lockYAxisMin,omitempty"`
+	MouseOverDecimal      int64                   `json:"mouseOverDecimal,omitempty"`
+	ShowValuesOnMouseOver bool                    `json:"showValuesOnMouseOver,omitempty"`
+	Teams                 *TeamShort              `json:"teams,omitempty"`
+	UnitLabel             string                  `json:"unitLabel,omitempty"`
+	Metadata              *MetricProviderMetadata `json:"metadata,omitempty"`
+	DataSource            *MetricDataSource       `json:"dataSource,omitempty"`
 }
 
-// ProviderMetadata defines metadata for the provider
-type ProviderMetadata struct {
-	query string `json:"query,omitempty"` // used for Datadog, Prometheus
+// MetricProviderMetadata defines provider metadata for the metric
+type MetricProviderMetadata struct {
+	Query string `json:"query,omitempty"` // used for Datadog, Prometheus
 }
 
 // MetricAggregationType defines aggregation type for the metric
@@ -88,13 +88,13 @@ func (c *Client) CreateMetric(input *CreateMetricInput) (*CreateMetricOutput, er
 		return nil, errors.New("input is required")
 	}
 	if input.Metric == nil {
-		return nil, errors.New("Metric input is required")
+		return nil, errors.New("metric input is required")
 	}
 	if input.Metric.Metadata != nil && input.Metric.DataSource == nil {
-		return nil, errors.New("Data source id is required when setting provider metadata")
+		return nil, errors.New("data source id is required when setting provider metadata")
 	}
 	if input.Metric.DataSource != nil && input.Metric.Metadata == nil {
-		return nil, errors.New("Provider metadata is required when setting metric data source")
+		return nil, errors.New("provider metadata is required when setting metric data source")
 	}
 	resp, err := c.httpClient.R().SetBody(input.Metric).Post(apiRoutes.metrics)
 	if err != nil {
@@ -275,9 +275,6 @@ func (c *Client) UpdateMetric(input *UpdateMetricInput) (*UpdateMetricOutput, er
 	}
 	if input.Metric == nil {
 		return nil, errors.New("metric input is required")
-	}
-	if input.Metric.Metadata != nil && input.Metric.DataSource == nil {
-		return nil, errors.New("Data source id is required when setting provider metadata")
 	}
 
 	url := fmt.Sprintf("%s/%d", apiRoutes.metrics, *input.MetricID)
