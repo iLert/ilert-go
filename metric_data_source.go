@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/url"
 	"strconv"
 )
@@ -13,7 +14,7 @@ type MetricDataSource struct {
 	ID       int64                     `json:"id,omitempty"`
 	Name     string                    `json:"name"`
 	Type     string                    `json:"type"`
-	Teams    *TeamShort                `json:"teams,omitempty"`
+	Teams    []TeamShort               `json:"teams,omitempty"`
 	Metadata *MetricDataSourceMetadata `json:"metadata"`
 }
 
@@ -27,6 +28,7 @@ type MetricDataSourceMetadata struct {
 	BasicPass      string `json:"basicPass,omitempty"`      // used for Prometheus
 	HeaderKey      string `json:"headerKey,omitempty"`      // used for Prometheus
 	HeaderValue    string `json:"headerValue,omitempty"`    // used for Prometheus
+	Url            string `json:"url,omitempty"`            // used for Prometheus
 }
 
 // MetricDataSourceType defines provider type of the metric data source
@@ -42,6 +44,24 @@ var MetricDataSourceType = struct {
 var MetricDataSourceAll = []string{
 	MetricDataSourceType.Datadog,
 	MetricDataSourceType.Prometheus,
+}
+
+// MetricDataSourceAuthType defines provider authentication type of the metric data source
+var MetricDataSourceAuthType = struct {
+	None   string
+	Basic  string
+	Header string
+}{
+	None:   "NONE",
+	Basic:  "BASIC",
+	Header: "HEADER",
+}
+
+// MetricDataSourceAuthType defines provider authentication type list
+var MetricDataSourceAuthTypeAll = []string{
+	MetricDataSourceAuthType.None,
+	MetricDataSourceAuthType.Basic,
+	MetricDataSourceAuthType.Header,
 }
 
 // CreateMetricDataSourceInput represents the input of a CreateMetricDataSource operation.
@@ -65,6 +85,8 @@ func (c *Client) CreateMetricDataSource(input *CreateMetricDataSourceInput) (*Cr
 		return nil, errors.New("metric data source input is required")
 	}
 
+	// log.Print(&input.MetricDataSource)
+	log.Printf(`%+v`, input.MetricDataSource.Metadata)
 	resp, err := c.httpClient.R().SetBody(input.MetricDataSource).Post(apiRoutes.metricDataSources)
 	if err != nil {
 		return nil, err

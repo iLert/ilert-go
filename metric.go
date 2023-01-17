@@ -20,7 +20,7 @@ type Metric struct {
 	LockYAxisMin          float64                 `json:"lockYAxisMin,omitempty"`
 	MouseOverDecimal      float64                 `json:"mouseOverDecimal,omitempty"`
 	ShowValuesOnMouseOver bool                    `json:"showValuesOnMouseOver,omitempty"`
-	Teams                 *TeamShort              `json:"teams,omitempty"`
+	Teams                 []TeamShort             `json:"teams,omitempty"`
 	UnitLabel             string                  `json:"unitLabel,omitempty"`
 	Metadata              *MetricProviderMetadata `json:"metadata,omitempty"`
 	DataSource            *MetricDataSource       `json:"dataSource,omitempty"`
