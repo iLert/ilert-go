@@ -217,6 +217,7 @@ var apiRoutes = struct {
 	metricDataSources  string
 	numbers            string
 	schedules          string
+	series             string
 	services           string
 	statusPages        string
 	uptimeMonitors     string
@@ -238,6 +239,7 @@ var apiRoutes = struct {
 	metricDataSources:  "/api/metric-data-sources",
 	numbers:            "/api/numbers",
 	schedules:          "/api/schedules",
+	series:             "/api/series",
 	services:           "/api/services",
 	statusPages:        "/api/status-pages",
 	uptimeMonitors:     "/api/uptime-monitors",

@@ -18,7 +18,7 @@ type Metric struct {
 	InterpolateGaps       bool                    `json:"interpolateGaps,omitempty"`
 	LockYAxisMax          float64                 `json:"lockYAxisMax,omitempty"`
 	LockYAxisMin          float64                 `json:"lockYAxisMin,omitempty"`
-	MouseOverDecimal      int64                   `json:"mouseOverDecimal,omitempty"`
+	MouseOverDecimal      float64                 `json:"mouseOverDecimal,omitempty"`
 	ShowValuesOnMouseOver bool                    `json:"showValuesOnMouseOver,omitempty"`
 	Teams                 *TeamShort              `json:"teams,omitempty"`
 	UnitLabel             string                  `json:"unitLabel,omitempty"`
