@@ -95,13 +95,13 @@ func (c *Client) CreateMetricDataSource(input *CreateMetricDataSourceInput) (*Cr
 		return nil, apiErr
 	}
 
-	metricdatasource := &MetricDataSource{}
-	err = json.Unmarshal(resp.Body(), metricdatasource)
+	metricDataSource := &MetricDataSource{}
+	err = json.Unmarshal(resp.Body(), metricDataSource)
 	if err != nil {
 		return nil, err
 	}
 
-	return &CreateMetricDataSourceOutput{MetricDataSource: metricdatasource}, nil
+	return &CreateMetricDataSourceOutput{MetricDataSource: metricDataSource}, nil
 }
 
 // GetMetricDataSourcesInput represents the input of a GetMetricDataSources operation.
@@ -148,13 +148,13 @@ func (c *Client) GetMetricDataSources(input *GetMetricDataSourcesInput) (*GetMet
 		return nil, apiErr
 	}
 
-	metricdatasources := make([]*MetricDataSource, 0)
-	err = json.Unmarshal(resp.Body(), &metricdatasources)
+	metricDataSource := make([]*MetricDataSource, 0)
+	err = json.Unmarshal(resp.Body(), &metricDataSource)
 	if err != nil {
 		return nil, err
 	}
 
-	return &GetMetricDataSourcesOutput{MetricDataSources: metricdatasources}, nil
+	return &GetMetricDataSourcesOutput{MetricDataSources: metricDataSource}, nil
 }
 
 // GetMetricDataSourceInput represents the input of a GetMetricDataSource operation.
