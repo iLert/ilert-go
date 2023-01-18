@@ -41,7 +41,7 @@ var MetricDataSourceType = struct {
 }
 
 // MetricDataSourceType defines provider type list
-var MetricDataSourceAll = []string{
+var MetricDataSourceTypeAll = []string{
 	MetricDataSourceType.Datadog,
 	MetricDataSourceType.Prometheus,
 }
