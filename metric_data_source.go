@@ -112,7 +112,7 @@ type GetMetricDataSourcesInput struct {
 	StartIndex *int
 
 	// the maximum number of results when paging through a list of entities.
-	// Default: 10, Maximum: 25 or 100 without include
+	// Default: 10, Maximum: 100
 	MaxResults *int
 }
 
