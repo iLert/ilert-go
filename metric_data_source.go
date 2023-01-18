@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/url"
 	"strconv"
 )
@@ -85,8 +84,6 @@ func (c *Client) CreateMetricDataSource(input *CreateMetricDataSourceInput) (*Cr
 		return nil, errors.New("metric data source input is required")
 	}
 
-	// log.Print(&input.MetricDataSource)
-	log.Printf(`%+v`, input.MetricDataSource.Metadata)
 	resp, err := c.httpClient.R().SetBody(input.MetricDataSource).Post(apiRoutes.metricDataSources)
 	if err != nil {
 		return nil, err
