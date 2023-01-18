@@ -1,5 +1,11 @@
 # Changelog
 
+## 17.01.2023, Version 2.6.0
+
+- add metrics
+- add metric data sources
+- add series
+
 ## 13.01.2023, Version 2.5.1
 
 - fix missing json params in status page group
