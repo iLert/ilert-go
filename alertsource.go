@@ -451,7 +451,7 @@ func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutp
 		return nil, errors.New("input is required")
 	}
 	if input.AlertSourceID == nil {
-		return nil, errors.New("AlertSource id is required")
+		return nil, errors.New("alert source id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
@@ -489,7 +489,7 @@ type GetAlertSourcesOutput struct {
 	AlertSources []*AlertSource
 }
 
-// GetAlertSources lists alert sources. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources/get
+// GetAlertSources lists existing alert sources. https://api.ilert.com/api-docs/#tag/Alert-Sources/paths/~1alert-sources/get
 func (c *Client) GetAlertSources(input *GetAlertSourcesInput) (*GetAlertSourcesOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
@@ -528,7 +528,7 @@ type SearchAlertSourceOutput struct {
 	AlertSource *AlertSource
 }
 
-// SearchAlertSource gets the alertSource with specified name.
+// SearchAlertSource gets the alert source with specified name.
 func (c *Client) SearchAlertSource(input *SearchAlertSourceInput) (*SearchAlertSourceOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -573,7 +573,7 @@ func (c *Client) UpdateAlertSource(input *UpdateAlertSourceInput) (*UpdateAlertS
 		return nil, errors.New("input is required")
 	}
 	if input.AlertSource == nil {
-		return nil, errors.New("AlertSource input is required")
+		return nil, errors.New("alert source input is required")
 	}
 	if input.AlertSourceID == nil {
 		return nil, errors.New("alert source id is required")
@@ -634,7 +634,7 @@ func (c *Client) DeleteAlertSource(input *DeleteAlertSourceInput) (*DeleteAlertS
 		return nil, errors.New("input is required")
 	}
 	if input.AlertSourceID == nil {
-		return nil, errors.New("AlertSource id is required")
+		return nil, errors.New("alert source id is required")
 	}
 
 	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))

@@ -124,7 +124,7 @@ func (c *Client) GetCurrentUser() (*GetUserOutput, error) {
 	return c.GetUser(input)
 }
 
-// GetUser gets information about a user including contact methods and notification preferences. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1{user-id}/get
+// GetUser gets the user with specified id or username. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1{user-id}/get
 func (c *Client) GetUser(input *GetUserInput) (*GetUserOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

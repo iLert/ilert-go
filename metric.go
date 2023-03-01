@@ -135,7 +135,7 @@ type GetMetricsOutput struct {
 	Metrics []*Metric
 }
 
-// GetMetrics lists metric sources. https://api.ilert.com/api-docs/#tag/Metrics/paths/~1metrics/get
+// GetMetrics lists existing metrics. https://api.ilert.com/api-docs/#tag/Metrics/paths/~1metrics/get
 func (c *Client) GetMetrics(input *GetMetricsInput) (*GetMetricsOutput, error) {
 	if input == nil {
 		input = &GetMetricsInput{}
@@ -186,7 +186,7 @@ type GetMetricOutput struct {
 	Metric *Metric
 }
 
-// GetMetric gets a metric by ID. https://api.ilert.com/api-docs/#tag/Metrics/paths/~1metrics~1{id}/get
+// GetMetric gets a metric by id. https://api.ilert.com/api-docs/#tag/Metrics/paths/~1metrics~1{id}/get
 func (c *Client) GetMetric(input *GetMetricInput) (*GetMetricOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

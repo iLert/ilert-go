@@ -31,7 +31,7 @@ type CreateIncidentTemplateOutput struct {
 	IncidentTemplate *IncidentTemplate
 }
 
-// CreateIncidentTemplate creates a new incidentTemplate. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates/post
+// CreateIncidentTemplate creates a new incident template. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates/post
 func (c *Client) CreateIncidentTemplate(input *CreateIncidentTemplateInput) (*CreateIncidentTemplateOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -74,7 +74,7 @@ type GetIncidentTemplatesOutput struct {
 	IncidentTemplates []*IncidentTemplate
 }
 
-// GetIncidentTemplates lists incidentTemplate sources. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates/get
+// GetIncidentTemplates lists existing incident templates. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates/get
 func (c *Client) GetIncidentTemplates(input *GetIncidentTemplatesInput) (*GetIncidentTemplatesOutput, error) {
 	if input == nil {
 		input = &GetIncidentTemplatesInput{}
@@ -121,13 +121,13 @@ type GetIncidentTemplateOutput struct {
 	IncidentTemplate *IncidentTemplate
 }
 
-// GetIncidentTemplate gets a incidentTemplate by ID. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates~1{id}/get
+// GetIncidentTemplate gets a incidentTemplate by id. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates~1{id}/get
 func (c *Client) GetIncidentTemplate(input *GetIncidentTemplateInput) (*GetIncidentTemplateOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.IncidentTemplateID == nil {
-		return nil, errors.New("incidentTemplate id is required")
+		return nil, errors.New("incident template id is required")
 	}
 
 	q := url.Values{}
@@ -163,7 +163,7 @@ type SearchIncidentTemplateOutput struct {
 	IncidentTemplate *IncidentTemplate
 }
 
-// SearchIncidentTemplate gets the incidentTemplate with specified name.
+// SearchIncidentTemplate gets the incident template with specified name.
 func (c *Client) SearchIncidentTemplate(input *SearchIncidentTemplateInput) (*SearchIncidentTemplateOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -202,16 +202,16 @@ type UpdateIncidentTemplateOutput struct {
 	IncidentTemplate *IncidentTemplate
 }
 
-// UpdateIncidentTemplate updates the specific incidentTemplate. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates~1{id}/put
+// UpdateIncidentTemplate updates the specific incident template. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates~1{id}/put
 func (c *Client) UpdateIncidentTemplate(input *UpdateIncidentTemplateInput) (*UpdateIncidentTemplateOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.IncidentTemplateID == nil {
-		return nil, errors.New("incidentTemplate id is required")
+		return nil, errors.New("incident template id is required")
 	}
 	if input.IncidentTemplate == nil {
-		return nil, errors.New("incidentTemplate input is required")
+		return nil, errors.New("incident template input is required")
 	}
 
 	url := fmt.Sprintf("%s/%d", apiRoutes.incidentTemplates, *input.IncidentTemplateID)
@@ -244,13 +244,13 @@ type DeleteIncidentTemplateOutput struct {
 	_ struct{}
 }
 
-// DeleteIncidentTemplate deletes the specified incidentTemplate. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates~1{id}/delete
+// DeleteIncidentTemplate deletes the specified incident template. https://api.ilert.com/api-docs/#tag/Incident-Templates/paths/~1incident-templates~1{id}/delete
 func (c *Client) DeleteIncidentTemplate(input *DeleteIncidentTemplateInput) (*DeleteIncidentTemplateOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.IncidentTemplateID == nil {
-		return nil, errors.New("incidentTemplate id is required")
+		return nil, errors.New("incident template id is required")
 	}
 
 	url := fmt.Sprintf("%s/%d", apiRoutes.incidentTemplates, *input.IncidentTemplateID)

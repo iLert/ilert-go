@@ -32,7 +32,7 @@ type GetNumbersOutput struct {
 	Numbers []*Number
 }
 
-// GetNumbers gets list available iLert phone numbers. https://api.ilert.com/api-docs/#tag/Numbers/paths/~1numbers/get
+// GetNumbers gets list available ilert phone numbers. https://api.ilert.com/api-docs/#tag/Numbers/paths/~1numbers/get
 func (c *Client) GetNumbers(input *GetNumbersInput) (*GetNumbersOutput, error) {
 	resp, err := c.httpClient.R().Get(apiRoutes.numbers)
 	if err != nil {

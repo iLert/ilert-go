@@ -28,13 +28,13 @@ type PingHeartbeatOutput struct {
 	_ struct{}
 }
 
-// PingHeartbeat gets list available iLert phone numbers. https://api.ilert.com/api-docs/#tag/Heartbeats/paths/~1heartbeats~1{key}/get
+// PingHeartbeat gets list available ilert phone numbers. https://api.ilert.com/api-docs/#tag/Heartbeats/paths/~1heartbeats~1{key}/get
 func (c *Client) PingHeartbeat(input *PingHeartbeatInput) (*PingHeartbeatOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.APIKey == nil {
-		return nil, errors.New("APIKey is required")
+		return nil, errors.New("api key is required")
 	}
 	if input.Method == nil {
 		input.Method = String(HeartbeatMethods.HEAD)

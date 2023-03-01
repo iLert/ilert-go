@@ -27,7 +27,7 @@ type CreateStatusPageGroupOutput struct {
 	StatusPageGroup *StatusPageGroup
 }
 
-// CreateStatusPageGroup creates a new StatusPageGroup. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups/post
+// CreateStatusPageGroup creates a new status page group. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups/post
 func (c *Client) CreateStatusPageGroup(input *CreateStatusPageGroupInput) (*CreateStatusPageGroupOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -70,7 +70,7 @@ type GetStatusPageGroupOutput struct {
 	StatusPageGroup *StatusPageGroup
 }
 
-// GetStatusPageGroup gets the StatusPageGroup with specified id. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups~1{group-id}/get
+// GetStatusPageGroup gets the status page group with specified id. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups~1{group-id}/get
 func (c *Client) GetStatusPageGroup(input *GetStatusPageGroupInput) (*GetStatusPageGroupOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -118,7 +118,7 @@ type GetStatusPageGroupsOutput struct {
 	StatusPageGroups []*StatusPageGroup
 }
 
-// GetStatusPageGroups gets list of StatusPageGroups. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups/get
+// GetStatusPageGroups lists existing status page groups. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups/get
 func (c *Client) GetStatusPageGroups(input *GetStatusPageGroupsInput) (*GetStatusPageGroupsOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
@@ -159,7 +159,7 @@ type SearchStatusPageGroupOutput struct {
 	StatusPageGroup *StatusPageGroup
 }
 
-// SearchStatusPageGroup gets the StatusPageGroup with specified name.
+// SearchStatusPageGroup gets the status page group with specified name.
 func (c *Client) SearchStatusPageGroup(input *SearchStatusPageGroupInput) (*SearchStatusPageGroupOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -203,7 +203,7 @@ type UpdateStatusPageGroupOutput struct {
 	StatusPageGroup *StatusPageGroup
 }
 
-// UpdateStatusPageGroup updates an existing StatusPageGroup. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups~1{group-id}/put
+// UpdateStatusPageGroup updates an existing status page group. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups~1{group-id}/put
 func (c *Client) UpdateStatusPageGroup(input *UpdateStatusPageGroupInput) (*UpdateStatusPageGroupOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -248,7 +248,7 @@ type DeleteStatusPageGroupOutput struct {
 	_ struct{}
 }
 
-// DeleteStatusPageGroup deletes the specified StatusPageGroup. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups~1{group-id}/delete
+// DeleteStatusPageGroup deletes the specified status page group. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1groups~1{group-id}/delete
 func (c *Client) DeleteStatusPageGroup(input *DeleteStatusPageGroupInput) (*DeleteStatusPageGroupOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

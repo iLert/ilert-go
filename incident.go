@@ -175,7 +175,7 @@ type GetIncidentsOutput struct {
 	Incidents []*Incident
 }
 
-// GetIncidents lists incident sources. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents/get
+// GetIncidents lists existing incidents. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents/get
 func (c *Client) GetIncidents(input *GetIncidentsInput) (*GetIncidentsOutput, error) {
 	if input == nil {
 		input = &GetIncidentsInput{}
@@ -245,7 +245,7 @@ type GetIncidentOutput struct {
 	ETag     *string
 }
 
-// GetIncident gets an incident by ID. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}/get
+// GetIncident gets an incident by id. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}/get
 func (c *Client) GetIncident(input *GetIncidentInput) (*GetIncidentOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -297,7 +297,7 @@ type GetIncidentSubscribersOutput struct {
 	Subscribers []*Subscriber
 }
 
-// GetIncidentSubscribers gets subscribers of an incident by ID. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1private-subscribers/get
+// GetIncidentSubscribers gets subscribers of an incident by id. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1{id}~1private-subscribers/get
 func (c *Client) GetIncidentSubscribers(input *GetIncidentSubscribersInput) (*GetIncidentSubscribersOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -337,7 +337,7 @@ type GetIncidentAffectedOutput struct {
 	Affected *Affected
 }
 
-// GetIncidentAffected forecasts the affected subscribers and statuspages. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1publish-info/post
+// GetIncidentAffected forecasts the affected subscribers and status pages. https://api.ilert.com/api-docs/#tag/Incidents/paths/~1incidents~1publish-info/post
 func (c *Client) GetIncidentAffected(input *GetIncidentAffectedInput) (*GetIncidentAffectedOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

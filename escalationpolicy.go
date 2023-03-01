@@ -82,7 +82,7 @@ func (c *Client) GetEscalationPolicy(input *GetEscalationPolicyInput) (*GetEscal
 		return nil, errors.New("input is required")
 	}
 	if input.EscalationPolicyID == nil {
-		return nil, errors.New("EscalationPolicy id is required")
+		return nil, errors.New("escalation policy id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.escalationPolicies, *input.EscalationPolicyID))
@@ -120,7 +120,7 @@ type GetEscalationPoliciesOutput struct {
 	EscalationPolicies []*EscalationPolicy
 }
 
-// GetEscalationPolicies lists escalation policies. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies/get
+// GetEscalationPolicies lists existing escalation policies. https://api.ilert.com/api-docs/#tag/Escalation-Policies/paths/~1escalation-policies/get
 func (c *Client) GetEscalationPolicies(input *GetEscalationPoliciesInput) (*GetEscalationPoliciesOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
@@ -204,7 +204,7 @@ func (c *Client) UpdateEscalationPolicy(input *UpdateEscalationPolicyInput) (*Up
 		return nil, errors.New("input is required")
 	}
 	if input.EscalationPolicy == nil {
-		return nil, errors.New("EscalationPolicy input is required")
+		return nil, errors.New("escalation policy input is required")
 	}
 	if input.EscalationPolicyID == nil {
 		return nil, errors.New("escalation policy id is required")
@@ -244,7 +244,7 @@ func (c *Client) DeleteEscalationPolicy(input *DeleteEscalationPolicyInput) (*De
 		return nil, errors.New("input is required")
 	}
 	if input.EscalationPolicyID == nil {
-		return nil, errors.New("EscalationPolicy id is required")
+		return nil, errors.New("escalation policy id is required")
 	}
 
 	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%d", apiRoutes.escalationPolicies, *input.EscalationPolicyID))

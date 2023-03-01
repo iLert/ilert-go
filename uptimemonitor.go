@@ -198,7 +198,7 @@ type GetUptimeMonitorsOutput struct {
 	UptimeMonitors []*UptimeMonitor
 }
 
-// GetUptimeMonitors gets list uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors/get
+// GetUptimeMonitors lists exsiting uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors/get
 func (c *Client) GetUptimeMonitors(input *GetUptimeMonitorsInput) (*GetUptimeMonitorsOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
@@ -237,7 +237,7 @@ type SearchUptimeMonitorOutput struct {
 	UptimeMonitor *UptimeMonitor
 }
 
-// SearchUptimeMonitor gets the UptimeMonitor with specified name.
+// SearchUptimeMonitor gets the uptime monitor with specified name.
 func (c *Client) SearchUptimeMonitor(input *SearchUptimeMonitorInput) (*SearchUptimeMonitorOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -322,7 +322,7 @@ func (c *Client) DeleteUptimeMonitor(input *DeleteUptimeMonitorInput) (*DeleteUp
 		return nil, errors.New("input is required")
 	}
 	if input.UptimeMonitorID == nil {
-		return nil, errors.New("UptimeMonitor id is required")
+		return nil, errors.New("uptime monitor id is required")
 	}
 
 	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%d", apiRoutes.uptimeMonitors, *input.UptimeMonitorID))
@@ -347,7 +347,7 @@ type GetUptimeMonitorsCountOutput struct {
 	Count int
 }
 
-// GetUptimeMonitorsCount gets list uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1count/get
+// GetUptimeMonitorsCount gets the count of uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors~1count/get
 func (c *Client) GetUptimeMonitorsCount(input *GetUptimeMonitorsCountInput) (*GetUptimeMonitorsCountOutput, error) {
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/count", apiRoutes.uptimeMonitors))
 	if err != nil {

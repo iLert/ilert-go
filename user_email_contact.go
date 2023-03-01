@@ -87,7 +87,7 @@ type GetUserEmailContactOutput struct {
 	UserEmailContact *UserEmailContact
 }
 
-// GetUserEmailContact gets information about an email contact of a user. https://api.ilert.com/api-docs/#tag/Contacts/paths/~1users~1{user-id}~1contacts~1emails~1{id}/get
+// GetUserEmailContact gets an email contact of a user by id. https://api.ilert.com/api-docs/#tag/Contacts/paths/~1users~1{user-id}~1contacts~1emails~1{id}/get
 func (c *Client) GetUserEmailContact(input *GetUserEmailContactInput) (*GetUserEmailContactOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

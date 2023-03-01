@@ -96,7 +96,7 @@ type CreateStatusPageOutput struct {
 	StatusPage *StatusPage
 }
 
-// CreateStatusPage creates a new status-page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages/post
+// CreateStatusPage creates a new status page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages/post
 func (c *Client) CreateStatusPage(input *CreateStatusPageInput) (*CreateStatusPageOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -142,7 +142,7 @@ type GetStatusPagesOutput struct {
 	StatusPages []*StatusPage
 }
 
-// GetStatusPages lists statusPage sources. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages/get
+// GetStatusPages lists existing status page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages/get
 func (c *Client) GetStatusPages(input *GetStatusPagesInput) (*GetStatusPagesOutput, error) {
 	if input == nil {
 		input = &GetStatusPagesInput{}
@@ -196,13 +196,13 @@ type GetStatusPageOutput struct {
 	StatusPage *StatusPage
 }
 
-// GetStatusPage gets a statuspage by ID. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/get
+// GetStatusPage gets a status page by id. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/get
 func (c *Client) GetStatusPage(input *GetStatusPageInput) (*GetStatusPageOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPageID == nil {
-		return nil, errors.New("statuspage id is required")
+		return nil, errors.New("status page id is required")
 	}
 
 	q := url.Values{}
@@ -242,13 +242,13 @@ type GetStatusPageSubscribersOutput struct {
 	Subscribers []*Subscriber
 }
 
-// GetStatusPageSubscribers gets subscribers of a statusPage by ID. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1private-subscribers/get
+// GetStatusPageSubscribers gets subscribers of a status page by id. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1private-subscribers/get
 func (c *Client) GetStatusPageSubscribers(input *GetStatusPageSubscribersInput) (*GetStatusPageSubscribersOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPageID == nil {
-		return nil, errors.New("statuspage id is required")
+		return nil, errors.New("status page id is required")
 	}
 
 	var url = fmt.Sprintf("%s/%d/private-subscribers", apiRoutes.statusPages, *input.StatusPageID)
@@ -282,7 +282,7 @@ type SearchStatusPageOutput struct {
 	StatusPage *StatusPage
 }
 
-// SearchStatusPage gets the statusPage with specified name.
+// SearchStatusPage gets the status page with specified name.
 func (c *Client) SearchStatusPage(input *SearchStatusPageInput) (*SearchStatusPageOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -321,16 +321,16 @@ type UpdateStatusPageOutput struct {
 	StatusPage *StatusPage
 }
 
-// UpdateStatusPage updates the specific statuspage. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/put
+// UpdateStatusPage updates the specific status page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/put
 func (c *Client) UpdateStatusPage(input *UpdateStatusPageInput) (*UpdateStatusPageOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPageID == nil {
-		return nil, errors.New("statuspage id is required")
+		return nil, errors.New("status page id is required")
 	}
 	if input.StatusPage == nil {
-		return nil, errors.New("statuspage input is required")
+		return nil, errors.New("status page input is required")
 	}
 
 	url := fmt.Sprintf("%s/%d", apiRoutes.statusPages, *input.StatusPageID)
@@ -364,13 +364,13 @@ type AddStatusPageSubscriberOutput struct {
 	_ struct{}
 }
 
-// AddStatusPageSubscriber adds a new subscriber to an statuspage. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1private-subscribers/post
+// AddStatusPageSubscriber adds a new subscriber to a status page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1private-subscribers/post
 func (c *Client) AddStatusPageSubscriber(input *AddStatusPageSubscribersInput) (*AddStatusPageSubscribersOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPageID == nil {
-		return nil, errors.New("statuspage id is required")
+		return nil, errors.New("status page id is required")
 	}
 	if input.Subscribers == nil {
 		return nil, errors.New("subscriber input is required")
@@ -407,13 +407,13 @@ type AddStatusPageSubscribersOutput struct {
 	_ struct{}
 }
 
-// AddStatusPageSubscribers adds a new subscriber to an statuspage. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1private-subscribers/post
+// AddStatusPageSubscribers adds a new subscriber to an status page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}~1private-subscribers/post
 func (c *Client) AddStatusPageSubscribers(input *AddStatusPageSubscribersInput) (*AddStatusPageSubscribersOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPageID == nil {
-		return nil, errors.New("statuspage id is required")
+		return nil, errors.New("status page id is required")
 	}
 	if input.Subscribers == nil {
 		return nil, errors.New("subscriber input is required")
@@ -449,13 +449,13 @@ type DeleteStatusPageOutput struct {
 	_ struct{}
 }
 
-// DeleteStatusPage deletes the specified statuspage. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/delete
+// DeleteStatusPage deletes the specified status page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/delete
 func (c *Client) DeleteStatusPage(input *DeleteStatusPageInput) (*DeleteStatusPageOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPageID == nil {
-		return nil, errors.New("statusPage id is required")
+		return nil, errors.New("status page id is required")
 	}
 
 	url := fmt.Sprintf("%s/%d", apiRoutes.statusPages, *input.StatusPageID)
@@ -484,13 +484,13 @@ type DeleteStatusPageSubscriberOutput struct {
 	_ struct{}
 }
 
-// DeleteStatusPageSubscriber deletes a subscriber of the specified statuspage. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/delete
+// DeleteStatusPageSubscriber deletes a subscriber of the specified status page. https://api.ilert.com/api-docs/#tag/Status-Pages/paths/~1status-pages~1{id}/delete
 func (c *Client) DeleteStatusSubscriberPage(input *DeleteStatusPageSubscriberInput) (*DeleteStatusPageSubscriberOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPageID == nil {
-		return nil, errors.New("statusPage id is required")
+		return nil, errors.New("status page id is required")
 	}
 	if input.Subscriber == nil {
 		return nil, errors.New("subscriber is required")

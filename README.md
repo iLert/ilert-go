@@ -2,12 +2,7 @@
 
 **The official iLert Go api bindings.**
 
-## Legacy API
-
-> If you want to use the old client with v1 resources, please install it with the following command: `go get github.com/iLert/ilert-go`
-
-
-## Create an incident (manually)
+## Create an alert (manually)
 
 ```go
 package main

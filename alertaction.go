@@ -370,7 +370,7 @@ type CreateAlertActionOutput struct {
 	AlertAction *AlertActionOutput
 }
 
-// CreateAlertAction creates a new alert action https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
+// CreateAlertAction creates a new alert action. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/post
 func (c *Client) CreateAlertAction(input *CreateAlertActionInput) (*CreateAlertActionOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -452,7 +452,7 @@ type GetAlertActionsOutput struct {
 	AlertActions []*AlertActionOutput
 }
 
-// GetAlertActions lists alert actions. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/get
+// GetAlertActions lists existing alert actions. https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alert-actions/get
 func (c *Client) GetAlertActions(input *GetAlertActionsInput) (*GetAlertActionsOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {

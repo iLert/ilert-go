@@ -87,7 +87,7 @@ func (c *Client) CreateTeam(input *CreateTeamInput) (*CreateTeamOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.Team == nil {
-		return nil, errors.New("Team input is required")
+		return nil, errors.New("team input is required")
 	}
 	resp, err := c.httpClient.R().SetBody(input.Team).Post(apiRoutes.teams)
 	if err != nil {
@@ -124,7 +124,7 @@ func (c *Client) GetTeam(input *GetTeamInput) (*GetTeamOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.TeamID == nil {
-		return nil, errors.New("Team id is required")
+		return nil, errors.New("team id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.teams, *input.TeamID))
@@ -162,7 +162,7 @@ type GetTeamsOutput struct {
 	Teams []*Team
 }
 
-// GetTeams gets list teams. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams/get
+// GetTeams lists existing teams. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams/get
 func (c *Client) GetTeams(input *GetTeamsInput) (*GetTeamsOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
@@ -246,10 +246,10 @@ func (c *Client) UpdateTeam(input *UpdateTeamInput) (*UpdateTeamOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.Team == nil {
-		return nil, errors.New("Team input is required")
+		return nil, errors.New("team input is required")
 	}
 	if input.TeamID == nil {
-		return nil, errors.New("Team id is required")
+		return nil, errors.New("team id is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.Team).Put(fmt.Sprintf("%s/%d", apiRoutes.teams, *input.TeamID))
@@ -286,7 +286,7 @@ func (c *Client) DeleteTeam(input *DeleteTeamInput) (*DeleteTeamOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.TeamID == nil {
-		return nil, errors.New("Team id is required")
+		return nil, errors.New("team id is required")
 	}
 
 	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%d", apiRoutes.teams, *input.TeamID))
