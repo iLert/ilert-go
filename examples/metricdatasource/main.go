@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/iLert/ilert-go/v2"
+	"github.com/iLert/ilert-go/v3"
 )
 
 func main() {
