@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/iLert/ilert-go/v2"
@@ -13,7 +12,7 @@ func main() {
 	result, err := client.GetCurrentUser()
 	if err != nil {
 		log.Println(result)
-		log.Fatalln("ERROR:", err)
+		log.Fatalln("ERROR:", err.Error())
 	}
-	log.Println(fmt.Sprintf("User:\n\n %+v\n", result.User))
+	log.Printf("User:\n\n %+v\n", result.User)
 }
