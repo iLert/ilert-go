@@ -25,13 +25,13 @@ func main() {
 	}
 	contact = contactResult.UserPhoneNumberContact
 
-	preference := &ilert.UserSubscriptionPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: contact}
-	preferenceInput := ilert.CreateUserSubscriptionPreferenceInput{UserID: &user.ID, UserSubscriptionPreference: preference}
-	preferenceResult, err := client.CreateUserSubscriptionPreference(&preferenceInput)
+	preference := &ilert.UserDutyPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: contact, BeforeMin: 0, Type: ilert.UserDutyPreferenceType.OnCall}
+	preferenceInput := ilert.CreateUserDutyPreferenceInput{UserID: &user.ID, UserDutyPreference: preference}
+	preferenceResult, err := client.CreateUserDutyPreference(&preferenceInput)
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err.Error())
 	}
 
-	log.Printf("User subscription notification preference successfully created!\n\n %+v\n", preferenceResult.UserSubscriptionPreference)
+	log.Printf("User duty notification preference successfully created!\n\n %+v\n", preferenceResult.UserDutyPreference)
 }
