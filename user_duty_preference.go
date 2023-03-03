@@ -70,13 +70,13 @@ func (c *Client) CreateUserDutyPreference(input *CreateUserDutyPreferenceInput) 
 		return nil, apiErr
 	}
 
-	contact := &UserDutyPreference{}
-	err = json.Unmarshal(resp.Body(), contact)
+	preference := &UserDutyPreference{}
+	err = json.Unmarshal(resp.Body(), preference)
 	if err != nil {
 		return nil, err
 	}
 
-	return &CreateUserDutyPreferenceOutput{UserDutyPreference: contact}, nil
+	return &CreateUserDutyPreferenceOutput{UserDutyPreference: preference}, nil
 }
 
 // GetUserDutyPreferenceInput represents the input of a GetUserDutyPreference operation.
@@ -113,13 +113,13 @@ func (c *Client) GetUserDutyPreference(input *GetUserDutyPreferenceInput) (*GetU
 		return nil, apiErr
 	}
 
-	contact := &UserDutyPreference{}
-	err = json.Unmarshal(resp.Body(), contact)
+	preference := &UserDutyPreference{}
+	err = json.Unmarshal(resp.Body(), preference)
 	if err != nil {
 		return nil, err
 	}
 
-	return &GetUserDutyPreferenceOutput{UserDutyPreference: contact}, nil
+	return &GetUserDutyPreferenceOutput{UserDutyPreference: preference}, nil
 }
 
 // GetUserDutyPreferencesInput represents the input of a GetUserDutyPreferences operation.
@@ -152,13 +152,13 @@ func (c *Client) GetUserDutyPreferences(input *GetUserDutyPreferencesInput) (*Ge
 		return nil, apiErr
 	}
 
-	contacts := make([]*UserDutyPreference, 0)
-	err = json.Unmarshal(resp.Body(), &contacts)
+	preferences := make([]*UserDutyPreference, 0)
+	err = json.Unmarshal(resp.Body(), &preferences)
 	if err != nil {
 		return nil, err
 	}
 
-	return &GetUserDutyPreferencesOutput{UserDutyPreferences: contacts}, nil
+	return &GetUserDutyPreferencesOutput{UserDutyPreferences: preferences}, nil
 }
 
 // UpdateUserDutyPreferenceInput represents the input of a UpdateUserDutyPreference operation.
@@ -199,13 +199,13 @@ func (c *Client) UpdateUserDutyPreference(input *UpdateUserDutyPreferenceInput) 
 		return nil, apiErr
 	}
 
-	user := &UserDutyPreference{}
-	err = json.Unmarshal(resp.Body(), user)
+	preference := &UserDutyPreference{}
+	err = json.Unmarshal(resp.Body(), preference)
 	if err != nil {
 		return nil, err
 	}
 
-	return &UpdateUserDutyPreferenceOutput{UserDutyPreference: user}, nil
+	return &UpdateUserDutyPreferenceOutput{UserDutyPreference: preference}, nil
 }
 
 // DeleteUserDutyPreferenceInput represents the input of a DeleteUserDutyPreference operation.

@@ -75,7 +75,7 @@ func NewClient(options ...ClientOptions) *Client {
 	}
 
 	c.httpClient = resty.New()
-	c.httpClient.SetHostURL(apiEndpoint)
+	c.httpClient.SetBaseURL(apiEndpoint)
 	c.httpClient.SetTimeout(apiTimeoutMs * time.Millisecond)
 	c.httpClient.SetHeader("Accept", "application/json")
 	c.httpClient.SetHeader("Content-Type", "application/json")
@@ -88,7 +88,7 @@ func NewClient(options ...ClientOptions) *Client {
 
 	endpoint := getEnv("ILERT_ENDPOINT")
 	if endpoint != nil {
-		c.httpClient.SetHostURL(*endpoint)
+		c.httpClient.SetBaseURL(*endpoint)
 	}
 
 	apiToken := getEnv("ILERT_API_TOKEN")
@@ -130,7 +130,7 @@ func WithAPIToken(apiToken string) ClientOptions {
 func WithAPIEndpoint(endpoint string) ClientOptions {
 	return func(c *Client) {
 		c.apiEndpoint = endpoint
-		c.httpClient.SetHostURL(endpoint)
+		c.httpClient.SetBaseURL(endpoint)
 	}
 }
 

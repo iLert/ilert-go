@@ -237,13 +237,13 @@ func (c *Client) UpdateUserEmailContact(input *UpdateUserEmailContactInput) (*Up
 		return nil, apiErr
 	}
 
-	user := &UserEmailContact{}
-	err = json.Unmarshal(resp.Body(), user)
+	contact := &UserEmailContact{}
+	err = json.Unmarshal(resp.Body(), contact)
 	if err != nil {
 		return nil, err
 	}
 
-	return &UpdateUserEmailContactOutput{UserEmailContact: user}, nil
+	return &UpdateUserEmailContactOutput{UserEmailContact: contact}, nil
 }
 
 // DeleteUserEmailContactInput represents the input of a DeleteUserEmailContact operation.

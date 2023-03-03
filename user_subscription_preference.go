@@ -54,13 +54,13 @@ func (c *Client) CreateUserSubscriptionPreference(input *CreateUserSubscriptionP
 		return nil, apiErr
 	}
 
-	contact := &UserSubscriptionPreference{}
-	err = json.Unmarshal(resp.Body(), contact)
+	preference := &UserSubscriptionPreference{}
+	err = json.Unmarshal(resp.Body(), preference)
 	if err != nil {
 		return nil, err
 	}
 
-	return &CreateUserSubscriptionPreferenceOutput{UserSubscriptionPreference: contact}, nil
+	return &CreateUserSubscriptionPreferenceOutput{UserSubscriptionPreference: preference}, nil
 }
 
 // GetUserSubscriptionPreferenceInput represents the input of a GetUserSubscriptionPreference operation.
@@ -97,13 +97,13 @@ func (c *Client) GetUserSubscriptionPreference(input *GetUserSubscriptionPrefere
 		return nil, apiErr
 	}
 
-	contact := &UserSubscriptionPreference{}
-	err = json.Unmarshal(resp.Body(), contact)
+	preference := &UserSubscriptionPreference{}
+	err = json.Unmarshal(resp.Body(), preference)
 	if err != nil {
 		return nil, err
 	}
 
-	return &GetUserSubscriptionPreferenceOutput{UserSubscriptionPreference: contact}, nil
+	return &GetUserSubscriptionPreferenceOutput{UserSubscriptionPreference: preference}, nil
 }
 
 // GetUserSubscriptionPreferencesInput represents the input of a GetUserSubscriptionPreferences operation.
@@ -136,13 +136,13 @@ func (c *Client) GetUserSubscriptionPreferences(input *GetUserSubscriptionPrefer
 		return nil, apiErr
 	}
 
-	contacts := make([]*UserSubscriptionPreference, 0)
-	err = json.Unmarshal(resp.Body(), &contacts)
+	preferences := make([]*UserSubscriptionPreference, 0)
+	err = json.Unmarshal(resp.Body(), &preferences)
 	if err != nil {
 		return nil, err
 	}
 
-	return &GetUserSubscriptionPreferencesOutput{UserSubscriptionPreferences: contacts}, nil
+	return &GetUserSubscriptionPreferencesOutput{UserSubscriptionPreferences: preferences}, nil
 }
 
 // UpdateUserSubscriptionPreferenceInput represents the input of a UpdateUserSubscriptionPreference operation.
@@ -183,13 +183,13 @@ func (c *Client) UpdateUserSubscriptionPreference(input *UpdateUserSubscriptionP
 		return nil, apiErr
 	}
 
-	user := &UserSubscriptionPreference{}
-	err = json.Unmarshal(resp.Body(), user)
+	preference := &UserSubscriptionPreference{}
+	err = json.Unmarshal(resp.Body(), preference)
 	if err != nil {
 		return nil, err
 	}
 
-	return &UpdateUserSubscriptionPreferenceOutput{UserSubscriptionPreference: user}, nil
+	return &UpdateUserSubscriptionPreferenceOutput{UserSubscriptionPreference: preference}, nil
 }
 
 // DeleteUserSubscriptionPreferenceInput represents the input of a DeleteUserSubscriptionPreference operation.

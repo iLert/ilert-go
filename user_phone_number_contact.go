@@ -220,13 +220,13 @@ func (c *Client) UpdateUserPhoneNumberContact(input *UpdateUserPhoneNumberContac
 		return nil, apiErr
 	}
 
-	user := &UserPhoneNumberContact{}
-	err = json.Unmarshal(resp.Body(), user)
+	contact := &UserPhoneNumberContact{}
+	err = json.Unmarshal(resp.Body(), contact)
 	if err != nil {
 		return nil, err
 	}
 
-	return &UpdateUserPhoneNumberContactOutput{UserPhoneNumberContact: user}, nil
+	return &UpdateUserPhoneNumberContactOutput{UserPhoneNumberContact: contact}, nil
 }
 
 // DeleteUserPhoneNumberContactInput represents the input of a DeleteUserPhoneNumberContact operation.
