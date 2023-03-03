@@ -8,11 +8,9 @@ import (
 
 // UserNotificationPreference definition https://api.ilert.com/api-docs/#tag/Notification-Preferences
 type UserSubscriptionPreference struct {
-	ID        int64       `json:"id,omitempty"`
-	Method    string      `json:"method"`
-	Contact   interface{} `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
-	BeforeMin int64       `json:"beforeMin"`
-	Type      string      `json:"type"`
+	ID      int64       `json:"id,omitempty"`
+	Method  string      `json:"method"`
+	Contact interface{} `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
 }
 
 // UserSubscriptionPreferenceMethodAll defines user subscription notification preference method list
@@ -20,20 +18,6 @@ var UserSubscriptionPreferenceMethodAll = []string{
 	UserPreferenceMethod.Email,
 	UserPreferenceMethod.Sms,
 	UserPreferenceMethod.Push,
-	UserPreferenceMethod.WhatsApp,
-	UserPreferenceMethod.Telegram,
-}
-
-// UserSubscriptionPreferenceType defines user subscription notification preference type
-var UserSubscriptionPreferenceType = struct {
-	OnCall string
-}{
-	OnCall: "ON_CALL",
-}
-
-// UserSubscriptionPreferenceTypeAll defines user subscription notification preference type list
-var UserSubscriptionPreferenceTypeAll = []string{
-	UserSubscriptionPreferenceType.OnCall,
 }
 
 // CreateUserSubscriptionPreferenceInput represents the input of a CreateUserSubscriptionPreference operation.
