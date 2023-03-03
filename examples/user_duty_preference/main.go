@@ -25,13 +25,13 @@ func main() {
 	}
 	contact = contactResult.UserPhoneNumberContact
 
-	preference := &ilert.UserAlertPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: contact, DelayMin: 0, Type: ilert.UserAlertPreferenceType.HighPriority}
-	preferenceInput := ilert.CreateUserAlertPreferenceInput{UserID: &user.ID, UserAlertPreference: preference}
-	preferenceResult, err := client.CreateUserAlertPreference(&preferenceInput)
+	preference := &ilert.UserDutyPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: contact, BeforeMin: 0}
+	preferenceInput := ilert.CreateUserDutyPreferenceInput{UserID: &user.ID, UserDutyPreference: preference}
+	preferenceResult, err := client.CreateUserDutyPreference(&preferenceInput)
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err.Error())
 	}
 
-	log.Printf("User alert notification preference successfully created!\n\n %+v\n", preferenceResult.UserAlertPreference)
+	log.Printf("User duty notification preference successfully created!\n\n %+v\n", preferenceResult.UserDutyPreference)
 }
