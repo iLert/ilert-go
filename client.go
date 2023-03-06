@@ -57,6 +57,18 @@ func (aerr *NotFoundAPIError) Error() string {
 	return fmt.Sprintf("Not found: api respond with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
 }
 
+// BadRequestAPIError describes not-found API response error e.g. resource deleted or never exists
+type BadRequestAPIError struct {
+	error
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+	Code    string `json:"code"`
+}
+
+func (aerr *BadRequestAPIError) Error() string {
+	return fmt.Sprintf("Bad request: api respond with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
+}
+
 // GenericCountResponse describes generic resources count response
 type GenericCountResponse struct {
 	Count int `json:"count"`
@@ -182,6 +194,14 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 		}
 		if out.Status == http.StatusNotFound {
 			return &NotFoundAPIError{
+				Status:  out.Status,
+				Code:    out.Code,
+				Message: out.Message,
+			}
+		}
+
+		if out.Status == http.StatusBadRequest {
+			return &BadRequestAPIError{
 				Status:  out.Status,
 				Code:    out.Code,
 				Message: out.Message,
