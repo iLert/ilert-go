@@ -8,9 +8,9 @@ import (
 
 // UserNotificationPreference definition https://api.ilert.com/api-docs/#tag/Notification-Preferences
 type UserSubscriptionPreference struct {
-	ID      int64       `json:"id,omitempty"`
-	Method  string      `json:"method"`
-	Contact interface{} `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
+	ID      int64             `json:"id,omitempty"`
+	Method  string            `json:"method"`
+	Contact *UserContactShort `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
 }
 
 // UserSubscriptionPreferenceMethodAll defines user subscription notification preference method list

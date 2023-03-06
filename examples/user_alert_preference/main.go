@@ -25,7 +25,7 @@ func main() {
 	}
 	contact = contactResult.UserPhoneNumberContact
 
-	preference := &ilert.UserAlertPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: contact, DelayMin: 0, Type: ilert.UserAlertPreferenceType.HighPriority}
+	preference := &ilert.UserAlertPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: &ilert.UserContactShort{ID: contact.ID}, DelayMin: 0, Type: ilert.UserAlertPreferenceType.HighPriority}
 	preferenceInput := ilert.CreateUserAlertPreferenceInput{UserID: &user.ID, UserAlertPreference: preference}
 	preferenceResult, err := client.CreateUserAlertPreference(&preferenceInput)
 	if err != nil {

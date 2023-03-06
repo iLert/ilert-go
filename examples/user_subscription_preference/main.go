@@ -25,7 +25,7 @@ func main() {
 	}
 	contact = contactResult.UserPhoneNumberContact
 
-	preference := &ilert.UserSubscriptionPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: contact}
+	preference := &ilert.UserSubscriptionPreference{Method: ilert.UserPreferenceMethod.Voice, Contact: &ilert.UserContactShort{ID: contact.ID}}
 	preferenceInput := ilert.CreateUserSubscriptionPreferenceInput{UserID: &user.ID, UserSubscriptionPreference: preference}
 	preferenceResult, err := client.CreateUserSubscriptionPreference(&preferenceInput)
 	if err != nil {

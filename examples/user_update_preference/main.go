@@ -25,7 +25,7 @@ func main() {
 	}
 	contact = contactResult.UserPhoneNumberContact
 
-	preference := &ilert.UserUpdatePreference{Method: ilert.UserPreferenceMethod.Voice, Contact: contact, Type: ilert.UserUpdatePreferenceType.AlertAccepted}
+	preference := &ilert.UserUpdatePreference{Method: ilert.UserPreferenceMethod.Voice, Contact: &ilert.UserContactShort{ID: contact.ID}, Type: ilert.UserUpdatePreferenceType.AlertAccepted}
 	preferenceInput := ilert.CreateUserUpdatePreferenceInput{UserID: &user.ID, UserUpdatePreference: preference}
 	preferenceResult, err := client.CreateUserUpdatePreference(&preferenceInput)
 	if err != nil {

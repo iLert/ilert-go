@@ -8,11 +8,15 @@ import (
 
 // UserNotificationPreference definition https://api.ilert.com/api-docs/#tag/Notification-Preferences
 type UserAlertPreference struct {
-	ID       int64       `json:"id,omitempty"`
-	Method   string      `json:"method"`
-	Contact  interface{} `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
-	DelayMin int64       `json:"delayMin"`
-	Type     string      `json:"type"`
+	ID       int64             `json:"id,omitempty"`
+	Method   string            `json:"method"`
+	Contact  *UserContactShort `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
+	DelayMin int64             `json:"delayMin"`
+	Type     string            `json:"type"`
+}
+
+type UserContactShort struct {
+	ID int64 `json:"id"`
 }
 
 // UserPreferenceMethod defines user notification preference method

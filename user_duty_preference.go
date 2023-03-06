@@ -8,11 +8,11 @@ import (
 
 // UserNotificationPreference definition https://api.ilert.com/api-docs/#tag/Notification-Preferences
 type UserDutyPreference struct {
-	ID        int64       `json:"id,omitempty"`
-	Method    string      `json:"method"`
-	Contact   interface{} `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
-	BeforeMin int64       `json:"beforeMin"`
-	Type      string      `json:"type"`
+	ID        int64             `json:"id,omitempty"`
+	Method    string            `json:"method"`
+	Contact   *UserContactShort `json:"contact"` // is either UserEmailContact or UserPhoneNumberContact
+	BeforeMin int64             `json:"beforeMin"`
+	Type      string            `json:"type"`
 }
 
 // UserDutyPreferenceMethodAll defines user duty notification preference method list
