@@ -11,17 +11,16 @@ import (
 // User definition https://api.ilert.com/api-docs/#tag/Users
 type User struct {
 	ID         int64  `json:"id,omitempty"`
-	Username   string `json:"username,omitempty"`
 	FirstName  string `json:"firstName,omitempty"`
 	LastName   string `json:"lastName,omitempty"`
+	Username   string `json:"username,omitempty"`
 	Email      string `json:"email,omitempty"`
-	Mobile     *Phone `json:"mobile,omitempty"`
-	Landline   *Phone `json:"landline,omitempty"`
+	Timezone   string `json:"timezone,omitempty"`
 	Position   string `json:"position,omitempty"`
 	Department string `json:"department,omitempty"`
-	Timezone   string `json:"timezone,omitempty"`
 	Language   string `json:"language,omitempty"`
 	Role       string `json:"role,omitempty"`
+	ShiftColor string `json:"shiftColor,omitempty"`
 }
 
 // Phone definition
