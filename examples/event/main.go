@@ -21,7 +21,7 @@ func main() {
 	result, err := client.CreateEvent(input)
 	if err != nil {
 		if apiErr, ok := err.(*ilert.GenericAPIError); ok {
-			if apiErr.Code == "NO_OPEN_INCIDENT_WITH_KEY" {
+			if apiErr.Code == "NO_OPEN_ALERT_WITH_KEY" {
 				log.Println("WARN:", apiErr.Error())
 				os.Exit(0)
 			} else {
