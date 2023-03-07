@@ -181,7 +181,7 @@ func (c *Client) SearchUserEmailContact(input *SearchUserEmailContactInput) (*Se
 		return nil, errors.New("user email contact target is required")
 	}
 
-	url := fmt.Sprintf("%s/%d/contacts/emails/name", apiRoutes.users, *input.UserID)
+	url := fmt.Sprintf("%s/%d/contacts/emails/search-target", apiRoutes.users, *input.UserID)
 	resp, err := c.httpClient.R().SetBody(UserEmailContact{Target: *input.UserEmailContactTarget}).Post(url)
 	if err != nil {
 		return nil, err

@@ -164,7 +164,7 @@ func (c *Client) SearchUserPhoneNumberContact(input *SearchUserPhoneNumberContac
 		return nil, errors.New("user phone number contact target is required")
 	}
 
-	url := fmt.Sprintf("%s/%d/contacts/phone-numbers/name", apiRoutes.users, *input.UserID)
+	url := fmt.Sprintf("%s/%d/contacts/phone-numbers/search-target", apiRoutes.users, *input.UserID)
 	resp, err := c.httpClient.R().SetBody(UserPhoneNumberContact{Target: *input.UserPhoneNumberContactTarget}).Post(url)
 	if err != nil {
 		return nil, err
