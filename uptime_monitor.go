@@ -198,7 +198,7 @@ type GetUptimeMonitorsOutput struct {
 	UptimeMonitors []*UptimeMonitor
 }
 
-// GetUptimeMonitors lists exsiting uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors/get
+// GetUptimeMonitors lists existing uptime monitors. https://api.ilert.com/api-docs/#tag/Uptime-Monitors/paths/~1uptime-monitors/get
 func (c *Client) GetUptimeMonitors(input *GetUptimeMonitorsInput) (*GetUptimeMonitorsOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
