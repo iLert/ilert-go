@@ -17,7 +17,9 @@ func main() {
 		AlertKey:  "123456",
 	}
 	input := &ilert.CreateEventInput{Event: event}
-	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second))
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second), ilert.WithAPIToken(apiToken))
+
 	result, err := client.CreateEvent(input)
 	if err != nil {
 		if apiErr, ok := err.(*ilert.GenericAPIError); ok {

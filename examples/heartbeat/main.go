@@ -8,7 +8,9 @@ import (
 
 func main() {
 	var apiKey = "heartbeat API Key"
-	client := ilert.NewClient()
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
+
 	result, err := client.PingHeartbeat(&ilert.PingHeartbeatInput{
 		APIKey: ilert.String(apiKey),
 		Method: ilert.String(ilert.HeartbeatMethods.HEAD),

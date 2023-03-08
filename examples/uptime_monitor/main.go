@@ -1,25 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/iLert/ilert-go/v3"
 )
 
 func main() {
-	var org = "your organization"
-	var username = "your username"
-	var password = "your password"
-	client := ilert.NewClient(ilert.WithBasicAuth(org, username, password))
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
+
 	result, err := client.GetUptimeMonitors(&ilert.GetUptimeMonitorsInput{})
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("Found %d uptime monitors\n\n ", len(result.UptimeMonitors)))
+	log.Printf("Found %d uptime monitors\n\n ", len(result.UptimeMonitors))
 	for _, uptimeMonitor := range result.UptimeMonitors {
-		log.Println(fmt.Sprintf("%+v\n", *uptimeMonitor))
+		log.Printf("%+v\n", *uptimeMonitor)
 	}
-
 }

@@ -1,34 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/iLert/ilert-go/v3"
 )
 
 func main() {
-	client := ilert.NewClient()
-
-	// result, err := client.GetAlertActions(&ilert.GetAlertActionsInput{})
-	// if err != nil {
-	// 	log.Println(result)
-	// 	log.Fatalln("ERROR:", err)
-	// }
-	// log.Println(fmt.Sprintf("Found %d connections\n\n ", len(result.AlertActions)))
-	// for _, connection := range result.AlertActions {
-	// 	s, _ := json.Marshal(connection)
-	// 	log.Println(fmt.Sprintf("%+v\n", string(s)))
-	// }
-
-	// log.Fatalln("STOP")
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
 
 	rep, err := client.GetEscalationPolicies(&ilert.GetEscalationPoliciesInput{})
 	if err != nil {
 		log.Println(rep)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("Found %d escalation policies\n\n ", len(rep.EscalationPolicies)))
+	log.Printf("Found %d escalation policies\n\n ", len(rep.EscalationPolicies))
 
 	if len(rep.EscalationPolicies) == 0 {
 		log.Fatalln("Escalation policy is required for this test")
@@ -47,7 +34,7 @@ func main() {
 		log.Println(ras)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("New alert source is created:\n%+v\n", *ras.AlertSource))
+	log.Printf("New alert source is created:\n%+v\n", *ras.AlertSource)
 
 	rcr, err := client.CreateConnector(&ilert.CreateConnectorInput{
 		Connector: &ilert.Connector{
@@ -62,7 +49,7 @@ func main() {
 		log.Println(rcr)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("New connector is created:\n%+v\n", *rcr.Connector))
+	log.Printf("New connector is created:\n%+v\n", *rcr.Connector)
 
 	rcn, err := client.CreateAlertAction(&ilert.CreateAlertActionInput{
 		AlertAction: &ilert.AlertAction{
@@ -82,5 +69,5 @@ func main() {
 		log.Println(rcn)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("New alert action is created:\n%+v\n", *rcn.AlertAction))
+	log.Printf("New alert action is created:\n%+v\n", *rcn.AlertAction)
 }

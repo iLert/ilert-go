@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/iLert/ilert-go/v3"
@@ -10,6 +9,7 @@ import (
 func main() {
 	var apiToken = "your API token"
 	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
+
 	newStatusPageGroup := &ilert.StatusPageGroup{
 		Name: "your status page group name",
 	}
@@ -23,5 +23,5 @@ func main() {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("Statuspage Group:\n\n %+v\n", result.StatusPageGroup))
+	log.Printf("Status page group:\n\n %+v\n", result.StatusPageGroup)
 }

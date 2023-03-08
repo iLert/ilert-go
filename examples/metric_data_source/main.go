@@ -28,5 +28,5 @@ func main() {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Printf("Metric Data Source:\n\n %+v\n", result.MetricDataSource)
+	log.Printf("Metric data source:\n\n %+v\n", result.MetricDataSource)
 }
