@@ -81,6 +81,16 @@ func main() {
 }
 ```
 
+## Versions overview
+
+If you want to use older legacy versions of ilert-go, you can access previous major versions using one of the commands below.
+
+| Version       | Description                                                                                                                       | Command                               |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| > 3.0.0       | API user preference migration - [changes](https://docs.ilert.com/rest-api/api-version-history/api-user-preference-migration-2023) | `go get github.com/iLert/ilert-go/v3` |
+| 2.0.0 - 2.6.0 | API versionless - [changes](https://docs.ilert.com/rest-api/api-version-history#renaming-incidents-to-alerts)                     | `go get github.com/iLert/ilert-go/v2` |
+| 1.0.0 - 1.6.5 | API v1 - basic legacy resources                                                                                                   | `go get github.com/iLert/ilert-go`    |
+
 ## Getting help
 
 We are happy to respond to [GitHub issues][issues] as well.
