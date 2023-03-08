@@ -1,6 +1,6 @@
 # Changelog
 
-## 08.03.2023, Version 3.0.0 - API user preference migration: see [migration changes](LINK) for a detailed migration guide
+## 08.03.2023, Version 3.0.0 - API user preference migration: see [migration changes](https://docs.ilert.com/rest-api/api-version-history/api-user-preference-migration-2023#migrating-ilert-go-and-or-terraform) for a detailed migration guide
 
 - removed notification settings fields from user resource
 - add user contacts
