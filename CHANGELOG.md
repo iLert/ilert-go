@@ -1,16 +1,16 @@
 # Changelog
 
-## 03.03.2023, Version 3.0.0 - Notification Settings 2.0
+## 03.03.2023, Version 3.0.0 - API user preference migration: see [migration changes](LINK) for a detailed migration guide
 
 - removed notification settings fields from user resource
 - add user contacts
   - email
   - phone number
 - add user notification preferences
-  - alert
+  - alert (alert creation)
   - duty (on-call)
-  - subscription
-  - update (incident communication)
+  - subscription (subscriber to incident, service, status page)
+  - update (alert update changes)
 
 ## 17.01.2023, Version 2.6.0
 

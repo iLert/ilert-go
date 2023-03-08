@@ -1,6 +1,6 @@
 # ilert-go
 
-**The official iLert Go api bindings.**
+**The official ilert Go api bindings.**
 
 ## Create an alert (manually)
 
@@ -15,7 +15,8 @@ import (
 func main() {
 
 	// We strongly recommend to enable a retry logic if an error occurs
-	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second))
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second), ilert.WithAPIToken(apiToken))
 
 	var apiKey = "alert source API Key"
 	event := &ilert.Event{
@@ -47,20 +48,18 @@ import (
 )
 
 func main() {
-
-	client := ilert.NewClient()
-
 	var apiKey = "heartbeat API Key"
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
+
 	result, err := client.PingHeartbeat(&ilert.PingHeartbeatInput{
 		APIKey: ilert.String(apiKey),
 		Method: ilert.String(ilert.HeartbeatMethods.HEAD),
 	})
-
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-
 	log.Println("Heartbeat is ok!")
 }
 ```
@@ -76,7 +75,8 @@ import (
 )
 
 func main() {
-	client := ilert.NewClient(ilert.WithProxy("http://proxyserver:8888"))
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithProxy("http://proxyserver:8888"), ilert.WithAPIToken(apiToken))
 	...
 }
 ```
