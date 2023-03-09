@@ -8,27 +8,19 @@ import (
 	"strconv"
 )
 
-// User definition https://api.ilert.com/api-docs/#!/Users
+// User definition https://api.ilert.com/api-docs/#tag/Users
 type User struct {
-	ID                                        int64                          `json:"id,omitempty"`
-	Username                                  string                         `json:"username,omitempty"`
-	FirstName                                 string                         `json:"firstName,omitempty"`
-	LastName                                  string                         `json:"lastName,omitempty"`
-	Email                                     string                         `json:"email,omitempty"`
-	Mobile                                    *Phone                         `json:"mobile,omitempty"`
-	Landline                                  *Phone                         `json:"landline,omitempty"`
-	Position                                  string                         `json:"position,omitempty"`
-	Department                                string                         `json:"department,omitempty"`
-	Timezone                                  string                         `json:"timezone,omitempty"`
-	Language                                  string                         `json:"language,omitempty"`
-	Role                                      string                         `json:"role,omitempty"`
-	NotificationPreferences                   []NotificationPreference       `json:"notificationPreferences,omitempty"`
-	LowNotificationPreferences                []NotificationPreference       `json:"lowPriorityNotificationPreferences,omitempty"`
-	OnCallNotificationPreferences             []OnCallNotificationPreference `json:"onCallNotificationPreferences,omitempty"`
-	SubscribedAlertUpdateStates               []string                       `json:"subscribedAlertUpdateStates,omitempty"`
-	SubscribedIncidentUpdateStates            []string                       `json:"subscribedIncidentUpdateStates,omitempty"` // @deprecated
-	SubscribedAlertUpdateNotificationTypes    []string                       `json:"subscribedAlertUpdateNotificationTypes,omitempty"`
-	SubscribedIncidentUpdateNotificationTypes []string                       `json:"subscribedIncidentUpdateNotificationTypes,omitempty"` // @deprecated
+	ID         int64  `json:"id,omitempty"`
+	FirstName  string `json:"firstName,omitempty"`
+	LastName   string `json:"lastName,omitempty"`
+	Username   string `json:"username,omitempty"`
+	Email      string `json:"email,omitempty"`
+	Timezone   string `json:"timezone,omitempty"`
+	Position   string `json:"position,omitempty"`
+	Department string `json:"department,omitempty"`
+	Language   string `json:"language,omitempty"`
+	Role       string `json:"role,omitempty"`
+	ShiftColor string `json:"shiftColor,omitempty"`
 }
 
 // Phone definition
@@ -37,16 +29,19 @@ type Phone struct {
 	Number     string `json:"number"`
 }
 
-// NotificationPreference definition
-type NotificationPreference struct {
-	Delay  int    `json:"delay"`
-	Method string `json:"method"` // e.g. EMAIL
+// UserLanguage defines user language
+var UserLanguage = struct {
+	English string
+	German  string
+}{
+	English: "en",
+	German:  "de",
 }
 
-// OnCallNotificationPreference definition
-type OnCallNotificationPreference struct {
-	BeforeMin int    `json:"beforeMin"`
-	Method    string `json:"method"` // e.g. EMAIL
+// UserLanguageAll defines user language list
+var UserLanguageAll = []string{
+	UserLanguage.English,
+	UserLanguage.German,
 }
 
 // UserRole defines user roles
@@ -65,69 +60,6 @@ var UserRoleAll = []string{
 	UserRole.User,
 	UserRole.Admin,
 	UserRole.Stakeholder,
-}
-
-// UserAlertUpdateStates defines user alert update states
-var UserAlertUpdateStates = struct {
-	Accepted  string
-	Escalated string
-	Resolved  string
-}{
-	Accepted:  "ACCEPTED",
-	Escalated: "ESCALATED",
-	Resolved:  "RESOLVED",
-}
-
-// UserAlertUpdateStatesAll defines user alert update states list
-var UserAlertUpdateStatesAll = []string{
-	UserAlertUpdateStates.Accepted,
-	UserAlertUpdateStates.Escalated,
-	UserAlertUpdateStates.Resolved,
-}
-
-// UserAlertUpdateNotificationTypes defines user alert update notification types
-var UserAlertUpdateNotificationTypes = struct {
-	Email         string
-	PushAndroid   string
-	PushIPhone    string
-	SMS           string
-	VoiceMobile   string
-	VoiceLandline string
-	WhatsApp      string
-}{
-	Email:         "EMAIL",
-	PushAndroid:   "ANDROID",
-	PushIPhone:    "IPHONE",
-	SMS:           "SMS",
-	VoiceMobile:   "VOICE_MOBILE",
-	VoiceLandline: "VOICE_LANDLINE",
-	WhatsApp:      "WHATSAPP",
-}
-
-// UserAlertUpdateNotificationTypesAll defines user alert update notification types list
-var UserAlertUpdateNotificationTypesAll = []string{
-	UserAlertUpdateNotificationTypes.Email,
-	UserAlertUpdateNotificationTypes.PushAndroid,
-	UserAlertUpdateNotificationTypes.PushIPhone,
-	UserAlertUpdateNotificationTypes.SMS,
-	UserAlertUpdateNotificationTypes.VoiceMobile,
-	UserAlertUpdateNotificationTypes.VoiceLandline,
-	UserAlertUpdateNotificationTypes.WhatsApp,
-}
-
-// UserLanguage defines user language
-var UserLanguage = struct {
-	English string
-	German  string
-}{
-	English: "en",
-	German:  "de",
-}
-
-// UserLanguageAll defines user language list
-var UserLanguageAll = []string{
-	UserLanguage.English,
-	UserLanguage.German,
 }
 
 // CreateUserInput represents the input of a CreateUser operation.
@@ -152,23 +84,7 @@ func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.User == nil {
-		return nil, errors.New("User input is required")
-	}
-
-	if len(input.User.SubscribedAlertUpdateNotificationTypes) > 0 && len(input.User.SubscribedIncidentUpdateNotificationTypes) > 0 {
-		input.User.SubscribedIncidentUpdateNotificationTypes = nil
-	}
-	if len(input.User.SubscribedAlertUpdateNotificationTypes) == 0 {
-		input.User.SubscribedAlertUpdateNotificationTypes = input.User.SubscribedIncidentUpdateNotificationTypes
-		input.User.SubscribedIncidentUpdateNotificationTypes = nil
-	}
-
-	if len(input.User.SubscribedAlertUpdateStates) > 0 && len(input.User.SubscribedIncidentUpdateStates) > 0 {
-		input.User.SubscribedIncidentUpdateStates = nil
-	}
-	if len(input.User.SubscribedAlertUpdateStates) == 0 {
-		input.User.SubscribedAlertUpdateStates = input.User.SubscribedIncidentUpdateStates
-		input.User.SubscribedIncidentUpdateStates = nil
+		return nil, errors.New("user input is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.User).Post(apiRoutes.users)
@@ -207,13 +123,13 @@ func (c *Client) GetCurrentUser() (*GetUserOutput, error) {
 	return c.GetUser(input)
 }
 
-// GetUser gets information about a user including contact methods and notification preferences. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1{user-id}/get
+// GetUser gets the user with specified id or username. https://api.ilert.com/api-docs/#tag/Users/paths/~1users~1{user-id}/get
 func (c *Client) GetUser(input *GetUserInput) (*GetUserOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.UserID == nil && input.Username == nil {
-		return nil, errors.New("User id or username is required")
+		return nil, errors.New("user id or username is required")
 	}
 	var url string
 	if input.UserID != nil {
@@ -350,26 +266,10 @@ func (c *Client) UpdateUser(input *UpdateUserInput) (*UpdateUserOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.User == nil {
-		return nil, errors.New("User input is required")
+		return nil, errors.New("user input is required")
 	}
 	if input.UserID == nil && input.Username == nil {
-		return nil, errors.New("User id or username is required")
-	}
-
-	if len(input.User.SubscribedAlertUpdateNotificationTypes) > 0 && len(input.User.SubscribedIncidentUpdateNotificationTypes) > 0 {
-		input.User.SubscribedIncidentUpdateNotificationTypes = nil
-	}
-	if len(input.User.SubscribedAlertUpdateNotificationTypes) == 0 {
-		input.User.SubscribedAlertUpdateNotificationTypes = input.User.SubscribedIncidentUpdateNotificationTypes
-		input.User.SubscribedIncidentUpdateNotificationTypes = nil
-	}
-
-	if len(input.User.SubscribedAlertUpdateStates) > 0 && len(input.User.SubscribedIncidentUpdateStates) > 0 {
-		input.User.SubscribedIncidentUpdateStates = nil
-	}
-	if len(input.User.SubscribedAlertUpdateStates) == 0 {
-		input.User.SubscribedAlertUpdateStates = input.User.SubscribedIncidentUpdateStates
-		input.User.SubscribedIncidentUpdateStates = nil
+		return nil, errors.New("user id or username is required")
 	}
 
 	var url string
@@ -413,7 +313,7 @@ func (c *Client) DeleteUser(input *DeleteUserInput) (*DeleteUserOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.UserID == nil && input.Username == nil {
-		return nil, errors.New("User id or username is required")
+		return nil, errors.New("user id or username is required")
 	}
 	var url string
 	if input.UserID != nil {

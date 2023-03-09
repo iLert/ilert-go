@@ -226,7 +226,7 @@ type GetSchedulesOutput struct {
 	Schedules []*Schedule
 }
 
-// GetSchedules gets list on-call schedules. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules/get
+// GetSchedules lists existing on-call schedules. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules/get
 func (c *Client) GetSchedules(input *GetSchedulesInput) (*GetSchedulesOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -276,13 +276,13 @@ type GetScheduleShiftsOutput struct {
 	Shifts []*Shift
 }
 
-// GetScheduleShifts gets shifts for the specified schedule and date range. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}~1shifts/get
+// GetScheduleShifts lists shifts for the specified schedule and date range. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}~1shifts/get
 func (c *Client) GetScheduleShifts(input *GetScheduleShiftsInput) (*GetScheduleShiftsOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.ScheduleID == nil {
-		return nil, errors.New("Schedule id is required")
+		return nil, errors.New("schedule id is required")
 	}
 
 	q := url.Values{}
@@ -325,13 +325,13 @@ type GetScheduleOverridesOutput struct {
 	Overrides []*Shift
 }
 
-// GetScheduleOverrides gets overrides for the specified schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}~1overrides/get
+// GetScheduleOverrides lists overrides for the specified schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}~1overrides/get
 func (c *Client) GetScheduleOverrides(input *GetScheduleOverridesInput) (*GetScheduleOverridesOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
 	}
 	if input.ScheduleID == nil {
-		return nil, errors.New("Schedule id is required")
+		return nil, errors.New("schedule id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/overrides", apiRoutes.schedules, *input.ScheduleID))
@@ -369,7 +369,7 @@ func (c *Client) GetScheduleUserOnCall(input *GetScheduleUserOnCallInput) (*GetS
 		return nil, errors.New("input is required")
 	}
 	if input.ScheduleID == nil {
-		return nil, errors.New("Schedule id is required")
+		return nil, errors.New("schedule id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d/user-on-call", apiRoutes.schedules, *input.ScheduleID))
@@ -445,7 +445,7 @@ type UpdateScheduleOutput struct {
 	Schedule *Schedule
 }
 
-// UpdateSchedule updates the specific Schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}/put
+// UpdateSchedule updates the specific schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}/put
 func (c *Client) UpdateSchedule(input *UpdateScheduleInput) (*UpdateScheduleOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -537,7 +537,7 @@ type DeleteScheduleOutput struct {
 	_ struct{}
 }
 
-// DeleteSchedule deletes the specified Schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}/delete
+// DeleteSchedule deletes the specified schedule. https://api.ilert.com/api-docs/#tag/Schedules/paths/~1schedules~1{id}/delete
 func (c *Client) DeleteSchedule(input *DeleteScheduleInput) (*DeleteScheduleOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

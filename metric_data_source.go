@@ -119,7 +119,7 @@ type GetMetricDataSourcesOutput struct {
 	MetricDataSources []*MetricDataSource
 }
 
-// GetMetricDataSources lists metricdatasource sources. https://api.ilert.com/api-docs/#tag/Metric-Data-Sources/paths/~1metric-data-sources/get
+// GetMetricDataSources lists existing metric data sources. https://api.ilert.com/api-docs/#tag/Metric-Data-Sources/paths/~1metric-data-sources/get
 func (c *Client) GetMetricDataSources(input *GetMetricDataSourcesInput) (*GetMetricDataSourcesOutput, error) {
 	if input == nil {
 		input = &GetMetricDataSourcesInput{}

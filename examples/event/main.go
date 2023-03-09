@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/iLert/ilert-go/v2"
+	"github.com/iLert/ilert-go/v3"
 )
 
 func main() {
@@ -17,11 +17,13 @@ func main() {
 		AlertKey:  "123456",
 	}
 	input := &ilert.CreateEventInput{Event: event}
-	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second))
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithRetry(10, 5*time.Second, 20*time.Second), ilert.WithAPIToken(apiToken))
+
 	result, err := client.CreateEvent(input)
 	if err != nil {
 		if apiErr, ok := err.(*ilert.GenericAPIError); ok {
-			if apiErr.Code == "NO_OPEN_INCIDENT_WITH_KEY" {
+			if apiErr.Code == "NO_OPEN_ALERT_WITH_KEY" {
 				log.Println("WARN:", apiErr.Error())
 				os.Exit(0)
 			} else {

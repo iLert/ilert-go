@@ -1,5 +1,17 @@
 # Changelog
 
+## 08.03.2023, Version 3.0.0 - API user preference migration: see [migration changes](https://docs.ilert.com/rest-api/api-version-history/api-user-preference-migration-2023#migrating-ilert-go-and-or-terraform) for a detailed migration guide
+
+- removed notification settings fields from user resource
+- add user contacts
+  - email
+  - phone number
+- add user notification preferences
+  - alert (alert creation)
+  - duty (on-call)
+  - subscription (subscriber to incident, service, status page)
+  - update (alert update changes)
+
 ## 17.01.2023, Version 2.6.0
 
 - add metrics
@@ -100,7 +112,7 @@
 
 - fix internal version
 
-## 30.06.2022, Version 2.0.0
+## 30.06.2022, Version 2.0.0 - API Version upgrade
 
 - add automation rules
 - add incident templates
@@ -182,19 +194,19 @@
 - add url option for create event
 - add autotask types
 
-## 9.11.2020, Version 1.1.3
+## 09.11.2020, Version 1.1.3
 
 - add integration url to alert source definition
 
-## 8.11.2020, Version 1.1.2
+## 08.11.2020, Version 1.1.2
 
 - add jira alert source type
 
-## 3.11.2020, Version 1.1.1
+## 03.11.2020, Version 1.1.1
 
 - add all connector types list
 
-## 2.11.2020, Version 1.1.0
+## 02.11.2020, Version 1.1.0
 
 - add connections
 - add connectors

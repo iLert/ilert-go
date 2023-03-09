@@ -247,7 +247,7 @@ func (c *Client) CreateConnector(input *CreateConnectorInput) (*CreateConnectorO
 		return nil, errors.New("input is required")
 	}
 	if input.Connector == nil {
-		return nil, errors.New("Connector input is required")
+		return nil, errors.New("connector input is required")
 	}
 	resp, err := c.httpClient.R().SetBody(input.Connector).Post(apiRoutes.connectors)
 	if err != nil {
@@ -284,7 +284,7 @@ func (c *Client) GetConnector(input *GetConnectorInput) (*GetConnectorOutput, er
 		return nil, errors.New("input is required")
 	}
 	if input.ConnectorID == nil {
-		return nil, errors.New("Connector id is required")
+		return nil, errors.New("connector id is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%s", apiRoutes.connectors, *input.ConnectorID))
@@ -323,7 +323,7 @@ type GetConnectorsOutput struct {
 	Connectors []*ConnectorOutput
 }
 
-// GetConnectors lists connectors. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/get
+// GetConnectors lists existing connectors. https://api.ilert.com/api-docs/#tag/Connectors/paths/~1connectors/get
 func (c *Client) GetConnectors(input *GetConnectorsInput) (*GetConnectorsOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
@@ -372,7 +372,7 @@ func (c *Client) SearchConnector(input *SearchConnectorInput) (*SearchConnectorO
 		return nil, errors.New("input is required")
 	}
 	if input.ConnectorName == nil {
-		return nil, errors.New("Connector name is required")
+		return nil, errors.New("connector name is required")
 	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.connectors, *input.ConnectorName))
@@ -411,10 +411,10 @@ func (c *Client) UpdateConnector(input *UpdateConnectorInput) (*UpdateConnectorO
 		return nil, errors.New("input is required")
 	}
 	if input.Connector == nil {
-		return nil, errors.New("Connector input is required")
+		return nil, errors.New("connector input is required")
 	}
 	if input.ConnectorID == nil {
-		return nil, errors.New("Connector id is required")
+		return nil, errors.New("connector id is required")
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.Connector).Put(fmt.Sprintf("%s/%s", apiRoutes.connectors, *input.ConnectorID))
@@ -451,7 +451,7 @@ func (c *Client) DeleteConnector(input *DeleteConnectorInput) (*DeleteConnectorO
 		return nil, errors.New("input is required")
 	}
 	if input.ConnectorID == nil {
-		return nil, errors.New("Connector id is required")
+		return nil, errors.New("connector id is required")
 	}
 
 	resp, err := c.httpClient.R().Delete(fmt.Sprintf("%s/%s", apiRoutes.connectors, *input.ConnectorID))

@@ -154,25 +154,6 @@ var AlertInclude = struct {
 	NextEscalationUser: "nextEscalationUser",
 }
 
-// // AlertAction definition
-// type AlertAction struct {
-// 	Name        string              `json:"name"`
-// 	WebhookID   string              `json:"webhookId"`
-// 	ExtensionID string              `json:"extensionId"`
-// 	IconURL     string              `json:"iconUrl"`
-// 	History     []AlertActionResult `json:"history"`
-// }
-
-// // AlertActionResult definition
-// type AlertActionResult struct {
-// 	ID          string `json:"id"`
-// 	AlertID     int64  `json:"alertId"`
-// 	WebhookID   string `json:"webhookId"`
-// 	ExtensionID string `json:"extensionId"`
-// 	Actor       User   `json:"actor"`
-// 	Success     bool   `json:"success"`
-// }
-
 // GetAlertInput represents the input of a GetAlert operation.
 type GetAlertInput struct {
 	_       struct{}
@@ -194,7 +175,7 @@ func (c *Client) GetAlert(input *GetAlertInput) (*GetAlertOutput, error) {
 		return nil, errors.New("input is required")
 	}
 	if input.AlertID == nil {
-		return nil, errors.New("Alert id is required")
+		return nil, errors.New("alert id is required")
 	}
 
 	q := url.Values{}
@@ -256,7 +237,7 @@ type GetAlertsOutput struct {
 	Alerts []*Alert
 }
 
-// GetAlerts lists alerts. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts/get
+// GetAlerts lists existing alerts. https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts/get
 func (c *Client) GetAlerts(input *GetAlertsInput) (*GetAlertsOutput, error) {
 	if input == nil {
 		input = &GetAlertsInput{}
@@ -320,10 +301,10 @@ type GetAlertsCountInput struct {
 	// state of the alert
 	States []*string
 
-	// alert source IDs of the alert's alert source
+	// alert source ids of the alert's alert source
 	AlertSources []*int64
 
-	// user IDs of the user that the alert is assigned to
+	// user ids of the user that the alert is assigned to
 	AssignedToUserIDs []*int64
 
 	// usernames of the user that the alert is assigned to
@@ -408,7 +389,7 @@ func (c *Client) GetAlertResponder(input *GetAlertResponderInput) (*GetAlertResp
 		return nil, errors.New("input is required")
 	}
 	if input.AlertID == nil {
-		return nil, errors.New("Alert id is required")
+		return nil, errors.New("alert id is required")
 	}
 
 	q := url.Values{}
@@ -459,7 +440,7 @@ func (c *Client) AssignAlert(input *AssignAlertInput) (*AssignAlertOutput, error
 		return nil, errors.New("input is required")
 	}
 	if input.AlertID == nil {
-		return nil, errors.New("Alert id is required")
+		return nil, errors.New("alert id is required")
 	}
 
 	if input.UserID == nil && input.Username == nil && input.EscalationPolicyID == nil && input.ScheduleID == nil {
@@ -515,7 +496,7 @@ func (c *Client) AcceptAlert(input *AcceptAlertInput) (*AcceptAlertOutput, error
 		return nil, errors.New("input is required")
 	}
 	if input.AlertID == nil {
-		return nil, errors.New("Alert id is required")
+		return nil, errors.New("alert id is required")
 	}
 
 	resp, err := c.httpClient.R().Put(fmt.Sprintf("%s/%d/accept", apiRoutes.alerts, *input.AlertID))
@@ -553,7 +534,7 @@ func (c *Client) ResolveAlert(input *ResolveAlertInput) (*ResolveAlertOutput, er
 		return nil, errors.New("input is required")
 	}
 	if input.AlertID == nil {
-		return nil, errors.New("Alert id is required")
+		return nil, errors.New("alert id is required")
 	}
 
 	resp, err := c.httpClient.R().Put(fmt.Sprintf("%s/%d/resolve", apiRoutes.alerts, *input.AlertID))
@@ -592,7 +573,7 @@ func (c *Client) GetAlertLogEntries(input *GetAlertLogEntriesInput) (*GetAlertLo
 		return nil, errors.New("input is required")
 	}
 	if input.AlertID == nil {
-		return nil, errors.New("Alert id is required")
+		return nil, errors.New("alert id is required")
 	}
 
 	q := url.Values{}
@@ -620,8 +601,6 @@ func (c *Client) GetAlertLogEntries(input *GetAlertLogEntriesInput) (*GetAlertLo
 
 	return &GetAlertLogEntriesOutput{LogEntries: alertLogEntries}, nil
 }
-
-// TODO https://api.ilert.com/api-docs/#tag/Alerts/paths/~1alerts~1{id}~1notifications/get
 
 // TODO https://api.ilert.com/api-docs/#tag/Alert-Actions/paths/~1alerts~1{id}~1actions/get
 // // GetAlertActionsInput represents the input of a GetAlertsAction operation.

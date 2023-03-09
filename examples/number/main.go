@@ -1,21 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
-	"github.com/iLert/ilert-go/v2"
+	"github.com/iLert/ilert-go/v3"
 )
 
 func main() {
-	client := ilert.NewClient()
+	var apiToken = "your API token"
+	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
+
 	result, err := client.GetNumbers(&ilert.GetNumbersInput{})
 	if err != nil {
 		log.Println(result)
 		log.Fatalln("ERROR:", err)
 	}
-	log.Println(fmt.Sprintf("Found %d numbers\n\n ", len(result.Numbers)))
+	log.Printf("Found %d numbers\n\n ", len(result.Numbers))
 	for _, number := range result.Numbers {
-		log.Println(fmt.Sprintf("%+v\n", *number))
+		log.Printf("%+v\n", *number)
 	}
 }

@@ -104,7 +104,7 @@ func (c *Client) CreateService(input *CreateServiceInput) (*CreateServiceOutput,
 		return nil, errors.New("input is required")
 	}
 	if input.Service == nil {
-		return nil, errors.New("Service input is required")
+		return nil, errors.New("service input is required")
 	}
 	resp, err := c.httpClient.R().SetBody(input.Service).Post(apiRoutes.services)
 	if err != nil {
@@ -144,7 +144,7 @@ type GetServicesOutput struct {
 	Services []*Service
 }
 
-// GetServices lists service sources. https://api.ilert.com/api-docs/#tag/Services/paths/~1services/get
+// GetServices lists existing services. https://api.ilert.com/api-docs/#tag/Services/paths/~1services/get
 func (c *Client) GetServices(input *GetServicesInput) (*GetServicesOutput, error) {
 	if input == nil {
 		input = &GetServicesInput{}
@@ -198,7 +198,7 @@ type GetServiceOutput struct {
 	Service *Service
 }
 
-// GetService gets a service by ID. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}/get
+// GetService gets a service by id. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}/get
 func (c *Client) GetService(input *GetServiceInput) (*GetServiceOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -244,7 +244,7 @@ type GetServiceSubscribersOutput struct {
 	Subscribers []*Subscriber
 }
 
-// GetServiceSubscribers gets subscribers of a service by ID. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}~1private-subscribers/get
+// GetServiceSubscribers gets subscribers of a service by id. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}~1private-subscribers/get
 func (c *Client) GetServiceSubscribers(input *GetServiceSubscribersInput) (*GetServiceSubscribersOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -366,7 +366,7 @@ type AddServiceSubscribersOutput struct {
 	_ struct{}
 }
 
-// AddServiceSubscribers adds a new subscriber to an service. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}~1private-subscribers/post
+// AddServiceSubscribers adds a new subscriber to a service. https://api.ilert.com/api-docs/#tag/Services/paths/~1services~1{id}~1private-subscribers/post
 func (c *Client) AddServiceSubscribers(input *AddServiceSubscribersInput) (*AddServiceSubscribersOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
