@@ -22,6 +22,7 @@ type Metric struct {
 	ShowValuesOnMouseOver bool                    `json:"showValuesOnMouseOver,omitempty"`
 	Teams                 []TeamShort             `json:"teams,omitempty"`
 	UnitLabel             string                  `json:"unitLabel,omitempty"`
+	IntegrationKey        string                  `json:"integrationKey,omitempty"`
 	Metadata              *MetricProviderMetadata `json:"metadata,omitempty"`
 	DataSource            *MetricDataSource       `json:"dataSource,omitempty"`
 }
