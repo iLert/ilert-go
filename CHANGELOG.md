@@ -1,5 +1,9 @@
 # Changelog
 
+## 02.05.2023, Version 3.0.2
+
+- add missing field `accountWideView` to status page resource in [#25](https://github.com/iLert/ilert-go/pull/25)
+
 ## 13.03.2023, Version 3.0.1
 
 - add missing field `integrationKey` to metric resource in [#24](https://github.com/iLert/ilert-go/pull/24)
