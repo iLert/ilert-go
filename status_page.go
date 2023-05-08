@@ -31,6 +31,7 @@ type StatusPage struct {
 	Services                  []Service            `json:"services,omitempty"`
 	Subscribed                bool                 `json:"subscribed,omitempty"`
 	IpWhitelist               []string             `json:"ipWhitelist,omitempty"`
+	AccountWideView           bool                 `json:"accountWideView,omitempty"`
 	Structure                 *StatusPageStructure `json:"structure,omitempty"`
 }
 
@@ -102,7 +103,7 @@ func (c *Client) CreateStatusPage(input *CreateStatusPageInput) (*CreateStatusPa
 		return nil, errors.New("input is required")
 	}
 	if input.StatusPage == nil {
-		return nil, errors.New("statuspage input is required")
+		return nil, errors.New("status page input is required")
 	}
 	resp, err := c.httpClient.R().SetBody(input.StatusPage).Post(apiRoutes.statusPages)
 	if err != nil {
@@ -121,7 +122,7 @@ func (c *Client) CreateStatusPage(input *CreateStatusPageInput) (*CreateStatusPa
 	return &CreateStatusPageOutput{StatusPage: statusPage}, nil
 }
 
-// GetStatusPagesInput represents the input of a GetStatusPages operation.
+// GetStatusPagesInput represents the input of a GetStatusPagesInput operation.
 type GetStatusPagesInput struct {
 	_ struct{}
 	// an integer specifying the starting point (beginning with 0) when paging through a list of entities
