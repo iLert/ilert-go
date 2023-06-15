@@ -225,6 +225,7 @@ var AlertSourceIntegrationTypes = struct {
 	OhDear                     string
 	MongodbAtlas               string
 	Gitlab                     string
+	Checkly                    string
 }{
 	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
@@ -297,6 +298,7 @@ var AlertSourceIntegrationTypes = struct {
 	OhDear:                     "OHDEAR",
 	MongodbAtlas:               "MONGODBATLAS",
 	Gitlab:                     "GITLAB",
+	Checkly:                    "CHECKLY",
 }
 
 // AlertSourceIntegrationTypesAll defines all alert source integration types
@@ -372,6 +374,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.OhDear,
 	AlertSourceIntegrationTypes.MongodbAtlas,
 	AlertSourceIntegrationTypes.Gitlab,
+	AlertSourceIntegrationTypes.Checkly,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.
