@@ -41,6 +41,7 @@ type AlertSource struct {
 	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
 	DetailsTemplate        *Template              `json:"detailsTemplate,omitempty"`
 	RoutingTemplate        *Template              `json:"routingTemplate,omitempty"`
+	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
 }
 
 // EmailPredicate definition
@@ -94,7 +95,7 @@ type Template struct {
 	TextTemplate string `json:"textTemplate"`
 }
 
-// AlertSourceStatuses defines alert source statuses
+// AlertSourceAlertGroupingWindows defines alert source statuses
 var AlertSourceStatuses = struct {
 	Pending       string
 	AllAccepted   string
@@ -126,11 +127,12 @@ var AlertSourceAlertCreations = struct {
 	OnePendingIncidentAllowed  string
 	OneOpenIncidentAllowed     string
 
-	OneAlertPerEmail        string
-	OneAlertPerEmailSubject string
-	OnePendingAlertAllowed  string
-	OneOpenAlertAllowed     string
-	OpenResolveOnExtraction string
+	OneAlertPerEmail         string
+	OneAlertPerEmailSubject  string
+	OnePendingAlertAllowed   string
+	OneOpenAlertAllowed      string
+	OpenResolveOnExtraction  string
+	OneAlertGroupedPerWindow string
 }{
 	// @deprecated
 	OneIncidentPerEmail:        "ONE_INCIDENT_PER_EMAIL",
@@ -138,11 +140,12 @@ var AlertSourceAlertCreations = struct {
 	OnePendingIncidentAllowed:  "ONE_PENDING_INCIDENT_ALLOWED",
 	OneOpenIncidentAllowed:     "ONE_OPEN_INCIDENT_ALLOWED",
 
-	OneAlertPerEmail:        "ONE_ALERT_PER_EMAIL",
-	OneAlertPerEmailSubject: "ONE_ALERT_PER_EMAIL_SUBJECT",
-	OnePendingAlertAllowed:  "ONE_PENDING_ALERT_ALLOWED",
-	OneOpenAlertAllowed:     "ONE_OPEN_ALERT_ALLOWED",
-	OpenResolveOnExtraction: "OPEN_RESOLVE_ON_EXTRACTION",
+	OneAlertPerEmail:         "ONE_ALERT_PER_EMAIL",
+	OneAlertPerEmailSubject:  "ONE_ALERT_PER_EMAIL_SUBJECT",
+	OnePendingAlertAllowed:   "ONE_PENDING_ALERT_ALLOWED",
+	OneOpenAlertAllowed:      "ONE_OPEN_ALERT_ALLOWED",
+	OpenResolveOnExtraction:  "OPEN_RESOLVE_ON_EXTRACTION",
+	OneAlertGroupedPerWindow: "ONE_ALERT_GROUPED_PER_WINDOW",
 }
 
 // AlertSourceAlertCreationsAll defines alert source alert creations list
@@ -158,6 +161,46 @@ var AlertSourceAlertCreationsAll = []string{
 	AlertSourceAlertCreations.OnePendingAlertAllowed,
 	AlertSourceAlertCreations.OneOpenAlertAllowed,
 	AlertSourceAlertCreations.OpenResolveOnExtraction,
+	AlertSourceAlertCreations.OneAlertGroupedPerWindow,
+}
+
+// AlertSourceAlertGroupingWindows defines alert source alert grouping windows
+var AlertSourceAlertGroupingWindows = struct {
+	TwoMinutes      string
+	FiveMinutes     string
+	FifteenMinutes  string
+	ThirtyMinutes   string
+	OneHour         string
+	TwoHours        string
+	FourHours       string
+	EightHours      string
+	TwelveHours     string
+	TwentyFourHours string
+}{
+	TwoMinutes:      "PT2M",
+	FiveMinutes:     "PT5M",
+	FifteenMinutes:  "PT15M",
+	ThirtyMinutes:   "PT30M",
+	OneHour:         "PT1H",
+	TwoHours:        "PT2H",
+	FourHours:       "PT4H",
+	EightHours:      "PT8H",
+	TwelveHours:     "PT12H",
+	TwentyFourHours: "PT24H",
+}
+
+// AlertSourceAlertGroupingWindowsAll defines alert source alert grouping windows list
+var AlertSourceAlertGroupingWindowsAll = []string{
+	AlertSourceAlertGroupingWindows.TwoMinutes,
+	AlertSourceAlertGroupingWindows.FiveMinutes,
+	AlertSourceAlertGroupingWindows.FifteenMinutes,
+	AlertSourceAlertGroupingWindows.ThirtyMinutes,
+	AlertSourceAlertGroupingWindows.OneHour,
+	AlertSourceAlertGroupingWindows.TwoHours,
+	AlertSourceAlertGroupingWindows.FourHours,
+	AlertSourceAlertGroupingWindows.EightHours,
+	AlertSourceAlertGroupingWindows.TwelveHours,
+	AlertSourceAlertGroupingWindows.TwentyFourHours,
 }
 
 // AlertSourceIntegrationTypes defines alert source integration types
