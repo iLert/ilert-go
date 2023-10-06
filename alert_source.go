@@ -95,7 +95,7 @@ type Template struct {
 	TextTemplate string `json:"textTemplate"`
 }
 
-// AlertSourceAlertStatuses defines alert source statuses
+// AlertSourceStatuses defines alert source statuses
 var AlertSourceStatuses = struct {
 	Pending       string
 	AllAccepted   string
