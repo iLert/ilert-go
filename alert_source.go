@@ -38,6 +38,9 @@ type AlertSource struct {
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"`
 	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`
 	Teams                  []TeamShort            `json:"teams,omitempty"`
+	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
+	DetailsTemplate        *Template              `json:"detailsTemplate,omitempty"`
+	RoutingTemplate        *Template              `json:"routingTemplate,omitempty"`
 }
 
 // EmailPredicate definition
@@ -84,6 +87,11 @@ type Heartbeat struct {
 	Summary     string `json:"summary"`
 	IntervalSec int    `json:"intervalSec"`
 	Status      string `json:"status"`
+}
+
+// Template definition
+type Template struct {
+	TextTemplate string `json:"textTemplate"`
 }
 
 // AlertSourceStatuses defines alert source statuses
@@ -457,7 +465,13 @@ func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutp
 		return nil, errors.New("alert source id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
+	q := url.Values{}
+	q.Add("include", "summaryTemplate")
+	q.Add("include", "detailsTemplate")
+	q.Add("include", "routingTemplate")
+	q.Add("include", "textTemplate")
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d?%s", apiRoutes.alertSources, *input.AlertSourceID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
