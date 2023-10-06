@@ -95,7 +95,7 @@ type Template struct {
 	TextTemplate string `json:"textTemplate"`
 }
 
-// AlertSourceAlertGroupingWindows defines alert source statuses
+// AlertSourceAlertStatuses defines alert source statuses
 var AlertSourceStatuses = struct {
 	Pending       string
 	AllAccepted   string
