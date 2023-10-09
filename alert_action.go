@@ -12,7 +12,7 @@ import (
 type AlertAction struct {
 	ID             string        `json:"id,omitempty"`
 	Name           string        `json:"name"`
-	AlertSourceIDs []int64       `json:"alertSourceIds"`
+	AlertSourceIDs []int64       `json:"alertSourceIds"` // @deprecated
 	AlertSources   []AlertSource `json:"alertSources"`
 	ConnectorID    string        `json:"connectorId"`
 	ConnectorType  string        `json:"connectorType"`
