@@ -34,8 +34,8 @@ type AlertSource struct {
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"` // @deprecated
 	SupportHours           *SupportHours          `json:"supportHours,omitempty"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
-	Metadata               map[string]interface{} `json:"metadata,omitempty"`
-	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"`
+	Metadata               map[string]interface{} `json:"metadata,omitempty"`         // @deprecated
+	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"` // @deprecated
 	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`
 	Teams                  []TeamShort            `json:"teams,omitempty"`
 	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
