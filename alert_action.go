@@ -264,7 +264,6 @@ var AlertActionTriggerTypes = struct {
 	AlertAcknowledged     string
 	AlertRaised           string
 	AlertCommentAdded     string
-	AlertEscalationEnded  string
 	AlertResolved         string
 	AlertAutoResolved     string
 	AlertResponderAdded   string
@@ -278,7 +277,6 @@ var AlertActionTriggerTypes = struct {
 	AlertAcknowledged:     "alert-acknowledged",
 	AlertRaised:           "alert-raised",
 	AlertCommentAdded:     "alert-comment-added",
-	AlertEscalationEnded:  "alert-escalation-ended",
 	AlertResolved:         "alert-resolved",
 	AlertAutoResolved:     "alert-auto-resolved",
 	AlertResponderAdded:   "alert-responder-added",
@@ -295,7 +293,6 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertAcknowledged,
 	AlertActionTriggerTypes.AlertRaised,
 	AlertActionTriggerTypes.AlertCommentAdded,
-	AlertActionTriggerTypes.AlertEscalationEnded,
 	AlertActionTriggerTypes.AlertResolved,
 	AlertActionTriggerTypes.AlertAutoResolved,
 	AlertActionTriggerTypes.AlertResponderAdded,
