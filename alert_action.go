@@ -14,7 +14,7 @@ type AlertAction struct {
 	Name           string        `json:"name"`
 	AlertSourceIDs []int64       `json:"alertSourceIds"` // @deprecated
 	AlertSources   []AlertSource `json:"alertSources"`
-	ConnectorID    string        `json:"connectorId"`
+	ConnectorID    string        `json:"connectorId,omitempty"`
 	ConnectorType  string        `json:"connectorType"`
 	TriggerMode    string        `json:"triggerMode"`
 	TriggerTypes   []string      `json:"triggerTypes,omitempty"`
