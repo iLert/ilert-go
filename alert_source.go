@@ -92,7 +92,7 @@ type Heartbeat struct {
 
 // Template definition
 type Template struct {
-	TextTemplate string `json:"textTemplate"`
+	TextTemplate string `json:"textTemplate,omitempty"`
 }
 
 // AlertSourceStatuses defines alert source statuses
