@@ -3,6 +3,7 @@
 # 06.10.2023, Version 3.1.0
 
 - add new fields `delayMin` and `routingKey` to escalation policy resource in [#26](https://github.com/iLert/ilert-go/pull/26)
+- add templates and alert grouping to alert source resource in [#27](https://github.com/iLert/ilert-go/pull/27)
 
 ## 02.05.2023, Version 3.0.2
 
