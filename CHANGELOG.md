@@ -1,5 +1,9 @@
 # Changelog
 
+# 06.10.2023, Version 3.1.0
+
+- add new fields `delayMin` and `routingKey` to escalation policy resource in [#26](https://github.com/iLert/ilert-go/pull/26)
+
 ## 02.05.2023, Version 3.0.2
 
 - add missing field `accountWideView` to status page resource in [#25](https://github.com/iLert/ilert-go/pull/25)
