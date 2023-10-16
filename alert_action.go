@@ -262,23 +262,31 @@ var AlertActionTriggerModesAll = []string{
 
 // AlertActionTriggerTypes defines alertAction trigger types
 var AlertActionTriggerTypes = struct {
-	AlertCreated       string
-	AlertAssigned      string
-	AlertAutoEscalated string
-	AlertAcknowledged  string
-	AlertRaised        string
-	AlertCommentAdded  string
-	AlertResolved      string
-	AlertAutoResolved  string
+	AlertCreated          string
+	AlertAssigned         string
+	AlertAutoEscalated    string
+	AlertAcknowledged     string
+	AlertRaised           string
+	AlertCommentAdded     string
+	AlertResolved         string
+	AlertAutoResolved     string
+	AlertResponderAdded   string
+	AlertResponderRemoved string
+	AlertChannelAttached  string
+	AlertChannelDetached  string
 }{
-	AlertCreated:       "alert-created",
-	AlertAssigned:      "alert-assigned",
-	AlertAutoEscalated: "alert-auto-escalated",
-	AlertAcknowledged:  "alert-acknowledged",
-	AlertRaised:        "alert-raised",
-	AlertCommentAdded:  "alert-comment-added",
-	AlertResolved:      "alert-resolved",
-	AlertAutoResolved:  "alert-auto-resolved",
+	AlertCreated:          "alert-created",
+	AlertAssigned:         "alert-assigned",
+	AlertAutoEscalated:    "alert-auto-escalated",
+	AlertAcknowledged:     "alert-acknowledged",
+	AlertRaised:           "alert-raised",
+	AlertCommentAdded:     "alert-comment-added",
+	AlertResolved:         "alert-resolved",
+	AlertAutoResolved:     "alert-auto-resolved",
+	AlertResponderAdded:   "alert-responder-added",
+	AlertResponderRemoved: "alert-responder-removed",
+	AlertChannelAttached:  "alert-channel-attached",
+	AlertChannelDetached:  "alert-channel-detached",
 }
 
 // AlertActionTriggerTypesAll defines all alertAction trigger types
@@ -291,6 +299,10 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertCommentAdded,
 	AlertActionTriggerTypes.AlertResolved,
 	AlertActionTriggerTypes.AlertAutoResolved,
+	AlertActionTriggerTypes.AlertResponderAdded,
+	AlertActionTriggerTypes.AlertResponderRemoved,
+	AlertActionTriggerTypes.AlertChannelAttached,
+	AlertActionTriggerTypes.AlertChannelDetached,
 }
 
 // AlertFilterOperator defines alertFilter operator
