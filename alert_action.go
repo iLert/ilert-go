@@ -12,8 +12,8 @@ import (
 type AlertAction struct {
 	ID             string        `json:"id,omitempty"`
 	Name           string        `json:"name"`
-	AlertSourceIDs []int64       `json:"alertSourceIds"` // @deprecated
-	AlertSources   []AlertSource `json:"alertSources"`
+	AlertSourceIDs []int64       `json:"alertSourceIds,omitempty"` // @deprecated
+	AlertSources   []AlertSource `json:"alertSources,omitempty"`
 	ConnectorID    string        `json:"connectorId,omitempty"`
 	ConnectorType  string        `json:"connectorType"`
 	TriggerMode    string        `json:"triggerMode"`
@@ -29,8 +29,8 @@ type AlertAction struct {
 type AlertActionOutput struct {
 	ID             string                   `json:"id"`
 	Name           string                   `json:"name"`
-	AlertSourceIDs []int64                  `json:"alertSourceIds"`
-	AlertSources   []AlertSource            `json:"alertSources"`
+	AlertSourceIDs []int64                  `json:"alertSourceIds,omitempty"` // @deprecated
+	AlertSources   []AlertSource            `json:"alertSources,omitempty"`
 	ConnectorID    string                   `json:"connectorId"`
 	ConnectorType  string                   `json:"connectorType"`
 	TriggerMode    string                   `json:"triggerMode"`
