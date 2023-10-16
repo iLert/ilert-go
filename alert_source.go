@@ -491,6 +491,10 @@ func (c *Client) CreateAlertSource(input *CreateAlertSourceInput) (*CreateAlertS
 type GetAlertSourceInput struct {
 	_             struct{}
 	AlertSourceID *int64
+
+	// describes optional properties that should be included in the response
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate"
+	Include []*string
 }
 
 // GetAlertSourceOutput represents the output of a GetAlertSource operation.
@@ -509,10 +513,10 @@ func (c *Client) GetAlertSource(input *GetAlertSourceInput) (*GetAlertSourceOutp
 	}
 
 	q := url.Values{}
-	q.Add("include", "summaryTemplate")
-	q.Add("include", "detailsTemplate")
-	q.Add("include", "routingTemplate")
-	q.Add("include", "textTemplate")
+
+	for _, include := range input.Include {
+		q.Add("include", *include)
+	}
 
 	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d?%s", apiRoutes.alertSources, *input.AlertSourceID, q.Encode()))
 	if err != nil {
