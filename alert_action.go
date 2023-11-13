@@ -16,7 +16,7 @@ type AlertAction struct {
 	ConnectorID    string       `json:"connectorId"`
 	ConnectorType  string       `json:"connectorType"`
 	TriggerMode    string       `json:"triggerMode"`
-	DelaySec       int64        `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
+	DelaySec       int          `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
 	TriggerTypes   []string     `json:"triggerTypes,omitempty"`
 	CreatedAt      string       `json:"createdAt,omitempty"` // date time string in ISO 8601
 	UpdatedAt      string       `json:"updatedAt,omitempty"` // date time string in ISO 8601
@@ -32,7 +32,7 @@ type AlertActionOutput struct {
 	ConnectorID    string                   `json:"connectorId"`
 	ConnectorType  string                   `json:"connectorType"`
 	TriggerMode    string                   `json:"triggerMode"`
-	DelaySec       int64                    `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
+	DelaySec       int                      `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
 	TriggerTypes   []string                 `json:"triggerTypes,omitempty"`
 	CreatedAt      string                   `json:"createdAt"` // date time string in ISO 8601
 	UpdatedAt      string                   `json:"updatedAt"` // date time string in ISO 8601
