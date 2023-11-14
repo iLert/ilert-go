@@ -1,5 +1,9 @@
 # Changelog
 
+# 13.11.2023, Version 3.2.0
+
+- add new trigger type `alert-escalation-ended` and new field `delaySec` to alert action resource in [#30](https://github.com/iLert/ilert-go/pull/30)
+
 # 09.10.2023, Version 3.1.0
 
 - add new fields `delayMin` and `routingKey` to escalation policy resource in [#26](https://github.com/iLert/ilert-go/pull/26)
