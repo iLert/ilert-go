@@ -86,6 +86,12 @@ var AlertPriorities = struct {
 	Low:  "LOW",
 }
 
+// AlertPrioritiesAll defines alert priorities list
+var AlertPrioritiesAll = []string{
+	AlertPriorities.High,
+	AlertPriorities.Low,
+}
+
 // AlertResponderTypes defines alert responder types
 var AlertResponderTypes = struct {
 	User        string
