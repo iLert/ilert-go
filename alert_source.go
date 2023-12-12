@@ -99,24 +99,14 @@ type Template struct {
 
 // LinkTemplate definition
 type LinkTemplate struct {
-	Text         string        `json:"text,omitempty"`
-	HrefTemplate *HrefTemplate `json:"hrefTemplate,omitempty"`
-}
-
-// HrefTemplate definition
-type HrefTemplate struct {
-	Text string `json:"text,omitempty"`
+	Text         string    `json:"text,omitempty"`
+	HrefTemplate *Template `json:"hrefTemplate,omitempty"`
 }
 
 // PriorityTemplate definition
 type PriorityTemplate struct {
-	ValueTemplate *ValueTemplate `json:"valueTemplate,omitempty"`
-	Mappings      []Mapping      `json:"mappings,omitempty"`
-}
-
-// ValueTemplate definition
-type ValueTemplate struct {
-	Text string `json:"text,omitempty"`
+	ValueTemplate *Template `json:"valueTemplate,omitempty"`
+	Mappings      []Mapping `json:"mappings,omitempty"`
 }
 
 // Mapping definition
