@@ -1,5 +1,9 @@
 # Changelog
 
+# 12.12.2023, Version 3.3.0
+
+- add link templates and priority template to alert source resource in [#31](https://github.com/iLert/ilert-go/pull/31)
+
 # 13.11.2023, Version 3.2.0
 
 - add new trigger type `alert-escalation-ended` and new field `delaySec` to alert action resource in [#30](https://github.com/iLert/ilert-go/pull/30)

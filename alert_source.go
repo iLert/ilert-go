@@ -41,6 +41,8 @@ type AlertSource struct {
 	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
 	DetailsTemplate        *Template              `json:"detailsTemplate,omitempty"`
 	RoutingTemplate        *Template              `json:"routingTemplate,omitempty"`
+	LinkTemplates          []LinkTemplate         `json:"linkTemplates,omitempty"`
+	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
 }
 
@@ -93,6 +95,24 @@ type Heartbeat struct {
 // Template definition
 type Template struct {
 	TextTemplate string `json:"textTemplate,omitempty"`
+}
+
+// LinkTemplate definition
+type LinkTemplate struct {
+	Text         string    `json:"text,omitempty"`
+	HrefTemplate *Template `json:"hrefTemplate,omitempty"`
+}
+
+// PriorityTemplate definition
+type PriorityTemplate struct {
+	ValueTemplate *Template `json:"valueTemplate,omitempty"`
+	Mappings      []Mapping `json:"mappings,omitempty"`
+}
+
+// Mapping definition
+type Mapping struct {
+	Value    string `json:"value"`
+	Priority string `json:"priority"`
 }
 
 // AlertSourceStatuses defines alert source statuses
@@ -493,7 +513,7 @@ type GetAlertSourceInput struct {
 	AlertSourceID *int64
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate"
 	Include []*string
 }
 
