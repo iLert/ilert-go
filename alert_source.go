@@ -32,7 +32,7 @@ type AlertSource struct {
 	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`
 	AlertPriorityRule      string                 `json:"alertPriorityRule,omitempty"`
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"` // @deprecated
-	SupportHours           *SupportHours          `json:"supportHours,omitempty"`
+	SupportHours           *SupportHours          `json:"supportHours,omitempty"`         // @deprecated
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`         // @deprecated
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"` // @deprecated
