@@ -1,5 +1,9 @@
 # Changelog
 
+# 13.12.2023, Version 3.4.0
+
+- add new resource support hours in [#33](https://github.com/iLert/ilert-go/pull/33)
+
 # 12.12.2023, Version 3.3.0
 
 - add link templates and priority template to alert source resource in [#31](https://github.com/iLert/ilert-go/pull/31)
