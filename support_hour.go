@@ -29,7 +29,7 @@ type CreateSupportHourOutput struct {
 	SupportHour *SupportHour
 }
 
-// CreateSupportHour creates a new support hour. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours/posts
+// CreateSupportHour creates a new support hour. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours/post
 func (c *Client) CreateSupportHour(input *CreateSupportHourInput) (*CreateSupportHourOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

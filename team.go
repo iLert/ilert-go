@@ -81,7 +81,7 @@ type CreateTeamOutput struct {
 	Team *Team
 }
 
-// CreateTeam creates a new team. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams/posts
+// CreateTeam creates a new team. https://api.ilert.com/api-docs/#tag/Teams/paths/~1teams/post
 func (c *Client) CreateTeam(input *CreateTeamInput) (*CreateTeamOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
