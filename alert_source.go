@@ -53,7 +53,7 @@ type EmailPredicate struct {
 	Value    string `json:"value"`
 }
 
-// SupportHours definition
+// @deprecated SupportHours definition
 type SupportHours struct {
 	Timezone           string      `json:"timezone"`
 	AutoRaiseAlerts    bool        `json:"autoRaiseAlerts,omitempty"`    // Raise priority of all pending alerts for this alert source to 'high' when support hours begin
