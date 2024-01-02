@@ -107,18 +107,15 @@ var StatusPageLayoutAll = []string{
 
 // StatusPageThemeMode defines status page theme mode
 var StatusPageThemeMode = struct {
-	System string
-	Light  string
-	Dark   string
+	Light string
+	Dark  string
 }{
-	System: "SYSTEM",
-	Light:  "LIGHT",
-	Dark:   "DARK",
+	Light: "LIGHT",
+	Dark:  "DARK",
 }
 
 // StatusPageThemeModeAll defines all status page theme modes
 var StatusPageThemeModeAll = []string{
-	StatusPageThemeMode.System,
 	StatusPageThemeMode.Light,
 	StatusPageThemeMode.Dark,
 }
