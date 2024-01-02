@@ -23,7 +23,7 @@ type StatusPage struct {
 	ShowIncidentHistoryOption bool                 `json:"showIncidentHistoryOption"`
 	PageTitle                 string               `json:"pageTitle"`
 	PageDescription           string               `json:"pageDescription"`
-	PageLayout                string               `json:"pageLayout"`
+	PageLayout                string               `json:"pageLayout,omitempty"`
 	LogoRedirectUrl           string               `json:"logoRedirectUrl"`
 	Activated                 bool                 `json:"activated"`
 	Status                    string               `json:"status"`
