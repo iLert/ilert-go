@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// StatusPage definition https://api.ilert.com/api-docs/#!/Status-Pages
+// StatusPage definition https://api.ilert.com/api-docs/#tag/Status-Pages
 type StatusPage struct {
 	ID                        int64                `json:"id"`
 	Name                      string               `json:"name"`
