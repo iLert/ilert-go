@@ -29,7 +29,7 @@ type CreateSupportHourOutput struct {
 	SupportHour *SupportHour
 }
 
-// CreateSupportHour creates a new support hour. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours/post
+// CreateSupportHour creates a new support hours resource. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours/post
 func (c *Client) CreateSupportHour(input *CreateSupportHourInput) (*CreateSupportHourOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -66,7 +66,7 @@ type GetSupportHourOutput struct {
 	SupportHour *SupportHour
 }
 
-// GetSupportHour gets the support hour with specified id. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours~1{id}/get
+// GetSupportHour gets the support hours resource with specified id. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours~1{id}/get
 func (c *Client) GetSupportHour(input *GetSupportHourInput) (*GetSupportHourOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -110,7 +110,7 @@ type GetSupportHoursOutput struct {
 	SupportHours []*SupportHour
 }
 
-// GetSupportHours lists existing support hours. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours/get
+// GetSupportHours lists existing support hours resources. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours/get
 func (c *Client) GetSupportHours(input *GetSupportHoursInput) (*GetSupportHoursOutput, error) {
 	q := url.Values{}
 	if input.StartIndex != nil {
@@ -149,7 +149,7 @@ type SearchSupportHourOutput struct {
 	SupportHour *SupportHour
 }
 
-// SearchSupportHour gets the support hour with specified name.
+// SearchSupportHour gets the support hours resource with specified name.
 func (c *Client) SearchSupportHour(input *SearchSupportHourInput) (*SearchSupportHourOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -188,7 +188,7 @@ type UpdateSupportHourOutput struct {
 	SupportHour *SupportHour
 }
 
-// UpdateSupportHour updates an existing support hour. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours~1{id}/put
+// UpdateSupportHour updates an existing support hours resource. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours~1{id}/put
 func (c *Client) UpdateSupportHour(input *UpdateSupportHourInput) (*UpdateSupportHourOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -228,7 +228,7 @@ type DeleteSupportHourOutput struct {
 	_ struct{}
 }
 
-// DeleteSupportHour deletes the specified support hour. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours~1{id}/delete
+// DeleteSupportHour deletes the specified support hours resource. https://api.ilert.com/api-docs/#tag/Support-Hours/paths/~1support-hours~1{id}/delete
 func (c *Client) DeleteSupportHour(input *DeleteSupportHourInput) (*DeleteSupportHourOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
