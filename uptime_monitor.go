@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// UptimeMonitor definition https://api.ilert.com/api-docs/#tag/Uptime-Monitors
+// Legacy API - uptime monitors deprecated and will be removed in the next major version of the sdk
 type UptimeMonitor struct {
 	ID                              int64                    `json:"id,omitempty"`
 	Name                            string                   `json:"name"`

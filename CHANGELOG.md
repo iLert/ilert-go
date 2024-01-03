@@ -1,5 +1,9 @@
 # Changelog
 
+# 13.12.2023, Version 3.4.0
+
+- deprecate uptime monitors in [#32](https://github.com/iLert/ilert-go/pull/32)
+
 # 12.12.2023, Version 3.3.0
 
 - add link templates and priority template to alert source resource in [#31](https://github.com/iLert/ilert-go/pull/31)
