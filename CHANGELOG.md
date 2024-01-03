@@ -4,6 +4,7 @@
 
 - deprecate uptime monitors in [#32](https://github.com/iLert/ilert-go/pull/32)
 - add new resource support hours in [#33](https://github.com/iLert/ilert-go/pull/33)
+- add new status page fields in [#34](https://github.com/iLert/ilert-go/pull/34)
 
 # 12.12.2023, Version 3.3.0
 
