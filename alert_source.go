@@ -32,7 +32,7 @@ type AlertSource struct {
 	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`
 	AlertPriorityRule      string                 `json:"alertPriorityRule,omitempty"`
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"` // @deprecated
-	SupportHours           *SupportHours          `json:"supportHours,omitempty"`
+	SupportHours           interface{}            `json:"supportHours,omitempty"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`         // @deprecated
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"` // @deprecated
@@ -53,12 +53,24 @@ type EmailPredicate struct {
 	Value    string `json:"value"`
 }
 
-// SupportHours definition
+// @deprecated SupportHours definition
 type SupportHours struct {
 	Timezone           string      `json:"timezone"`
 	AutoRaiseAlerts    bool        `json:"autoRaiseAlerts,omitempty"`    // Raise priority of all pending alerts for this alert source to 'high' when support hours begin
 	AutoRaiseIncidents bool        `json:"autoRaiseIncidents,omitempty"` // @deprecated
 	SupportDays        SupportDays `json:"supportDays"`
+}
+
+func (s *SupportHours) RemoveLegacyFields() {
+	if s.AutoRaiseIncidents {
+		s.AutoRaiseAlerts = true
+		s.AutoRaiseIncidents = false
+	}
+}
+
+// SupportHoursReference definition
+type SupportHoursReference struct {
+	ID int64 `json:"id"`
 }
 
 // SupportDays definition
@@ -485,9 +497,8 @@ func (c *Client) CreateAlertSource(input *CreateAlertSourceInput) (*CreateAlertS
 		input.AlertSource.IncidentPriorityRule = ""
 	}
 
-	if input.AlertSource.SupportHours != nil && input.AlertSource.SupportHours.AutoRaiseIncidents {
-		input.AlertSource.SupportHours.AutoRaiseAlerts = true
-		input.AlertSource.SupportHours.AutoRaiseIncidents = false
+	if v, ok := input.AlertSource.SupportHours.(SupportHours); ok {
+		v.RemoveLegacyFields()
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.AlertSource).Post(apiRoutes.alertSources)
@@ -679,9 +690,8 @@ func (c *Client) UpdateAlertSource(input *UpdateAlertSourceInput) (*UpdateAlertS
 		input.AlertSource.IncidentPriorityRule = ""
 	}
 
-	if input.AlertSource.SupportHours != nil && input.AlertSource.SupportHours.AutoRaiseIncidents {
-		input.AlertSource.SupportHours.AutoRaiseAlerts = true
-		input.AlertSource.SupportHours.AutoRaiseIncidents = false
+	if v, ok := input.AlertSource.SupportHours.(SupportHours); ok {
+		v.RemoveLegacyFields()
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.AlertSource).Put(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
