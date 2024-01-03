@@ -240,6 +240,7 @@ var apiRoutes = struct {
 	series             string
 	services           string
 	statusPages        string
+	supportHours       string
 	uptimeMonitors     string
 	users              string
 	teams              string
@@ -262,6 +263,7 @@ var apiRoutes = struct {
 	series:             "/api/series",
 	services:           "/api/services",
 	statusPages:        "/api/status-pages",
+	supportHours:       "/api/support-hours",
 	uptimeMonitors:     "/api/uptime-monitors",
 	users:              "/api/users",
 	teams:              "/api/teams",

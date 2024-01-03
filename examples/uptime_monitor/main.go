@@ -6,6 +6,7 @@ import (
 	"github.com/iLert/ilert-go/v3"
 )
 
+// Legacy API - uptime monitors deprecated and will be removed in the next major version of the sdk
 func main() {
 	var apiToken = "your API token"
 	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
