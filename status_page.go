@@ -34,7 +34,8 @@ type StatusPage struct {
 	IpWhitelist               []string             `json:"ipWhitelist,omitempty"`
 	AccountWideView           bool                 `json:"accountWideView,omitempty"`
 	Structure                 *StatusPageStructure `json:"structure,omitempty"`
-	ThemeMode                 string               `json:"themeMode,omitempty"`
+	ThemeMode                 string               `json:"themeMode,omitempty"` // please use field `Appearance` instead
+	Appearance                string               `json:"appearance,omitempty"`
 }
 
 // StatusPageStructure defines status page structure
