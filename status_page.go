@@ -106,8 +106,8 @@ var StatusPageLayoutAll = []string{
 	StatusPageLayout.Responsive,
 }
 
-// StatusPageThemeMode defines status page theme mode
-var StatusPageThemeMode = struct {
+// StatusPageAppearance defines status page appearance
+var StatusPageAppearance = struct {
 	Light string
 	Dark  string
 }{
@@ -115,10 +115,10 @@ var StatusPageThemeMode = struct {
 	Dark:  "DARK",
 }
 
-// StatusPageThemeModeAll defines all status page theme modes
-var StatusPageThemeModeAll = []string{
-	StatusPageThemeMode.Light,
-	StatusPageThemeMode.Dark,
+// StatusPageAppearanceAll defines all status page appearances
+var StatusPageAppearanceAll = []string{
+	StatusPageAppearance.Light,
+	StatusPageAppearance.Dark,
 }
 
 // StatusPageElementOption defines status page element option
