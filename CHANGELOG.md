@@ -1,5 +1,9 @@
 # Changelog
 
+# 05.01.2024, Version 3.4.1
+
+- replace `ThemeMode` field with `Appearance` for status page resource in [#35](https://github.com/iLert/ilert-go/pull/35)
+
 # 03.01.2024, Version 3.4.0
 
 - deprecate uptime monitors in [#32](https://github.com/iLert/ilert-go/pull/32)
