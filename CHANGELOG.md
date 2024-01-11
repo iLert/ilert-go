@@ -1,5 +1,10 @@
 # Changelog
 
+# 11.01.2024, Version 3.5.0
+
+- apply alert actions v2 changes in [#29](https://github.com/iLert/ilert-go/pull/29)
+  - add alertSources and teams fields, deprecate alertSourceIds
+
 # 05.01.2024, Version 3.4.1
 
 - replace `ThemeMode` field with `Appearance` for status page resource in [#35](https://github.com/iLert/ilert-go/pull/35)
@@ -23,7 +28,6 @@
 - add new fields `delayMin` and `routingKey` to escalation policy resource in [#26](https://github.com/iLert/ilert-go/pull/26)
 - add templates and alert grouping to alert source resource in [#27](https://github.com/iLert/ilert-go/pull/27)
 - add new trigger types to alert action resource in [#28](https://github.com/iLert/ilert-go/pull/28)
-- add alertSources and teams fields, deprecate alertSourceIds in [#29](https://github.com/iLert/ilert-go/pull/29)
 
 ## 02.05.2023, Version 3.0.2
 
