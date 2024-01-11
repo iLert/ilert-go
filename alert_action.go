@@ -17,6 +17,7 @@ type AlertAction struct {
 	ConnectorID    string        `json:"connectorId,omitempty"`
 	ConnectorType  string        `json:"connectorType"`
 	TriggerMode    string        `json:"triggerMode"`
+	DelaySec       int           `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
 	TriggerTypes   []string      `json:"triggerTypes,omitempty"`
 	CreatedAt      string        `json:"createdAt,omitempty"` // date time string in ISO 8601
 	UpdatedAt      string        `json:"updatedAt,omitempty"` // date time string in ISO 8601
@@ -34,6 +35,7 @@ type AlertActionOutput struct {
 	ConnectorID    string                   `json:"connectorId"`
 	ConnectorType  string                   `json:"connectorType"`
 	TriggerMode    string                   `json:"triggerMode"`
+	DelaySec       int                      `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
 	TriggerTypes   []string                 `json:"triggerTypes,omitempty"`
 	CreatedAt      string                   `json:"createdAt"` // date time string in ISO 8601
 	UpdatedAt      string                   `json:"updatedAt"` // date time string in ISO 8601
@@ -268,6 +270,7 @@ var AlertActionTriggerTypes = struct {
 	AlertAcknowledged     string
 	AlertRaised           string
 	AlertCommentAdded     string
+	AlertEscalationEnded  string
 	AlertResolved         string
 	AlertAutoResolved     string
 	AlertResponderAdded   string
@@ -281,6 +284,7 @@ var AlertActionTriggerTypes = struct {
 	AlertAcknowledged:     "alert-acknowledged",
 	AlertRaised:           "alert-raised",
 	AlertCommentAdded:     "alert-comment-added",
+	AlertEscalationEnded:  "alert-escalation-ended",
 	AlertResolved:         "alert-resolved",
 	AlertAutoResolved:     "alert-auto-resolved",
 	AlertResponderAdded:   "alert-responder-added",
@@ -297,6 +301,7 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertAcknowledged,
 	AlertActionTriggerTypes.AlertRaised,
 	AlertActionTriggerTypes.AlertCommentAdded,
+	AlertActionTriggerTypes.AlertEscalationEnded,
 	AlertActionTriggerTypes.AlertResolved,
 	AlertActionTriggerTypes.AlertAutoResolved,
 	AlertActionTriggerTypes.AlertResponderAdded,

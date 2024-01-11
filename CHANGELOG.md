@@ -1,6 +1,24 @@
 # Changelog
 
-# 16.10.2023, Version 3.1.0
+# 05.01.2024, Version 3.4.1
+
+- replace `ThemeMode` field with `Appearance` for status page resource in [#35](https://github.com/iLert/ilert-go/pull/35)
+
+# 03.01.2024, Version 3.4.0
+
+- deprecate uptime monitors in [#32](https://github.com/iLert/ilert-go/pull/32)
+- add new resource support hours in [#33](https://github.com/iLert/ilert-go/pull/33)
+- add new status page fields in [#34](https://github.com/iLert/ilert-go/pull/34)
+
+# 12.12.2023, Version 3.3.0
+
+- add link templates and priority template to alert source resource in [#31](https://github.com/iLert/ilert-go/pull/31)
+
+# 13.11.2023, Version 3.2.0
+
+- add new trigger type `alert-escalation-ended` and new field `delaySec` to alert action resource in [#30](https://github.com/iLert/ilert-go/pull/30)
+
+# 09.10.2023, Version 3.1.0
 
 - add new fields `delayMin` and `routingKey` to escalation policy resource in [#26](https://github.com/iLert/ilert-go/pull/26)
 - add templates and alert grouping to alert source resource in [#27](https://github.com/iLert/ilert-go/pull/27)

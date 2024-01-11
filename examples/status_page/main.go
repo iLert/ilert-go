@@ -16,6 +16,7 @@ func main() {
 		Visibility: "PRIVATE",
 		Services:   []ilert.Service{{ID: 0}}, // your service id
 		Timezone:   "Europe/Berlin",
+		PageLayout: "SINGLE_COLUMN",
 	}
 	input := &ilert.CreateStatusPageInput{
 		StatusPage: newStatuspage,

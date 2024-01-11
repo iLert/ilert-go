@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// StatusPage definition https://api.ilert.com/api-docs/#!/Status-Pages
+// StatusPage definition https://api.ilert.com/api-docs/#tag/Status-Pages
 type StatusPage struct {
 	ID                        int64                `json:"id"`
 	Name                      string               `json:"name"`
@@ -23,6 +23,7 @@ type StatusPage struct {
 	ShowIncidentHistoryOption bool                 `json:"showIncidentHistoryOption"`
 	PageTitle                 string               `json:"pageTitle"`
 	PageDescription           string               `json:"pageDescription"`
+	PageLayout                string               `json:"pageLayout,omitempty"`
 	LogoRedirectUrl           string               `json:"logoRedirectUrl"`
 	Activated                 bool                 `json:"activated"`
 	Status                    string               `json:"status"`
@@ -33,6 +34,8 @@ type StatusPage struct {
 	IpWhitelist               []string             `json:"ipWhitelist,omitempty"`
 	AccountWideView           bool                 `json:"accountWideView,omitempty"`
 	Structure                 *StatusPageStructure `json:"structure,omitempty"`
+	ThemeMode                 string               `json:"themeMode,omitempty"` // please use field `Appearance` instead
+	Appearance                string               `json:"appearance,omitempty"`
 }
 
 // StatusPageStructure defines status page structure
@@ -48,6 +51,9 @@ type StatusPageElement struct {
 
 	// Must be either "SERVICE" or "GROUP", corresponding to given ID
 	Type string `json:"type"`
+
+	// Allowed values are "expand" | "no-graph"
+	Options []string `json:"options,omitempty"`
 
 	// Can only contain StatusPageElement of type "SERVICE".
 	// Must not be set on type "SERVICE".
@@ -83,6 +89,51 @@ var StatusPageElementType = struct {
 var StatusPageElementTypeAll = []string{
 	StatusPageElementType.Service,
 	StatusPageElementType.Group,
+}
+
+// StatusPageLayout defines status page layout
+var StatusPageLayout = struct {
+	SingleColumn string
+	Responsive   string
+}{
+	SingleColumn: "SINGLE_COLUMN",
+	Responsive:   "RESPONSIVE",
+}
+
+// StatusPageLayoutAll defines all status page layouts
+var StatusPageLayoutAll = []string{
+	StatusPageLayout.SingleColumn,
+	StatusPageLayout.Responsive,
+}
+
+// StatusPageAppearance defines status page appearance
+var StatusPageAppearance = struct {
+	Light string
+	Dark  string
+}{
+	Light: "LIGHT",
+	Dark:  "DARK",
+}
+
+// StatusPageAppearanceAll defines all status page appearances
+var StatusPageAppearanceAll = []string{
+	StatusPageAppearance.Light,
+	StatusPageAppearance.Dark,
+}
+
+// StatusPageElementOption defines status page element option
+var StatusPageElementOption = struct {
+	Expand  string
+	NoGraph string
+}{
+	Expand:  "expand",
+	NoGraph: "no-graph",
+}
+
+// StatusPageElementOptionAll defines all status page element options
+var StatusPageElementOptionAll = []string{
+	StatusPageElementOption.Expand,
+	StatusPageElementOption.NoGraph,
 }
 
 // CreateStatusPageInput represents the input of a CreateStatusPage operation.
