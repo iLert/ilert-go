@@ -46,7 +46,7 @@ type AlertActionOutputParams struct {
 	AtMobiles        []string `json:"atMobiles,omitempty"`        // DingTalk
 	BodyTemplate     string   `json:"bodyTemplate,omitempty"`     // Custom, Jira, Email. Used to post data to external server
 	CallerID         string   `json:"callerId,omitempty"`         // ServiceNow: user email
-	ChannelID        string   `json:"channelId,omitempty"`        // Slack
+	ChannelID        string   `json:"channelId,omitempty"`        // Slack, Telegram
 	ChannelName      string   `json:"channelName,omitempty"`      // Slack
 	CompanyID        int64    `json:"companyId,omitempty"`        // Autotask: Company ID
 	Email            string   `json:"email,omitempty"`            // Zammad
@@ -218,6 +218,11 @@ type AlertActionParamsAutomationRule struct {
 	TemplateId       int64   `json:"templateId,omitempty"`
 	SendNotification bool    `json:"sendNotification,omitempty"`
 	ServiceIds       []int64 `json:"serviceIds"`
+}
+
+// AlertActionParamsTelegram definition
+type AlertActionParamsTelegram struct {
+	ChannelId string `json:"channelId,omitempty"`
 }
 
 // AlertActionResult definition

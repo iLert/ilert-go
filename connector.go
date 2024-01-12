@@ -168,6 +168,7 @@ var ConnectorTypes = struct {
 	DingTalk          string
 	DingTalkAction    string
 	AutomationRule    string
+	Telegram          string
 }{
 	AWSLambda:         "aws_lambda",
 	AzureFAAS:         "azure_faas",
@@ -196,6 +197,7 @@ var ConnectorTypes = struct {
 	DingTalk:          "dingtalk",
 	DingTalkAction:    "dingtalk_action",
 	AutomationRule:    "automation_rule",
+	Telegram:          "telegram",
 }
 
 // ConnectorTypesAll defines connector all types list
@@ -227,6 +229,7 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.DingTalk,
 	ConnectorTypes.DingTalkAction,
 	ConnectorTypes.AutomationRule,
+	ConnectorTypes.Telegram,
 }
 
 // CreateConnectorInput represents the input of a CreateConnector operation.
