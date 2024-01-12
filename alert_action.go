@@ -222,7 +222,7 @@ type AlertActionParamsAutomationRule struct {
 
 // AlertActionParamsTelegram definition
 type AlertActionParamsTelegram struct {
-	ChannelId int64 `json:"channelId,omitempty"`
+	ChannelId string `json:"channelId,omitempty"`
 }
 
 // AlertActionResult definition
