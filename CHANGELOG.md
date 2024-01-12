@@ -1,5 +1,9 @@
 # Changelog
 
+# 12.01.2024, Version 3.5.0
+
+- add Telegram as alert action type in [#35](https://github.com/iLert/ilert-go/pull/35)
+
 # 05.01.2024, Version 3.4.1
 
 - replace `ThemeMode` field with `Appearance` for status page resource in [#35](https://github.com/iLert/ilert-go/pull/35)
