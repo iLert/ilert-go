@@ -1,5 +1,7 @@
 # Changelog
 
+# 01.02.2024, Version 3.6.0
+
 - apply alert actions v2 changes in [#29](https://github.com/iLert/ilert-go/pull/29)
   - add alertSources and teams fields, deprecate alertSourceIds
 
