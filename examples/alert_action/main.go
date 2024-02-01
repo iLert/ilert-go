@@ -53,12 +53,12 @@ func main() {
 
 	rcn, err := client.CreateAlertAction(&ilert.CreateAlertActionInput{
 		AlertAction: &ilert.AlertAction{
-			Name:           "Test GitHub AlertAction",
-			ConnectorType:  ilert.ConnectorTypes.Github,
-			ConnectorID:    rcr.Connector.ID,
-			TriggerMode:    ilert.AlertActionTriggerModes.Automatic,
-			TriggerTypes:   ilert.AlertActionTriggerTypesAll,
-			AlertSourceIDs: []int64{ras.AlertSource.ID},
+			Name:          "Test GitHub AlertAction",
+			ConnectorType: ilert.ConnectorTypes.Github,
+			ConnectorID:   rcr.Connector.ID,
+			TriggerMode:   ilert.AlertActionTriggerModes.Automatic,
+			TriggerTypes:  ilert.AlertActionTriggerTypesAll,
+			AlertSources:  []ilert.AlertSource{*ras.AlertSource},
 			Params: ilert.AlertActionParamsGithub{
 				Owner:      "my-org",
 				Repository: "my-repo",

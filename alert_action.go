@@ -10,25 +10,28 @@ import (
 
 // AlertAction definition https://api.ilert.com/api-docs/#tag/Alert-Actions
 type AlertAction struct {
-	ID             string       `json:"id,omitempty"`
-	Name           string       `json:"name"`
-	AlertSourceIDs []int64      `json:"alertSourceIds"`
-	ConnectorID    string       `json:"connectorId"`
-	ConnectorType  string       `json:"connectorType"`
-	TriggerMode    string       `json:"triggerMode"`
-	DelaySec       int          `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
-	TriggerTypes   []string     `json:"triggerTypes,omitempty"`
-	CreatedAt      string       `json:"createdAt,omitempty"` // date time string in ISO 8601
-	UpdatedAt      string       `json:"updatedAt,omitempty"` // date time string in ISO 8601
-	Params         interface{}  `json:"params"`
-	AlertFilter    *AlertFilter `json:"alertFilter,omitempty"`
+	ID             string        `json:"id,omitempty"`
+	Name           string        `json:"name"`
+	AlertSourceIDs []int64       `json:"alertSourceIds,omitempty"` // @deprecated
+	AlertSources   []AlertSource `json:"alertSources,omitempty"`
+	ConnectorID    string        `json:"connectorId,omitempty"`
+	ConnectorType  string        `json:"connectorType"`
+	TriggerMode    string        `json:"triggerMode"`
+	DelaySec       int           `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
+	TriggerTypes   []string      `json:"triggerTypes,omitempty"`
+	CreatedAt      string        `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt      string        `json:"updatedAt,omitempty"` // date time string in ISO 8601
+	Params         interface{}   `json:"params"`
+	AlertFilter    *AlertFilter  `json:"alertFilter,omitempty"`
+	Teams          []TeamShort   `json:"teams,omitempty"`
 }
 
 // AlertActionOutput definition https://api.ilert.com/api-docs/#tag/Alert-Actions
 type AlertActionOutput struct {
 	ID             string                   `json:"id"`
 	Name           string                   `json:"name"`
-	AlertSourceIDs []int64                  `json:"alertSourceIds"`
+	AlertSourceIDs []int64                  `json:"alertSourceIds,omitempty"` // @deprecated
+	AlertSources   []AlertSource            `json:"alertSources,omitempty"`
 	ConnectorID    string                   `json:"connectorId"`
 	ConnectorType  string                   `json:"connectorType"`
 	TriggerMode    string                   `json:"triggerMode"`
@@ -38,6 +41,7 @@ type AlertActionOutput struct {
 	UpdatedAt      string                   `json:"updatedAt"` // date time string in ISO 8601
 	Params         *AlertActionOutputParams `json:"params"`
 	AlertFilter    *AlertFilter             `json:"alertFilter,omitempty"`
+	Teams          []TeamShort              `json:"teams,omitempty"`
 }
 
 // AlertActionOutputParams definition
