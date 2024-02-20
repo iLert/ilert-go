@@ -1,5 +1,9 @@
 # Changelog
 
+# 20.02.2024, Version 3.6.1
+
+- fix backwards compatibility with alert actions v2 changes [#37](https://github.com/iLert/ilert-go/pull/37)
+
 # 01.02.2024, Version 3.6.0
 
 - apply alert actions v2 changes in [#29](https://github.com/iLert/ilert-go/pull/29)
@@ -7,7 +11,7 @@
 
 # 12.01.2024, Version 3.5.0
 
-- add Telegram as alert action type in [#35](https://github.com/iLert/ilert-go/pull/35)
+- add Telegram as alert action type in [#36](https://github.com/iLert/ilert-go/pull/36)
 
 # 05.01.2024, Version 3.4.1
 
