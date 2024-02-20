@@ -10,20 +10,20 @@ import (
 
 // AlertAction definition https://api.ilert.com/api-docs/#tag/Alert-Actions
 type AlertAction struct {
-	ID             string        `json:"id,omitempty"`
-	Name           string        `json:"name"`
-	AlertSourceIDs []int64       `json:"alertSourceIds,omitempty"` // @deprecated
-	AlertSources   []AlertSource `json:"alertSources,omitempty"`
-	ConnectorID    string        `json:"connectorId,omitempty"`
-	ConnectorType  string        `json:"connectorType"`
-	TriggerMode    string        `json:"triggerMode"`
-	DelaySec       int           `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
-	TriggerTypes   []string      `json:"triggerTypes,omitempty"`
-	CreatedAt      string        `json:"createdAt,omitempty"` // date time string in ISO 8601
-	UpdatedAt      string        `json:"updatedAt,omitempty"` // date time string in ISO 8601
-	Params         interface{}   `json:"params"`
-	AlertFilter    *AlertFilter  `json:"alertFilter,omitempty"`
-	Teams          []TeamShort   `json:"teams,omitempty"`
+	ID             string         `json:"id,omitempty"`
+	Name           string         `json:"name"`
+	AlertSourceIDs []int64        `json:"alertSourceIds,omitempty"` // @deprecated
+	AlertSources   *[]AlertSource `json:"alertSources,omitempty"`
+	ConnectorID    string         `json:"connectorId,omitempty"`
+	ConnectorType  string         `json:"connectorType"`
+	TriggerMode    string         `json:"triggerMode"`
+	DelaySec       int            `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
+	TriggerTypes   []string       `json:"triggerTypes,omitempty"`
+	CreatedAt      string         `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt      string         `json:"updatedAt,omitempty"` // date time string in ISO 8601
+	Params         interface{}    `json:"params"`
+	AlertFilter    *AlertFilter   `json:"alertFilter,omitempty"`
+	Teams          *[]TeamShort   `json:"teams,omitempty"`
 }
 
 // AlertActionOutput definition https://api.ilert.com/api-docs/#tag/Alert-Actions
@@ -31,7 +31,7 @@ type AlertActionOutput struct {
 	ID             string                   `json:"id"`
 	Name           string                   `json:"name"`
 	AlertSourceIDs []int64                  `json:"alertSourceIds,omitempty"` // @deprecated
-	AlertSources   []AlertSource            `json:"alertSources,omitempty"`
+	AlertSources   *[]AlertSource           `json:"alertSources,omitempty"`
 	ConnectorID    string                   `json:"connectorId"`
 	ConnectorType  string                   `json:"connectorType"`
 	TriggerMode    string                   `json:"triggerMode"`
@@ -41,7 +41,7 @@ type AlertActionOutput struct {
 	UpdatedAt      string                   `json:"updatedAt"` // date time string in ISO 8601
 	Params         *AlertActionOutputParams `json:"params"`
 	AlertFilter    *AlertFilter             `json:"alertFilter,omitempty"`
-	Teams          []TeamShort              `json:"teams,omitempty"`
+	Teams          *[]TeamShort             `json:"teams,omitempty"`
 }
 
 // AlertActionOutputParams definition
@@ -404,6 +404,15 @@ func (c *Client) CreateAlertAction(input *CreateAlertActionInput) (*CreateAlertA
 	if input.AlertAction == nil {
 		return nil, errors.New("alert action input is required")
 	}
+	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) {
+		sourceId := (*input.AlertAction.AlertSources)[0].ID
+
+		// manually set fields to ensure backwards compatibility with api v1
+		input.AlertAction.AlertSourceIDs = []int64{sourceId}
+		input.AlertAction.AlertSources = nil
+		input.AlertAction.Teams = nil
+	}
+
 	resp, err := c.httpClient.R().SetBody(input.AlertAction).Post(apiRoutes.alertActions)
 	if err != nil {
 		return nil, err
@@ -425,6 +434,7 @@ func (c *Client) CreateAlertAction(input *CreateAlertActionInput) (*CreateAlertA
 type GetAlertActionInput struct {
 	_             struct{}
 	AlertActionID *string
+	Version       *int
 }
 
 // GetAlertActionOutput represents the output of a GetAlertAction operation.
@@ -441,8 +451,12 @@ func (c *Client) GetAlertAction(input *GetAlertActionInput) (*GetAlertActionOutp
 	if input.AlertActionID == nil {
 		return nil, errors.New("alert action id is required")
 	}
+	q := url.Values{}
+	if input.Version != nil {
+		q.Add("version", strconv.Itoa(*input.Version))
+	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%s?%s", apiRoutes.alertActions, *input.AlertActionID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -570,6 +584,14 @@ func (c *Client) UpdateAlertAction(input *UpdateAlertActionInput) (*UpdateAlertA
 	}
 	if input.AlertActionID == nil {
 		return nil, errors.New("alert action id is required")
+	}
+	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) {
+		sourceId := (*input.AlertAction.AlertSources)[0].ID
+
+		// manually set fields to ensure backwards compatibility with api v1
+		input.AlertAction.AlertSourceIDs = []int64{sourceId}
+		input.AlertAction.AlertSources = nil
+		input.AlertAction.Teams = nil
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.AlertAction).Put(fmt.Sprintf("%s/%s", apiRoutes.alertActions, *input.AlertActionID))

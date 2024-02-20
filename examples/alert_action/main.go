@@ -58,7 +58,7 @@ func main() {
 			ConnectorID:   rcr.Connector.ID,
 			TriggerMode:   ilert.AlertActionTriggerModes.Automatic,
 			TriggerTypes:  ilert.AlertActionTriggerTypesAll,
-			AlertSources:  []ilert.AlertSource{*ras.AlertSource},
+			AlertSources:  &[]ilert.AlertSource{*ras.AlertSource},
 			Params: ilert.AlertActionParamsGithub{
 				Owner:      "my-org",
 				Repository: "my-repo",
