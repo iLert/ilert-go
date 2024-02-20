@@ -3,6 +3,7 @@
 # 20.02.2024, Version 3.6.1
 
 - fix backwards compatibility with alert actions v2 changes [#37](https://github.com/iLert/ilert-go/pull/37)
+  - ensures existing scripts using one alert source with no team explicitly set to use legacy api without breaking
 
 # 01.02.2024, Version 3.6.0
 
