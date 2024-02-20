@@ -407,6 +407,7 @@ func (c *Client) CreateAlertAction(input *CreateAlertActionInput) (*CreateAlertA
 	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) {
 		sourceId := (*input.AlertAction.AlertSources)[0].ID
 
+		// manually set fields to ensure backwards compatibility with api v1
 		input.AlertAction.AlertSourceIDs = []int64{sourceId}
 		input.AlertAction.AlertSources = nil
 		input.AlertAction.Teams = nil
@@ -587,6 +588,7 @@ func (c *Client) UpdateAlertAction(input *UpdateAlertActionInput) (*UpdateAlertA
 	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) {
 		sourceId := (*input.AlertAction.AlertSources)[0].ID
 
+		// manually set fields to ensure backwards compatibility with api v1
 		input.AlertAction.AlertSourceIDs = []int64{sourceId}
 		input.AlertAction.AlertSources = nil
 		input.AlertAction.Teams = nil
