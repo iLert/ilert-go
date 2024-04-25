@@ -105,9 +105,11 @@ type AlertActionParamsJira struct {
 
 // AlertActionParamsMicrosoftTeamsBot definition
 type AlertActionParamsMicrosoftTeamsBot struct {
-	ChannelID string `json:"channelId,omitempty"`
-	TeamID    string `json:"teamId,omitempty"`
-	Type      string `json:"type,omitempty"` // "chat" | "meeting"
+	ChannelID   string `json:"channelId,omitempty"`
+	ChannelName string `json:"channelName,omitempty"`
+	TeamID      string `json:"teamId,omitempty"`
+	TeamName    string `json:"teamName,omitempty"`
+	Type        string `json:"type,omitempty"` // "chat" | "meeting"
 }
 
 // AlertActionParamsServiceNow definition
