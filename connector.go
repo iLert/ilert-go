@@ -141,95 +141,62 @@ type ConnectorParamsDingTalk struct {
 
 // ConnectorTypes defines connector types
 var ConnectorTypes = struct {
-	AWSLambda         string
-	AzureFAAS         string
-	Datadog           string
+	AutomationRule    string
+	Autotask          string
+	DingTalk          string
+	DingTalkAction    string
 	Discord           string
 	Email             string
 	Github            string
-	GoogleFAAS        string
 	Jira              string
-	MicrosoftTeams    string
+	Mattermost        string
 	MicrosoftTeamsBot string
 	ServiceNow        string
 	Slack             string
-	Sysdig            string
+	Telegram          string
 	Topdesk           string
 	Webhook           string
-	Zapier            string
-	Zendesk           string
-	Autotask          string
-	Mattermost        string
 	Zammad            string
-	ZoomChat          string
-	ZoomMeeting       string
-	StatusPageIO      string
-	Webex             string
-	DingTalk          string
-	DingTalkAction    string
-	AutomationRule    string
-	Telegram          string
+	Zendesk           string
 }{
-	AWSLambda:         "aws_lambda",
-	AzureFAAS:         "azure_faas",
-	Datadog:           "datadog",
+	AutomationRule:    "automation_rule",
+	Autotask:          "autotask",
+	DingTalk:          "dingtalk",
+	DingTalkAction:    "dingtalk_action",
 	Discord:           "discord",
 	Email:             "email",
 	Github:            "github",
-	GoogleFAAS:        "google_faas",
 	Jira:              "jira",
-	MicrosoftTeams:    "microsoft_teams",
+	Mattermost:        "mattermost",
 	MicrosoftTeamsBot: "microsoft_teams_bot",
 	ServiceNow:        "servicenow",
 	Slack:             "slack",
-	Sysdig:            "sysdig",
+	Telegram:          "telegram",
 	Topdesk:           "topdesk",
 	Webhook:           "webhook",
-	Zapier:            "zapier",
-	Zendesk:           "zendesk",
-	Autotask:          "autotask",
-	Mattermost:        "mattermost",
 	Zammad:            "zammad",
-	ZoomChat:          "zoom_chat",
-	ZoomMeeting:       "zoom_meeting",
-	StatusPageIO:      "status_page_io",
-	Webex:             "webex",
-	DingTalk:          "dingtalk",
-	DingTalkAction:    "dingtalk_action",
-	AutomationRule:    "automation_rule",
-	Telegram:          "telegram",
+	Zendesk:           "zendesk",
 }
 
 // ConnectorTypesAll defines connector all types list
 var ConnectorTypesAll = []string{
-	ConnectorTypes.AWSLambda,
-	ConnectorTypes.AzureFAAS,
-	ConnectorTypes.Datadog,
+	ConnectorTypes.AutomationRule,
+	ConnectorTypes.Autotask,
+	ConnectorTypes.DingTalk,
+	ConnectorTypes.DingTalkAction,
 	ConnectorTypes.Discord,
 	ConnectorTypes.Email,
 	ConnectorTypes.Github,
-	ConnectorTypes.GoogleFAAS,
 	ConnectorTypes.Jira,
-	ConnectorTypes.MicrosoftTeams,
+	ConnectorTypes.Mattermost,
 	ConnectorTypes.MicrosoftTeamsBot,
 	ConnectorTypes.ServiceNow,
 	ConnectorTypes.Slack,
-	ConnectorTypes.Sysdig,
+	ConnectorTypes.Telegram,
 	ConnectorTypes.Topdesk,
 	ConnectorTypes.Webhook,
-	ConnectorTypes.Zapier,
-	ConnectorTypes.Zendesk,
-	ConnectorTypes.Autotask,
-	ConnectorTypes.Mattermost,
 	ConnectorTypes.Zammad,
-	ConnectorTypes.ZoomChat,
-	ConnectorTypes.ZoomMeeting,
-	ConnectorTypes.StatusPageIO,
-	ConnectorTypes.Webex,
-	ConnectorTypes.DingTalk,
-	ConnectorTypes.DingTalkAction,
-	ConnectorTypes.AutomationRule,
-	ConnectorTypes.Telegram,
+	ConnectorTypes.Zendesk,
 }
 
 // CreateConnectorInput represents the input of a CreateConnector operation.
