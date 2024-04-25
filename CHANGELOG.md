@@ -1,5 +1,10 @@
 # Changelog
 
+## 25.04.2024, Version 3.7.0
+
+- remove connectors and alert actions deprecated via api in [#85](https://github.com/iLert/terraform-provider-ilert/pull/85)
+  - adds support for alert actions and connectors previously missing
+
 # 20.02.2024, Version 3.6.1
 
 - fix backwards compatibility with alert actions v2 changes [#37](https://github.com/iLert/ilert-go/pull/37)
