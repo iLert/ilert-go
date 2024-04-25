@@ -78,10 +78,12 @@ type AlertActionOutputParams struct {
 	Subject          string   `json:"subject,omitempty"`          // Email
 	Tags             []string `json:"tags,omitempty"`             // Datadog or Sysdig
 	TeamDomain       string   `json:"teamDomain,omitempty"`       // Slack
-	TeamID           string   `json:"teamId,omitempty"`           // Slack
+	TeamID           string   `json:"teamId,omitempty"`           // Slack, Microsoft Teams Bot
+	TeamName         string   `json:"teamName,omitempty"`         // Slack, Microsoft Teams Bot
 	TemplateId       int64    `json:"templateId,omitempty"`       // Automation rule
 	TicketCategory   string   `json:"ticketCategory,omitempty"`   // Autotask
 	TicketType       string   `json:"ticketType,omitempty"`       // Autotask
+	Type             string   `json:"type,omitempty"`             // Microsoft Teams Bot
 	Urgency          string   `json:"urgency,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
 	WebhookURL       string   `json:"webhookUrl,omitempty"`       // Custom
 	URL              string   `json:"url,omitempty"`              // DingTalk, Mattermost
