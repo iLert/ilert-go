@@ -78,10 +78,12 @@ type AlertActionOutputParams struct {
 	Subject          string   `json:"subject,omitempty"`          // Email
 	Tags             []string `json:"tags,omitempty"`             // Datadog or Sysdig
 	TeamDomain       string   `json:"teamDomain,omitempty"`       // Slack
-	TeamID           string   `json:"teamId,omitempty"`           // Slack
+	TeamID           string   `json:"teamId,omitempty"`           // Slack, Microsoft Teams Bot
+	TeamName         string   `json:"teamName,omitempty"`         // Slack, Microsoft Teams Bot
 	TemplateId       int64    `json:"templateId,omitempty"`       // Automation rule
 	TicketCategory   string   `json:"ticketCategory,omitempty"`   // Autotask
 	TicketType       string   `json:"ticketType,omitempty"`       // Autotask
+	Type             string   `json:"type,omitempty"`             // Microsoft Teams Bot
 	Urgency          string   `json:"urgency,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
 	WebhookURL       string   `json:"webhookUrl,omitempty"`       // Custom
 	URL              string   `json:"url,omitempty"`              // DingTalk
@@ -96,13 +98,6 @@ type AlertActionParamsAutotask struct {
 	TicketType     string `json:"ticketType,omitempty"`     // Autotask ticket type
 }
 
-// AlertActionParamsDatadog definition
-type AlertActionParamsDatadog struct {
-	Tags     []string `json:"tags,omitempty"`
-	Priority string   `json:"priority,omitempty"` // "normal" | "low"
-	Site     string   `json:"site,omitempty"`     // `US` | `EU`
-}
-
 // AlertActionParamsJira definition
 type AlertActionParamsJira struct {
 	Project      string `json:"project,omitempty"`
@@ -110,8 +105,14 @@ type AlertActionParamsJira struct {
 	BodyTemplate string `json:"bodyTemplate,omitempty"`
 }
 
-// AlertActionParamsMicrosoftTeams definition
-type AlertActionParamsMicrosoftTeams struct{}
+// AlertActionParamsMicrosoftTeamsBot definition
+type AlertActionParamsMicrosoftTeamsBot struct {
+	ChannelID   string `json:"channelId,omitempty"`
+	ChannelName string `json:"channelName,omitempty"`
+	TeamID      string `json:"teamId,omitempty"`
+	TeamName    string `json:"teamName,omitempty"`
+	Type        string `json:"type,omitempty"` // "chat" | "meeting"
+}
 
 // AlertActionParamsServiceNow definition
 type AlertActionParamsServiceNow struct {
@@ -154,24 +155,6 @@ type AlertActionParamsTopdesk struct {
 	Status string `json:"status,omitempty"` // `firstLine`| `secondLine` | `partial`
 }
 
-// AlertActionParamsAWSLambda definition
-type AlertActionParamsAWSLambda struct {
-	WebhookURL   string `json:"webhookUrl,omitempty"`
-	BodyTemplate string `json:"bodyTemplate,omitempty"`
-}
-
-// AlertActionParamsAzureFunction definition
-type AlertActionParamsAzureFunction struct {
-	WebhookURL   string `json:"webhookUrl,omitempty"`
-	BodyTemplate string `json:"bodyTemplate,omitempty"`
-}
-
-// AlertActionParamsGoogleFunction definition
-type AlertActionParamsGoogleFunction struct {
-	WebhookURL   string `json:"webhookUrl,omitempty"`
-	BodyTemplate string `json:"bodyTemplate,omitempty"`
-}
-
 // AlertActionParamsEmail definition
 type AlertActionParamsEmail struct {
 	Recipients   []string `json:"recipients,omitempty"`
@@ -179,25 +162,9 @@ type AlertActionParamsEmail struct {
 	BodyTemplate string   `json:"bodyTemplate,omitempty"`
 }
 
-// AlertActionParamsSysdig definition
-type AlertActionParamsSysdig struct {
-	Tags        []string `json:"tags,omitempty"`
-	EventFilter string   `json:"eventFilter,omitempty"`
-}
-
-// AlertActionParamsZapier definition
-type AlertActionParamsZapier struct {
-	WebhookURL string `json:"webhookUrl,omitempty"`
-}
-
 // AlertActionParamsZammad definition
 type AlertActionParamsZammad struct {
 	Email string `json:"email,omitempty"`
-}
-
-// AlertActionParamsStatusPageIO definition
-type AlertActionParamsStatusPageIO struct {
-	PageID string `json:"pageId,omitempty"`
 }
 
 // AlertActionParamsDingTalk definition
