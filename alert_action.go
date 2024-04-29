@@ -86,7 +86,7 @@ type AlertActionOutputParams struct {
 	Type             string   `json:"type,omitempty"`             // Microsoft Teams Bot
 	Urgency          string   `json:"urgency,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
 	WebhookURL       string   `json:"webhookUrl,omitempty"`       // Custom
-	URL              string   `json:"url,omitempty"`              // DingTalk, Mattermost
+	URL              string   `json:"url,omitempty"`              // DingTalk
 }
 
 // AlertActionParamsAutotask definition
@@ -194,11 +194,6 @@ type AlertActionParamsAutomationRule struct {
 // AlertActionParamsTelegram definition
 type AlertActionParamsTelegram struct {
 	ChannelID string `json:"channelId,omitempty"`
-}
-
-// AlertActionParamsMattermost definition
-type AlertActionParamsMattermost struct {
-	URL string `json:"url,omitempty"`
 }
 
 // AlertActionResult definition
