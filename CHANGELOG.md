@@ -1,5 +1,9 @@
 # Changelog
 
+## 06.05.2024, Version 3.7.1
+
+- readd removed connector and alert action for microsoft teams simple webhook [#86](https://github.com/iLert/terraform-provider-ilert/pull/86)
+
 ## 25.04.2024, Version 3.7.0
 
 - remove connectors and alert actions deprecated via api in [#85](https://github.com/iLert/terraform-provider-ilert/pull/85)
