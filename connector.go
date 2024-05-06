@@ -150,6 +150,7 @@ var ConnectorTypes = struct {
 	Github            string
 	Jira              string
 	Mattermost        string
+	MicrosoftTeams    string
 	MicrosoftTeamsBot string
 	ServiceNow        string
 	Slack             string
@@ -168,6 +169,7 @@ var ConnectorTypes = struct {
 	Github:            "github",
 	Jira:              "jira",
 	Mattermost:        "mattermost",
+	MicrosoftTeams:    "microsoft_teams",
 	MicrosoftTeamsBot: "microsoft_teams_bot",
 	ServiceNow:        "servicenow",
 	Slack:             "slack",
@@ -189,6 +191,7 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.Github,
 	ConnectorTypes.Jira,
 	ConnectorTypes.Mattermost,
+	ConnectorTypes.MicrosoftTeams,
 	ConnectorTypes.MicrosoftTeamsBot,
 	ConnectorTypes.ServiceNow,
 	ConnectorTypes.Slack,
