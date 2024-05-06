@@ -105,6 +105,9 @@ type AlertActionParamsJira struct {
 	BodyTemplate string `json:"bodyTemplate,omitempty"`
 }
 
+// AlertActionParamsMicrosoftTeams definition
+type AlertActionParamsMicrosoftTeams struct{}
+
 // AlertActionParamsMicrosoftTeamsBot definition
 type AlertActionParamsMicrosoftTeamsBot struct {
 	ChannelID   string `json:"channelId,omitempty"`
