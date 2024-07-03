@@ -64,8 +64,9 @@ var UserRoleAll = []string{
 
 // CreateUserInput represents the input of a CreateUser operation.
 type CreateUserInput struct {
-	_    struct{}
-	User *User
+	_                struct{}
+	User             *User
+	SendNoInvitation *bool
 }
 
 // CreateUserOutput represents the output of a CreateUser operation.
@@ -87,7 +88,12 @@ func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
 		return nil, errors.New("user input is required")
 	}
 
-	resp, err := c.httpClient.R().SetBody(input.User).Post(apiRoutes.users)
+	requestURL := apiRoutes.users
+	if input.SendNoInvitation != nil {
+		requestURL = fmt.Sprintf("%s?send-no-invitation=%t", apiRoutes.users, *input.SendNoInvitation)
+	}
+
+	resp, err := c.httpClient.R().SetBody(input.User).Post(requestURL)
 	if err != nil {
 		return nil, err
 	}
