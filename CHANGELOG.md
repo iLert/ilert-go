@@ -1,5 +1,9 @@
 # Changelog
 
+## 06.05.2024, Version 3.8.0
+
+- add send-no-invitation option to user create api [#40](https://github.com/iLert/ilert-go/pull/40)
+
 ## 06.05.2024, Version 3.7.1
 
 - readd removed connector and alert action for microsoft teams simple webhook [#39](https://github.com/iLert/ilert-go/pull/39)
