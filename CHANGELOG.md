@@ -1,5 +1,9 @@
 # Changelog
 
+## 09.05.2024, Version 3.8.1
+
+- add region to user [#41](https://github.com/iLert/ilert-go/pull/41)
+
 ## 06.05.2024, Version 3.8.0
 
 - add send-no-invitation option to user create api [#40](https://github.com/iLert/ilert-go/pull/40)

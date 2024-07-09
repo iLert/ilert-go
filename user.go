@@ -20,6 +20,7 @@ type User struct {
 	Department string `json:"department,omitempty"`
 	Language   string `json:"language,omitempty"`
 	Role       string `json:"role,omitempty"`
+	Region     string `json:"region,omitempty"`
 	ShiftColor string `json:"shiftColor,omitempty"`
 }
 
