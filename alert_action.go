@@ -117,6 +117,11 @@ type AlertActionParamsMicrosoftTeamsBot struct {
 	Type        string `json:"type,omitempty"` // "chat" | "meeting"
 }
 
+// AlertActionParamsMicrosoftTeamsWebhook definition
+type AlertActionParamsMicrosoftTeamsWebhook struct {
+	URL string `json:"url,omitempty"`
+}
+
 // AlertActionParamsServiceNow definition
 type AlertActionParamsServiceNow struct {
 	CallerID string `json:"callerId,omitempty"` // user email
