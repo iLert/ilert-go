@@ -141,43 +141,45 @@ type ConnectorParamsDingTalk struct {
 
 // ConnectorTypes defines connector types
 var ConnectorTypes = struct {
-	AutomationRule    string
-	Autotask          string
-	DingTalk          string
-	DingTalkAction    string
-	Discord           string
-	Email             string
-	Github            string
-	Jira              string
-	Mattermost        string
-	MicrosoftTeams    string
-	MicrosoftTeamsBot string
-	ServiceNow        string
-	Slack             string
-	Telegram          string
-	Topdesk           string
-	Webhook           string
-	Zammad            string
-	Zendesk           string
+	AutomationRule        string
+	Autotask              string
+	DingTalk              string
+	DingTalkAction        string
+	Discord               string
+	Email                 string
+	Github                string
+	Jira                  string
+	Mattermost            string
+	MicrosoftTeams        string
+	MicrosoftTeamsBot     string
+	MicrosoftTeamsWebhook string
+	ServiceNow            string
+	Slack                 string
+	Telegram              string
+	Topdesk               string
+	Webhook               string
+	Zammad                string
+	Zendesk               string
 }{
-	AutomationRule:    "automation_rule",
-	Autotask:          "autotask",
-	DingTalk:          "dingtalk",
-	DingTalkAction:    "dingtalk_action",
-	Discord:           "discord",
-	Email:             "email",
-	Github:            "github",
-	Jira:              "jira",
-	Mattermost:        "mattermost",
-	MicrosoftTeams:    "microsoft_teams",
-	MicrosoftTeamsBot: "microsoft_teams_bot",
-	ServiceNow:        "servicenow",
-	Slack:             "slack",
-	Telegram:          "telegram",
-	Topdesk:           "topdesk",
-	Webhook:           "webhook",
-	Zammad:            "zammad",
-	Zendesk:           "zendesk",
+	AutomationRule:        "automation_rule",
+	Autotask:              "autotask",
+	DingTalk:              "dingtalk",
+	DingTalkAction:        "dingtalk_action",
+	Discord:               "discord",
+	Email:                 "email",
+	Github:                "github",
+	Jira:                  "jira",
+	Mattermost:            "mattermost",
+	MicrosoftTeams:        "microsoft_teams",
+	MicrosoftTeamsBot:     "microsoft_teams_bot",
+	MicrosoftTeamsWebhook: "microsoft_teams_webhook",
+	ServiceNow:            "servicenow",
+	Slack:                 "slack",
+	Telegram:              "telegram",
+	Topdesk:               "topdesk",
+	Webhook:               "webhook",
+	Zammad:                "zammad",
+	Zendesk:               "zendesk",
 }
 
 // ConnectorTypesAll defines connector all types list
@@ -193,6 +195,7 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.Mattermost,
 	ConnectorTypes.MicrosoftTeams,
 	ConnectorTypes.MicrosoftTeamsBot,
+	ConnectorTypes.MicrosoftTeamsWebhook,
 	ConnectorTypes.ServiceNow,
 	ConnectorTypes.Slack,
 	ConnectorTypes.Telegram,
