@@ -45,6 +45,7 @@ type AlertSource struct {
 	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
 	ScoreThreshold         string                 `json:"scoreThreshold,omitempty"`
+	EventFilter            string                 `json:"eventFilter,omitempty"`
 }
 
 // EmailPredicate definition
