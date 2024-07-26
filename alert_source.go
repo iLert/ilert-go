@@ -44,6 +44,7 @@ type AlertSource struct {
 	LinkTemplates          []LinkTemplate         `json:"linkTemplates,omitempty"`
 	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
+	ScoreThreshold         string                 `json:"scoreThreshold,omitempty"`
 }
 
 // EmailPredicate definition
@@ -165,6 +166,7 @@ var AlertSourceAlertCreations = struct {
 	OneOpenAlertAllowed      string
 	OpenResolveOnExtraction  string
 	OneAlertGroupedPerWindow string
+	IntelligentGrouping      string
 }{
 	// @deprecated
 	OneIncidentPerEmail:        "ONE_INCIDENT_PER_EMAIL",
@@ -178,6 +180,7 @@ var AlertSourceAlertCreations = struct {
 	OneOpenAlertAllowed:      "ONE_OPEN_ALERT_ALLOWED",
 	OpenResolveOnExtraction:  "OPEN_RESOLVE_ON_EXTRACTION",
 	OneAlertGroupedPerWindow: "ONE_ALERT_GROUPED_PER_WINDOW",
+	IntelligentGrouping:      "INTELLIGENT_GROUPING",
 }
 
 // AlertSourceAlertCreationsAll defines alert source alert creations list
@@ -194,6 +197,7 @@ var AlertSourceAlertCreationsAll = []string{
 	AlertSourceAlertCreations.OneOpenAlertAllowed,
 	AlertSourceAlertCreations.OpenResolveOnExtraction,
 	AlertSourceAlertCreations.OneAlertGroupedPerWindow,
+	AlertSourceAlertCreations.IntelligentGrouping,
 }
 
 // AlertSourceAlertGroupingWindows defines alert source alert grouping windows
