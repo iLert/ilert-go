@@ -122,6 +122,11 @@ type AlertActionParamsMicrosoftTeamsWebhook struct {
 	URL string `json:"url,omitempty"`
 }
 
+// AlertActionParamsSlackWebhook definition
+type AlertActionParamsSlackWebhook struct {
+	URL string `json:"url,omitempty"`
+}
+
 // AlertActionParamsServiceNow definition
 type AlertActionParamsServiceNow struct {
 	CallerID string `json:"callerId,omitempty"` // user email
