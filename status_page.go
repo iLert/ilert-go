@@ -36,6 +36,10 @@ type StatusPage struct {
 	Structure                 *StatusPageStructure `json:"structure,omitempty"`
 	ThemeMode                 string               `json:"themeMode,omitempty"` // please use field `Appearance` instead
 	Appearance                string               `json:"appearance,omitempty"`
+	EmailWhitelist            []string             `json:"emailWhitelist,omitempty"`
+	Announcement              string               `json:"announcement,omitempty"`
+	AnnouncementOnPage        bool                 `json:"announcementOnPage,omitempty"`
+	AnnouncementInWidget      bool                 `json:"announcementInWidget,omitempty"`
 }
 
 // StatusPageStructure defines status page structure

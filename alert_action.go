@@ -10,38 +10,42 @@ import (
 
 // AlertAction definition https://api.ilert.com/api-docs/#tag/Alert-Actions
 type AlertAction struct {
-	ID             string         `json:"id,omitempty"`
-	Name           string         `json:"name"`
-	AlertSourceIDs []int64        `json:"alertSourceIds,omitempty"` // @deprecated
-	AlertSources   *[]AlertSource `json:"alertSources,omitempty"`
-	ConnectorID    string         `json:"connectorId,omitempty"`
-	ConnectorType  string         `json:"connectorType"`
-	TriggerMode    string         `json:"triggerMode"`
-	DelaySec       int            `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
-	TriggerTypes   []string       `json:"triggerTypes,omitempty"`
-	CreatedAt      string         `json:"createdAt,omitempty"` // date time string in ISO 8601
-	UpdatedAt      string         `json:"updatedAt,omitempty"` // date time string in ISO 8601
-	Params         interface{}    `json:"params"`
-	AlertFilter    *AlertFilter   `json:"alertFilter,omitempty"`
-	Teams          *[]TeamShort   `json:"teams,omitempty"`
+	ID                      string         `json:"id,omitempty"`
+	Name                    string         `json:"name"`
+	AlertSourceIDs          []int64        `json:"alertSourceIds,omitempty"` // @deprecated
+	AlertSources            *[]AlertSource `json:"alertSources,omitempty"`
+	ConnectorID             string         `json:"connectorId,omitempty"`
+	ConnectorType           string         `json:"connectorType"`
+	TriggerMode             string         `json:"triggerMode"`
+	DelaySec                int            `json:"delaySec,omitempty"`                // @deprecated
+	EscalationEndedDelaySec int            `json:"escalationEndedDelaySec,omitempty"` // between 0 and 7200, used with triggerType 'AlertEscalationEnded'
+	NotResolvedDelaySec     int            `json:"notResolvedDelaySec,omitempty"`     // between 0 and 7200, used with triggerType 'AlertNotResolved'
+	TriggerTypes            []string       `json:"triggerTypes,omitempty"`
+	CreatedAt               string         `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt               string         `json:"updatedAt,omitempty"` // date time string in ISO 8601
+	Params                  interface{}    `json:"params"`
+	AlertFilter             *AlertFilter   `json:"alertFilter,omitempty"`
+	Teams                   *[]TeamShort   `json:"teams,omitempty"`
 }
 
 // AlertActionOutput definition https://api.ilert.com/api-docs/#tag/Alert-Actions
 type AlertActionOutput struct {
-	ID             string                   `json:"id"`
-	Name           string                   `json:"name"`
-	AlertSourceIDs []int64                  `json:"alertSourceIds,omitempty"` // @deprecated
-	AlertSources   *[]AlertSource           `json:"alertSources,omitempty"`
-	ConnectorID    string                   `json:"connectorId"`
-	ConnectorType  string                   `json:"connectorType"`
-	TriggerMode    string                   `json:"triggerMode"`
-	DelaySec       int                      `json:"delaySec,omitempty"` // between 0 and 7200, only allowed with triggerType 'alert-escalation-ended'
-	TriggerTypes   []string                 `json:"triggerTypes,omitempty"`
-	CreatedAt      string                   `json:"createdAt"` // date time string in ISO 8601
-	UpdatedAt      string                   `json:"updatedAt"` // date time string in ISO 8601
-	Params         *AlertActionOutputParams `json:"params"`
-	AlertFilter    *AlertFilter             `json:"alertFilter,omitempty"`
-	Teams          *[]TeamShort             `json:"teams,omitempty"`
+	ID                      string                   `json:"id"`
+	Name                    string                   `json:"name"`
+	AlertSourceIDs          []int64                  `json:"alertSourceIds,omitempty"` // @deprecated
+	AlertSources            *[]AlertSource           `json:"alertSources,omitempty"`
+	ConnectorID             string                   `json:"connectorId"`
+	ConnectorType           string                   `json:"connectorType"`
+	TriggerMode             string                   `json:"triggerMode"`
+	DelaySec                int                      `json:"delaySec,omitempty"`                // @deprecated
+	EscalationEndedDelaySec int                      `json:"escalationEndedDelaySec,omitempty"` // between 0 and 7200, used with triggerType 'AlertEscalationEnded'
+	NotResolvedDelaySec     int                      `json:"notResolvedDelaySec,omitempty"`     // between 0 and 7200, used with triggerType 'AlertNotResolved'
+	TriggerTypes            []string                 `json:"triggerTypes,omitempty"`
+	CreatedAt               string                   `json:"createdAt"` // date time string in ISO 8601
+	UpdatedAt               string                   `json:"updatedAt"` // date time string in ISO 8601
+	Params                  *AlertActionOutputParams `json:"params"`
+	AlertFilter             *AlertFilter             `json:"alertFilter,omitempty"`
+	Teams                   *[]TeamShort             `json:"teams,omitempty"`
 }
 
 // AlertActionOutputParams definition
@@ -119,6 +123,11 @@ type AlertActionParamsMicrosoftTeamsBot struct {
 
 // AlertActionParamsMicrosoftTeamsWebhook definition
 type AlertActionParamsMicrosoftTeamsWebhook struct {
+	URL string `json:"url,omitempty"`
+}
+
+// AlertActionParamsSlackWebhook definition
+type AlertActionParamsSlackWebhook struct {
 	URL string `json:"url,omitempty"`
 }
 
@@ -257,6 +266,7 @@ var AlertActionTriggerTypes = struct {
 	AlertResponderRemoved string
 	AlertChannelAttached  string
 	AlertChannelDetached  string
+	AlertNotResolved      string
 }{
 	AlertCreated:          "alert-created",
 	AlertAssigned:         "alert-assigned",
@@ -271,6 +281,7 @@ var AlertActionTriggerTypes = struct {
 	AlertResponderRemoved: "alert-responder-removed",
 	AlertChannelAttached:  "alert-channel-attached",
 	AlertChannelDetached:  "alert-channel-detached",
+	AlertNotResolved:      "v-alert-not-resolved",
 }
 
 // AlertActionTriggerTypesAll defines all alertAction trigger types
@@ -288,6 +299,7 @@ var AlertActionTriggerTypesAll = []string{
 	AlertActionTriggerTypes.AlertResponderRemoved,
 	AlertActionTriggerTypes.AlertChannelAttached,
 	AlertActionTriggerTypes.AlertChannelDetached,
+	AlertActionTriggerTypes.AlertNotResolved,
 }
 
 // AlertFilterOperator defines alertFilter operator

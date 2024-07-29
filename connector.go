@@ -155,6 +155,7 @@ var ConnectorTypes = struct {
 	MicrosoftTeamsWebhook string
 	ServiceNow            string
 	Slack                 string
+	SlackWebhook          string
 	Telegram              string
 	Topdesk               string
 	Webhook               string
@@ -175,6 +176,7 @@ var ConnectorTypes = struct {
 	MicrosoftTeamsWebhook: "microsoft_teams_webhook",
 	ServiceNow:            "servicenow",
 	Slack:                 "slack",
+	SlackWebhook:          "slack_webhook",
 	Telegram:              "telegram",
 	Topdesk:               "topdesk",
 	Webhook:               "webhook",
@@ -198,6 +200,7 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.MicrosoftTeamsWebhook,
 	ConnectorTypes.ServiceNow,
 	ConnectorTypes.Slack,
+	ConnectorTypes.SlackWebhook,
 	ConnectorTypes.Telegram,
 	ConnectorTypes.Topdesk,
 	ConnectorTypes.Webhook,
