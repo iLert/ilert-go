@@ -2,7 +2,7 @@
 
 ## 29.07.2024, Version 3.9.0
 
-- add new api resources/fields pt.1 [#42](https://github.com/iLert/ilert-go/pull/41)
+- add new api resources/fields pt.1 [#42](https://github.com/iLert/ilert-go/pull/42)
   - alert action
     - deprecate `delaySec` in favor of more specific `escalationEndedDelaySec` and `notResolvedDelaySec`
     - new trigger type `AlertNotResolved`
