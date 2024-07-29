@@ -1,5 +1,24 @@
 # Changelog
 
+## 29.07.2024, Version 3.9.0
+
+- add new api resources/fields pt.1 [#42](https://github.com/iLert/ilert-go/pull/41)
+  - alert action
+    - deprecate `delaySec` in favor of more specific `escalationEndedDelaySec` and `notResolvedDelaySec`
+    - new trigger type `AlertNotResolved`
+    - new alert action type `SlackWebhook`
+  - alert source
+    - new alert grouping type `intelligentGrouping`
+      - add field `scoreThreshold`
+    - add event filter
+  - status page
+    - add email login via `emailWhitelist`
+    - add `announcement` fields
+
+## 09.05.2024, Version 3.8.1
+
+- add region to user [#41](https://github.com/iLert/ilert-go/pull/41)
+
 ## 09.05.2024, Version 3.8.1
 
 - add region to user [#41](https://github.com/iLert/ilert-go/pull/41)
