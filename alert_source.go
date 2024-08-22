@@ -44,7 +44,7 @@ type AlertSource struct {
 	LinkTemplates          []LinkTemplate         `json:"linkTemplates,omitempty"`
 	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
-	ScoreThreshold         string                 `json:"scoreThreshold,omitempty"`
+	ScoreThreshold         int64                  `json:"scoreThreshold,omitempty"`
 	EventFilter            string                 `json:"eventFilter,omitempty"`
 }
 
