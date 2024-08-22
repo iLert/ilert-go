@@ -11,6 +11,7 @@
     - new alert grouping type `intelligentGrouping`
       - add field `scoreThreshold`
     - add event filter
+    - add includes for POST and PUT API calls
   - status page
     - add email login via `emailWhitelist`
     - add `announcement` fields
