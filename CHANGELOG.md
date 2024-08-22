@@ -1,6 +1,6 @@
 # Changelog
 
-## 29.07.2024, Version 3.9.0
+## 22.08.2024, Version 3.9.0
 
 - add new api resources/fields pt.1 [#42](https://github.com/iLert/ilert-go/pull/42)
   - alert action
@@ -14,6 +14,7 @@
   - status page
     - add email login via `emailWhitelist`
     - add `announcement` fields
+    - add `metrics`
 
 ## 09.05.2024, Version 3.8.1
 
