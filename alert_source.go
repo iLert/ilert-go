@@ -44,6 +44,8 @@ type AlertSource struct {
 	LinkTemplates          []LinkTemplate         `json:"linkTemplates,omitempty"`
 	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
+	ScoreThreshold         float64                `json:"scoreThreshold,omitempty"`
+	EventFilter            string                 `json:"eventFilter,omitempty"`
 }
 
 // EmailPredicate definition
@@ -165,6 +167,7 @@ var AlertSourceAlertCreations = struct {
 	OneOpenAlertAllowed      string
 	OpenResolveOnExtraction  string
 	OneAlertGroupedPerWindow string
+	IntelligentGrouping      string
 }{
 	// @deprecated
 	OneIncidentPerEmail:        "ONE_INCIDENT_PER_EMAIL",
@@ -178,6 +181,7 @@ var AlertSourceAlertCreations = struct {
 	OneOpenAlertAllowed:      "ONE_OPEN_ALERT_ALLOWED",
 	OpenResolveOnExtraction:  "OPEN_RESOLVE_ON_EXTRACTION",
 	OneAlertGroupedPerWindow: "ONE_ALERT_GROUPED_PER_WINDOW",
+	IntelligentGrouping:      "INTELLIGENT_GROUPING",
 }
 
 // AlertSourceAlertCreationsAll defines alert source alert creations list
@@ -194,6 +198,7 @@ var AlertSourceAlertCreationsAll = []string{
 	AlertSourceAlertCreations.OneOpenAlertAllowed,
 	AlertSourceAlertCreations.OpenResolveOnExtraction,
 	AlertSourceAlertCreations.OneAlertGroupedPerWindow,
+	AlertSourceAlertCreations.IntelligentGrouping,
 }
 
 // AlertSourceAlertGroupingWindows defines alert source alert grouping windows
@@ -464,6 +469,10 @@ var AlertSourceIntegrationTypesAll = []string{
 type CreateAlertSourceInput struct {
 	_           struct{}
 	AlertSource *AlertSource
+
+	// describes optional properties that should be included in the response
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	Include []*string
 }
 
 // CreateAlertSourceOutput represents the output of a CreateAlertSource operation.
@@ -501,7 +510,13 @@ func (c *Client) CreateAlertSource(input *CreateAlertSourceInput) (*CreateAlertS
 		v.RemoveLegacyFields()
 	}
 
-	resp, err := c.httpClient.R().SetBody(input.AlertSource).Post(apiRoutes.alertSources)
+	q := url.Values{}
+
+	for _, include := range input.Include {
+		q.Add("include", *include)
+	}
+
+	resp, err := c.httpClient.R().SetBody(input.AlertSource).Post(fmt.Sprintf("%s?%s", apiRoutes.alertSources, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -524,7 +539,7 @@ type GetAlertSourceInput struct {
 	AlertSourceID *int64
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
 	Include []*string
 }
 
@@ -654,6 +669,10 @@ type UpdateAlertSourceInput struct {
 	_             struct{}
 	AlertSourceID *int64
 	AlertSource   *AlertSource
+
+	// describes optional properties that should be included in the response
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	Include []*string
 }
 
 // UpdateAlertSourceOutput represents the output of a UpdateAlertSource operation.
@@ -694,7 +713,13 @@ func (c *Client) UpdateAlertSource(input *UpdateAlertSourceInput) (*UpdateAlertS
 		v.RemoveLegacyFields()
 	}
 
-	resp, err := c.httpClient.R().SetBody(input.AlertSource).Put(fmt.Sprintf("%s/%d", apiRoutes.alertSources, *input.AlertSourceID))
+	q := url.Values{}
+
+	for _, include := range input.Include {
+		q.Add("include", *include)
+	}
+
+	resp, err := c.httpClient.R().SetBody(input.AlertSource).Put(fmt.Sprintf("%s/%d?%s", apiRoutes.alertSources, *input.AlertSourceID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
