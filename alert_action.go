@@ -123,7 +123,8 @@ type AlertActionParamsMicrosoftTeamsBot struct {
 
 // AlertActionParamsMicrosoftTeamsWebhook definition
 type AlertActionParamsMicrosoftTeamsWebhook struct {
-	URL string `json:"url,omitempty"`
+	URL          string `json:"url,omitempty"`
+	BodyTemplate string `json:"bodyTemplate,omitempty"`
 }
 
 // AlertActionParamsSlackWebhook definition
@@ -133,9 +134,10 @@ type AlertActionParamsSlackWebhook struct {
 
 // AlertActionParamsServiceNow definition
 type AlertActionParamsServiceNow struct {
-	CallerID string `json:"callerId,omitempty"` // user email
-	Impact   string `json:"impact,omitempty"`   // 1 - High, 2 - Medium, 3 - Low (Default)
-	Urgency  string `json:"urgency,omitempty"`  // 1 - High, 2 - Medium, 3 - Low (Default)
+	CallerID     string `json:"callerId,omitempty"` // user email
+	Impact       string `json:"impact,omitempty"`   // 1 - High, 2 - Medium, 3 - Low (Default)
+	Urgency      string `json:"urgency,omitempty"`  // 1 - High, 2 - Medium, 3 - Low (Default)
+	BodyTemplate string `json:"bodyTemplate,omitempty"`
 }
 
 // AlertActionParamsSlack definition
