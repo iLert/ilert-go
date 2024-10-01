@@ -24,7 +24,7 @@ type AlertAction struct {
 	CreatedAt               string         `json:"createdAt,omitempty"` // date time string in ISO 8601
 	UpdatedAt               string         `json:"updatedAt,omitempty"` // date time string in ISO 8601
 	Params                  interface{}    `json:"params"`
-	AlertFilter             *AlertFilter   `json:"alertFilter,omitempty"`
+	AlertFilter             *AlertFilter   `json:"alertFilter,omitempty"` // @deprecated
 	Teams                   *[]TeamShort   `json:"teams,omitempty"`
 	Conditions              string         `json:"conditions,omitempty"`
 }
@@ -45,7 +45,7 @@ type AlertActionOutput struct {
 	CreatedAt               string                   `json:"createdAt"` // date time string in ISO 8601
 	UpdatedAt               string                   `json:"updatedAt"` // date time string in ISO 8601
 	Params                  *AlertActionOutputParams `json:"params"`
-	AlertFilter             *AlertFilter             `json:"alertFilter,omitempty"`
+	AlertFilter             *AlertFilter             `json:"alertFilter,omitempty"` // @deprecated
 	Teams                   *[]TeamShort             `json:"teams,omitempty"`
 	Conditions              string                   `json:"conditions,omitempty"`
 }
