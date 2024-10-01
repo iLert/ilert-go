@@ -26,6 +26,7 @@ type AlertAction struct {
 	Params                  interface{}    `json:"params"`
 	AlertFilter             *AlertFilter   `json:"alertFilter,omitempty"`
 	Teams                   *[]TeamShort   `json:"teams,omitempty"`
+	Conditions              string         `json:"conditions,omitempty"`
 }
 
 // AlertActionOutput definition https://api.ilert.com/api-docs/#tag/Alert-Actions
@@ -46,6 +47,7 @@ type AlertActionOutput struct {
 	Params                  *AlertActionOutputParams `json:"params"`
 	AlertFilter             *AlertFilter             `json:"alertFilter,omitempty"`
 	Teams                   *[]TeamShort             `json:"teams,omitempty"`
+	Conditions              string                   `json:"conditions,omitempty"`
 }
 
 // AlertActionOutputParams definition
