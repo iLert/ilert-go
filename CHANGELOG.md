@@ -1,5 +1,9 @@
 # Changelog
 
+## 01.10.2024, Version 3.10.1
+
+- fix to ensure backwards compatibility when using conditions field [#46](https://github.com/iLert/ilert-go/pull/46)
+
 ## 01.10.2024, Version 3.10.0
 
 - add conditions field to alert action [#45](https://github.com/iLert/ilert-go/pull/45)
