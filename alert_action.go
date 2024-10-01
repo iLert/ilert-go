@@ -395,7 +395,7 @@ func (c *Client) CreateAlertAction(input *CreateAlertActionInput) (*CreateAlertA
 	if input.AlertAction == nil {
 		return nil, errors.New("alert action input is required")
 	}
-	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) {
+	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) && input.AlertAction.Conditions == "" {
 		sourceId := (*input.AlertAction.AlertSources)[0].ID
 
 		// manually set fields to ensure backwards compatibility with api v1
@@ -576,7 +576,7 @@ func (c *Client) UpdateAlertAction(input *UpdateAlertActionInput) (*UpdateAlertA
 	if input.AlertActionID == nil {
 		return nil, errors.New("alert action id is required")
 	}
-	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) {
+	if input.AlertAction.AlertSources != nil && len(*input.AlertAction.AlertSources) == 1 && (input.AlertAction.Teams == nil || len(*input.AlertAction.Teams) == 0) && input.AlertAction.Conditions == "" {
 		sourceId := (*input.AlertAction.AlertSources)[0].ID
 
 		// manually set fields to ensure backwards compatibility with api v1
