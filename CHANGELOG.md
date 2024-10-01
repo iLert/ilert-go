@@ -1,5 +1,9 @@
 # Changelog
 
+## 01.10.2024, Version 3.10.0
+
+- add conditions field to alert action [#45](https://github.com/iLert/ilert-go/pull/45)
+
 ## 16.09.2024, Version 3.9.1
 
 - add additional body template fields [#44](https://github.com/iLert/ilert-go/pull/44)
