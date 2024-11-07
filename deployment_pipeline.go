@@ -10,21 +10,40 @@ import (
 
 // DeploymentPipeline definition https://api.ilert.com/api-docs/#tag/deployment-pipelines
 type DeploymentPipeline struct {
-	ID              int64                     `json:"id"`
-	Name            string                    `json:"name"`
-	IntegrationType string                    `json:"integrationType"`
-	IntegrationKey  string                    `json:"integrationKey,omitempty"`
-	Teams           []TeamShort               `json:"teams,omitempty"`
-	CreatedAt       string                    `json:"createdAt,omitempty"`
-	UpdatedAt       string                    `json:"updatedAt,omitempty"`
-	IntegrationUrl  string                    `json:"integrationUrl,omitempty"`
-	Params          *DeploymentPipelineParams `json:"params"`
+	ID              int64       `json:"id"`
+	Name            string      `json:"name"`
+	IntegrationType string      `json:"integrationType"`
+	IntegrationKey  string      `json:"integrationKey,omitempty"`
+	Teams           []TeamShort `json:"teams,omitempty"`
+	CreatedAt       string      `json:"createdAt,omitempty"`
+	UpdatedAt       string      `json:"updatedAt,omitempty"`
+	IntegrationUrl  string      `json:"integrationUrl,omitempty"`
+	Params          interface{} `json:"params"`
+}
+
+// DeploymentPipelineOutput definition https://api.ilert.com/api-docs/#tag/deployment-pipelines
+type DeploymentPipelineOutput struct {
+	ID              int64                           `json:"id"`
+	Name            string                          `json:"name"`
+	IntegrationType string                          `json:"integrationType"`
+	IntegrationKey  string                          `json:"integrationKey,omitempty"`
+	Teams           []TeamShort                     `json:"teams,omitempty"`
+	CreatedAt       string                          `json:"createdAt,omitempty"`
+	UpdatedAt       string                          `json:"updatedAt,omitempty"`
+	IntegrationUrl  string                          `json:"integrationUrl,omitempty"`
+	Params          *DeploymentPipelineOutputParams `json:"params"`
 }
 
 // DeploymentPipelineParams defines settings for a deployment pipeline
-type DeploymentPipelineParams struct {
-	BranchFilters []string `json:"branchFilters,omitempty"` // used for GitHub
-	EventFilters  []string `json:"eventFilters,omitempty"`  // used for GitHub
+type DeploymentPipelineOutputParams struct {
+	BranchFilters []string `json:"branchFilters,omitempty"` // used for Github
+	EventFilters  []string `json:"eventFilters,omitempty"`  // used for Github
+}
+
+// DeploymentPipelineGithubParams definition
+type DeploymentPipelineGithubParams struct {
+	BranchFilters []string `json:"branchFilters,omitempty"` // used for Github
+	EventFilters  []string `json:"eventFilters,omitempty"`  // used for Github
 }
 
 // CreateDeploymentPipelineInput represents the input of a CreateDeploymentPipeline operation.
