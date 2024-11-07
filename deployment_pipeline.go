@@ -15,8 +15,8 @@ type DeploymentPipeline struct {
 	IntegrationType string      `json:"integrationType"`
 	IntegrationKey  string      `json:"integrationKey,omitempty"`
 	Teams           []TeamShort `json:"teams,omitempty"`
-	CreatedAt       string      `json:"createdAt,omitempty"`
-	UpdatedAt       string      `json:"updatedAt,omitempty"`
+	CreatedAt       string      `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt       string      `json:"updatedAt,omitempty"` // date time string in ISO 8601
 	IntegrationUrl  string      `json:"integrationUrl,omitempty"`
 	Params          interface{} `json:"params"`
 }
@@ -28,28 +28,65 @@ type DeploymentPipelineOutput struct {
 	IntegrationType string                          `json:"integrationType"`
 	IntegrationKey  string                          `json:"integrationKey,omitempty"`
 	Teams           []TeamShort                     `json:"teams,omitempty"`
-	CreatedAt       string                          `json:"createdAt,omitempty"`
-	UpdatedAt       string                          `json:"updatedAt,omitempty"`
+	CreatedAt       string                          `json:"createdAt,omitempty"` // date time string in ISO 8601
+	UpdatedAt       string                          `json:"updatedAt,omitempty"` // date time string in ISO 8601
 	IntegrationUrl  string                          `json:"integrationUrl,omitempty"`
 	Params          *DeploymentPipelineOutputParams `json:"params"`
 }
 
 // DeploymentPipelineParams defines settings for a deployment pipeline
 type DeploymentPipelineOutputParams struct {
-	BranchFilters []string `json:"branchFilters,omitempty"` // used for Github
-	EventFilters  []string `json:"eventFilters,omitempty"`  // used for Github
+	BranchFilters []string `json:"branchFilters,omitempty"` // used for GitHub
+	EventFilters  []string `json:"eventFilters,omitempty"`  // used for GitHub
 }
 
-// DeploymentPipelineGithubParams definition
-type DeploymentPipelineGithubParams struct {
-	BranchFilters []string `json:"branchFilters,omitempty"` // used for Github
-	EventFilters  []string `json:"eventFilters,omitempty"`  // used for Github
+// DeploymentPipelineGitHubParams definition
+type DeploymentPipelineGitHubParams struct {
+	BranchFilters []string `json:"branchFilters,omitempty"`
+	EventFilters  []string `json:"eventFilters,omitempty"`
+}
+
+// IntegrationType defines integration type
+var IntegrationType = struct {
+	Api    string
+	GitHub string
+}{
+	Api:    "API",
+	GitHub: "GITHUB",
+}
+
+// IntegrationTypeAll defines integration type list
+var IntegrationTypeAll = []string{
+	IntegrationType.Api,
+	IntegrationType.GitHub,
+}
+
+// GitHubEventFilterType defines github event filter type
+var GitHubEventFilterType = struct {
+	PullRequest string
+	Push        string
+	Release     string
+}{
+	PullRequest: "pull_request",
+	Push:        "push",
+	Release:     "release",
+}
+
+// GitHubEventFilterTypeAll defines github event filter type list
+var GitHubEventFilterTypeAll = []string{
+	GitHubEventFilterType.PullRequest,
+	GitHubEventFilterType.Push,
+	GitHubEventFilterType.Release,
 }
 
 // CreateDeploymentPipelineInput represents the input of a CreateDeploymentPipeline operation.
 type CreateDeploymentPipelineInput struct {
 	_                  struct{}
 	DeploymentPipeline *DeploymentPipeline
+
+	// describes optional properties that should be included in the response
+	// possible values: "integrationUrl"
+	Include []*string
 }
 
 // CreateDeploymentPipelineOutput represents the output of a CreateDeploymentPipeline operation.
@@ -66,7 +103,13 @@ func (c *Client) CreateDeploymentPipeline(input *CreateDeploymentPipelineInput) 
 	if input.DeploymentPipeline == nil {
 		return nil, errors.New("deployment pipeline input is required")
 	}
-	resp, err := c.httpClient.R().SetBody(input.DeploymentPipeline).Post(apiRoutes.deploymentPipelines)
+
+	q := url.Values{}
+	for _, include := range input.Include {
+		q.Add("include", *include)
+	}
+
+	resp, err := c.httpClient.R().SetBody(input.DeploymentPipeline).Post(fmt.Sprintf("%s?%s", apiRoutes.deploymentPipelines, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -87,6 +130,10 @@ func (c *Client) CreateDeploymentPipeline(input *CreateDeploymentPipelineInput) 
 type GetDeploymentPipelineInput struct {
 	_                    struct{}
 	DeploymentPipelineID *int64
+
+	// describes optional properties that should be included in the response
+	// possible values: "integrationUrl"
+	Include []*string
 }
 
 // GetDeploymentPipelineOutput represents the output of a GetDeploymentPipeline operation.
@@ -104,7 +151,12 @@ func (c *Client) GetDeploymentPipeline(input *GetDeploymentPipelineInput) (*GetD
 		return nil, errors.New("deployment pipeline id is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.deploymentPipelines, *input.DeploymentPipelineID))
+	q := url.Values{}
+	for _, include := range input.Include {
+		q.Add("include", *include)
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d?%s", apiRoutes.deploymentPipelines, *input.DeploymentPipelineID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -209,6 +261,10 @@ type UpdateDeploymentPipelineInput struct {
 	_                    struct{}
 	DeploymentPipelineID *int64
 	DeploymentPipeline   *DeploymentPipeline
+
+	// describes optional properties that should be included in the response
+	// possible values: "integrationUrl"
+	Include []*string
 }
 
 // UpdateDeploymentPipelineOutput represents the output of a UpdateDeploymentPipeline operation.
@@ -229,7 +285,12 @@ func (c *Client) UpdateDeploymentPipeline(input *UpdateDeploymentPipelineInput) 
 		return nil, errors.New("deployment pipeline id is required")
 	}
 
-	resp, err := c.httpClient.R().SetBody(input.DeploymentPipeline).Put(fmt.Sprintf("%s/%d", apiRoutes.deploymentPipelines, *input.DeploymentPipelineID))
+	q := url.Values{}
+	for _, include := range input.Include {
+		q.Add("include", *include)
+	}
+
+	resp, err := c.httpClient.R().SetBody(input.DeploymentPipeline).Put(fmt.Sprintf("%s/%d?%s", apiRoutes.deploymentPipelines, *input.DeploymentPipelineID, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
