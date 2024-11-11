@@ -47,7 +47,7 @@ type DeploymentPipelineGitHubParams struct {
 }
 
 // IntegrationType defines integration type
-var IntegrationType = struct {
+var DeploymentPipelineIntegrationType = struct {
 	Api    string
 	GitHub string
 }{
@@ -56,9 +56,9 @@ var IntegrationType = struct {
 }
 
 // IntegrationTypeAll defines integration type list
-var IntegrationTypeAll = []string{
-	IntegrationType.Api,
-	IntegrationType.GitHub,
+var DeploymentPipelineIntegrationTypeAll = []string{
+	DeploymentPipelineIntegrationType.Api,
+	DeploymentPipelineIntegrationType.GitHub,
 }
 
 // GitHubEventFilterType defines github event filter type
