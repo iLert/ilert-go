@@ -92,7 +92,7 @@ type CreateDeploymentPipelineInput struct {
 // CreateDeploymentPipelineOutput represents the output of a CreateDeploymentPipeline operation.
 type CreateDeploymentPipelineOutput struct {
 	_                  struct{}
-	DeploymentPipeline *DeploymentPipeline
+	DeploymentPipeline *DeploymentPipelineOutput
 }
 
 // CreateDeploymentPipeline creates a new deployment pipeline resource. https://api.ilert.com/api-docs/#tag/deployment-pipelines/post/deployment-pipelines
@@ -117,7 +117,7 @@ func (c *Client) CreateDeploymentPipeline(input *CreateDeploymentPipelineInput) 
 		return nil, apiErr
 	}
 
-	deploymentPipeline := &DeploymentPipeline{}
+	deploymentPipeline := &DeploymentPipelineOutput{}
 	err = json.Unmarshal(resp.Body(), deploymentPipeline)
 	if err != nil {
 		return nil, err
@@ -139,7 +139,7 @@ type GetDeploymentPipelineInput struct {
 // GetDeploymentPipelineOutput represents the output of a GetDeploymentPipeline operation.
 type GetDeploymentPipelineOutput struct {
 	_                  struct{}
-	DeploymentPipeline *DeploymentPipeline
+	DeploymentPipeline *DeploymentPipelineOutput
 }
 
 // GetDeploymentPipeline gets the deployment pipelines resource with specified id. https://api.ilert.com/api-docs/#tag/deployment-pipelines/get/deployment-pipelines/{id}
@@ -164,7 +164,7 @@ func (c *Client) GetDeploymentPipeline(input *GetDeploymentPipelineInput) (*GetD
 		return nil, apiErr
 	}
 
-	deploymentPipeline := &DeploymentPipeline{}
+	deploymentPipeline := &DeploymentPipelineOutput{}
 	err = json.Unmarshal(resp.Body(), deploymentPipeline)
 	if err != nil {
 		return nil, err
@@ -188,7 +188,7 @@ type GetDeploymentPipelinesInput struct {
 // GetDeploymentPipelinesOutput represents the output of a GetDeploymentPipelines operation.
 type GetDeploymentPipelinesOutput struct {
 	_                   struct{}
-	DeploymentPipelines []*DeploymentPipeline
+	DeploymentPipelines []*DeploymentPipelineOutput
 }
 
 // GetDeploymentPipelines lists existing deployment pipeline resources. https://api.ilert.com/api-docs/#tag/deployment-pipelines/get/deployment-pipelines
@@ -209,7 +209,7 @@ func (c *Client) GetDeploymentPipelines(input *GetDeploymentPipelinesInput) (*Ge
 		return nil, apiErr
 	}
 
-	deploymentPipelines := make([]*DeploymentPipeline, 0)
+	deploymentPipelines := make([]*DeploymentPipelineOutput, 0)
 	err = json.Unmarshal(resp.Body(), &deploymentPipelines)
 	if err != nil {
 		return nil, err
@@ -227,7 +227,7 @@ type SearchDeploymentPipelineInput struct {
 // SearchDeploymentPipelineOutput represents the output of a SearchDeploymentPipeline operation.
 type SearchDeploymentPipelineOutput struct {
 	_                  struct{}
-	DeploymentPipeline *DeploymentPipeline
+	DeploymentPipeline *DeploymentPipelineOutput
 }
 
 // SearchDeploymentPipeline gets the deployment pipeline resource with specified name.
@@ -247,7 +247,7 @@ func (c *Client) SearchDeploymentPipeline(input *SearchDeploymentPipelineInput) 
 		return nil, apiErr
 	}
 
-	deploymentPipeline := &DeploymentPipeline{}
+	deploymentPipeline := &DeploymentPipelineOutput{}
 	err = json.Unmarshal(resp.Body(), deploymentPipeline)
 	if err != nil {
 		return nil, err
@@ -270,7 +270,7 @@ type UpdateDeploymentPipelineInput struct {
 // UpdateDeploymentPipelineOutput represents the output of a UpdateDeploymentPipeline operation.
 type UpdateDeploymentPipelineOutput struct {
 	_                  struct{}
-	DeploymentPipeline *DeploymentPipeline
+	DeploymentPipeline *DeploymentPipelineOutput
 }
 
 // UpdateDeploymentPipeline updates an existing deployment pipeline resource. https://api.ilert.com/api-docs/#tag/deployment-pipelines/put/deployment-pipelines/{id}
@@ -298,7 +298,7 @@ func (c *Client) UpdateDeploymentPipeline(input *UpdateDeploymentPipelineInput) 
 		return nil, apiErr
 	}
 
-	deploymentPipeline := &DeploymentPipeline{}
+	deploymentPipeline := &DeploymentPipelineOutput{}
 	err = json.Unmarshal(resp.Body(), deploymentPipeline)
 	if err != nil {
 		return nil, err
