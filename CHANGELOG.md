@@ -1,5 +1,9 @@
 # Changelog
 
+## 07.11.2024, Version 3.11.0
+
+- add new resource deployment pipeline [#47](https://github.com/iLert/ilert-go/pull/47)
+
 ## 01.10.2024, Version 3.10.1
 
 - fix to ensure backwards compatibility when using conditions field [#46](https://github.com/iLert/ilert-go/pull/46)
