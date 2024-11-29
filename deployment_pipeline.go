@@ -46,6 +46,12 @@ type DeploymentPipelineGitHubParams struct {
 	EventFilters  []string `json:"eventFilters,omitempty"`
 }
 
+// DeploymentPipelineGitLabParams definition
+type DeploymentPipelineGitLabParams struct {
+	BranchFilters []string `json:"branchFilters,omitempty"`
+	EventFilters  []string `json:"eventFilters,omitempty"`
+}
+
 // IntegrationType defines integration type
 var DeploymentPipelineIntegrationType = struct {
 	Api    string
