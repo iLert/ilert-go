@@ -1,5 +1,9 @@
 # Changelog
 
+## 29.11.2024, Version 3.11.1
+
+- add type GitLab for deployment pipeline [#48](https://github.com/iLert/ilert-go/pull/48)
+
 ## 07.11.2024, Version 3.11.0
 
 - add new resource deployment pipeline [#47](https://github.com/iLert/ilert-go/pull/47)
