@@ -36,8 +36,8 @@ type DeploymentPipelineOutput struct {
 
 // DeploymentPipelineParams defines settings for a deployment pipeline
 type DeploymentPipelineOutputParams struct {
-	BranchFilters []string `json:"branchFilters,omitempty"` // used for GitHub
-	EventFilters  []string `json:"eventFilters,omitempty"`  // used for GitHub
+	BranchFilters []string `json:"branchFilters,omitempty"` // used for GitHub and GitLab
+	EventFilters  []string `json:"eventFilters,omitempty"`  // used for GitHub and GitLab
 }
 
 // DeploymentPipelineGitHubParams definition
@@ -46,19 +46,28 @@ type DeploymentPipelineGitHubParams struct {
 	EventFilters  []string `json:"eventFilters,omitempty"`
 }
 
+// DeploymentPipelineGitLabParams definition
+type DeploymentPipelineGitLabParams struct {
+	BranchFilters []string `json:"branchFilters,omitempty"`
+	EventFilters  []string `json:"eventFilters,omitempty"`
+}
+
 // IntegrationType defines integration type
 var DeploymentPipelineIntegrationType = struct {
 	Api    string
 	GitHub string
+	GitLab string
 }{
 	Api:    "API",
 	GitHub: "GITHUB",
+	GitLab: "GITLAB",
 }
 
 // IntegrationTypeAll defines integration type list
 var DeploymentPipelineIntegrationTypeAll = []string{
 	DeploymentPipelineIntegrationType.Api,
 	DeploymentPipelineIntegrationType.GitHub,
+	DeploymentPipelineIntegrationType.GitLab,
 }
 
 // GitHubEventFilterType defines github event filter type
@@ -77,6 +86,24 @@ var GitHubEventFilterTypeAll = []string{
 	GitHubEventFilterType.PullRequest,
 	GitHubEventFilterType.Push,
 	GitHubEventFilterType.Release,
+}
+
+// GitLabEventFilterType defines gitlab event filter type
+var GitLabEventFilterType = struct {
+	PushHook         string
+	MergeRequestHook string
+	ReleaseHook      string
+}{
+	PushHook:         "Push Hook",
+	MergeRequestHook: "Merge Request Hook",
+	ReleaseHook:      "Release Hook",
+}
+
+// GitLabEventFilterTypeAll defines gitlab event filter type list
+var GitLabEventFilterTypeAll = []string{
+	GitLabEventFilterType.PushHook,
+	GitLabEventFilterType.MergeRequestHook,
+	GitLabEventFilterType.ReleaseHook,
 }
 
 // CreateDeploymentPipelineInput represents the input of a CreateDeploymentPipeline operation.
