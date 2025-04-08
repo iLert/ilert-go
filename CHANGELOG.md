@@ -1,5 +1,9 @@
 # Changelog
 
+## 08.04.2025, Version 3.11.2
+
+- fix typo in json mapping for send notification field in incident template resource [#49](https://github.com/iLert/ilert-go/pull/49)
+
 ## 29.11.2024, Version 3.11.1
 
 - add type GitLab for deployment pipeline [#48](https://github.com/iLert/ilert-go/pull/48)
