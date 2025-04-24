@@ -41,11 +41,15 @@ type AlertSource struct {
 	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
 	DetailsTemplate        *Template              `json:"detailsTemplate,omitempty"`
 	RoutingTemplate        *Template              `json:"routingTemplate,omitempty"`
+	AlertKeyTemplate       *Template              `json:"alertKeyTemplate,omitempty"`
 	LinkTemplates          []LinkTemplate         `json:"linkTemplates,omitempty"`
 	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
 	ScoreThreshold         float64                `json:"scoreThreshold,omitempty"`
 	EventFilter            string                 `json:"eventFilter,omitempty"`
+	EventTypeFilterCreate  string                 `json:"eventTypeFilterCreate,omitempty"`
+	EventTypeFilterAccept  string                 `json:"eventTypeFilterAccept,omitempty"`
+	EventTypeFilterResolve string                 `json:"eventTypeFilterResolve,omitempty"`
 }
 
 // @deprecated EmailPredicate definition
