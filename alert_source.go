@@ -19,24 +19,24 @@ type AlertSource struct {
 	IntegrationKey         string                 `json:"integrationKey,omitempty"`
 	IntegrationURL         string                 `json:"integrationUrl,omitempty"`
 	AlertCreation          string                 `json:"alertCreation,omitempty"`
-	IncidentCreation       string                 `json:"incidentCreation,omitempty"` // @deprecated
-	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`
-	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"`
+	IncidentCreation       string                 `json:"incidentCreation,omitempty"`     // @deprecated
+	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`        // @deprecated
+	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"` // @deprecated
 	Active                 bool                   `json:"active,omitempty"`
 	Status                 string                 `json:"status,omitempty"`
-	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"` // e.g. PT4H
-	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`
-	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"`
-	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`
-	FilterOperator         string                 `json:"filterOperator,omitempty"`
-	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`
+	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"`  // e.g. PT4H
+	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`        // @deprecated
+	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"` // @deprecated
+	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`    // @deprecated
+	FilterOperator         string                 `json:"filterOperator,omitempty"`         // @deprecated
+	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`  // @deprecated
 	AlertPriorityRule      string                 `json:"alertPriorityRule,omitempty"`
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"` // @deprecated
 	SupportHours           interface{}            `json:"supportHours,omitempty"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`         // @deprecated
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"` // @deprecated
-	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`
+	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`        // @deprecated
 	Teams                  []TeamShort            `json:"teams,omitempty"`
 	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
 	DetailsTemplate        *Template              `json:"detailsTemplate,omitempty"`
@@ -48,7 +48,7 @@ type AlertSource struct {
 	EventFilter            string                 `json:"eventFilter,omitempty"`
 }
 
-// EmailPredicate definition
+// @deprecated EmailPredicate definition
 type EmailPredicate struct {
 	Field    string `json:"field"`
 	Criteria string `json:"criteria"`
@@ -99,7 +99,7 @@ type AutotaskMetadata struct {
 	WebServer string `json:"webServer"`
 }
 
-// Heartbeat definition
+// @deprecated Heartbeat definition
 type Heartbeat struct {
 	Summary     string `json:"summary"`
 	IntervalSec int    `json:"intervalSec"`
