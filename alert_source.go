@@ -252,7 +252,7 @@ var AlertSourceIntegrationTypes = struct {
 	CheckMK                    string
 	Datadog                    string
 	Dynatrace                  string
-	Email                      string
+	Email                      string // @deprecated
 	Github                     string
 	GoogleStackdriver          string
 	Grafana                    string
@@ -314,6 +314,7 @@ var AlertSourceIntegrationTypes = struct {
 	MongodbAtlas               string
 	Gitlab                     string
 	Checkly                    string
+	Email2                     string
 }{
 	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
@@ -387,6 +388,7 @@ var AlertSourceIntegrationTypes = struct {
 	MongodbAtlas:               "MONGODBATLAS",
 	Gitlab:                     "GITLAB",
 	Checkly:                    "CHECKLY",
+	Email2:                     "EMAIL2",
 }
 
 // AlertSourceIntegrationTypesAll defines all alert source integration types
@@ -401,7 +403,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.CheckMK,
 	AlertSourceIntegrationTypes.Datadog,
 	AlertSourceIntegrationTypes.Dynatrace,
-	AlertSourceIntegrationTypes.Email,
+	AlertSourceIntegrationTypes.Email, // @deprecated
 	AlertSourceIntegrationTypes.Github,
 	AlertSourceIntegrationTypes.GoogleStackdriver,
 	AlertSourceIntegrationTypes.Grafana,
@@ -463,6 +465,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.MongodbAtlas,
 	AlertSourceIntegrationTypes.Gitlab,
 	AlertSourceIntegrationTypes.Checkly,
+	AlertSourceIntegrationTypes.Email2,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.
