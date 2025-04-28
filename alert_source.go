@@ -478,7 +478,7 @@ type CreateAlertSourceInput struct {
 	AlertSource *AlertSource
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 
@@ -546,7 +546,7 @@ type GetAlertSourceInput struct {
 	AlertSourceID *int64
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 
@@ -678,7 +678,7 @@ type UpdateAlertSourceInput struct {
 	AlertSource   *AlertSource
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 
