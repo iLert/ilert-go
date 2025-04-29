@@ -13,7 +13,7 @@ func main() {
 	createDeploymentPipelineInput := &ilert.CreateDeploymentPipelineInput{
 		DeploymentPipeline: &ilert.DeploymentPipeline{
 			Name:            "example",
-			IntegrationType: ilert.IntegrationType.GitHub,
+			IntegrationType: ilert.DeploymentPipelineIntegrationType.GitHub,
 			Params: &ilert.DeploymentPipelineGitHubParams{
 				BranchFilters: []string{"main", "master"},
 				EventFilters:  []string{ilert.GitHubEventFilterType.Release},

@@ -19,36 +19,40 @@ type AlertSource struct {
 	IntegrationKey         string                 `json:"integrationKey,omitempty"`
 	IntegrationURL         string                 `json:"integrationUrl,omitempty"`
 	AlertCreation          string                 `json:"alertCreation,omitempty"`
-	IncidentCreation       string                 `json:"incidentCreation,omitempty"` // @deprecated
-	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`
-	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"`
+	IncidentCreation       string                 `json:"incidentCreation,omitempty"`     // @deprecated
+	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`        // @deprecated
+	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"` // @deprecated
 	Active                 bool                   `json:"active,omitempty"`
 	Status                 string                 `json:"status,omitempty"`
-	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"` // e.g. PT4H
-	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`
-	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"`
-	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`
-	FilterOperator         string                 `json:"filterOperator,omitempty"`
-	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`
+	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"`  // e.g. PT4H
+	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`        // @deprecated
+	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"` // @deprecated
+	ResolveKeyExtractor    *EmailPredicate        `json:"resolveKeyExtractor,omitempty"`    // @deprecated
+	FilterOperator         string                 `json:"filterOperator,omitempty"`         // @deprecated
+	ResolveFilterOperator  string                 `json:"resolveFilterOperator,omitempty"`  // @deprecated
 	AlertPriorityRule      string                 `json:"alertPriorityRule,omitempty"`
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"` // @deprecated
 	SupportHours           interface{}            `json:"supportHours,omitempty"`
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`         // @deprecated
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"` // @deprecated
-	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`
+	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`        // @deprecated
 	Teams                  []TeamShort            `json:"teams,omitempty"`
 	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
 	DetailsTemplate        *Template              `json:"detailsTemplate,omitempty"`
 	RoutingTemplate        *Template              `json:"routingTemplate,omitempty"`
+	AlertKeyTemplate       *Template              `json:"alertKeyTemplate,omitempty"`
 	LinkTemplates          []LinkTemplate         `json:"linkTemplates,omitempty"`
 	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
 	ScoreThreshold         float64                `json:"scoreThreshold,omitempty"`
 	EventFilter            string                 `json:"eventFilter,omitempty"`
+	EventTypeFilterCreate  string                 `json:"eventTypeFilterCreate,omitempty"`
+	EventTypeFilterAccept  string                 `json:"eventTypeFilterAccept,omitempty"`
+	EventTypeFilterResolve string                 `json:"eventTypeFilterResolve,omitempty"`
 }
 
-// EmailPredicate definition
+// @deprecated EmailPredicate definition
 type EmailPredicate struct {
 	Field    string `json:"field"`
 	Criteria string `json:"criteria"`
@@ -99,7 +103,7 @@ type AutotaskMetadata struct {
 	WebServer string `json:"webServer"`
 }
 
-// Heartbeat definition
+// @deprecated Heartbeat definition
 type Heartbeat struct {
 	Summary     string `json:"summary"`
 	IntervalSec int    `json:"intervalSec"`
@@ -252,7 +256,7 @@ var AlertSourceIntegrationTypes = struct {
 	CheckMK                    string
 	Datadog                    string
 	Dynatrace                  string
-	Email                      string
+	Email                      string // @deprecated
 	Github                     string
 	GoogleStackdriver          string
 	Grafana                    string
@@ -314,6 +318,7 @@ var AlertSourceIntegrationTypes = struct {
 	MongodbAtlas               string
 	Gitlab                     string
 	Checkly                    string
+	Email2                     string
 }{
 	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
@@ -387,6 +392,7 @@ var AlertSourceIntegrationTypes = struct {
 	MongodbAtlas:               "MONGODBATLAS",
 	Gitlab:                     "GITLAB",
 	Checkly:                    "CHECKLY",
+	Email2:                     "EMAIL2",
 }
 
 // AlertSourceIntegrationTypesAll defines all alert source integration types
@@ -401,7 +407,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.CheckMK,
 	AlertSourceIntegrationTypes.Datadog,
 	AlertSourceIntegrationTypes.Dynatrace,
-	AlertSourceIntegrationTypes.Email,
+	AlertSourceIntegrationTypes.Email, // @deprecated
 	AlertSourceIntegrationTypes.Github,
 	AlertSourceIntegrationTypes.GoogleStackdriver,
 	AlertSourceIntegrationTypes.Grafana,
@@ -463,6 +469,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.MongodbAtlas,
 	AlertSourceIntegrationTypes.Gitlab,
 	AlertSourceIntegrationTypes.Checkly,
+	AlertSourceIntegrationTypes.Email2,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.
@@ -471,7 +478,7 @@ type CreateAlertSourceInput struct {
 	AlertSource *AlertSource
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 
@@ -539,7 +546,7 @@ type GetAlertSourceInput struct {
 	AlertSourceID *int64
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 
@@ -671,7 +678,7 @@ type UpdateAlertSourceInput struct {
 	AlertSource   *AlertSource
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 

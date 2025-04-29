@@ -1,5 +1,12 @@
 # Changelog
 
+## 24.04.2025, Version 3.12.0
+
+- new alert source fields [#50](https://github.com/iLert/ilert-go/pull/50)
+    - add new heartbeat monitor resource
+    - deprecate legacy email and heartbeat fields
+    - add new email integration type
+
 ## 08.04.2025, Version 3.11.2
 
 - fix typo in json mapping for send notification field in incident template resource [#49](https://github.com/iLert/ilert-go/pull/49)
@@ -27,19 +34,19 @@
 ## 22.08.2024, Version 3.9.0
 
 - add new api resources/fields pt.1 [#43](https://github.com/iLert/ilert-go/pull/43)
-  - alert action
-    - deprecate `delaySec` in favor of more specific `escalationEndedDelaySec` and `notResolvedDelaySec`
-    - new trigger type `AlertNotResolved`
-    - new alert action type `SlackWebhook`
-  - alert source
-    - new alert grouping type `intelligentGrouping`
-      - add field `scoreThreshold`
-    - add event filter
-    - add includes for POST and PUT API calls
-  - status page
-    - add email login via `emailWhitelist`
-    - add `announcement` fields
-    - add `metrics`
+    - alert action
+        - deprecate `delaySec` in favor of more specific `escalationEndedDelaySec` and `notResolvedDelaySec`
+        - new trigger type `AlertNotResolved`
+        - new alert action type `SlackWebhook`
+    - alert source
+        - new alert grouping type `intelligentGrouping`
+            - add field `scoreThreshold`
+        - add event filter
+        - add includes for POST and PUT API calls
+    - status page
+        - add email login via `emailWhitelist`
+        - add `announcement` fields
+        - add `metrics`
 
 ## 09.05.2024, Version 3.8.1
 
@@ -56,17 +63,17 @@
 ## 25.04.2024, Version 3.7.0
 
 - remove connectors and alert actions deprecated via api in [#38](https://github.com/iLert/ilert-go/pull/38)
-  - adds support for alert actions and connectors previously missing
+    - adds support for alert actions and connectors previously missing
 
 # 20.02.2024, Version 3.6.1
 
 - fix backwards compatibility with alert actions v2 changes [#37](https://github.com/iLert/ilert-go/pull/37)
-  - ensures existing scripts using one alert source with no team explicitly set to use legacy api without breaking
+    - ensures existing scripts using one alert source with no team explicitly set to use legacy api without breaking
 
 # 01.02.2024, Version 3.6.0
 
 - apply alert actions v2 changes in [#29](https://github.com/iLert/ilert-go/pull/29)
-  - add alertSources and teams fields, deprecate alertSourceIds
+    - add alertSources and teams fields, deprecate alertSourceIds
 
 # 12.01.2024, Version 3.5.0
 
@@ -108,13 +115,13 @@
 
 - removed notification settings fields from user resource
 - add user contacts
-  - email
-  - phone number
+    - email
+    - phone number
 - add user notification preferences
-  - alert (alert creation)
-  - duty (on-call)
-  - subscription (subscriber to incident, service, status page)
-  - update (alert update changes)
+    - alert (alert creation)
+    - duty (on-call)
+    - subscription (subscriber to incident, service, status page)
+    - update (alert update changes)
 
 ## 17.01.2023, Version 2.6.0
 
@@ -223,13 +230,13 @@
 - add services
 - add statuspages
 - migrating API v1 to versionless
-  - rename incident v1 to alert and update fields
-  - add incident
-  - renaming connection to alert action, therefore deprecating connection
-  - update alert source fields
-  - update event fields
-  - update uptime monitor fields
-  - update user fields
+    - rename incident v1 to alert and update fields
+    - add incident
+    - renaming connection to alert action, therefore deprecating connection
+    - update alert source fields
+    - update event fields
+    - update uptime monitor fields
+    - update user fields
 - update examples
 
 ## 16.04.2022, Version 1.6.5
