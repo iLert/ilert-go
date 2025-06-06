@@ -1,5 +1,9 @@
 # Changelog
 
+## 06.06.2025, Version 3.12.1
+
+- change heartbeat monitor search to always return integration url [#51](https://github.com/iLert/ilert-go/pull/51)
+
 ## 24.04.2025, Version 3.12.0
 
 - new alert source fields [#50](https://github.com/iLert/ilert-go/pull/50)

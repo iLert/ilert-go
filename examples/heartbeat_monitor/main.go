@@ -24,4 +24,13 @@ func main() {
 		log.Fatalln("ERROR:", err)
 	}
 	log.Printf("Heartbeat monitor:\n\n %+v\n", result.HeartbeatMonitor)
+
+	searchResult, err := client.SearchHeartbeatMonitor(&ilert.SearchHeartbeatMonitorInput{
+		HeartbeatMonitorName: &result.HeartbeatMonitor.Name,
+	})
+	if err != nil {
+		log.Println(searchResult)
+		log.Fatalln("ERROR:", err)
+	}
+	log.Printf("Search heartbeat monitors:\n\n %+v\n", searchResult.HeartbeatMonitor)
 }

@@ -183,7 +183,10 @@ func (c *Client) SearchHeartbeatMonitor(input *SearchHeartbeatMonitorInput) (*Se
 		return nil, errors.New("heartbeat monitor name is required")
 	}
 
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s", apiRoutes.heartbeatMonitors, *input.HeartbeatMonitorName))
+	q := url.Values{}
+	q.Add("include", "integrationUrl")
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/name/%s?%s", apiRoutes.heartbeatMonitors, *input.HeartbeatMonitorName, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
