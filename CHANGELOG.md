@@ -1,5 +1,9 @@
 # Changelog
 
+# 17.06.2025, Version 3.13.0
+
+- add call flows [#52](https://github.com/iLert/ilert-go/pull/52)
+
 ## 06.06.2025, Version 3.12.1
 
 - change heartbeat monitor search to always return integration url [#51](https://github.com/iLert/ilert-go/pull/51)
