@@ -30,7 +30,8 @@ type CallFlowOutput struct {
 
 type CallFlowNode struct {
 	ID       int64            `json:"id"`
-	NodeType string           `json:"nodeType"`
+	Name     string           `json:"name,omitempty"`
+	NodeType string           `json:"nodeType"` // one of CallFlowNodeType
 	Metadata interface{}      `json:"metadata,omitempty"`
 	Branches []CallFlowBranch `json:"branches"`
 }
@@ -44,7 +45,7 @@ type CallFlowNodeOutput struct {
 
 type CallFlowBranch struct {
 	ID         int64         `json:"id"`
-	BranchType string        `json:"branchType"`
+	BranchType string        `json:"branchType"` // one of CallFlowBranchType
 	Condition  string        `json:"condition,omitempty"`
 	Target     *CallFlowNode `json:"target"`
 }
@@ -116,6 +117,42 @@ type CallFlowNodeMetadataEnrichment struct {
 type CallFlowNodeMetadataEnrichmentSource struct {
 	ID   string `json:"id"`
 	Type string `json:"type"` // one of CallFlowNodeMetadataEnrichmentSourceType
+}
+
+var CallFlowNodeType = struct {
+	Root         string
+	IVRMenu      string
+	AudioMessage string
+	Plain        string
+	SupportHours string
+	RouteCall    string
+	Voicemail    string
+	PinCode      string
+	CreateAlert  string
+	BlockNumbers string
+	Agentic      string
+}{
+	Root:         "ROOT",
+	IVRMenu:      "IVR_MENU",
+	AudioMessage: "AUDIO_MESSAGE",
+	Plain:        "PLAIN",
+	SupportHours: "SUPPORT_HOURS",
+	RouteCall:    "ROUTE_CALL",
+	Voicemail:    "VOICEMAIL",
+	PinCode:      "PIN_CODE",
+	CreateAlert:  "CREATE_ALERT",
+	BlockNumbers: "BLOCK_NUMBERS",
+	Agentic:      "AGENTIC",
+}
+
+var CallFlowBranchType = struct {
+	Branch   string
+	CatchAll string
+	Answered string // only used for Root node
+}{
+	Branch:   "BRANCH",
+	CatchAll: "CATCH_ALL",
+	Answered: "ANSWERED",
 }
 
 // CallFlowNodeMetadataAIVoiceModel defines the voice model used
