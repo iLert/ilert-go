@@ -82,6 +82,42 @@ type CallFlowNodeMetadata struct {
 	Enrichment     *CallFlowNodeMetadataEnrichment  `json:"enrichment,omitempty"`     // AGENTIC
 }
 
+type CallFlowNodeMetadataCode struct {
+	Code  int64  `json:"code,omitempty"`
+	Label string `json:"label"`
+}
+
+type CallFlowNodeMetadataCallTarget struct {
+	Target string `json:"target"`
+	Type   string `json:"type"` // one of CallFlowNodeMetadataCallTargetType
+}
+
+type CallFlowNodeMetadataIntent struct {
+	Type        string   `json:"type,omitempty"` // one of CallFlowNodeMetadataIntentType
+	Label       string   `json:"label,omitempty"`
+	Description string   `json:"description,omitempty"`
+	Examples    []string `json:"examples,omitempty"`
+}
+
+type CallFlowNodeMetadataGather struct {
+	Type     string `json:"type,omitempty"` // one of CallFlowNodeMetadataGatherType
+	Label    string `json:"label,omitempty"`
+	VarType  string `json:"varType,omitempty"` // one of CallFlowNodeMetadataGatherVarType
+	Required bool   `json:"required,omitempty"`
+	Question string `json:"question,omitempty"`
+}
+
+type CallFlowNodeMetadataEnrichment struct {
+	Enabled          bool                                   `json:"enabled"`
+	InformationTypes []string                               `json:"informationTypes"` // one or more of CallFlowNodeMetadataEnrichmentInformationType
+	Sources          []CallFlowNodeMetadataEnrichmentSource `json:"sources"`
+}
+
+type CallFlowNodeMetadataEnrichmentSource struct {
+	ID   string `json:"id"`
+	Type string `json:"type"` // one of CallFlowNodeMetadataEnrichmentSourceType
+}
+
 // CallFlowNodeMetadataAIVoiceModel defines the voice model used
 var CallFlowNodeMetadataAIVoiceModel = struct {
 	Emma     string
@@ -152,16 +188,6 @@ var CallFlowNodeMetadataLanguageAll = []string{
 	CallFlowNodeMetadataLanguage.Italian,
 }
 
-type CallFlowNodeMetadataCode struct {
-	Code  int64  `json:"code,omitempty"`
-	Label string `json:"label"`
-}
-
-type CallFlowNodeMetadataCallTarget struct {
-	Target string `json:"target"`
-	Type   string `json:"type"` // one of CallFlowNodeMetadataCallTargetType
-}
-
 var CallFlowNodeMetadataCallTargetType = struct {
 	User           string
 	OnCallSchedule string
@@ -194,13 +220,6 @@ var CallFlowNodeMetadataCallStyleAll = []string{
 	CallFlowNodeMetadataCallStyle.Parallel,
 }
 
-type CallFlowNodeMetadataIntent struct {
-	Type        string   `json:"type,omitempty"` // one of CallFlowNodeMetadataIntentType
-	Label       string   `json:"label,omitempty"`
-	Description string   `json:"description,omitempty"`
-	Examples    []string `json:"examples,omitempty"`
-}
-
 var CallFlowNodeMetadataIntentType = struct {
 	Incident         string
 	SystemOutage     string
@@ -221,14 +240,6 @@ var CallFlowNodeMetadataIntentTypeAll = []string{
 	CallFlowNodeMetadataIntentType.SecurityBreach,
 	CallFlowNodeMetadataIntentType.TechnicalSupport,
 	CallFlowNodeMetadataIntentType.Inquiry,
-}
-
-type CallFlowNodeMetadataGather struct {
-	Type     string `json:"type,omitempty"` // one of CallFlowNodeMetadataGatherType
-	Label    string `json:"label,omitempty"`
-	VarType  string `json:"varType,omitempty"` // one of CallFlowNodeMetadataGatherVarType
-	Required bool   `json:"required,omitempty"`
-	Question string `json:"question,omitempty"`
 }
 
 var CallFlowNodeMetadataGatherType = struct {
@@ -272,12 +283,6 @@ var CallFlowNodeMetadataGatherVarTypeAll = []string{
 	CallFlowNodeMetadataGatherVarType.String,
 }
 
-type CallFlowNodeMetadataEnrichment struct {
-	Enabled          bool                                   `json:"enabled"`
-	InformationTypes []string                               `json:"informationTypes"` // one or more of CallFlowNodeMetadataEnrichmentInformationType
-	Sources          []CallFlowNodeMetadataEnrichmentSource `json:"sources"`
-}
-
 var CallFlowNodeMetadataEnrichmentInformationType = struct {
 	Incident      string
 	Maintenance   string
@@ -288,9 +293,10 @@ var CallFlowNodeMetadataEnrichmentInformationType = struct {
 	ServiceStatus: "SERVICE_STATUS",
 }
 
-type CallFlowNodeMetadataEnrichmentSource struct {
-	ID   string `json:"id"`
-	Type string `json:"type"` // one of CallFlowNodeMetadataEnrichmentSourceType
+var CallFlowNodeMetadataEnrichmentInformationTypeAll = []string{
+	CallFlowNodeMetadataEnrichmentInformationType.Incident,
+	CallFlowNodeMetadataEnrichmentInformationType.Maintenance,
+	CallFlowNodeMetadataEnrichmentInformationType.ServiceStatus,
 }
 
 var CallFlowNodeMetadataEnrichmentSourceType = struct {
@@ -301,14 +307,15 @@ var CallFlowNodeMetadataEnrichmentSourceType = struct {
 	Service:    "SERVICE",
 }
 
+var CallFlowNodeMetadataEnrichmentSourceTypeAll = []string{
+	CallFlowNodeMetadataEnrichmentSourceType.StatusPage,
+	CallFlowNodeMetadataEnrichmentSourceType.Service,
+}
+
 // CreateCallFlowInput represents the input of a CreateCallFlow operation.
 type CreateCallFlowInput struct {
 	_        struct{}
 	CallFlow *CallFlow
-
-	// describes optional properties that should be included in the response
-	// possible values: "integrationUrl"
-	Include []*string
 }
 
 // CreateCallFlowOutput represents the output of a CreateCallFlow operation.
@@ -326,12 +333,7 @@ func (c *Client) CreateCallFlow(input *CreateCallFlowInput) (*CreateCallFlowOutp
 		return nil, errors.New("call flow input is required")
 	}
 
-	q := url.Values{}
-	for _, include := range input.Include {
-		q.Add("include", *include)
-	}
-
-	resp, err := c.httpClient.R().SetBody(input.CallFlow).Post(fmt.Sprintf("%s?%s", apiRoutes.callFlows, q.Encode()))
+	resp, err := c.httpClient.R().SetBody(input.CallFlow).Post(fmt.Sprintf("%s", apiRoutes.callFlows))
 	if err != nil {
 		return nil, err
 	}
@@ -352,10 +354,6 @@ func (c *Client) CreateCallFlow(input *CreateCallFlowInput) (*CreateCallFlowOutp
 type GetCallFlowInput struct {
 	_          struct{}
 	CallFlowID *int64
-
-	// describes optional properties that should be included in the response
-	// possible values: "integrationUrl"
-	Include []*string
 }
 
 // GetCallFlowOutput represents the output of a GetCallFlow operation.
@@ -373,12 +371,7 @@ func (c *Client) GetCallFlow(input *GetCallFlowInput) (*GetCallFlowOutput, error
 		return nil, errors.New("call flow id is required")
 	}
 
-	q := url.Values{}
-	for _, include := range input.Include {
-		q.Add("include", *include)
-	}
-
-	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d?%s", apiRoutes.callFlows, *input.CallFlowID, q.Encode()))
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/%d", apiRoutes.callFlows, *input.CallFlowID))
 	if err != nil {
 		return nil, err
 	}
@@ -483,10 +476,6 @@ type UpdateCallFlowInput struct {
 	_          struct{}
 	CallFlowID *int64
 	CallFlow   *CallFlow
-
-	// describes optional properties that should be included in the response
-	// possible values: "integrationUrl"
-	Include []*string
 }
 
 // UpdateCallFlowOutput represents the output of a UpdateCallFlow operation.
@@ -507,12 +496,7 @@ func (c *Client) UpdateCallFlow(input *UpdateCallFlowInput) (*UpdateCallFlowOutp
 		return nil, errors.New("call flow id is required")
 	}
 
-	q := url.Values{}
-	for _, include := range input.Include {
-		q.Add("include", *include)
-	}
-
-	resp, err := c.httpClient.R().SetBody(input.CallFlow).Put(fmt.Sprintf("%s/%d?%s", apiRoutes.callFlows, *input.CallFlowID, q.Encode()))
+	resp, err := c.httpClient.R().SetBody(input.CallFlow).Put(fmt.Sprintf("%s/%d", apiRoutes.callFlows, *input.CallFlowID))
 	if err != nil {
 		return nil, err
 	}
