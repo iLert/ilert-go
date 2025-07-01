@@ -2,11 +2,11 @@
 
 ## 01.07.2025, Version 3.12.3
 
-- fix type of `labels` in Event
+- fix type of `labels` in Event [#54](https://github.com/iLert/ilert-go/pull/54)
 
 ## 01.07.2025, Version 3.12.2
 
-- add new `labels` fields
+- add new `labels` fields [#53](https://github.com/iLert/ilert-go/pull/53)
 
 ## 06.06.2025, Version 3.12.1
 
