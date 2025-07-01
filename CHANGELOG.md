@@ -1,5 +1,13 @@
 # Changelog
 
+## 01.07.2025, Version 3.12.3
+
+- fix type of `labels` in Event
+
+## 01.07.2025, Version 3.12.2
+
+- add new `labels` fields
+
 ## 06.06.2025, Version 3.12.1
 
 - change heartbeat monitor search to always return integration url [#51](https://github.com/iLert/ilert-go/pull/51)
