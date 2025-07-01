@@ -32,7 +32,7 @@ type Event struct {
 	Links []AlertLink `json:"links,omitempty"`
 
 	// Optional. A list of labels.
-	Labels []string `json:"labels,omitempty"`
+	Labels map[string]string `json:"labels,omitempty"`
 
 	// Optional. Additional custom details for the event.
 	CustomDetails map[string]interface{} `json:"customDetails,omitempty"`
