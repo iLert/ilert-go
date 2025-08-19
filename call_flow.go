@@ -12,7 +12,7 @@ import (
 type CallFlow struct {
 	ID             int64           `json:"id"`
 	Name           string          `json:"name"`
-	Language       string          `json:"language"`
+	Language       string          `json:"language"` // one of CallFlowLanguage
 	AssignedNumber *CallFlowNumber `json:"assignedNumber,omitempty"`
 	Teams          []TeamShort     `json:"teams,omitempty"`
 	RootNode       *CallFlowNode   `json:"root"`
@@ -38,6 +38,7 @@ type CallFlowNode struct {
 
 type CallFlowNodeOutput struct {
 	ID       int64                 `json:"id"`
+	Name     string                `json:"name,omitempty"`
 	NodeType string                `json:"nodeType"`
 	Metadata *CallFlowNodeMetadata `json:"metadata,omitempty"`
 	Branches []CallFlowBranch      `json:"branches"`
@@ -115,8 +116,21 @@ type CallFlowNodeMetadataEnrichment struct {
 }
 
 type CallFlowNodeMetadataEnrichmentSource struct {
-	ID   string `json:"id"`
+	ID   int64  `json:"id"`
 	Type string `json:"type"` // one of CallFlowNodeMetadataEnrichmentSourceType
+}
+
+var CallFlowLanguage = struct {
+	German  string
+	English string
+}{
+	German:  "de",
+	English: "en",
+}
+
+var CallFlowLanguageAll = []string{
+	CallFlowLanguage.German,
+	CallFlowLanguage.English,
 }
 
 var CallFlowNodeType = struct {
@@ -145,6 +159,20 @@ var CallFlowNodeType = struct {
 	Agentic:      "AGENTIC",
 }
 
+var CallFlowNodeTypeAll = []string{
+	CallFlowNodeType.Root,
+	CallFlowNodeType.IVRMenu,
+	CallFlowNodeType.AudioMessage,
+	CallFlowNodeType.Plain,
+	CallFlowNodeType.SupportHours,
+	CallFlowNodeType.RouteCall,
+	CallFlowNodeType.Voicemail,
+	CallFlowNodeType.PinCode,
+	CallFlowNodeType.CreateAlert,
+	CallFlowNodeType.BlockNumbers,
+	CallFlowNodeType.Agentic,
+}
+
 var CallFlowBranchType = struct {
 	Branch   string
 	CatchAll string
@@ -153,6 +181,12 @@ var CallFlowBranchType = struct {
 	Branch:   "BRANCH",
 	CatchAll: "CATCH_ALL",
 	Answered: "ANSWERED",
+}
+
+var CallFlowBranchTypeAll = []string{
+	CallFlowBranchType.Branch,
+	CallFlowBranchType.CatchAll,
+	CallFlowBranchType.Answered,
 }
 
 // CallFlowNodeMetadataAIVoiceModel defines the voice model used
