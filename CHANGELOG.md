@@ -1,6 +1,10 @@
 # Changelog
 
-# 17.06.2025, Version 3.13.0
+## 03.09.2025, Version 3.14.0
+
+- add new integration types [#55](https://github.com/iLert/ilert-go/pull/55)
+
+## 17.06.2025, Version 3.13.0
 
 - add call flows [#52](https://github.com/iLert/ilert-go/pull/52)
 
@@ -81,39 +85,39 @@
 - remove connectors and alert actions deprecated via api in [#38](https://github.com/iLert/ilert-go/pull/38)
   - adds support for alert actions and connectors previously missing
 
-# 20.02.2024, Version 3.6.1
+## 20.02.2024, Version 3.6.1
 
 - fix backwards compatibility with alert actions v2 changes [#37](https://github.com/iLert/ilert-go/pull/37)
   - ensures existing scripts using one alert source with no team explicitly set to use legacy api without breaking
 
-# 01.02.2024, Version 3.6.0
+## 01.02.2024, Version 3.6.0
 
 - apply alert actions v2 changes in [#29](https://github.com/iLert/ilert-go/pull/29)
   - add alertSources and teams fields, deprecate alertSourceIds
 
-# 12.01.2024, Version 3.5.0
+## 12.01.2024, Version 3.5.0
 
 - add Telegram as alert action type in [#36](https://github.com/iLert/ilert-go/pull/36)
 
-# 05.01.2024, Version 3.4.1
+## 05.01.2024, Version 3.4.1
 
 - replace `ThemeMode` field with `Appearance` for status page resource in [#35](https://github.com/iLert/ilert-go/pull/35)
 
-# 03.01.2024, Version 3.4.0
+## 03.01.2024, Version 3.4.0
 
 - deprecate uptime monitors in [#32](https://github.com/iLert/ilert-go/pull/32)
 - add new resource support hours in [#33](https://github.com/iLert/ilert-go/pull/33)
 - add new status page fields in [#34](https://github.com/iLert/ilert-go/pull/34)
 
-# 12.12.2023, Version 3.3.0
+## 12.12.2023, Version 3.3.0
 
 - add link templates and priority template to alert source resource in [#31](https://github.com/iLert/ilert-go/pull/31)
 
-# 13.11.2023, Version 3.2.0
+## 13.11.2023, Version 3.2.0
 
 - add new trigger type `alert-escalation-ended` and new field `delaySec` to alert action resource in [#30](https://github.com/iLert/ilert-go/pull/30)
 
-# 09.10.2023, Version 3.1.0
+## 09.10.2023, Version 3.1.0
 
 - add new fields `delayMin` and `routingKey` to escalation policy resource in [#26](https://github.com/iLert/ilert-go/pull/26)
 - add templates and alert grouping to alert source resource in [#27](https://github.com/iLert/ilert-go/pull/27)
@@ -127,7 +131,7 @@
 
 - add missing field `integrationKey` to metric resource in [#24](https://github.com/iLert/ilert-go/pull/24)
 
-## 08.03.2023, Version 3.0.0 - API user preference migration: see [migration changes](https://docs.ilert.com/rest-api/api-version-history/api-user-preference-migration-2023#migrating-ilert-go-and-or-terraform) for a detailed migration guide
+# 08.03.2023, Version 3.0.0 - API user preference migration: see [migration changes](https://docs.ilert.com/rest-api/api-version-history/api-user-preference-migration-2023#migrating-ilert-go-and-or-terraform) for a detailed migration guide
 
 - removed notification settings fields from user resource
 - add user contacts

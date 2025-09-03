@@ -257,6 +257,7 @@ var AlertSourceIntegrationTypes = struct {
 	Datadog                    string
 	Dynatrace                  string
 	Email                      string // @deprecated
+	Email2                     string
 	Github                     string
 	GoogleStackdriver          string
 	Grafana                    string
@@ -317,8 +318,70 @@ var AlertSourceIntegrationTypes = struct {
 	OhDear                     string
 	MongodbAtlas               string
 	Gitlab                     string
+	Hyperping                  string
+	PaprismaCloud              string
+	Samsara                    string
+	PandoraFMS                 string
+	MSSCOM                     string
+	Twilio                     string
+	CiscoMeraki                string
 	Checkly                    string
-	Email2                     string
+	Posthog                    string
+	GoogleSCC                  string
+	Slack                      string
+	MSTeams                    string
+	UptimeKuma                 string
+	TwilioErrors               string
+	Particle                   string
+	Cloudflare                 string
+	Tulip                      string
+	Graylog                    string
+	Catchpoint                 string
+	Loki                       string
+	Cortex                     string
+	Mimir                      string
+	HaloPSA                    string
+	InfluxDB                   string
+	CallFlow                   string
+	HaloITSM                   string
+	Kibana                     string
+	VictoriaMetrics            string
+	Honeycomb                  string
+	Fourme                     string
+	Keep                       string
+	Ubidots                    string
+	HetrixTools                string
+	Postman                    string
+	ClusterControl             string
+	Netdata                    string
+	AWX                        string
+	Kafka                      string
+	MQTT                       string
+	RapidSpike                 string
+	Honeybadger                string
+	HealthchecksIO             string
+	Mezmo                      string
+	ServerGuard24              string
+	CiscoThousandEyes          string
+	Site24x7                   string
+	ITConductor                string
+	SAPFRUN                    string
+	Apica                      string
+	Dash0                      string
+	Rollbar                    string
+	Gatus                      string
+	LibreNMS                   string
+	Panther                    string
+	TeamCity                   string
+	AlibabaCloud               string
+	FleetDM                    string
+	ConnectWisePSA             string
+	DeadMansSnitch             string
+	FortiSOAR                  string
+	OpManager                  string
+	Cronitor                   string
+	Domotz                     string
+	LiveWatch                  string
 }{
 	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
@@ -331,6 +394,7 @@ var AlertSourceIntegrationTypes = struct {
 	Datadog:                    "DATADOG",
 	Dynatrace:                  "DYNATRACE",
 	Email:                      "EMAIL",
+	Email2:                     "EMAIL2",
 	Github:                     "GITHUB",
 	GoogleStackdriver:          "STACKDRIVER",
 	Grafana:                    "GRAFANA",
@@ -391,8 +455,70 @@ var AlertSourceIntegrationTypes = struct {
 	OhDear:                     "OHDEAR",
 	MongodbAtlas:               "MONGODBATLAS",
 	Gitlab:                     "GITLAB",
+	Hyperping:                  "HYPERPING",
+	PaprismaCloud:              "PAPRISMACLOUD",
+	Samsara:                    "SAMSARA",
+	PandoraFMS:                 "PANDORAFMS",
+	MSSCOM:                     "MSSCOM",
+	Twilio:                     "TWILIO",
+	CiscoMeraki:                "CISCOMERAKI",
 	Checkly:                    "CHECKLY",
-	Email2:                     "EMAIL2",
+	Posthog:                    "POSTHOG",
+	GoogleSCC:                  "GOOGLESCC",
+	Slack:                      "SLACK",
+	MSTeams:                    "MSTEAMS",
+	UptimeKuma:                 "UPTIMEKUMA",
+	TwilioErrors:               "TWILIOERRORS",
+	Particle:                   "PARTICLE",
+	Cloudflare:                 "CLOUDFLARE",
+	Tulip:                      "TULIP",
+	Graylog:                    "GRAYLOG",
+	Catchpoint:                 "CATCHPOINT",
+	Loki:                       "LOKI",
+	Cortex:                     "CORTEX",
+	Mimir:                      "MIMIR",
+	HaloPSA:                    "HALOPSA",
+	InfluxDB:                   "INFLUXDB",
+	CallFlow:                   "CALLFLOW",
+	HaloITSM:                   "HALOITSM",
+	Kibana:                     "KIBANA",
+	VictoriaMetrics:            "VICTORIAMETRICS",
+	Honeycomb:                  "HONEYCOMB",
+	Fourme:                     "FOURME",
+	Keep:                       "KEEP",
+	Ubidots:                    "UBIDOTS",
+	HetrixTools:                "HETRIXTOOLS",
+	Postman:                    "POSTMAN",
+	ClusterControl:             "CLUSTERCONTROL",
+	Netdata:                    "NETDATA",
+	AWX:                        "AWX",
+	Kafka:                      "KAFKA",
+	MQTT:                       "MQTT",
+	RapidSpike:                 "RAPIDSPIKE",
+	Honeybadger:                "HONEYBADGER",
+	HealthchecksIO:             "HEALTHCHECKSIO",
+	Mezmo:                      "MEZMO",
+	ServerGuard24:              "SERVERGUARD24",
+	CiscoThousandEyes:          "CISCOTHOUSANDEYES",
+	Site24x7:                   "SITE24X7",
+	ITConductor:                "ITCONDUCTOR",
+	SAPFRUN:                    "SAPFRUN",
+	Apica:                      "APICA",
+	Dash0:                      "DASH0",
+	Rollbar:                    "ROLLBAR",
+	Gatus:                      "GATUS",
+	LibreNMS:                   "LIBRENMS",
+	Panther:                    "PANTHER",
+	TeamCity:                   "TEAMCITY",
+	AlibabaCloud:               "ALIBABACLOUD",
+	FleetDM:                    "FLEETDM",
+	ConnectWisePSA:             "CONNECTWISEPSA",
+	DeadMansSnitch:             "DEADMANSSNITCH",
+	FortiSOAR:                  "FORTISOAR",
+	OpManager:                  "OPMANAGER",
+	Cronitor:                   "CRONITOR",
+	Domotz:                     "DOMOTZ",
+	LiveWatch:                  "LIVEWATCH",
 }
 
 // AlertSourceIntegrationTypesAll defines all alert source integration types
@@ -408,6 +534,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.Datadog,
 	AlertSourceIntegrationTypes.Dynatrace,
 	AlertSourceIntegrationTypes.Email, // @deprecated
+	AlertSourceIntegrationTypes.Email2,
 	AlertSourceIntegrationTypes.Github,
 	AlertSourceIntegrationTypes.GoogleStackdriver,
 	AlertSourceIntegrationTypes.Grafana,
@@ -468,8 +595,70 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.OhDear,
 	AlertSourceIntegrationTypes.MongodbAtlas,
 	AlertSourceIntegrationTypes.Gitlab,
+	AlertSourceIntegrationTypes.Hyperping,
+	AlertSourceIntegrationTypes.PaprismaCloud,
+	AlertSourceIntegrationTypes.Samsara,
+	AlertSourceIntegrationTypes.PandoraFMS,
+	AlertSourceIntegrationTypes.MSSCOM,
+	AlertSourceIntegrationTypes.Twilio,
+	AlertSourceIntegrationTypes.CiscoMeraki,
 	AlertSourceIntegrationTypes.Checkly,
-	AlertSourceIntegrationTypes.Email2,
+	AlertSourceIntegrationTypes.Posthog,
+	AlertSourceIntegrationTypes.GoogleSCC,
+	AlertSourceIntegrationTypes.Slack,
+	AlertSourceIntegrationTypes.MSTeams,
+	AlertSourceIntegrationTypes.UptimeKuma,
+	AlertSourceIntegrationTypes.TwilioErrors,
+	AlertSourceIntegrationTypes.Particle,
+	AlertSourceIntegrationTypes.Cloudflare,
+	AlertSourceIntegrationTypes.Tulip,
+	AlertSourceIntegrationTypes.Graylog,
+	AlertSourceIntegrationTypes.Catchpoint,
+	AlertSourceIntegrationTypes.Loki,
+	AlertSourceIntegrationTypes.Cortex,
+	AlertSourceIntegrationTypes.Mimir,
+	AlertSourceIntegrationTypes.HaloPSA,
+	AlertSourceIntegrationTypes.InfluxDB,
+	AlertSourceIntegrationTypes.CallFlow,
+	AlertSourceIntegrationTypes.HaloITSM,
+	AlertSourceIntegrationTypes.Kibana,
+	AlertSourceIntegrationTypes.VictoriaMetrics,
+	AlertSourceIntegrationTypes.Honeycomb,
+	AlertSourceIntegrationTypes.Fourme,
+	AlertSourceIntegrationTypes.Keep,
+	AlertSourceIntegrationTypes.Ubidots,
+	AlertSourceIntegrationTypes.HetrixTools,
+	AlertSourceIntegrationTypes.Postman,
+	AlertSourceIntegrationTypes.ClusterControl,
+	AlertSourceIntegrationTypes.Netdata,
+	AlertSourceIntegrationTypes.AWX,
+	AlertSourceIntegrationTypes.Kafka,
+	AlertSourceIntegrationTypes.MQTT,
+	AlertSourceIntegrationTypes.RapidSpike,
+	AlertSourceIntegrationTypes.Honeybadger,
+	AlertSourceIntegrationTypes.HealthchecksIO,
+	AlertSourceIntegrationTypes.Mezmo,
+	AlertSourceIntegrationTypes.ServerGuard24,
+	AlertSourceIntegrationTypes.CiscoThousandEyes,
+	AlertSourceIntegrationTypes.Site24x7,
+	AlertSourceIntegrationTypes.ITConductor,
+	AlertSourceIntegrationTypes.SAPFRUN,
+	AlertSourceIntegrationTypes.Apica,
+	AlertSourceIntegrationTypes.Dash0,
+	AlertSourceIntegrationTypes.Rollbar,
+	AlertSourceIntegrationTypes.Gatus,
+	AlertSourceIntegrationTypes.LibreNMS,
+	AlertSourceIntegrationTypes.Panther,
+	AlertSourceIntegrationTypes.TeamCity,
+	AlertSourceIntegrationTypes.AlibabaCloud,
+	AlertSourceIntegrationTypes.FleetDM,
+	AlertSourceIntegrationTypes.ConnectWisePSA,
+	AlertSourceIntegrationTypes.DeadMansSnitch,
+	AlertSourceIntegrationTypes.FortiSOAR,
+	AlertSourceIntegrationTypes.OpManager,
+	AlertSourceIntegrationTypes.Cronitor,
+	AlertSourceIntegrationTypes.Domotz,
+	AlertSourceIntegrationTypes.LiveWatch,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.
