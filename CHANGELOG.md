@@ -2,7 +2,7 @@
 
 ## 03.09.2025, Version 3.14.0
 
-- add missing integration types [#55](https://github.com/iLert/ilert-go/pull/55)
+- add new integration types [#55](https://github.com/iLert/ilert-go/pull/55)
 
 ## 17.06.2025, Version 3.13.0
 
