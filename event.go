@@ -5,6 +5,26 @@ import (
 	"errors"
 )
 
+// EventComment represents a comment in an event
+type EventComment struct {
+	// Required. The creator of the comment
+	Creator string `json:"creator"`
+	// Required. The content of the comment
+	Content string `json:"content"`
+}
+
+// EventLog represents a log entry in an event
+type EventLog struct {
+	// Required. The timestamp of the log entry
+	Timestamp string `json:"timestamp"`
+	// Required. The log level (e.g., INFO, WARN, ERROR)
+	Level string `json:"level"`
+	// Required. The log body/message
+	Body string `json:"body"`
+	// Optional. Labels for the log entry
+	Labels map[string]string `json:"labels,omitempty"`
+}
+
 // Event represents the alert event https://api.ilert.com/api-docs/#tag/Events
 type Event struct {
 	// Required. The API key of the alert source.
@@ -36,6 +56,12 @@ type Event struct {
 
 	// Optional. Additional custom details for the event.
 	CustomDetails map[string]interface{} `json:"customDetails,omitempty"`
+
+	// Optional. A list of comments for the event.
+	Comments []EventComment `json:"comments,omitempty"`
+
+	// Optional. A list of log entries for the event.
+	Logs []EventLog `json:"logs,omitempty"`
 }
 
 // EventTypes defines event types
