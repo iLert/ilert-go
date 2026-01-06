@@ -261,7 +261,7 @@ var AlertSourceIntegrationTypes = struct {
 	Github                     string
 	GoogleStackdriver          string
 	Grafana                    string
-	Heartbeat                  string
+	Heartbeat                  string // @deprecated
 	Icinga                     string
 	Instana                    string
 	Jira                       string
@@ -382,6 +382,7 @@ var AlertSourceIntegrationTypes = struct {
 	Cronitor                   string
 	Domotz                     string
 	LiveWatch                  string
+	Heartbeat2                 string
 }{
 	AmazonCloudWatch:           "CLOUDWATCH",
 	API:                        "API",
@@ -519,6 +520,7 @@ var AlertSourceIntegrationTypes = struct {
 	Cronitor:                   "CRONITOR",
 	Domotz:                     "DOMOTZ",
 	LiveWatch:                  "LIVEWATCH",
+	Heartbeat2:                 "HEARTBEAT2",
 }
 
 // AlertSourceIntegrationTypesAll defines all alert source integration types
@@ -538,7 +540,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.Github,
 	AlertSourceIntegrationTypes.GoogleStackdriver,
 	AlertSourceIntegrationTypes.Grafana,
-	AlertSourceIntegrationTypes.Heartbeat,
+	AlertSourceIntegrationTypes.Heartbeat, // @deprecated
 	AlertSourceIntegrationTypes.Icinga,
 	AlertSourceIntegrationTypes.Instana,
 	AlertSourceIntegrationTypes.Jira,
@@ -659,6 +661,7 @@ var AlertSourceIntegrationTypesAll = []string{
 	AlertSourceIntegrationTypes.Cronitor,
 	AlertSourceIntegrationTypes.Domotz,
 	AlertSourceIntegrationTypes.LiveWatch,
+	AlertSourceIntegrationTypes.Heartbeat2,
 }
 
 // CreateAlertSourceInput represents the input of a CreateAlertSource operation.
