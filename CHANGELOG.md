@@ -1,9 +1,13 @@
 # Changelog
 
-## 06.01.2026, Version 3.14.1
+## 06.01.2026, Version 3.15.1
 
-- add missing integration type for new heartbeat alert sources [#56](https://github.com/iLert/ilert-go/pull/56)
+- add missing integration type for new heartbeat alert sources [#57](https://github.com/iLert/ilert-go/pull/57)
   - deprecate legacy heartbeat integration type
+
+## 01.10.2025, Version 3.15.0
+
+- add logs and comments to events [#56](https://github.com/iLert/ilert-go/pull/56)
 
 ## 03.09.2025, Version 3.14.0
 
