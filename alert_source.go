@@ -22,7 +22,7 @@ type AlertSource struct {
 	IncidentCreation       string                 `json:"incidentCreation,omitempty"`     // @deprecated
 	EmailFiltered          bool                   `json:"emailFiltered,omitempty"`        // @deprecated
 	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"` // @deprecated
-	Active                 bool                   `json:"active,omitempty"`
+	Active                 bool                   `json:"active"`
 	Status                 string                 `json:"status,omitempty"`
 	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"`  // e.g. PT4H
 	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`        // @deprecated
