@@ -1,5 +1,9 @@
 # Changelog
 
+## 24.02.2026, Version 3.15.2
+
+- fix alert source active field not propagating to API when set to false [#58](https://github.com/iLert/ilert-go/pull/58)
+
 ## 06.01.2026, Version 3.15.1
 
 - add missing integration type for new heartbeat alert sources [#57](https://github.com/iLert/ilert-go/pull/57)
