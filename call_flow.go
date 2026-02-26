@@ -134,29 +134,31 @@ var CallFlowLanguageAll = []string{
 }
 
 var CallFlowNodeType = struct {
-	Root         string
-	IVRMenu      string
-	AudioMessage string
-	Plain        string
-	SupportHours string
-	RouteCall    string
-	Voicemail    string
-	PinCode      string
-	CreateAlert  string
-	BlockNumbers string
-	Agentic      string
+	Root              string
+	IVRMenu           string
+	AudioMessage      string
+	Plain             string
+	SupportHours      string
+	RouteCall         string
+	ParallelRouteCall string
+	Voicemail         string
+	PinCode           string
+	CreateAlert       string
+	BlockNumbers      string
+	Agentic           string
 }{
-	Root:         "ROOT",
-	IVRMenu:      "IVR_MENU",
-	AudioMessage: "AUDIO_MESSAGE",
-	Plain:        "PLAIN",
-	SupportHours: "SUPPORT_HOURS",
-	RouteCall:    "ROUTE_CALL",
-	Voicemail:    "VOICEMAIL",
-	PinCode:      "PIN_CODE",
-	CreateAlert:  "CREATE_ALERT",
-	BlockNumbers: "BLOCK_NUMBERS",
-	Agentic:      "AGENTIC",
+	Root:              "ROOT",
+	IVRMenu:           "IVR_MENU",
+	AudioMessage:      "AUDIO_MESSAGE",
+	Plain:             "PLAIN",
+	SupportHours:      "SUPPORT_HOURS",
+	RouteCall:         "ROUTE_CALL",
+	ParallelRouteCall: "PARALLEL_ROUTE_CALL",
+	Voicemail:         "VOICEMAIL",
+	PinCode:           "PIN_CODE",
+	CreateAlert:       "CREATE_ALERT",
+	BlockNumbers:      "BLOCK_NUMBERS",
+	Agentic:           "AGENTIC",
 }
 
 var CallFlowNodeTypeAll = []string{
@@ -166,6 +168,7 @@ var CallFlowNodeTypeAll = []string{
 	CallFlowNodeType.Plain,
 	CallFlowNodeType.SupportHours,
 	CallFlowNodeType.RouteCall,
+	CallFlowNodeType.ParallelRouteCall,
 	CallFlowNodeType.Voicemail,
 	CallFlowNodeType.PinCode,
 	CallFlowNodeType.CreateAlert,
