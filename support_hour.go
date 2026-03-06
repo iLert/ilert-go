@@ -10,11 +10,35 @@ import (
 
 // SupportHour definition https://api.ilert.com/api-docs/#tag/SupportHours
 type SupportHour struct {
-	ID          int64        `json:"id"`
-	Name        string       `json:"name"`
-	Teams       []TeamShort  `json:"teams,omitempty"`
-	Timezone    string       `json:"timezone,omitempty"`
-	SupportDays *SupportDays `json:"supportDays"`
+	ID          int64                  `json:"id"`
+	Name        string                 `json:"name"`
+	Teams       []TeamShort            `json:"teams,omitempty"`
+	Timezone    string                 `json:"timezone,omitempty"`
+	SupportDays *SupportDays           `json:"supportDays"`
+	Exceptions  []SupportHourException `json:"exceptions,omitempty"`
+}
+
+// SupportHourException definition
+type SupportHourException struct {
+	Name          string `json:"name,omitempty"`
+	Start         string `json:"start"`                   // Date time string in ISO format
+	End           string `json:"end"`                     // Date time string in ISO format
+	SupportStatus string `json:"supportStatus,omitempty"` // one of SupportStatus
+}
+
+// SupportStatus defines support status
+var SupportStatus = struct {
+	During  string
+	Outside string
+}{
+	During:  "DURING",
+	Outside: "OUTSIDE",
+}
+
+// SupportStatusAll defines support status list
+var SupportStatusAll = []string{
+	SupportStatus.During,
+	SupportStatus.Outside,
 }
 
 // CreateSupportHourInput represents the input of a CreateSupportHour operation.
