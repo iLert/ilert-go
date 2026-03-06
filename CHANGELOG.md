@@ -1,5 +1,10 @@
 # Changelog
 
+## 06.03.2026, Version 3.16.0
+
+- add holiday exceptions for support hours [#60](https://github.com/iLert/ilert-go/pull/60)
+- add new call flow node type [#59](https://github.com/iLert/ilert-go/pull/59)
+
 ## 24.02.2026, Version 3.15.2
 
 - fix alert source active field not propagating to API when set to false [#58](https://github.com/iLert/ilert-go/pull/58)
