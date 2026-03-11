@@ -1,5 +1,9 @@
 # Changelog
 
+## 11.03.2026, Version 3.17.0
+
+- add event flows [#61](https://github.com/iLert/ilert-go/pull/61)
+
 ## 06.03.2026, Version 3.16.0
 
 - add holiday exceptions for support hours [#60](https://github.com/iLert/ilert-go/pull/60)

@@ -232,6 +232,7 @@ var apiRoutes = struct {
 	deploymentPipelines string
 	escalationPolicies  string
 	events              string
+	eventFlows          string
 	heartbeats          string
 	heartbeatMonitors   string
 	incidents           string
@@ -258,6 +259,7 @@ var apiRoutes = struct {
 	deploymentPipelines: "/api/deployment-pipelines",
 	escalationPolicies:  "/api/escalation-policies",
 	events:              "/api/events",
+	eventFlows:          "/api/event-flows",
 	heartbeats:          "/api/heartbeats",
 	heartbeatMonitors:   "/api/heartbeat-monitors",
 	incidents:           "/api/incidents",
