@@ -2,7 +2,7 @@
 
 ## 18.03.2026, Version 3.18.1
 
-- add output type for status page group [#64](https://github.com/iLert/ilert-go/pull/64)
+- add groups to status page [#64](https://github.com/iLert/ilert-go/pull/64)
 
 ## 13.03.2026, Version 3.18.0
 
