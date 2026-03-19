@@ -1,9 +1,13 @@
 # Changelog
 
+## 18.03.2026, Version 3.18.1
+
+- add groups to status page [#64](https://github.com/iLert/ilert-go/pull/64)
+
 ## 13.03.2026, Version 3.18.0
 
-- add teams to escalation rule in escalation policy[#63](https://github.com/iLert/ilert-go/pull/63)
-- add custom http headers for alert action[#62](https://github.com/iLert/ilert-go/pull/62)
+- add teams to escalation rule in escalation policy [#63](https://github.com/iLert/ilert-go/pull/63)
+- add custom http headers for alert action [#62](https://github.com/iLert/ilert-go/pull/62)
 
 ## 11.03.2026, Version 3.17.0
 
