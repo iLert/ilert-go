@@ -14,12 +14,6 @@ type StatusPageGroup struct {
 	Name string `json:"name"`
 }
 
-type StatusPageGroupOutput struct {
-	_               struct{}
-	StatusPageGroup *StatusPageGroup
-	StatusPageID    int64
-}
-
 // CreateStatusPageGroupInput represents the input of a CreateStatusPageGroup operation.
 type CreateStatusPageGroupInput struct {
 	_               struct{}

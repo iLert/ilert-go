@@ -41,6 +41,7 @@ type StatusPage struct {
 	AnnouncementOnPage        bool                 `json:"announcementOnPage,omitempty"`
 	AnnouncementInWidget      bool                 `json:"announcementInWidget,omitempty"`
 	Metrics                   []Metric             `json:"metrics,omitempty"`
+	Groups                    []StatusPageGroup    `json:"groups,omitempty"`
 }
 
 // StatusPageStructure defines status page structure
