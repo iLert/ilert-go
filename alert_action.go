@@ -52,48 +52,49 @@ type AlertActionOutput struct {
 
 // AlertActionOutputParams definition
 type AlertActionOutputParams struct {
-	AlertType        string                           `json:"alertType"`                  // Automation rule
-	AtMobiles        []string                         `json:"atMobiles,omitempty"`        // DingTalk
-	BodyTemplate     string                           `json:"bodyTemplate,omitempty"`     // Custom, Jira, Email. Used to post data to external server
-	CallerID         string                           `json:"callerId,omitempty"`         // ServiceNow: user email
-	ChannelID        string                           `json:"channelId,omitempty"`        // Slack, Telegram
-	ChannelName      string                           `json:"channelName,omitempty"`      // Slack
-	CompanyID        int64                            `json:"companyId,omitempty"`        // Autotask: Company ID
-	Email            string                           `json:"email,omitempty"`            // Zammad
-	EventFilter      string                           `json:"eventFilter,omitempty"`      // Sysdig
-	Impact           string                           `json:"impact,omitempty"`           // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
-	IsAtAll          bool                             `json:"isAtAll,omitempty"`          // DingTalk
-	IssueType        string                           `json:"issueType,omitempty"`        // Jira: "Bug" | "Epic" | "Subtask" | "Story" | "Task"
-	IssueTypeNumber  int64                            `json:"issueTypeNumber,omitempty"`  // Autotask: Issue type
-	Labels           []string                         `json:"labels,omitempty"`           // Github
-	Name             string                           `json:"name,omitempty"`             // Jira or MicrosoftTeams or Zendesk
-	Owner            string                           `json:"owner,omitempty"`            // Github
-	PageID           string                           `json:"pageId,omitempty"`           // StatusPage.io
-	Priority         string                           `json:"priority,omitempty"`         // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
-	Project          string                           `json:"project,omitempty"`          // Jira
-	QueueID          int64                            `json:"queueId,omitempty"`          // Autotask: Queue ID
-	Recipients       []string                         `json:"recipients,omitempty"`       // Email
-	Repository       string                           `json:"repository,omitempty"`       // Github
-	ResolveIncident  bool                             `json:"resolveIncident,omitempty"`  // Automation rule
-	Secret           string                           `json:"secret,omitempty"`           // DingTalk
-	SendNotification bool                             `json:"sendNotification,omitempty"` // Automation rule
-	ServiceIds       []int64                          `json:"serviceIds"`                 // Automation rule
-	ServiceStatus    string                           `json:"serviceStatus"`              // Automation rule
-	Site             string                           `json:"site,omitempty"`             // Datadog: default `US`. Values: `US` or `EU`
-	Status           string                           `json:"status,omitempty"`           // Topdesk: firstLine, secondLine, partial
-	Subject          string                           `json:"subject,omitempty"`          // Email
-	Tags             []string                         `json:"tags,omitempty"`             // Datadog or Sysdig
-	TeamDomain       string                           `json:"teamDomain,omitempty"`       // Slack
-	TeamID           string                           `json:"teamId,omitempty"`           // Slack, Microsoft Teams Bot
-	TeamName         string                           `json:"teamName,omitempty"`         // Slack, Microsoft Teams Bot
-	TemplateId       int64                            `json:"templateId,omitempty"`       // Automation rule
-	TicketCategory   string                           `json:"ticketCategory,omitempty"`   // Autotask
-	TicketType       string                           `json:"ticketType,omitempty"`       // Autotask
-	Type             string                           `json:"type,omitempty"`             // Microsoft Teams Bot
-	Urgency          string                           `json:"urgency,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
-	WebhookURL       string                           `json:"webhookUrl,omitempty"`       // Custom
-	Headers          []AlertActionParamsWebhookHeader `json:"headers,omitempty"`          // Custom
-	URL              string                           `json:"url,omitempty"`              // DingTalk
+	AlertType          string                           `json:"alertType"`                    // Automation rule
+	AtMobiles          []string                         `json:"atMobiles,omitempty"`          // DingTalk
+	BodyTemplate       string                           `json:"bodyTemplate,omitempty"`       // Custom, Jira, Email. Used to post data to external server
+	CallerID           string                           `json:"callerId,omitempty"`           // ServiceNow: user email
+	ChannelID          string                           `json:"channelId,omitempty"`          // Slack, Telegram
+	ChannelName        string                           `json:"channelName,omitempty"`        // Slack
+	CompanyID          int64                            `json:"companyId,omitempty"`          // Autotask: Company ID
+	Email              string                           `json:"email,omitempty"`              // Zammad
+	EventFilter        string                           `json:"eventFilter,omitempty"`        // Sysdig
+	Impact             string                           `json:"impact,omitempty"`             // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
+	IsAtAll            bool                             `json:"isAtAll,omitempty"`            // DingTalk
+	IssueType          string                           `json:"issueType,omitempty"`          // Jira: "Bug" | "Epic" | "Subtask" | "Story" | "Task"
+	IssueTypeNumber    int64                            `json:"issueTypeNumber,omitempty"`    // Autotask: Issue type
+	Labels             []string                         `json:"labels,omitempty"`             // Github
+	Name               string                           `json:"name,omitempty"`               // Jira or MicrosoftTeams or Zendesk
+	Owner              string                           `json:"owner,omitempty"`              // Github
+	PageID             string                           `json:"pageId,omitempty"`             // StatusPage.io
+	Priority           string                           `json:"priority,omitempty"`           // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
+	Project            string                           `json:"project,omitempty"`            // Jira
+	QueueID            int64                            `json:"queueId,omitempty"`            // Autotask: Queue ID
+	Recipients         []string                         `json:"recipients,omitempty"`         // Email
+	Repository         string                           `json:"repository,omitempty"`         // Github
+	ResolveIncident    bool                             `json:"resolveIncident,omitempty"`    // Automation rule
+	Secret             string                           `json:"secret,omitempty"`             // DingTalk
+	SendNotification   bool                             `json:"sendNotification,omitempty"`   // Automation rule
+	ServiceIds         []int64                          `json:"serviceIds"`                   // Automation rule
+	ServiceStatus      string                           `json:"serviceStatus"`                // Automation rule
+	Site               string                           `json:"site,omitempty"`               // Datadog: default `US`. Values: `US` or `EU`
+	Status             string                           `json:"status,omitempty"`             // Topdesk: firstLine, secondLine, partial
+	Subject            string                           `json:"subject,omitempty"`            // Email
+	Tags               []string                         `json:"tags,omitempty"`               // Datadog or Sysdig
+	TeamDomain         string                           `json:"teamDomain,omitempty"`         // Slack
+	TeamID             string                           `json:"teamId,omitempty"`             // Slack, Microsoft Teams Bot
+	TeamName           string                           `json:"teamName,omitempty"`           // Slack, Microsoft Teams Bot
+	TemplateId         int64                            `json:"templateId,omitempty"`         // Automation rule
+	TicketCategory     string                           `json:"ticketCategory,omitempty"`     // Autotask
+	TicketType         string                           `json:"ticketType,omitempty"`         // Autotask
+	Type               string                           `json:"type,omitempty"`               // Microsoft Teams Bot
+	Urgency            string                           `json:"urgency,omitempty"`            // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
+	WebhookURL         string                           `json:"webhookUrl,omitempty"`         // Custom
+	Headers            []AlertActionParamsWebhookHeader `json:"headers,omitempty"`            // Custom
+	URL                string                           `json:"url,omitempty"`                // DingTalk
+	EscalationPolicyID int64                            `json:"escalationPolicyId,omitempty"` // Reroute
 }
 
 // AlertActionParamsAutotask definition
@@ -223,6 +224,11 @@ type AlertActionParamsAutomationRule struct {
 // AlertActionParamsTelegram definition
 type AlertActionParamsTelegram struct {
 	ChannelID string `json:"channelId,omitempty"`
+}
+
+// AlertActionParamsReroute definition
+type AlertActionParamsReroute struct {
+	EscalationPolicyID int64 `json:"escalationPolicyId,omitempty"`
 }
 
 // AlertActionResult definition

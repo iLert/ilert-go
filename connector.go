@@ -153,6 +153,7 @@ var ConnectorTypes = struct {
 	MicrosoftTeams        string
 	MicrosoftTeamsBot     string
 	MicrosoftTeamsWebhook string
+	Reroute               string
 	ServiceNow            string
 	Slack                 string
 	SlackWebhook          string
@@ -174,6 +175,7 @@ var ConnectorTypes = struct {
 	MicrosoftTeams:        "microsoft_teams",
 	MicrosoftTeamsBot:     "microsoft_teams_bot",
 	MicrosoftTeamsWebhook: "microsoft_teams_webhook",
+	Reroute:               "reroute",
 	ServiceNow:            "servicenow",
 	Slack:                 "slack",
 	SlackWebhook:          "slack_webhook",
@@ -198,6 +200,7 @@ var ConnectorTypesAll = []string{
 	ConnectorTypes.MicrosoftTeams,
 	ConnectorTypes.MicrosoftTeamsBot,
 	ConnectorTypes.MicrosoftTeamsWebhook,
+	ConnectorTypes.Reroute,
 	ConnectorTypes.ServiceNow,
 	ConnectorTypes.Slack,
 	ConnectorTypes.SlackWebhook,
