@@ -1,5 +1,9 @@
 # Changelog
 
+## 22.04.2026, Version 3.19.0
+
+- add reroute param for alert action [#65](https://github.com/iLert/ilert-go/pull/65)
+
 ## 18.03.2026, Version 3.18.1
 
 - add groups to status page [#64](https://github.com/iLert/ilert-go/pull/64)
