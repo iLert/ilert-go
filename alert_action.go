@@ -646,3 +646,89 @@ func (c *Client) DeleteAlertAction(input *DeleteAlertActionInput) (*DeleteAlertA
 
 	return &DeleteAlertActionOutput{}, nil
 }
+
+// AddAlertSourceToAlertActionInput represents the input of an AddAlertSourceToAlertAction operation.
+type AddAlertSourceToAlertActionInput struct {
+	_             struct{}
+	AlertActionID *string
+	AlertSourceID *int64
+}
+
+// AddAlertSourceToAlertActionOutput represents the output of an AddAlertSourceToAlertAction operation.
+type AddAlertSourceToAlertActionOutput struct {
+	_           struct{}
+	AlertAction *AlertActionOutput
+}
+
+// AddAlertSourceToAlertAction attaches an alert source to an alert action without overwriting existing sources.
+func (c *Client) AddAlertSourceToAlertAction(input *AddAlertSourceToAlertActionInput) (*AddAlertSourceToAlertActionOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.AlertActionID == nil {
+		return nil, errors.New("alert action id is required")
+	}
+	if input.AlertSourceID == nil {
+		return nil, errors.New("alert source id is required")
+	}
+
+	body := map[string]int64{"alertSourceId": *input.AlertSourceID}
+	resp, err := c.httpClient.R().SetBody(body).Put(fmt.Sprintf("%s/%s/add-source", apiRoutes.alertActions, *input.AlertActionID))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	alertAction := &AlertActionOutput{}
+	err = json.Unmarshal(resp.Body(), alertAction)
+	if err != nil {
+		return nil, err
+	}
+
+	return &AddAlertSourceToAlertActionOutput{AlertAction: alertAction}, nil
+}
+
+// RemoveAlertSourceFromAlertActionInput represents the input of a RemoveAlertSourceFromAlertAction operation.
+type RemoveAlertSourceFromAlertActionInput struct {
+	_             struct{}
+	AlertActionID *string
+	AlertSourceID *int64
+}
+
+// RemoveAlertSourceFromAlertActionOutput represents the output of a RemoveAlertSourceFromAlertAction operation.
+type RemoveAlertSourceFromAlertActionOutput struct {
+	_           struct{}
+	AlertAction *AlertActionOutput
+}
+
+// RemoveAlertSourceFromAlertAction detaches an alert source from an alert action without affecting other sources.
+func (c *Client) RemoveAlertSourceFromAlertAction(input *RemoveAlertSourceFromAlertActionInput) (*RemoveAlertSourceFromAlertActionOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.AlertActionID == nil {
+		return nil, errors.New("alert action id is required")
+	}
+	if input.AlertSourceID == nil {
+		return nil, errors.New("alert source id is required")
+	}
+
+	body := map[string]int64{"alertSourceId": *input.AlertSourceID}
+	resp, err := c.httpClient.R().SetBody(body).Put(fmt.Sprintf("%s/%s/remove-source", apiRoutes.alertActions, *input.AlertActionID))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	alertAction := &AlertActionOutput{}
+	err = json.Unmarshal(resp.Body(), alertAction)
+	if err != nil {
+		return nil, err
+	}
+
+	return &RemoveAlertSourceFromAlertActionOutput{AlertAction: alertAction}, nil
+}
