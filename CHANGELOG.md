@@ -3,6 +3,7 @@
 ## 05.06.2026, Version 3.21.0
 
 - add event flow integration CRUD [#67](https://github.com/iLert/ilert-go/pull/67)
+- add setup status to alert source [#68](https://github.com/iLert/ilert-go/pull/68)
 
 ## 02.06.2026, Version 3.20.0
 
