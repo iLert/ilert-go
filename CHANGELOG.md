@@ -1,5 +1,9 @@
 # Changelog
 
+## 02.06.2026, Version 3.20.0
+
+- add `AddAlertSourceToAlertAction` and `RemoveAlertSourceFromAlertAction` methods for non-destructive alert-source attachment [#66](https://github.com/iLert/ilert-go/pull/66)
+
 ## 22.04.2026, Version 3.19.0
 
 - add reroute param for alert action [#65](https://github.com/iLert/ilert-go/pull/65)

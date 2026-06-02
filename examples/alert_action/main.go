@@ -70,4 +70,24 @@ func main() {
 		log.Fatalln("ERROR:", err)
 	}
 	log.Printf("New alert action is created:\n%+v\n", *rcn.AlertAction)
+
+	radd, err := client.AddAlertSourceToAlertAction(&ilert.AddAlertSourceToAlertActionInput{
+		AlertActionID: ilert.String(rcn.AlertAction.ID),
+		AlertSourceID: ilert.Int64(ras.AlertSource.ID),
+	})
+	if err != nil {
+		log.Println(radd)
+		log.Fatalln("ERROR:", err)
+	}
+	log.Printf("Alert source added to alert action:\n%+v\n", *radd.AlertAction)
+
+	rrem, err := client.RemoveAlertSourceFromAlertAction(&ilert.RemoveAlertSourceFromAlertActionInput{
+		AlertActionID: ilert.String(rcn.AlertAction.ID),
+		AlertSourceID: ilert.Int64(ras.AlertSource.ID),
+	})
+	if err != nil {
+		log.Println(rrem)
+		log.Fatalln("ERROR:", err)
+	}
+	log.Printf("Alert source removed from alert action:\n%+v\n", *rrem.AlertAction)
 }
