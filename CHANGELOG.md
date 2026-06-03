@@ -4,6 +4,7 @@
 
 - add event flow integration CRUD [#67](https://github.com/iLert/ilert-go/pull/67)
 - add setup status to alert source [#68](https://github.com/iLert/ilert-go/pull/68)
+- add severityTemplate (dynamic severity mapping) and default severity to alert source [#69](https://github.com/iLert/ilert-go/pull/69)
 
 ## 02.06.2026, Version 3.20.0
 
