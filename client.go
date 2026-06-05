@@ -1,10 +1,17 @@
 package ilert
 
 import (
+	"bytes"
+	"context"
+	"crypto/x509"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"log"
+	"net"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -77,7 +84,123 @@ type GenericCountResponse struct {
 func retryCondition(r *resty.Response, err error) bool {
 	return err != nil ||
 		r.StatusCode() == http.StatusTooManyRequests ||
-		r.StatusCode() >= http.StatusInternalServerError
+		r.StatusCode() >= http.StatusInternalServerError ||
+		looksLikeUpstreamBlock(r)
+}
+
+// maxErrorBodySnippet caps how much of a non-JSON error body we keep for
+// diagnostics, so a full HTML block page does not flood the logs.
+const maxErrorBodySnippet = 512
+
+// responseIsJSON reports whether a response body is a JSON document, i.e. it
+// most likely originated from the ilert API rather than an intermediary that
+// answers with HTML or plain text (WAF, reverse proxy, load balancer).
+func responseIsJSON(r *resty.Response) bool {
+	if strings.Contains(strings.ToLower(r.Header().Get("Content-Type")), "json") {
+		return true
+	}
+	body := bytes.TrimSpace(r.Body())
+	return len(body) > 0 && (body[0] == '{' || body[0] == '[')
+}
+
+// looksLikeUpstreamBlock reports whether a response looks like it was produced
+// by an intermediary transiently blocking the request (e.g. an IP-based WAF
+// rate-block) rather than by the ilert API. A genuine API 403 carries a JSON
+// error envelope; a WAF/proxy block returns HTML or plain text. Such blocks are
+// transient and safe to retry, whereas a real authorization error is not.
+func looksLikeUpstreamBlock(r *resty.Response) bool {
+	switch r.StatusCode() {
+	case http.StatusForbidden, http.StatusServiceUnavailable:
+		return !responseIsJSON(r)
+	default:
+		return false
+	}
+}
+
+// describeResponse renders the diagnostic context of a failed response so the
+// caller can tell what actually went wrong (WAF vs API, which edge node,
+// rate-limit hints) instead of just seeing a bare status code.
+func describeResponse(r *resty.Response) string {
+	parts := []string{fmt.Sprintf("status=%d", r.StatusCode())}
+	if v := r.Header().Get("Content-Type"); v != "" {
+		parts = append(parts, fmt.Sprintf("content-type=%q", v))
+	}
+	if v := r.Header().Get("Server"); v != "" {
+		parts = append(parts, fmt.Sprintf("server=%q", v))
+	}
+	if id := responseRequestID(r); id != "" {
+		parts = append(parts, fmt.Sprintf("request-id=%s", id))
+	}
+	if v := r.Header().Get("Retry-After"); v != "" {
+		parts = append(parts, fmt.Sprintf("retry-after=%q", v))
+	}
+	if snippet := bodySnippet(r); snippet != "" {
+		parts = append(parts, fmt.Sprintf("body=%q", snippet))
+	}
+	return strings.Join(parts, " ")
+}
+
+// responseRequestID extracts the most relevant correlation id from the common
+// request-id headers set by ilert and the intermediaries in front of it, so the
+// id can be handed to support to trace the exact request.
+func responseRequestID(r *resty.Response) string {
+	for _, h := range []string{
+		"x-amzn-RequestId",
+		"x-amz-cf-id",
+		"cf-ray",
+		"x-request-id",
+		"x-amzn-trace-id",
+		"apigw-requestid",
+	} {
+		if v := r.Header().Get(h); v != "" {
+			return fmt.Sprintf("%s=%q", h, v)
+		}
+	}
+	return ""
+}
+
+// bodySnippet returns a whitespace-collapsed, length-capped copy of the response
+// body suitable for inclusion in an error message or log line.
+func bodySnippet(r *resty.Response) string {
+	body := strings.TrimSpace(string(r.Body()))
+	if body == "" {
+		return ""
+	}
+	body = strings.Join(strings.Fields(body), " ")
+	if len(body) > maxErrorBodySnippet {
+		body = body[:maxErrorBodySnippet] + "...(truncated)"
+	}
+	return body
+}
+
+// classifyTransportError turns a low-level transport error (no HTTP response was
+// received) into a human-readable explanation: timeout, DNS, TLS or connection
+// failure. Used for logging so the cause of a failed request is obvious.
+func classifyTransportError(err error) string {
+	if err == nil {
+		return ""
+	}
+	var netErr net.Error
+	if errors.As(err, &netErr) && netErr.Timeout() {
+		return fmt.Sprintf("network timeout - the ilert API did not respond within the client timeout (%dms): %v", apiTimeoutMs, err)
+	}
+	if errors.Is(err, context.DeadlineExceeded) {
+		return fmt.Sprintf("request deadline exceeded: %v", err)
+	}
+	var dnsErr *net.DNSError
+	if errors.As(err, &dnsErr) {
+		return fmt.Sprintf("DNS resolution failed - check connectivity/proxy/DNS: %v", err)
+	}
+	var unknownAuthErr x509.UnknownAuthorityError
+	var certInvalidErr x509.CertificateInvalidError
+	if errors.As(err, &unknownAuthErr) || errors.As(err, &certInvalidErr) {
+		return fmt.Sprintf("TLS certificate verification failed - a proxy or MITM may be intercepting traffic: %v", err)
+	}
+	var opErr *net.OpError
+	if errors.As(err, &opErr) {
+		return fmt.Sprintf("network connection error (%s) - the ilert API could not be reached: %v", opErr.Op, err)
+	}
+	return fmt.Sprintf("request error: %v", err)
 }
 
 // NewClient creates an API client using an API token
@@ -97,6 +220,27 @@ func NewClient(options ...ClientOptions) *Client {
 		SetRetryWaitTime(1 * time.Second).
 		SetRetryMaxWaitTime(5 * time.Second).
 		AddRetryCondition(retryCondition)
+
+	// ILERT_DEBUG=true|1 turns on full request/response tracing (method, URL,
+	// headers and bodies) via resty's debug logger. This is the quickest way to
+	// see what is really happening - e.g. that a 403 was returned by a WAF and
+	// not by the ilert API - without code changes.
+	if debug := getEnv("ILERT_DEBUG"); debug != nil && (*debug == "true" || *debug == "1") {
+		c.httpClient.SetDebug(true)
+	}
+
+	// Always surface intermittent intermediary blocks and transport failures,
+	// even without full debug enabled, so they are visible in normal logs.
+	c.httpClient.OnAfterResponse(func(_ *resty.Client, r *resty.Response) error {
+		if looksLikeUpstreamBlock(r) {
+			log.Printf("[WARN] ilert-go: %s %s was answered by an intermediary, most likely a WAF/proxy block: %s",
+				r.Request.Method, r.Request.URL, describeResponse(r))
+		}
+		return nil
+	})
+	c.httpClient.OnError(func(req *resty.Request, err error) {
+		log.Printf("[WARN] ilert-go: %s %s failed: %s", req.Method, req.URL, classifyTransportError(err))
+	})
 
 	endpoint := getEnv("ILERT_ENDPOINT")
 	if endpoint != nil {
@@ -153,6 +297,16 @@ func WithUserAgent(agent string) ClientOptions {
 	}
 }
 
+// WithDebug enables (or disables) full request/response tracing - method, URL,
+// headers and bodies - via resty's debug logger. This makes it possible to see
+// what is really happening on the wire, e.g. that a 403 was returned by a WAF
+// or proxy and not by the ilert API. It can also be toggled with ILERT_DEBUG.
+func WithDebug(debug bool) ClientOptions {
+	return func(c *Client) {
+		c.httpClient.SetDebug(debug)
+	}
+}
+
 // WithProxy setting a Proxy URL and Port
 func WithProxy(url string) ClientOptions {
 	return func(c *Client) {
@@ -183,10 +337,31 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 		out := &GenericAPIError{}
 		err := json.Unmarshal(response.Body(), out)
 		if err != nil {
+			// The body is not a JSON error envelope from the ilert API. This
+			// almost always means the response was produced by an intermediary
+			// (WAF, reverse proxy, load balancer) rather than the API itself -
+			// e.g. an IP-based rate-block. Preserve every available clue
+			// (status, server, request-id, body) so the caller can tell what
+			// actually happened instead of seeing a bare "An error occurred".
+			desc := describeResponse(response)
+			if looksLikeUpstreamBlock(response) {
+				return &RetryableAPIError{
+					Status:  response.StatusCode(),
+					Code:    "UPSTREAM_BLOCK",
+					Message: fmt.Sprintf("the request did not reach the ilert API; it was answered by an intermediary, most likely a WAF/proxy rate-block on the client IP (re-running on a different egress IP usually succeeds). %s", desc),
+				}
+			}
+			if retryCondition(response, nil) {
+				return &RetryableAPIError{
+					Status:  response.StatusCode(),
+					Code:    "ERROR",
+					Message: fmt.Sprintf("an error occurred and the response body was not valid JSON. %s", desc),
+				}
+			}
 			return &GenericAPIError{
 				Status:  response.StatusCode(),
 				Code:    "ERROR",
-				Message: "An error occurred",
+				Message: fmt.Sprintf("an error occurred and the response body was not valid JSON. %s", desc),
 			}
 		}
 		if out.Status == 0 {
@@ -207,7 +382,13 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 				Message: out.Message,
 			}
 		}
-		if retryCondition(response, out) {
+		// Only retry on genuinely transient conditions (429, 5xx, intermediary
+		// block). A real client error such as a 401/403 from the API itself
+		// carries a JSON envelope and must fail fast so the cause (e.g. bad
+		// credentials) is reported immediately instead of after the full retry
+		// timeout. Pass nil so the status - not the always-non-nil out value -
+		// decides retryability.
+		if retryCondition(response, nil) {
 			return &RetryableAPIError{
 				Status:  out.Status,
 				Code:    out.Code,
