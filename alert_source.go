@@ -24,6 +24,7 @@ type AlertSource struct {
 	EmailResolveFiltered   bool                   `json:"emailResolveFiltered,omitempty"` // @deprecated
 	Active                 bool                   `json:"active"`
 	Status                 string                 `json:"status,omitempty"`
+	SetupStatus            string                 `json:"setupStatus,omitempty"`
 	AutoResolutionTimeout  string                 `json:"autoResolutionTimeout,omitempty"`  // e.g. PT4H
 	EmailPredicates        []EmailPredicate       `json:"emailPredicates,omitempty"`        // @deprecated
 	EmailResolvePredicates []EmailPredicate       `json:"emailResolvePredicates,omitempty"` // @deprecated
@@ -155,6 +156,27 @@ var AlertSourceStatusesAll = []string{
 	AlertSourceStatuses.AllResolved,
 	AlertSourceStatuses.InMaintenance,
 	AlertSourceStatuses.Disabled,
+}
+
+// AlertSourceSetupStatuses defines alert source setup statuses
+var AlertSourceSetupStatuses = struct {
+	Created              string
+	CreatedAdvanced      string
+	CreatedBidirectional string
+	Finished             string
+}{
+	Created:              "CREATED",
+	CreatedAdvanced:      "CREATED_ADVANCED",
+	CreatedBidirectional: "CREATED_BIDIRECTIONAL",
+	Finished:             "FINISHED",
+}
+
+// AlertSourceSetupStatusesAll defines alert source setup statuses list
+var AlertSourceSetupStatusesAll = []string{
+	AlertSourceSetupStatuses.Created,
+	AlertSourceSetupStatuses.CreatedAdvanced,
+	AlertSourceSetupStatuses.CreatedBidirectional,
+	AlertSourceSetupStatuses.Finished,
 }
 
 // AlertSourceAlertCreations defines alert source alert creations
