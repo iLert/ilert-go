@@ -5,6 +5,11 @@
 - add event flow integration CRUD [#67](https://github.com/iLert/ilert-go/pull/67)
 - add setup status to alert source [#68](https://github.com/iLert/ilert-go/pull/68)
 - add severityTemplate (dynamic severity mapping) and default severity to alert source [#69](https://github.com/iLert/ilert-go/pull/69)
+- distinguish error causes instead of the opaque `An error occurred`: non-JSON error responses now report status, `Server`, request-id and a body snippet, and transport failures are classified (timeout / DNS / TLS / connection)
+- detect intermediary blocks (WAF / proxy / load balancer): a non-JSON `403`/`503` is treated as a transient upstream block and retried, while a genuine JSON `4xx` (e.g. invalid credentials) now fails fast instead of being retried until timeout
+- classify `404`/`400` responses by status code even when the body is not JSON, so `*NotFoundAPIError` / `*BadRequestAPIError` callers keep working
+- keep transient `409`/`423`/`425` responses retryable (concurrent edit / eventual consistency)
+- add `ILERT_DEBUG` (parsed with `strconv.ParseBool`) and a `WithDebug` option to enable full request/response tracing; the `Authorization` header is masked in the debug output
 
 ## 02.06.2026, Version 3.20.0
 
