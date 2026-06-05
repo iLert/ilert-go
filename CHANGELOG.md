@@ -3,6 +3,7 @@
 ## 08.06.2026, Version 3.22.0
 
 - add `servicesTemplate` (dynamic services mapping), default `services` and `autoCreateServices` to alert source [#70](https://github.com/iLert/ilert-go/pull/70)
+- add `acceptAlertOnAnswer` field to call flow CREATE_ALERT node metadata [#71](https://github.com/iLert/ilert-go/pull/71)
 
 ## 05.06.2026, Version 3.21.0
 
