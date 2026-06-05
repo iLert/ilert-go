@@ -23,7 +23,8 @@ func main() {
 							NodeType: "CREATE_ALERT",
 							Name:     "Create alert",
 							Metadata: &ilert.CallFlowNodeMetadata{
-								AlertSourceId: -1, // your call flow alert source id
+								AlertSourceId:       -1, // your call flow alert source id
+								AcceptAlertOnAnswer: true,
 							},
 						},
 					},

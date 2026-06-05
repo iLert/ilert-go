@@ -63,25 +63,26 @@ type PhoneNumber struct {
 }
 
 type CallFlowNodeMetadata struct {
-	TextMessage    string                           `json:"textMessage,omitempty"`    // IVR_MENU or AUDIO_MESSAGE or VOICEMAIL or PIN_CODE
-	CustomAudioUrl string                           `json:"customAudioUrl,omitempty"` // IVR_MENU or AUDIO_MESSAGE or VOICEMAIL or PIN_CODE
-	AIVoiceModel   string                           `json:"aiVoiceModel,omitempty"`   // IVR_MENU or AUDIO_MESSAGE or VOICEMAIL or PIN_CODE, one of CallFlowNodeMetadataAIVoiceModel
-	EnabledOptions []string                         `json:"enabledOptions,omitempty"` // IVR_MENU
-	Language       string                           `json:"language,omitempty"`       // IVR_MENU or AUDIO_MESSAGE, one of CallFlowNodeMetadataLanguage
-	VarKey         string                           `json:"varKey,omitempty"`         // PLAIN
-	VarValue       string                           `json:"varValue,omitempty"`       // PLAIN
-	Codes          []CallFlowNodeMetadataCode       `json:"codes,omitempty"`          // PIN_CODE
-	SupportHoursId int64                            `json:"supportHoursId,omitempty"` // SUPPORT_HOURS
-	HoldAudioUrl   string                           `json:"holdAudioUrl,omitempty"`   // ROUTE_CALL
-	Targets        []CallFlowNodeMetadataCallTarget `json:"targets,omitempty"`        // ROUTE_CALL
-	CallStyle      string                           `json:"callStyle,omitempty"`      // ROUTE_CALL, one of CallFlowNodeMetadataCallStyle
-	AlertSourceId  int64                            `json:"alertSourceId,omitempty"`  // CREATE_ALERT
-	Retries        int64                            `json:"retries,omitempty"`        // IVR_MENU or PIN_CODE or ROUTE_CALL
-	CallTimeoutSec int64                            `json:"callTimeoutSec,omitempty"` // ROUTE_CALL
-	Blacklist      []string                         `json:"blacklist,omitempty"`      // BLOCK_NUMBERS
-	Intents        []CallFlowNodeMetadataIntent     `json:"intents,omitempty"`        // AGENTIC
-	Gathers        []CallFlowNodeMetadataGather     `json:"gathers,omitempty"`        // AGENTIC
-	Enrichment     *CallFlowNodeMetadataEnrichment  `json:"enrichment,omitempty"`     // AGENTIC
+	TextMessage         string                           `json:"textMessage,omitempty"`         // IVR_MENU or AUDIO_MESSAGE or VOICEMAIL or PIN_CODE
+	CustomAudioUrl      string                           `json:"customAudioUrl,omitempty"`      // IVR_MENU or AUDIO_MESSAGE or VOICEMAIL or PIN_CODE
+	AIVoiceModel        string                           `json:"aiVoiceModel,omitempty"`        // IVR_MENU or AUDIO_MESSAGE or VOICEMAIL or PIN_CODE, one of CallFlowNodeMetadataAIVoiceModel
+	EnabledOptions      []string                         `json:"enabledOptions,omitempty"`      // IVR_MENU
+	Language            string                           `json:"language,omitempty"`            // IVR_MENU or AUDIO_MESSAGE, one of CallFlowNodeMetadataLanguage
+	VarKey              string                           `json:"varKey,omitempty"`              // PLAIN
+	VarValue            string                           `json:"varValue,omitempty"`            // PLAIN
+	Codes               []CallFlowNodeMetadataCode       `json:"codes,omitempty"`               // PIN_CODE
+	SupportHoursId      int64                            `json:"supportHoursId,omitempty"`      // SUPPORT_HOURS
+	HoldAudioUrl        string                           `json:"holdAudioUrl,omitempty"`        // ROUTE_CALL
+	Targets             []CallFlowNodeMetadataCallTarget `json:"targets,omitempty"`             // ROUTE_CALL
+	CallStyle           string                           `json:"callStyle,omitempty"`           // ROUTE_CALL, one of CallFlowNodeMetadataCallStyle
+	AlertSourceId       int64                            `json:"alertSourceId,omitempty"`       // CREATE_ALERT
+	AcceptAlertOnAnswer bool                             `json:"acceptAlertOnAnswer,omitempty"` // CREATE_ALERT
+	Retries             int64                            `json:"retries,omitempty"`             // IVR_MENU or PIN_CODE or ROUTE_CALL
+	CallTimeoutSec      int64                            `json:"callTimeoutSec,omitempty"`      // ROUTE_CALL
+	Blacklist           []string                         `json:"blacklist,omitempty"`           // BLOCK_NUMBERS
+	Intents             []CallFlowNodeMetadataIntent     `json:"intents,omitempty"`             // AGENTIC
+	Gathers             []CallFlowNodeMetadataGather     `json:"gathers,omitempty"`             // AGENTIC
+	Enrichment          *CallFlowNodeMetadataEnrichment  `json:"enrichment,omitempty"`          // AGENTIC
 }
 
 type CallFlowNodeMetadataCode struct {
