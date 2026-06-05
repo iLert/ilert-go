@@ -4,8 +4,9 @@
 
 - distinguish error causes instead of the opaque `An error occurred`: non-JSON error responses now report status, `Server`, request-id and a body snippet, and transport failures are classified (timeout / DNS / TLS / connection)
 - detect intermediary blocks (WAF / proxy / load balancer): a non-JSON `403`/`503` is treated as a transient upstream block and retried, while a genuine JSON `4xx` (e.g. invalid credentials) now fails fast instead of being retried until timeout
-- add `ILERT_DEBUG=true` (and `WithDebug` option) to enable full request/response tracing
-- log a `[WARN]` line whenever a request is answered by an intermediary or a transport error occurs, so the cause is visible without enabling full debug
+- classify `404`/`400` responses by status code even when the body is not JSON, so `*NotFoundAPIError` / `*BadRequestAPIError` callers keep working
+- keep transient `409`/`423`/`425` responses retryable (concurrent edit / eventual consistency)
+- add `ILERT_DEBUG` (parsed with `strconv.ParseBool`) and a `WithDebug` option to enable full request/response tracing; the `Authorization` header is masked in the debug output
 
 ## 02.06.2026, Version 3.20.0
 
