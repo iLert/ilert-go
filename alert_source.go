@@ -47,6 +47,9 @@ type AlertSource struct {
 	PriorityTemplate       *PriorityTemplate      `json:"priorityTemplate,omitempty"`
 	SeverityTemplate       *SeverityTemplate      `json:"severityTemplate,omitempty"`
 	Severity               int                    `json:"severity,omitempty"`
+	Services               []AlertSourceService   `json:"services,omitempty"`            // default services attached to created alerts
+	ServicesTemplate       []Template             `json:"servicesTemplate,omitempty"`    // dynamic services mapping, extracts service identifiers from the event payload
+	AutoCreateServices     bool                   `json:"autoCreateServices"`            // not omitempty: an explicit false must be sent to disable auto-creation
 	AlertGroupingWindow    string                 `json:"alertGroupingWindow,omitempty"` // e.g. PT4H
 	ScoreThreshold         float64                `json:"scoreThreshold,omitempty"`
 	EventFilter            string                 `json:"eventFilter,omitempty"`
@@ -146,6 +149,12 @@ type SeverityTemplate struct {
 type SeverityMapping struct {
 	Value    string `json:"value"`
 	Severity int    `json:"severity"`
+}
+
+// AlertSourceService defines a shallow service reference used for default services on an alert source
+type AlertSourceService struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name,omitempty"`
 }
 
 // AlertSourceStatuses defines alert source statuses
@@ -706,7 +715,7 @@ type CreateAlertSourceInput struct {
 	AlertSource *AlertSource
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "severityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "severityTemplate", "servicesTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 
@@ -774,7 +783,7 @@ type GetAlertSourceInput struct {
 	AlertSourceID *int64
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "severityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "severityTemplate", "servicesTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 
@@ -906,7 +915,7 @@ type UpdateAlertSourceInput struct {
 	AlertSource   *AlertSource
 
 	// describes optional properties that should be included in the response
-	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "severityTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
+	// possible values: "summaryTemplate", "detailsTemplate", "routingTemplate", "alertKeyTemplate", "textTemplate", "linkTemplates", "priorityTemplate", "severityTemplate", "servicesTemplate", "eventFilter", "eventTypeFilterCreate", "eventTypeFilterAccept", "eventTypeFilterResolve"
 	Include []*string
 }
 

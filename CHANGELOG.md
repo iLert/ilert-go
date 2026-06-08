@@ -1,5 +1,9 @@
 # Changelog
 
+## 08.06.2026, Version 3.22.0
+
+- add `servicesTemplate` (dynamic services mapping), default `services` and `autoCreateServices` to alert source [#70](https://github.com/iLert/ilert-go/pull/70)
+
 ## 05.06.2026, Version 3.21.0
 
 - add event flow integration CRUD [#67](https://github.com/iLert/ilert-go/pull/67)
