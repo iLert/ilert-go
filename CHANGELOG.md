@@ -3,7 +3,7 @@
 ## 20.07.2026, Version 3.23.0
 
 - add documented ServiceNow (`closeCode`, `assignmentGroup`, `ownerGroup`, `service`, `serviceOffering`, `contactType`) and Autotask (`noteType`, `notePublish`, `status`) alert action params, service `alias` and call flow VOICEMAIL `disableTranscription` [#73](https://github.com/iLert/ilert-go/pull/73)
-- fix Autotask `companyId`/`queueId` unmarshal by typing them as `string` on `AlertActionOutputParams` (the API returns them as strings) [#73](https://github.com/iLert/ilert-go/pull/73)
+- fix Autotask `companyId`/`queueId` unmarshal by typing them as `string` on the alert action and connection output params (the API returns them as strings) [#73](https://github.com/iLert/ilert-go/pull/73)
 
 ## 08.06.2026, Version 3.22.0
 

@@ -40,7 +40,7 @@ type ConnectionOutputParams struct {
 	CallerID        string   `json:"callerId,omitempty"`        // ServiceNow: user email
 	ChannelID       string   `json:"channelId,omitempty"`       // Slack
 	ChannelName     string   `json:"channelName,omitempty"`     // Slack
-	CompanyID       int64    `json:"companyId,omitempty"`       // Autotask: Company ID
+	CompanyID       string   `json:"companyId,omitempty"`       // Autotask: Company ID (API returns as string)
 	EventFilter     string   `json:"eventFilter,omitempty"`     // Sysdig
 	Impact          string   `json:"impact,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
 	IssueType       string   `json:"issueType,omitempty"`       // Jira: "Bug" | "Epic" | "Subtask" | "Story" | "Task"
@@ -50,7 +50,7 @@ type ConnectionOutputParams struct {
 	Owner           string   `json:"owner,omitempty"`           // Github
 	Priority        string   `json:"priority,omitempty"`        // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
 	Project         string   `json:"project,omitempty"`         // Jira
-	QueueID         int64    `json:"queueId,omitempty"`         // Autotask: Queue ID
+	QueueID         string   `json:"queueId,omitempty"`         // Autotask: Queue ID (API returns as string)
 	Recipients      []string `json:"recipients,omitempty"`      // Email
 	Repository      string   `json:"repository,omitempty"`      // Github
 	Site            string   `json:"site,omitempty"`            // Datadog: default `US`. Values: `US` or `EU`
