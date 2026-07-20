@@ -95,6 +95,14 @@ type AlertActionOutputParams struct {
 	Headers            []AlertActionParamsWebhookHeader `json:"headers,omitempty"`            // Custom
 	URL                string                           `json:"url,omitempty"`                // DingTalk
 	EscalationPolicyID int64                            `json:"escalationPolicyId,omitempty"` // Reroute
+	CloseCode          string                           `json:"closeCode,omitempty"`          // ServiceNow
+	AssignmentGroup    string                           `json:"assignmentGroup,omitempty"`    // ServiceNow
+	OwnerGroup         string                           `json:"ownerGroup,omitempty"`         // ServiceNow
+	Service            string                           `json:"service,omitempty"`            // ServiceNow
+	ServiceOffering    string                           `json:"serviceOffering,omitempty"`    // ServiceNow
+	ContactType        string                           `json:"contactType,omitempty"`        // ServiceNow
+	NoteType           string                           `json:"noteType,omitempty"`           // Autotask
+	NotePublish        string                           `json:"notePublish,omitempty"`        // Autotask
 }
 
 // AlertActionParamsAutotask definition
@@ -104,6 +112,9 @@ type AlertActionParamsAutotask struct {
 	QueueID        int64  `json:"queueId,omitempty"`        // Autotask: Queue ID
 	TicketCategory string `json:"ticketCategory,omitempty"` // Autotask ticket category
 	TicketType     string `json:"ticketType,omitempty"`     // Autotask ticket type
+	NoteType       string `json:"noteType,omitempty"`       // Autotask note type
+	NotePublish    string `json:"notePublish,omitempty"`    // Autotask note publish
+	Status         string `json:"status,omitempty"`         // Autotask ticket status
 }
 
 // AlertActionParamsJira definition
@@ -138,10 +149,16 @@ type AlertActionParamsSlackWebhook struct {
 
 // AlertActionParamsServiceNow definition
 type AlertActionParamsServiceNow struct {
-	CallerID     string `json:"callerId,omitempty"` // user email
-	Impact       string `json:"impact,omitempty"`   // 1 - High, 2 - Medium, 3 - Low (Default)
-	Urgency      string `json:"urgency,omitempty"`  // 1 - High, 2 - Medium, 3 - Low (Default)
-	BodyTemplate string `json:"bodyTemplate,omitempty"`
+	CallerID        string `json:"callerId,omitempty"` // user email
+	Impact          string `json:"impact,omitempty"`   // 1 - High, 2 - Medium, 3 - Low (Default)
+	Urgency         string `json:"urgency,omitempty"`  // 1 - High, 2 - Medium, 3 - Low (Default)
+	BodyTemplate    string `json:"bodyTemplate,omitempty"`
+	CloseCode       string `json:"closeCode,omitempty"`       // ServiceNow close code
+	AssignmentGroup string `json:"assignmentGroup,omitempty"` // ServiceNow assignment group
+	OwnerGroup      string `json:"ownerGroup,omitempty"`      // ServiceNow owner group
+	Service         string `json:"service,omitempty"`         // ServiceNow service
+	ServiceOffering string `json:"serviceOffering,omitempty"` // ServiceNow service offering
+	ContactType     string `json:"contactType,omitempty"`     // ServiceNow contact type
 }
 
 // AlertActionParamsSlack definition
