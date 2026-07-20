@@ -40,7 +40,7 @@ type ConnectionOutputParams struct {
 	CallerID        string   `json:"callerId,omitempty"`        // ServiceNow: user email
 	ChannelID       string   `json:"channelId,omitempty"`       // Slack
 	ChannelName     string   `json:"channelName,omitempty"`     // Slack
-	CompanyID       int64    `json:"companyId,omitempty"`       // Autotask: Company ID
+	CompanyID       string   `json:"companyId,omitempty"`       // Autotask: Company ID
 	EventFilter     string   `json:"eventFilter,omitempty"`     // Sysdig
 	Impact          string   `json:"impact,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
 	IssueType       string   `json:"issueType,omitempty"`       // Jira: "Bug" | "Epic" | "Subtask" | "Story" | "Task"
@@ -69,20 +69,20 @@ type ConnectionOutputParams struct {
 }
 
 // UnmarshalJSON tolerates the Autotask companyId/queueId fields being returned
-// as JSON strings (the API serializes them as strings) while keeping the struct
-// fields as int64 for backwards compatibility.
+// as either JSON strings (the API serializes them as strings) or numbers.
+// CompanyID is kept as a string (its API contract), QueueID as an int64.
 func (p *ConnectionOutputParams) UnmarshalJSON(data []byte) error {
 	type alias ConnectionOutputParams
 	aux := struct {
-		CompanyID json.Number `json:"companyId,omitempty"`
-		QueueID   json.Number `json:"queueId,omitempty"`
+		CompanyID json.RawMessage `json:"companyId,omitempty"`
+		QueueID   json.RawMessage `json:"queueId,omitempty"`
 		*alias
 	}{alias: (*alias)(p)}
 	if err := json.Unmarshal(data, &aux); err != nil {
 		return err
 	}
-	p.CompanyID, _ = aux.CompanyID.Int64()
-	p.QueueID, _ = aux.QueueID.Int64()
+	p.CompanyID = flexString(aux.CompanyID)
+	p.QueueID = flexInt64(aux.QueueID)
 	return nil
 }
 
