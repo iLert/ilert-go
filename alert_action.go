@@ -58,7 +58,7 @@ type AlertActionOutputParams struct {
 	CallerID           string                           `json:"callerId,omitempty"`           // ServiceNow: user email
 	ChannelID          string                           `json:"channelId,omitempty"`          // Slack, Telegram
 	ChannelName        string                           `json:"channelName,omitempty"`        // Slack
-	CompanyID          int64                            `json:"companyId,omitempty"`          // Autotask: Company ID
+	CompanyID          string                           `json:"companyId,omitempty"`          // Autotask: Company ID (API returns as string)
 	Email              string                           `json:"email,omitempty"`              // Zammad
 	EventFilter        string                           `json:"eventFilter,omitempty"`        // Sysdig
 	Impact             string                           `json:"impact,omitempty"`             // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
@@ -71,7 +71,7 @@ type AlertActionOutputParams struct {
 	PageID             string                           `json:"pageId,omitempty"`             // StatusPage.io
 	Priority           string                           `json:"priority,omitempty"`           // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
 	Project            string                           `json:"project,omitempty"`            // Jira
-	QueueID            int64                            `json:"queueId,omitempty"`            // Autotask: Queue ID
+	QueueID            string                           `json:"queueId,omitempty"`            // Autotask: Queue ID (API returns as string)
 	Recipients         []string                         `json:"recipients,omitempty"`         // Email
 	Repository         string                           `json:"repository,omitempty"`         // Github
 	ResolveIncident    bool                             `json:"resolveIncident,omitempty"`    // Automation rule
