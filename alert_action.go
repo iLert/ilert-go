@@ -58,7 +58,7 @@ type AlertActionOutputParams struct {
 	CallerID           string                           `json:"callerId,omitempty"`           // ServiceNow: user email
 	ChannelID          string                           `json:"channelId,omitempty"`          // Slack, Telegram
 	ChannelName        string                           `json:"channelName,omitempty"`        // Slack
-	CompanyID          string                           `json:"companyId,omitempty"`          // Autotask: Company ID (API returns as string)
+	CompanyID          int64                            `json:"companyId,omitempty"`          // Autotask: Company ID
 	Email              string                           `json:"email,omitempty"`              // Zammad
 	EventFilter        string                           `json:"eventFilter,omitempty"`        // Sysdig
 	Impact             string                           `json:"impact,omitempty"`             // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
@@ -71,7 +71,7 @@ type AlertActionOutputParams struct {
 	PageID             string                           `json:"pageId,omitempty"`             // StatusPage.io
 	Priority           string                           `json:"priority,omitempty"`           // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
 	Project            string                           `json:"project,omitempty"`            // Jira
-	QueueID            string                           `json:"queueId,omitempty"`            // Autotask: Queue ID (API returns as string)
+	QueueID            int64                            `json:"queueId,omitempty"`            // Autotask: Queue ID
 	Recipients         []string                         `json:"recipients,omitempty"`         // Email
 	Repository         string                           `json:"repository,omitempty"`         // Github
 	ResolveIncident    bool                             `json:"resolveIncident,omitempty"`    // Automation rule
@@ -103,6 +103,24 @@ type AlertActionOutputParams struct {
 	ContactType        string                           `json:"contactType,omitempty"`        // ServiceNow
 	NoteType           string                           `json:"noteType,omitempty"`           // Autotask
 	NotePublish        string                           `json:"notePublish,omitempty"`        // Autotask
+}
+
+// UnmarshalJSON tolerates the Autotask companyId/queueId fields being returned
+// as JSON strings (the API serializes them as strings) while keeping the struct
+// fields as int64 for backwards compatibility.
+func (p *AlertActionOutputParams) UnmarshalJSON(data []byte) error {
+	type alias AlertActionOutputParams
+	aux := struct {
+		CompanyID json.Number `json:"companyId,omitempty"`
+		QueueID   json.Number `json:"queueId,omitempty"`
+		*alias
+	}{alias: (*alias)(p)}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	p.CompanyID, _ = aux.CompanyID.Int64()
+	p.QueueID, _ = aux.QueueID.Int64()
+	return nil
 }
 
 // AlertActionParamsAutotask definition

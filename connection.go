@@ -40,7 +40,7 @@ type ConnectionOutputParams struct {
 	CallerID        string   `json:"callerId,omitempty"`        // ServiceNow: user email
 	ChannelID       string   `json:"channelId,omitempty"`       // Slack
 	ChannelName     string   `json:"channelName,omitempty"`     // Slack
-	CompanyID       string   `json:"companyId,omitempty"`       // Autotask: Company ID (API returns as string)
+	CompanyID       int64    `json:"companyId,omitempty"`       // Autotask: Company ID
 	EventFilter     string   `json:"eventFilter,omitempty"`     // Sysdig
 	Impact          string   `json:"impact,omitempty"`          // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
 	IssueType       string   `json:"issueType,omitempty"`       // Jira: "Bug" | "Epic" | "Subtask" | "Story" | "Task"
@@ -50,7 +50,7 @@ type ConnectionOutputParams struct {
 	Owner           string   `json:"owner,omitempty"`           // Github
 	Priority        string   `json:"priority,omitempty"`        // Datadog: "normal" | "low". Zendesk: "urgent" | "high" | "normal" | "low".
 	Project         string   `json:"project,omitempty"`         // Jira
-	QueueID         string   `json:"queueId,omitempty"`         // Autotask: Queue ID (API returns as string)
+	QueueID         int64    `json:"queueId,omitempty"`         // Autotask: Queue ID
 	Recipients      []string `json:"recipients,omitempty"`      // Email
 	Repository      string   `json:"repository,omitempty"`      // Github
 	Site            string   `json:"site,omitempty"`            // Datadog: default `US`. Values: `US` or `EU`
@@ -66,6 +66,24 @@ type ConnectionOutputParams struct {
 	Email           string   `json:"email,omitempty"`           // Zammad
 	PageID          string   `json:"pageId,omitempty"`          // StatusPage.io
 	URL             string   `json:"url,omitempty"`             // DingTalk
+}
+
+// UnmarshalJSON tolerates the Autotask companyId/queueId fields being returned
+// as JSON strings (the API serializes them as strings) while keeping the struct
+// fields as int64 for backwards compatibility.
+func (p *ConnectionOutputParams) UnmarshalJSON(data []byte) error {
+	type alias ConnectionOutputParams
+	aux := struct {
+		CompanyID json.Number `json:"companyId,omitempty"`
+		QueueID   json.Number `json:"queueId,omitempty"`
+		*alias
+	}{alias: (*alias)(p)}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	p.CompanyID, _ = aux.CompanyID.Int64()
+	p.QueueID, _ = aux.QueueID.Int64()
+	return nil
 }
 
 // ConnectionParamsAutotask definition
