@@ -50,10 +50,12 @@ var UserRole = struct {
 	User        string
 	Admin       string
 	Stakeholder string
+	Viewer      string
 }{
 	User:        "USER",
 	Admin:       "ADMIN",
 	Stakeholder: "STAKEHOLDER",
+	Viewer:      "VIEWER",
 }
 
 // UserRoleAll defines user roles list
@@ -61,6 +63,7 @@ var UserRoleAll = []string{
 	UserRole.User,
 	UserRole.Admin,
 	UserRole.Stakeholder,
+	UserRole.Viewer,
 }
 
 // CreateUserInput represents the input of a CreateUser operation.

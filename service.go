@@ -12,6 +12,7 @@ import (
 type Service struct {
 	ID                  int64          `json:"id"`
 	Name                string         `json:"name"`
+	Alias               string         `json:"alias,omitempty"`
 	Status              string         `json:"status"`
 	Description         string         `json:"description"`
 	OneOpenIncidentOnly bool           `json:"oneOpenIncidentOnly"`

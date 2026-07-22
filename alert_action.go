@@ -58,7 +58,7 @@ type AlertActionOutputParams struct {
 	CallerID           string                           `json:"callerId,omitempty"`           // ServiceNow: user email
 	ChannelID          string                           `json:"channelId,omitempty"`          // Slack, Telegram
 	ChannelName        string                           `json:"channelName,omitempty"`        // Slack
-	CompanyID          int64                            `json:"companyId,omitempty"`          // Autotask: Company ID
+	CompanyID          string                           `json:"companyId,omitempty"`          // Autotask: Company ID
 	Email              string                           `json:"email,omitempty"`              // Zammad
 	EventFilter        string                           `json:"eventFilter,omitempty"`        // Sysdig
 	Impact             string                           `json:"impact,omitempty"`             // ServiceNow: 1 - High, 2 - Medium, 3 - Low (Default)
@@ -95,6 +95,69 @@ type AlertActionOutputParams struct {
 	Headers            []AlertActionParamsWebhookHeader `json:"headers,omitempty"`            // Custom
 	URL                string                           `json:"url,omitempty"`                // DingTalk
 	EscalationPolicyID int64                            `json:"escalationPolicyId,omitempty"` // Reroute
+	CloseCode          string                           `json:"closeCode,omitempty"`          // ServiceNow
+	AssignmentGroup    string                           `json:"assignmentGroup,omitempty"`    // ServiceNow
+	OwnerGroup         string                           `json:"ownerGroup,omitempty"`         // ServiceNow
+	Service            string                           `json:"service,omitempty"`            // ServiceNow
+	ServiceOffering    string                           `json:"serviceOffering,omitempty"`    // ServiceNow
+	ContactType        string                           `json:"contactType,omitempty"`        // ServiceNow
+	NoteType           string                           `json:"noteType,omitempty"`           // Autotask
+	NotePublish        string                           `json:"notePublish,omitempty"`        // Autotask
+}
+
+// flexInt64 parses a JSON value that may be a number ("8"), a numeric string
+// ("8") or absent into an int64. Empty, missing or non-numeric values (e.g. "")
+// decode to 0 rather than failing the surrounding unmarshal.
+func flexInt64(raw json.RawMessage) int64 {
+	if len(raw) == 0 {
+		return 0
+	}
+	var n int64
+	if err := json.Unmarshal(raw, &n); err == nil {
+		return n
+	}
+	var s string
+	if err := json.Unmarshal(raw, &s); err == nil {
+		i, _ := strconv.ParseInt(s, 10, 64)
+		return i
+	}
+	return 0
+}
+
+// flexString parses a JSON value that may be a string ("12345") or a number
+// (12345) into a string. Missing values decode to "" rather than failing the
+// surrounding unmarshal.
+func flexString(raw json.RawMessage) string {
+	if len(raw) == 0 {
+		return ""
+	}
+	var s string
+	if err := json.Unmarshal(raw, &s); err == nil {
+		return s
+	}
+	var n json.Number
+	if err := json.Unmarshal(raw, &n); err == nil {
+		return n.String()
+	}
+	return ""
+}
+
+// UnmarshalJSON tolerates the Autotask companyId/queueId fields being returned
+// as either JSON strings (the API serializes them as strings) or numbers.
+// CompanyID is kept as a string (its API contract), QueueID as an int64.
+func (p *AlertActionOutputParams) UnmarshalJSON(data []byte) error {
+	type alias AlertActionOutputParams
+	aux := struct {
+		CompanyID json.RawMessage `json:"companyId,omitempty"`
+		QueueID   json.RawMessage `json:"queueId,omitempty"`
+		*alias
+	}{alias: (*alias)(p)}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	p.CompanyID = flexString(aux.CompanyID)
+	p.QueueID = flexInt64(aux.QueueID)
+	return nil
 }
 
 // AlertActionParamsAutotask definition
@@ -104,6 +167,9 @@ type AlertActionParamsAutotask struct {
 	QueueID        int64  `json:"queueId,omitempty"`        // Autotask: Queue ID
 	TicketCategory string `json:"ticketCategory,omitempty"` // Autotask ticket category
 	TicketType     string `json:"ticketType,omitempty"`     // Autotask ticket type
+	NoteType       string `json:"noteType,omitempty"`       // Autotask note type
+	NotePublish    string `json:"notePublish,omitempty"`    // Autotask note publish
+	Status         string `json:"status,omitempty"`         // Autotask ticket status
 }
 
 // AlertActionParamsJira definition
@@ -138,10 +204,16 @@ type AlertActionParamsSlackWebhook struct {
 
 // AlertActionParamsServiceNow definition
 type AlertActionParamsServiceNow struct {
-	CallerID     string `json:"callerId,omitempty"` // user email
-	Impact       string `json:"impact,omitempty"`   // 1 - High, 2 - Medium, 3 - Low (Default)
-	Urgency      string `json:"urgency,omitempty"`  // 1 - High, 2 - Medium, 3 - Low (Default)
-	BodyTemplate string `json:"bodyTemplate,omitempty"`
+	CallerID        string `json:"callerId,omitempty"` // user email
+	Impact          string `json:"impact,omitempty"`   // 1 - High, 2 - Medium, 3 - Low (Default)
+	Urgency         string `json:"urgency,omitempty"`  // 1 - High, 2 - Medium, 3 - Low (Default)
+	BodyTemplate    string `json:"bodyTemplate,omitempty"`
+	CloseCode       string `json:"closeCode,omitempty"`       // ServiceNow close code
+	AssignmentGroup string `json:"assignmentGroup,omitempty"` // ServiceNow assignment group
+	OwnerGroup      string `json:"ownerGroup,omitempty"`      // ServiceNow owner group
+	Service         string `json:"service,omitempty"`         // ServiceNow service
+	ServiceOffering string `json:"serviceOffering,omitempty"` // ServiceNow service offering
+	ContactType     string `json:"contactType,omitempty"`     // ServiceNow contact type
 }
 
 // AlertActionParamsSlack definition
