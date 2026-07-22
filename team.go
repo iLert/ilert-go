@@ -19,7 +19,7 @@ type Team struct {
 // TeamMember definition
 type TeamMember struct {
 	User User   `json:"user"`
-	Role string `json:"role"` // "ADMIN" or "USER" or "RESPONDER" or "STAKEHOLDER"
+	Role string `json:"role"` // "ADMIN" or "USER" or "RESPONDER" or "STAKEHOLDER" or "VIEWER"
 }
 
 // TeamShort definition
@@ -34,11 +34,13 @@ var TeamMemberRoles = struct {
 	User        string
 	Responder   string
 	Stakeholder string
+	Viewer      string
 }{
 	Admin:       "ADMIN",
 	User:        "USER",
 	Responder:   "RESPONDER",
 	Stakeholder: "STAKEHOLDER",
+	Viewer:      "VIEWER",
 }
 
 // TeamMemberRolesAll defines team member roles list
@@ -47,6 +49,7 @@ var TeamMemberRolesAll = []string{
 	TeamMemberRoles.User,
 	TeamMemberRoles.Responder,
 	TeamMemberRoles.Stakeholder,
+	TeamMemberRoles.Viewer,
 }
 
 // TeamVisibility defines team visibility
