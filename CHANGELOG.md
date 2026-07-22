@@ -1,9 +1,10 @@
 # Changelog
 
-## 20.07.2026, Version 3.23.0
+## 22.07.2026, Version 3.23.0
 
 - **Source-compatibility note:** the output `CompanyID` field on `AlertActionOutputParams` and `ConnectionOutputParams` changes type from `int64` to `string` (see the Autotask fix below). This is source-breaking for code referencing those fields as `int64`, but it ships in a minor release because the fields never unmarshalled successfully before, so no working caller could depend on the `int64` form. [#73](https://github.com/iLert/ilert-go/pull/73)
 - add documented ServiceNow (`closeCode`, `assignmentGroup`, `ownerGroup`, `service`, `serviceOffering`, `contactType`) and Autotask (`noteType`, `notePublish`, `status`) alert action params, service `alias` and call flow VOICEMAIL `disableTranscription` [#73](https://github.com/iLert/ilert-go/pull/73)
+- add `VIEWER` to `UserRole` and `TeamMemberRoles` [#73](https://github.com/iLert/ilert-go/pull/73)
 - fix reading Autotask alert actions and connections: `companyId`/`queueId` are returned by the API as JSON strings and previously failed to unmarshal; `queueId` now tolerates both encodings, and the output `companyId` is typed `string` to match its API contract and the create/update params (it never unmarshalled successfully before) [#73](https://github.com/iLert/ilert-go/pull/73)
 
 ## 08.06.2026, Version 3.22.0
