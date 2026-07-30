@@ -123,8 +123,9 @@ type Template struct {
 
 // LinkTemplate definition
 type LinkTemplate struct {
-	Text         string    `json:"text,omitempty"`
-	HrefTemplate *Template `json:"hrefTemplate,omitempty"`
+	Text             string    `json:"text,omitempty"` // @deprecated, superseded by linkTextTemplate, kept as fallback for existing data
+	LinkTextTemplate *Template `json:"linkTextTemplate,omitempty"`
+	HrefTemplate     *Template `json:"hrefTemplate,omitempty"`
 }
 
 // PriorityTemplate definition
