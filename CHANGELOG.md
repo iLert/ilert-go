@@ -2,7 +2,7 @@
 
 ## 30.07.2026, Version 3.23.1
 
-- fix `AlertSource.Teams` never being able to clear an alert source's teams: the field was tagged `omitempty`, so an empty slice was dropped from the payload and the API left the existing teams in place (it only clears them on an explicit empty array; an omitted or `null` field is a no-op). The tag is now `json:"teams"` so an empty slice marshals to `"teams":[]`. Callers that relied on a `nil` `Teams` meaning "leave untouched" are unaffected, since `nil` still marshals to `null`, which the API ignores.
+- fix `AlertSource.Teams` never being able to clear an alert source's teams: the field was tagged `omitempty`, so an empty slice was dropped from the payload and the API left the existing teams in place (it only clears them on an explicit empty array; an omitted or `null` field is a no-op). The tag is now `json:"teams"` so an empty slice marshals to `"teams":[]`. Callers that relied on a `nil` `Teams` meaning "leave untouched" are unaffected, since `nil` still marshals to `null`, which the API ignores. [#76](https://github.com/iLert/ilert-go/pull/76)
 
 ## 22.07.2026, Version 3.23.0
 
