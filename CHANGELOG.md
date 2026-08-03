@@ -1,5 +1,9 @@
 # Changelog
 
+## 03.08.2026, Version 3.23.1
+
+- fix `AlertSource.Teams` never being able to clear an alert source's teams: the field was tagged `omitempty`, so an empty slice was dropped from the payload and the API left the existing teams in place (it only clears them on an explicit empty array; an omitted or `null` field is a no-op). The tag is now `json:"teams"` so an empty slice marshals to `"teams":[]`. Callers that relied on a `nil` `Teams` meaning "leave untouched" are unaffected, since `nil` still marshals to `null`, which the API ignores. [#76](https://github.com/iLert/ilert-go/pull/76)
+
 ## 22.07.2026, Version 3.23.0
 
 - **Source-compatibility note:** the output `CompanyID` field on `AlertActionOutputParams` and `ConnectionOutputParams` changes type from `int64` to `string` (see the Autotask fix below). This is source-breaking for code referencing those fields as `int64`, but it ships in a minor release because the fields never unmarshalled successfully before, so no working caller could depend on the `int64` form. [#73](https://github.com/iLert/ilert-go/pull/73)

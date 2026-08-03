@@ -38,7 +38,7 @@ type AlertSource struct {
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`         // @deprecated
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"` // @deprecated
 	Heartbeat              *Heartbeat             `json:"heartbeat,omitempty"`        // @deprecated
-	Teams                  []TeamShort            `json:"teams,omitempty"`
+	Teams                  []TeamShort            `json:"teams"`
 	SummaryTemplate        *Template              `json:"summaryTemplate,omitempty"`
 	DetailsTemplate        *Template              `json:"detailsTemplate,omitempty"`
 	RoutingTemplate        *Template              `json:"routingTemplate,omitempty"`
