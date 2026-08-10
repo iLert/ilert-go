@@ -3,6 +3,7 @@
 ## 17.08.2026, Version 3.24.0
 
 - add `LinkTextTemplate` to alert source `LinkTemplate`. The API superseded the plain `text` display name with the templatable `linkTextTemplate` and no longer returns `text` for link templates that use it, so those link templates previously read back with an empty `Text`. `Text` is kept and still accepted by the API as the legacy fallback, but is now deprecated; at least one of the two must be set or the API rejects the request [#77](https://github.com/iLert/ilert-go/pull/77)
+- add `NONE` to `SupportStatus` and `SupportStatusAll`. The API accepts and returns it for support hour exceptions that suspend support entirely, but it was missing from the SDK, so callers validating against `SupportStatusAll` rejected exceptions the API itself had created [#78](https://github.com/iLert/ilert-go/pull/78)
 
 ## 03.08.2026, Version 3.23.1
 
