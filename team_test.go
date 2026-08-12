@@ -44,6 +44,51 @@ func TestTeamsMarshalEmptySlice(t *testing.T) {
 	}
 }
 
+// TestTeamsUnmarshalIntoOutputStructs verifies that the read path is untouched by
+// the pointer-typed input fields: every API response decodes into the *Output
+// structs, whose Teams stay plain slices.
+func TestTeamsUnmarshalIntoOutputStructs(t *testing.T) {
+	payload := []byte(`{"id":1,"name":"test","teams":[{"id":9501,"name":"TeamA"},{"id":9502,"name":"TeamB"}]}`)
+
+	var callFlow CallFlowOutput
+	if err := json.Unmarshal(payload, &callFlow); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(callFlow.Teams) != 2 || callFlow.Teams[0].ID != 9501 {
+		t.Errorf("CallFlowOutput.Teams = %v, want the two teams from the payload", callFlow.Teams)
+	}
+
+	var eventFlow EventFlowOutput
+	if err := json.Unmarshal(payload, &eventFlow); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(eventFlow.Teams) != 2 || eventFlow.Teams[1].ID != 9502 {
+		t.Errorf("EventFlowOutput.Teams = %v, want the two teams from the payload", eventFlow.Teams)
+	}
+}
+
+// TestTeamsUnmarshalIntoInputStructs verifies the pointer fields still decode, so
+// a caller round-tripping a response through the input struct keeps working.
+func TestTeamsUnmarshalIntoInputStructs(t *testing.T) {
+	payload := []byte(`{"id":1,"name":"test","teams":[{"id":9501,"name":"TeamA"}]}`)
+
+	var callFlow CallFlow
+	if err := json.Unmarshal(payload, &callFlow); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if callFlow.Teams == nil || len(*callFlow.Teams) != 1 {
+		t.Errorf("CallFlow.Teams = %v, want one team", callFlow.Teams)
+	}
+
+	var eventFlow EventFlow
+	if err := json.Unmarshal(payload, &eventFlow); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if eventFlow.Teams == nil || len(*eventFlow.Teams) != 1 {
+		t.Errorf("EventFlow.Teams = %v, want one team", eventFlow.Teams)
+	}
+}
+
 // TestTeamsMarshalNil verifies that a caller who never touches Teams does not
 // clear them. Most endpoints treat both an omitted field and a null as a no-op,
 // but the call flow and event flow endpoints clear on null, so those two fields
