@@ -14,7 +14,7 @@ type CallFlow struct {
 	Name           string          `json:"name"`
 	Language       string          `json:"language"` // one of CallFlowLanguage
 	AssignedNumber *CallFlowNumber `json:"assignedNumber,omitempty"`
-	Teams          []TeamShort     `json:"teams,omitempty"`
+	Teams          *[]TeamShort    `json:"teams,omitempty"` // pointer: nil omits the field, an empty slice clears the teams
 	RootNode       *CallFlowNode   `json:"root"`
 }
 
