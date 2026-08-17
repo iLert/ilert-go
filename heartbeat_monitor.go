@@ -18,7 +18,7 @@ type HeartbeatMonitor struct {
 	CreatedAt      string       `json:"createdAt,omitempty"`
 	UpdatedAt      string       `json:"updatedAt,omitempty"`
 	AlertSource    *AlertSource `json:"alertSource,omitempty"`
-	Teams          []TeamShort  `json:"teams,omitempty"`
+	Teams          []TeamShort  `json:"teams"`
 	IntegrationKey string       `json:"integrationKey,omitempty"`
 	IntegrationUrl string       `json:"integrationUrl,omitempty"`
 }

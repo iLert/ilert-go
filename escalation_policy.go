@@ -13,7 +13,7 @@ type EscalationPolicy struct {
 	ID              int64            `json:"id,omitempty"`
 	Name            string           `json:"name"`
 	EscalationRules []EscalationRule `json:"escalationRules"`
-	Teams           []TeamShort      `json:"teams,omitempty"`
+	Teams           []TeamShort      `json:"teams"`
 	Repeating       bool             `json:"repeating,omitempty"`
 	Frequency       int              `json:"frequency,omitempty"`
 	DelayMin        int              `json:"delayMin,omitempty"`

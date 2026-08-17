@@ -16,7 +16,7 @@ type IncidentTemplate struct {
 	Status           string      `json:"status"`
 	Message          string      `json:"message"`
 	SendNotification bool        `json:"sendNotification"`
-	Teams            []TeamShort `json:"teams,omitempty"`
+	Teams            []TeamShort `json:"teams"`
 }
 
 // CreateIncidentTemplateInput represents the input of a CreateIncidentTemplate operation.

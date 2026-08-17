@@ -21,7 +21,7 @@ type Schedule struct {
 	DefaultShiftDuration string          `json:"defaultShiftDuration,omitempty"` // for ex. P7D (7 Days) or PT8H (8 Hours)
 	CurrentShift         *Shift          `json:"currentShift,omitempty"`
 	NextShift            *Shift          `json:"nextShift,omitempty"`
-	Teams                []TeamShort     `json:"teams,omitempty"`
+	Teams                []TeamShort     `json:"teams"`
 }
 
 // Shift definition

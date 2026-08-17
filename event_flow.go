@@ -12,7 +12,7 @@ import (
 type EventFlow struct {
 	ID       int64          `json:"id,omitempty"`
 	Name     string         `json:"name"`
-	Teams    []TeamShort    `json:"teams,omitempty"`
+	Teams    *[]TeamShort   `json:"teams,omitempty"` // pointer: nil omits the field, an empty slice clears the teams
 	RootNode *EventFlowNode `json:"root"`
 }
 

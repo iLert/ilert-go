@@ -12,7 +12,7 @@ import (
 type SupportHour struct {
 	ID          int64                  `json:"id"`
 	Name        string                 `json:"name"`
-	Teams       []TeamShort            `json:"teams,omitempty"`
+	Teams       []TeamShort            `json:"teams"`
 	Timezone    string                 `json:"timezone,omitempty"`
 	SupportDays *SupportDays           `json:"supportDays"`
 	Exceptions  []SupportHourException `json:"exceptions,omitempty"`
