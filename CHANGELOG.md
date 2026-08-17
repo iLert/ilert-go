@@ -1,5 +1,9 @@
 # Changelog
 
+## 17.08.2026, Version 3.24.0
+
+- add `LinkTextTemplate` to alert source `LinkTemplate`. The API superseded the plain `text` display name with the templatable `linkTextTemplate` and no longer returns `text` for link templates that use it, so those link templates previously read back with an empty `Text`. `Text` is kept and still accepted by the API as the legacy fallback, but is now deprecated; at least one of the two must be set or the API rejects the request [#77](https://github.com/iLert/ilert-go/pull/77)
+
 ## 03.08.2026, Version 3.23.1
 
 - fix `AlertSource.Teams` never being able to clear an alert source's teams: the field was tagged `omitempty`, so an empty slice was dropped from the payload and the API left the existing teams in place (it only clears them on an explicit empty array; an omitted or `null` field is a no-op). The tag is now `json:"teams"` so an empty slice marshals to `"teams":[]`. Callers that relied on a `nil` `Teams` meaning "leave untouched" are unaffected, since `nil` still marshals to `null`, which the API ignores. [#76](https://github.com/iLert/ilert-go/pull/76)
