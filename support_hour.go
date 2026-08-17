@@ -28,15 +28,18 @@ type SupportHourException struct {
 
 // SupportStatus defines support status
 var SupportStatus = struct {
+	None    string
 	During  string
 	Outside string
 }{
+	None:    "NONE",
 	During:  "DURING",
 	Outside: "OUTSIDE",
 }
 
 // SupportStatusAll defines support status list
 var SupportStatusAll = []string{
+	SupportStatus.None,
 	SupportStatus.During,
 	SupportStatus.Outside,
 }
