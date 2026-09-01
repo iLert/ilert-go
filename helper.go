@@ -15,6 +15,11 @@ func Int(v int) *int {
 	return &v
 }
 
+// Bool returns a pointer to the bool value passed in.
+func Bool(v bool) *bool {
+	return &v
+}
+
 func intSliceContains(s []int, e int) bool {
 	for _, a := range s {
 		if a == e {
