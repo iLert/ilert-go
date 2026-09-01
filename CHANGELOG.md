@@ -1,5 +1,10 @@
 # Changelog
 
+## 01.09.2026, Version 3.25.0
+
+- add `PurchaseSeat` to `CreateUserInput`, mapping to the `purchase-seat` query parameter of `POST /users`. The API then buys a license for the account instead of validating its license quota, which charges the account, prorated for the rest of the billing period. The purchase is unconditional, the API does not check whether a free seat is available first, so the field is only sent when it is set explicitly; the account also needs an active paid subscription and admin seat purchase enabled or the API rejects the request [#80](https://github.com/iLert/ilert-go/pull/80)
+- add a `Bool` pointer helper alongside `String`, `Int64` and `Int`, so the `*bool` input fields (`PurchaseSeat`, `SendNoInvitation`, `AbortOnGaps`, `ExcludeOverrides`) can be set without hand-rolling a pointer [#80](https://github.com/iLert/ilert-go/pull/80)
+
 ## 17.08.2026, Version 3.24.0
 
 - add `LinkTextTemplate` to alert source `LinkTemplate`. The API superseded the plain `text` display name with the templatable `linkTextTemplate` and no longer returns `text` for link templates that use it, so those link templates previously read back with an empty `Text`. `Text` is kept and still accepted by the API as the legacy fallback, but is now deprecated; at least one of the two must be set or the API rejects the request [#77](https://github.com/iLert/ilert-go/pull/77)
