@@ -71,6 +71,15 @@ type CreateUserInput struct {
 	_                struct{}
 	User             *User
 	SendNoInvitation *bool
+
+	// PurchaseSeat buys a license for the account instead of validating its license
+	// quota. The purchase is unconditional: the API does not check whether a free
+	// seat is available first, so a create with this set always buys a seat and the
+	// account is charged for it, prorated for the rest of the billing period. Only
+	// set it when the caller has explicitly asked for it, and only when the account
+	// has actually run out of licenses. Requires the account to have an active paid
+	// subscription and admin seat purchase enabled.
+	PurchaseSeat *bool
 }
 
 // CreateUserOutput represents the output of a CreateUser operation.
@@ -92,9 +101,17 @@ func (c *Client) CreateUser(input *CreateUserInput) (*CreateUserOutput, error) {
 		return nil, errors.New("user input is required")
 	}
 
-	requestURL := apiRoutes.users
+	q := url.Values{}
 	if input.SendNoInvitation != nil {
-		requestURL = fmt.Sprintf("%s?send-no-invitation=%t", apiRoutes.users, *input.SendNoInvitation)
+		q.Add("send-no-invitation", strconv.FormatBool(*input.SendNoInvitation))
+	}
+	if input.PurchaseSeat != nil {
+		q.Add("purchase-seat", strconv.FormatBool(*input.PurchaseSeat))
+	}
+
+	requestURL := apiRoutes.users
+	if len(q) > 0 {
+		requestURL = fmt.Sprintf("%s?%s", apiRoutes.users, q.Encode())
 	}
 
 	resp, err := c.httpClient.R().SetBody(input.User).Post(requestURL)
