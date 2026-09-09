@@ -449,6 +449,7 @@ var apiRoutes = struct {
 	services              string
 	statusPages           string
 	supportHours          string
+	telemetrySources      string
 	uptimeMonitors        string
 	users                 string
 	teams                 string
@@ -477,6 +478,7 @@ var apiRoutes = struct {
 	services:              "/api/services",
 	statusPages:           "/api/status-pages",
 	supportHours:          "/api/support-hours",
+	telemetrySources:      "/api/telemetry-sources",
 	uptimeMonitors:        "/api/uptime-monitors",
 	users:                 "/api/users",
 	teams:                 "/api/teams",
