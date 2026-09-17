@@ -51,12 +51,6 @@ type CallFlowBranch struct {
 	Target     *CallFlowNode `json:"target"`
 }
 
-type CallFlowNumber struct {
-	ID          int64        `json:"id"`
-	Name        string       `json:"name"`
-	PhoneNumber *PhoneNumber `json:"phoneNumber"`
-}
-
 type PhoneNumber struct {
 	RegionCode string `json:"regionCode"`
 	Number     string `json:"number"`
