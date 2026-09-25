@@ -1,6 +1,6 @@
 # Changelog
 
-## 17.09.2026, Version 3.26.0
+## 25.09.2026, Version 3.26.0
 
 - add `GetCallFlowNumbers`, `GetCallFlowNumber` and `SearchCallFlowNumber` behind `/api/call-flow-numbers`, along with `CallFlowNumberState`, `CallFlowNumberStateFilter` and `CallFlowNumberInclude`. These are the numbers of the account and the call flow each one is assigned to, which is a different entity from the `/api/numbers` list behind `GetNumbers`: that one returns the phone numbers ilert offers for purchase [#82](https://github.com/iLert/ilert-go/pull/82)
 - add `State` and `AssignedTo` to `CallFlowNumber`, and move the type from `call_flow.go` to its own file. `AssignedTo` is only part of a response when `CallFlowNumberInclude.AssignedTo` is requested, and only on a number that is in use. `CallFlowNumberStateFilter.Any` is a filter value only, the API never returns it on a number, which is why the filter and the state have separate constant sets [#82](https://github.com/iLert/ilert-go/pull/82)
