@@ -430,6 +430,9 @@ var apiRoutes = struct {
 	alertSources          string
 	automationRules       string
 	callFlows             string
+	callFlowNumbers       string
+	callFlowSessions      string
+	chatChannels          string
 	connections           string
 	connectors            string
 	deploymentPipelines   string
@@ -453,12 +456,16 @@ var apiRoutes = struct {
 	uptimeMonitors        string
 	users                 string
 	teams                 string
+	tenants               string
 }{
 	alerts:                "/api/alerts",
 	alertActions:          "/api/alert-actions",
 	alertSources:          "/api/alert-sources",
 	automationRules:       "/api/automation-rules",
 	callFlows:             "/api/call-flows",
+	callFlowNumbers:       "/api/call-flow-numbers",
+	callFlowSessions:      "/api/call-flow-sessions",
+	chatChannels:          "/api/chat-channels",
 	connections:           "/api/v1/connections",
 	connectors:            "/api/connectors",
 	deploymentPipelines:   "/api/deployment-pipelines",
@@ -482,6 +489,7 @@ var apiRoutes = struct {
 	uptimeMonitors:        "/api/uptime-monitors",
 	users:                 "/api/users",
 	teams:                 "/api/teams",
+	tenants:               "/api/tenants",
 }
 
 func getEnv(key string) *string {

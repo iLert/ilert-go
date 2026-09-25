@@ -35,7 +35,8 @@ type Service struct {
 	Links *[]ServiceLink `json:"links,omitempty"`
 
 	// the status shown on status pages, only returned when "publicStatus" is requested
-	// through Include. Read-only, it is derived by the API from the service status.
+	// through Include, and then only while it differs from Status: empty means the status
+	// pages show Status. Read-only, it is derived by the API from the service status.
 	PublicStatus string `json:"publicStatus,omitempty"`
 
 	// only returned when "dependencies" is requested through Include. Read-only on this
@@ -740,4 +741,135 @@ func (c *Client) DeleteServiceDependency(input *DeleteServiceDependencyInput) (*
 	}
 
 	return &DeleteServiceDependencyOutput{}, nil
+}
+
+// ServiceGraph defines the service dependency graph of an account
+type ServiceGraph struct {
+	Nodes []ServiceNode `json:"nodes"`
+
+	// rendering projection of the edges: only ID, SourceServiceID, TargetServiceID and
+	// Type are populated, read the full edge through GetServiceDependency
+	Edges []ServiceDependency `json:"edges"`
+}
+
+// ServiceNode defines a service as a node of the service dependency graph
+type ServiceNode struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name,omitempty"`
+
+	// possible values: "OPERATIONAL", "UNDER_MAINTENANCE", "DEGRADED", "PARTIAL_OUTAGE", "MAJOR_OUTAGE"
+	Status string `json:"status,omitempty"`
+
+	// number of edges between this node and the seed service, not set for the whole graph
+	Distance int32 `json:"distance,omitempty"`
+
+	// true when the caller may not see the details of this service
+	Restricted bool `json:"restricted,omitempty"`
+}
+
+// GetServiceTopologyInput represents the input of a GetServiceTopology operation.
+type GetServiceTopologyInput struct {
+	_ struct{}
+
+	// filters the graph by a label condition expression, e.g. "environment == 'production'".
+	// Supports the operators "==", "!=", "in" and "not_in", combined with "and", up to 20
+	// conditions. An invalid expression is rejected with a 400. It is the same expression the API
+	// takes for the labels filter of its service, alert and telemetry source lists.
+	Labels *string
+}
+
+// GetServiceTopologyOutput represents the output of a GetServiceTopology operation.
+type GetServiceTopologyOutput struct {
+	_            struct{}
+	ServiceGraph *ServiceGraph
+}
+
+// GetServiceTopology gets the service dependency graph of the account. https://docs.ilert.com/developer-docs/rest-api/api-reference/services
+func (c *Client) GetServiceTopology(input *GetServiceTopologyInput) (*GetServiceTopologyOutput, error) {
+	if input == nil {
+		input = &GetServiceTopologyInput{}
+	}
+
+	q := url.Values{}
+	if input.Labels != nil {
+		q.Add("labels", *input.Labels)
+	}
+
+	resp, err := c.httpClient.R().Get(fmt.Sprintf("%s/topology?%s", apiRoutes.services, q.Encode()))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	serviceGraph := &ServiceGraph{}
+	err = json.Unmarshal(resp.Body(), serviceGraph)
+	if err != nil {
+		return nil, err
+	}
+
+	return &GetServiceTopologyOutput{ServiceGraph: serviceGraph}, nil
+}
+
+// PublishServiceStatusInput represents the input of a PublishServiceStatus operation.
+type PublishServiceStatusInput struct {
+	_         struct{}
+	ServiceID *int64
+
+	// the status that is expected to be published, must match the current status of the
+	// service and the status of its latest change
+	// possible values: "OPERATIONAL", "UNDER_MAINTENANCE", "DEGRADED", "PARTIAL_OUTAGE", "MAJOR_OUTAGE"
+	Status *string
+}
+
+// PublishServiceStatusOutput represents the output of a PublishServiceStatus operation.
+type PublishServiceStatusOutput struct {
+	_       struct{}
+	Service *Service
+}
+
+// PublishServiceStatus makes the latest status change of a service visible on status pages
+// when it was kept internal. Such a change is recognizable by a non-empty PublicStatus, read
+// through ServiceInclude.PublicStatus: the API only returns it while it differs from Status.
+//
+// Status guards against publishing a status change that happened in the meantime: it has to
+// match the current status of the service, otherwise nothing is published and the API answers
+// 409. It answers 409 as well when there is no internal change to publish. The client classifies
+// a 409 as a transient conflict and retries it, so both are reported as a *RetryableAPIError with
+// status 409 once the retries are exhausted.
+//
+// The returned service carries no PublicStatus: the endpoint answers with the plain service
+// representation, without the optional properties. Read the service again with
+// ServiceInclude.PublicStatus to see the published status (verified against the API on 16.09.2026).
+// https://docs.ilert.com/developer-docs/rest-api/api-reference/services
+func (c *Client) PublishServiceStatus(input *PublishServiceStatusInput) (*PublishServiceStatusOutput, error) {
+	if input == nil {
+		return nil, errors.New("input is required")
+	}
+	if input.ServiceID == nil {
+		return nil, errors.New("service id is required")
+	}
+	if input.Status == nil {
+		return nil, errors.New("service status is required")
+	}
+
+	q := url.Values{}
+	q.Add("status", *input.Status)
+
+	resp, err := c.httpClient.R().Put(fmt.Sprintf("%s/%d/publish-status?%s", apiRoutes.services, *input.ServiceID, q.Encode()))
+	if err != nil {
+		return nil, err
+	}
+	if apiErr := getGenericAPIError(resp, 200); apiErr != nil {
+		return nil, apiErr
+	}
+
+	service := &Service{}
+	err = json.Unmarshal(resp.Body(), service)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PublishServiceStatusOutput{Service: service}, nil
 }
