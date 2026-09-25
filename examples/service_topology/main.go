@@ -11,7 +11,7 @@ func main() {
 	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
 
 	result, err := client.GetServiceTopology(&ilert.GetServiceTopologyInput{
-		// a single label condition expression, not the repeated "key:value" list filter
+		// a single label condition expression, further conditions are combined with "and"
 		Labels: ilert.String("environment == 'production'"),
 	})
 	if err != nil {

@@ -83,8 +83,9 @@ type GetCallFlowSessionsInput struct {
 	// Maximum: 100
 	MaxResults *int
 
-	// filters the result by session state. The API accepts at most one state, filtering by
-	// more than one is rejected, which is why this is a single value rather than a slice.
+	// filters the result by session state. The API documents a maximum of one state and does
+	// not reject more, it silently answers with an empty list, which is why this is a single
+	// value rather than a slice.
 	// possible values: "DEFAULT", "ONGOING", "ENDED", "BLOCKED"
 	State *string
 

@@ -7,8 +7,8 @@ import (
 	"testing"
 )
 
-// The topology filter is a single condition expression, unlike the repeated "key:value"
-// label filter of the list endpoints, so it goes on the query as one value.
+// The topology filter is a single condition expression, conditions are combined with "and"
+// inside it, so it goes on the query as one value.
 func TestGetServiceTopology(t *testing.T) {
 	var path string
 	var query url.Values
@@ -72,7 +72,8 @@ func TestPublishServiceStatus(t *testing.T) {
 		path = r.URL.Path
 		query = r.URL.Query()
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"id":3,"name":"checkout","status":"MAJOR_OUTAGE","publicStatus":"MAJOR_OUTAGE"}`))
+		// the endpoint answers with the plain service, without the optional publicStatus
+		_, _ = w.Write([]byte(`{"id":3,"name":"checkout","status":"MAJOR_OUTAGE"}`))
 	}))
 	defer srv.Close()
 
@@ -92,8 +93,8 @@ func TestPublishServiceStatus(t *testing.T) {
 	if got := query.Get("status"); got != "MAJOR_OUTAGE" {
 		t.Errorf("status = %q, want MAJOR_OUTAGE", got)
 	}
-	if result.Service.PublicStatus != ServiceStatus.MajorOutage {
-		t.Errorf("publicStatus = %q, want MAJOR_OUTAGE", result.Service.PublicStatus)
+	if result.Service.ID != 3 || result.Service.Status != ServiceStatus.MajorOutage {
+		t.Errorf("service = %+v, want service 3 with status MAJOR_OUTAGE", result.Service)
 	}
 }
 

@@ -35,7 +35,8 @@ type Service struct {
 	Links *[]ServiceLink `json:"links,omitempty"`
 
 	// the status shown on status pages, only returned when "publicStatus" is requested
-	// through Include. Read-only, it is derived by the API from the service status.
+	// through Include, and then only while it differs from Status: empty means the status
+	// pages show Status. Read-only, it is derived by the API from the service status.
 	PublicStatus string `json:"publicStatus,omitempty"`
 
 	// only returned when "dependencies" is requested through Include. Read-only on this
@@ -772,8 +773,8 @@ type GetServiceTopologyInput struct {
 
 	// filters the graph by a label condition expression, e.g. "environment == 'production'".
 	// Supports the operators "==", "!=", "in" and "not_in", combined with "and", up to 20
-	// conditions. An invalid expression is rejected with a 400. This is a single expression,
-	// not the repeated "key:value" label filter of the list endpoints.
+	// conditions. An invalid expression is rejected with a 400. It is the same expression the API
+	// takes for the labels filter of its service, alert and telemetry source lists.
 	Labels *string
 }
 
@@ -829,13 +830,14 @@ type PublishServiceStatusOutput struct {
 }
 
 // PublishServiceStatus makes the latest status change of a service visible on status pages
-// when it was kept internal. Such a change is recognizable by a PublicStatus that differs
-// from Status, both read through ServiceInclude.PublicStatus.
+// when it was kept internal. Such a change is recognizable by a non-empty PublicStatus, read
+// through ServiceInclude.PublicStatus: the API only returns it while it differs from Status.
 //
 // Status guards against publishing a status change that happened in the meantime: it has to
 // match the current status of the service, otherwise nothing is published and the API answers
-// 409. The client classifies a 409 as a transient conflict and retries it, so a mismatch is
-// reported as a *RetryableAPIError with status 409 once the retries are exhausted.
+// 409. It answers 409 as well when there is no internal change to publish. The client classifies
+// a 409 as a transient conflict and retries it, so both are reported as a *RetryableAPIError with
+// status 409 once the retries are exhausted.
 //
 // The returned service carries no PublicStatus: the endpoint answers with the plain service
 // representation, without the optional properties. Read the service again with

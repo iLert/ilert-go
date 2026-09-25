@@ -22,8 +22,9 @@ func main() {
 	}
 	log.Printf("Service:\n\n %+v\n", result.Service)
 
-	// a status change that was kept internal reads back with a public status that differs
-	// from the status, and can be published onto the status pages afterwards
+	// the public status is only returned while it differs from the status, which is the case
+	// after a status change that was kept internal. Such a change can be published onto the
+	// status pages afterwards
 	statusResult, err := client.GetService(&ilert.GetServiceInput{
 		ServiceID: &serviceId,
 		Include:   []*string{&ilert.ServiceInclude.PublicStatus},
@@ -31,7 +32,7 @@ func main() {
 	if err != nil {
 		log.Fatalln("ERROR:", err)
 	}
-	if statusResult.Service.PublicStatus != statusResult.Service.Status {
+	if statusResult.Service.PublicStatus != "" {
 		// the status guards against publishing a change that happened in the meantime,
 		// the API answers 409 when it no longer matches
 		published, err := client.PublishServiceStatus(&ilert.PublishServiceStatusInput{
