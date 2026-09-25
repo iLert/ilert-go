@@ -2,6 +2,7 @@ package ilert
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -9,13 +10,17 @@ import (
 )
 
 // channel-type is required by the API, which answers 400 without it, so every chat request
-// has to carry it no matter which operation built the URL.
+// has to carry it no matter which operation built the URL. A reaction is sent as its code
+// alone, the counts and the reacting users are filled in by the API.
 func TestChatChannelRequestsAlwaysSendChannelType(t *testing.T) {
 	c := func(url string) *Client { return newTestClient(t, url) }
+	message := &ChatChannelMessage{Content: "hi", ContentType: ChatChannelMessageContentType.Text}
 	cases := []struct {
-		name string
-		call func(*Client) error
-		want string
+		name   string
+		call   func(*Client) error
+		method string
+		want   string
+		body   string
 	}{
 		{
 			name: "list messages",
@@ -23,7 +28,8 @@ func TestChatChannelRequestsAlwaysSendChannelType(t *testing.T) {
 				_, err := cl.GetChatChannelMessages(&GetChatChannelMessagesInput{ChannelID: Int64(7), ChannelType: String(ChatChannelType.Alert)})
 				return err
 			},
-			want: "/api/chat-channels/7/messages",
+			method: http.MethodGet,
+			want:   "/api/chat-channels/7/messages",
 		},
 		{
 			name: "get message",
@@ -31,7 +37,28 @@ func TestChatChannelRequestsAlwaysSendChannelType(t *testing.T) {
 				_, err := cl.GetChatChannelMessage(&GetChatChannelMessageInput{ChannelID: Int64(7), ChannelType: String(ChatChannelType.Alert), ChatChannelMessageID: Int64(9)})
 				return err
 			},
-			want: "/api/chat-channels/7/messages/9",
+			method: http.MethodGet,
+			want:   "/api/chat-channels/7/messages/9",
+		},
+		{
+			name: "create message",
+			call: func(cl *Client) error {
+				_, err := cl.CreateChatChannelMessage(&CreateChatChannelMessageInput{ChannelID: Int64(7), ChannelType: String(ChatChannelType.Alert), ChatChannelMessage: message})
+				return err
+			},
+			method: http.MethodPost,
+			want:   "/api/chat-channels/7/messages",
+			body:   `{"content":"hi","contentType":"TEXT"}`,
+		},
+		{
+			name: "update message",
+			call: func(cl *Client) error {
+				_, err := cl.UpdateChatChannelMessage(&UpdateChatChannelMessageInput{ChannelID: Int64(7), ChannelType: String(ChatChannelType.Alert), ChatChannelMessageID: Int64(9), ChatChannelMessage: message})
+				return err
+			},
+			method: http.MethodPut,
+			want:   "/api/chat-channels/7/messages/9",
+			body:   `{"content":"hi","contentType":"TEXT"}`,
 		},
 		{
 			name: "delete message",
@@ -39,7 +66,8 @@ func TestChatChannelRequestsAlwaysSendChannelType(t *testing.T) {
 				_, err := cl.DeleteChatChannelMessage(&DeleteChatChannelMessageInput{ChannelID: Int64(7), ChannelType: String(ChatChannelType.Alert), ChatChannelMessageID: Int64(9)})
 				return err
 			},
-			want: "/api/chat-channels/7/messages/9",
+			method: http.MethodDelete,
+			want:   "/api/chat-channels/7/messages/9",
 		},
 		{
 			name: "add reaction",
@@ -47,7 +75,9 @@ func TestChatChannelRequestsAlwaysSendChannelType(t *testing.T) {
 				_, err := cl.AddChatChannelMessageReaction(&AddChatChannelMessageReactionInput{ChannelID: Int64(7), ChannelType: String(ChatChannelType.Alert), ChatChannelMessageID: Int64(9), Code: String("thumbsup")})
 				return err
 			},
-			want: "/api/chat-channels/7/messages/9/reactions",
+			method: http.MethodPost,
+			want:   "/api/chat-channels/7/messages/9/reactions",
+			body:   `{"code":"thumbsup"}`,
 		},
 		{
 			name: "remove reaction",
@@ -55,21 +85,28 @@ func TestChatChannelRequestsAlwaysSendChannelType(t *testing.T) {
 				_, err := cl.RemoveChatChannelMessageReaction(&RemoveChatChannelMessageReactionInput{ChannelID: Int64(7), ChannelType: String(ChatChannelType.Alert), ChatChannelMessageID: Int64(9), Code: String("thumbsup")})
 				return err
 			},
-			want: "/api/chat-channels/7/messages/9/reactions/thumbsup",
+			method: http.MethodDelete,
+			want:   "/api/chat-channels/7/messages/9/reactions/thumbsup",
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			var path string
+			var method, path, body string
 			var query url.Values
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				method = r.Method
 				path = r.URL.Path
 				query = r.URL.Query()
+				raw, _ := io.ReadAll(r.Body)
+				body = string(raw)
 				w.Header().Set("Content-Type", "application/json")
 				if r.Method == http.MethodGet && r.URL.Path == "/api/chat-channels/7/messages" {
 					_, _ = w.Write([]byte(`[]`))
 					return
+				}
+				if r.Method == http.MethodPost && r.URL.Path == "/api/chat-channels/7/messages" {
+					w.WriteHeader(http.StatusCreated)
 				}
 				_, _ = w.Write([]byte(`{"id":9,"content":"hi","contentType":"TEXT"}`))
 			}))
@@ -78,11 +115,17 @@ func TestChatChannelRequestsAlwaysSendChannelType(t *testing.T) {
 			if err := tc.call(c(srv.URL)); err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
+			if method != tc.method {
+				t.Errorf("method = %s, want %s", method, tc.method)
+			}
 			if path != tc.want {
 				t.Errorf("path = %q, want %q", path, tc.want)
 			}
 			if got := query.Get("channel-type"); got != "ALERT" {
 				t.Errorf("channel-type = %q, want ALERT", got)
+			}
+			if tc.body != "" && body != tc.body {
+				t.Errorf("body = %s, want %s", body, tc.body)
 			}
 		})
 	}
