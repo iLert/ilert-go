@@ -1,6 +1,7 @@
 package ilert
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -56,6 +57,10 @@ type GetAlertLabelKeysOutput struct {
 // of AlertLabelPageSize, and it serves the first three pages of an unfiltered listing from
 // a cache with a five minute TTL, so a label key of a freshly created alert can take that
 // long to appear. Setting Query bypasses the cache (verified against the API on 16.09.2026).
+//
+// Callers with the guest or stakeholder role get an empty list: the API answers them with an
+// empty object rather than an empty list, which is read as no labels (verified against the
+// API on 25.09.2026).
 // https://docs.ilert.com/developer-docs/rest-api/api-reference/alerts
 func (c *Client) GetAlertLabelKeys(input *GetAlertLabelKeysInput) (*GetAlertLabelKeysOutput, error) {
 	if input == nil {
@@ -99,6 +104,7 @@ type GetAlertLabelValuesOutput struct {
 // account. Pages in fixed steps of AlertLabelPageSize, and caches the first page of an
 // unfiltered listing for two minutes, so a value of a freshly created alert can take that
 // long to appear. Setting Query bypasses the cache (verified against the API on 16.09.2026).
+// Like GetAlertLabelKeys it returns an empty list to callers with the guest or stakeholder role.
 // https://docs.ilert.com/developer-docs/rest-api/api-reference/alerts
 func (c *Client) GetAlertLabelValues(input *GetAlertLabelValuesInput) (*GetAlertLabelValuesOutput, error) {
 	if input == nil {
@@ -275,6 +281,9 @@ func (c *Client) getLabelKeys(route string, startIndex *int, maxResults *int, qu
 	}
 
 	labelKeys := make([]*LabelKey, 0)
+	if isEmptyJSONObject(resp.Body()) {
+		return labelKeys, nil
+	}
 	err = json.Unmarshal(resp.Body(), &labelKeys)
 	if err != nil {
 		return nil, err
@@ -299,12 +308,22 @@ func (c *Client) getLabelValues(route string, labelKey *string, startIndex *int,
 	}
 
 	labelValues := make([]*LabelValue, 0)
+	if isEmptyJSONObject(resp.Body()) {
+		return labelValues, nil
+	}
 	err = json.Unmarshal(resp.Body(), &labelValues)
 	if err != nil {
 		return nil, err
 	}
 
 	return labelValues, nil
+}
+
+// isEmptyJSONObject reports whether a label response is an empty object. The alert label
+// endpoints answer callers with the guest or stakeholder role with "{}" where every other
+// label endpoint answers with an empty list, so decoding it as a list would fail.
+func isEmptyJSONObject(body []byte) bool {
+	return bytes.Equal(bytes.TrimSpace(body), []byte("{}"))
 }
 
 // labelQuery builds the query of a label endpoint. Every parameter is only sent when the

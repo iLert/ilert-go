@@ -275,3 +275,39 @@ func TestLabelKeysAcceptNilInput(t *testing.T) {
 		})
 	}
 }
+
+// The alert label endpoints answer guests and stakeholders with an empty object rather than
+// an empty list. That has to read as no labels, while any other object still fails to decode.
+func TestAlertLabelsReadEmptyObjectAsNoLabels(t *testing.T) {
+	emptyObject := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{}`))
+	}))
+	defer emptyObject.Close()
+
+	c := newTestClient(t, emptyObject.URL)
+	keys, err := c.GetAlertLabelKeys(nil)
+	if err != nil {
+		t.Fatalf("GetAlertLabelKeys() error = %v, want none", err)
+	}
+	if keys.LabelKeys == nil || len(keys.LabelKeys) != 0 {
+		t.Errorf("label keys = %v, want an empty list", keys.LabelKeys)
+	}
+	values, err := c.GetAlertLabelValues(&GetAlertLabelValuesInput{LabelKey: String("environment")})
+	if err != nil {
+		t.Fatalf("GetAlertLabelValues() error = %v, want none", err)
+	}
+	if values.LabelValues == nil || len(values.LabelValues) != 0 {
+		t.Errorf("label values = %v, want an empty list", values.LabelValues)
+	}
+
+	otherObject := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"key":"environment"}`))
+	}))
+	defer otherObject.Close()
+
+	if _, err := newTestClient(t, otherObject.URL).GetAlertLabelKeys(nil); err == nil {
+		t.Error("GetAlertLabelKeys() on an object that is not empty = nil error, want a decoding error")
+	}
+}
