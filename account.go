@@ -16,7 +16,8 @@ type Account struct {
 	// default time zone of the account as an IANA time zone name, e.g. "Europe/Berlin"
 	Timezone string `json:"timezone,omitempty"`
 
-	// default language of the account as an ISO 639-1 code, either "en" or "de"
+	// default language of the account as an ISO 639-1 code
+	// possible values: "en", "de"
 	Language string `json:"language,omitempty"`
 
 	// default country of the account as an ISO 3166-1 alpha-2 code, e.g. "DE"
@@ -55,6 +56,21 @@ type AccountSubscription struct {
 	// lifecycle state of the subscription
 	// possible values: "TRIAL", "FREE", "ACTIVE", "CANCELED", "UNPAID", "INCOMPLETE", "INCOMPLETE_EXPIRED", "PAST_DUE"
 	Status string `json:"status,omitempty"`
+}
+
+// AccountLanguage defines the default languages of an account
+var AccountLanguage = struct {
+	English string
+	German  string
+}{
+	English: "en",
+	German:  "de",
+}
+
+// AccountLanguageAll defines the account language list
+var AccountLanguageAll = []string{
+	AccountLanguage.English,
+	AccountLanguage.German,
 }
 
 // AiMode defines where AI features of an account are allowed to run

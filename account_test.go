@@ -26,6 +26,9 @@ func TestGetCurrentAccount(t *testing.T) {
 	if account.ID != "acc-1" || account.OrganizationName != "ilert" {
 		t.Errorf("account = %+v, want the ilert account acc-1", account)
 	}
+	if account.Language != AccountLanguage.English {
+		t.Errorf("language = %q, want en", account.Language)
+	}
 	if account.AiMode != AiMode.EU {
 		t.Errorf("aiMode = %q, want EU", account.AiMode)
 	}
