@@ -20,7 +20,12 @@ type Service struct {
 	Teams               []TeamShort    `json:"teams"`
 	Subscribed          bool           `json:"subscribed,omitempty"`
 	Uptime              *ServiceUptime `json:"uptime,omitempty"`
-	Incidents           []Incident     `json:"incidents,omitempty"`
+
+	// the open status updates of the service, at most 10 created within the last 90 days, only
+	// returned when "incidents" is requested through Include. A status update shows up from the
+	// minute after it was created. The API kept the name of the include and the field from
+	// before status updates were split from incidents.
+	StatusUpdates []StatusUpdate `json:"incidents,omitempty"`
 
 	// free-form key-value labels assigned to this service. A nil map disappears from the
 	// payload and leaves the labels untouched, a non-nil empty map marshals to
@@ -145,26 +150,26 @@ var ServiceStatusAll = []string{
 
 // ServiceInclude defines included services
 var ServiceInclude = struct {
-	Subscribed   string
-	Uptime       string
-	Incidents    string
-	Links        string
-	Dependencies string
-	PublicStatus string
+	Subscribed    string
+	Uptime        string
+	StatusUpdates string
+	Links         string
+	Dependencies  string
+	PublicStatus  string
 }{
-	Subscribed:   "subscribed",
-	Uptime:       "uptime",
-	Incidents:    "incidents",
-	Links:        "links",
-	Dependencies: "dependencies",
-	PublicStatus: "publicStatus",
+	Subscribed:    "subscribed",
+	Uptime:        "uptime",
+	StatusUpdates: "incidents",
+	Links:         "links",
+	Dependencies:  "dependencies",
+	PublicStatus:  "publicStatus",
 }
 
 // ServiceIncludeAll defines included services list
 var ServiceIncludeAll = []string{
 	ServiceInclude.Subscribed,
 	ServiceInclude.Uptime,
-	ServiceInclude.Incidents,
+	ServiceInclude.StatusUpdates,
 	ServiceInclude.Links,
 	ServiceInclude.Dependencies,
 	ServiceInclude.PublicStatus,
