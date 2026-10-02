@@ -26,6 +26,10 @@ type StatusUpdate struct {
 	Subscribed       bool               `json:"subscribed,omitempty"`
 	AffectedTeams    []TeamShort        `json:"affectedTeams,omitempty"`
 
+	// the operational incident the status update was published for through
+	// CreateIncidentStatusUpdate, read-only
+	IncidentID int64 `json:"incidentId,omitempty"`
+
 	// the messages published on the status update, newest first. Only part of a response when
 	// StatusUpdateInclude.History is requested from GetStatusUpdate.
 	History []StatusUpdateHistoryEntry `json:"history,omitempty"`
@@ -43,6 +47,10 @@ type StatusUpdateHistoryEntry struct {
 
 	SendNotification bool   `json:"sendNotification,omitempty"`
 	CreatedAt        string `json:"createdAt,omitempty"` // Date time string in ISO format
+
+	// the user who last edited the message, and when
+	Updater   *User  `json:"updater,omitempty"`
+	UpdatedAt string `json:"updatedAt,omitempty"` // Date time string in ISO format
 }
 
 // AffectedServices defines affected services
@@ -66,7 +74,8 @@ type UIMenuItem struct {
 
 // Affected defines the status pages and subscribers a status update or an incident would notify
 type Affected struct {
-	// one entry per status page that would show it
+	// one entry per status page that would show it. GetStatusUpdateAffected only fills it, and the
+	// subscriber counts, when the status update has SendNotification set
 	StatusPagesInfo    []UIMenuItem `json:"statusPagesInfo"`
 	PrivateStatusPages int64        `json:"privateStatusPages"`
 	PublicStatusPages  int64        `json:"publicStatusPages"`
@@ -229,13 +238,9 @@ func (c *Client) GetStatusUpdates(input *GetStatusUpdatesInput) (*GetStatusUpdat
 	q := url.Values{}
 	if input.StartIndex != nil {
 		q.Add("start-index", strconv.Itoa(*input.StartIndex))
-	} else {
-		q.Add("start-index", "0")
 	}
 	if input.MaxResults != nil {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
-	} else {
-		q.Add("max-results", "10")
 	}
 
 	for _, include := range input.Include {
@@ -387,7 +392,9 @@ type GetStatusUpdateAffectedOutput struct {
 }
 
 // GetStatusUpdateAffected forecasts the subscribers and status pages that creating or updating the
-// status update would notify. https://docs.ilert.com/developer-docs/rest-api/api-reference/status-updates
+// status update would notify. Set SendNotification: without it the API only counts the status
+// pages, and StatusPagesInfo and both subscriber counts stay empty.
+// https://docs.ilert.com/developer-docs/rest-api/api-reference/status-updates
 func (c *Client) GetStatusUpdateAffected(input *GetStatusUpdateAffectedInput) (*GetStatusUpdateAffectedOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -470,8 +477,10 @@ type UpdateStatusUpdateOutput struct {
 	StatusUpdate *StatusUpdate
 }
 
-// UpdateStatusUpdate updates the specific status update. The update is appended to the history of
-// the status update and publishes notifications to subscribers. https://docs.ilert.com/developer-docs/rest-api/api-reference/status-updates
+// UpdateStatusUpdate updates the specific status update. Changing the status or the message appends
+// an entry to its history, which notifies the subscribers when SendNotification is set; other
+// changes do neither. SendNotification is always sent, so an update built from a new StatusUpdate
+// notifies nobody unless it sets it. https://docs.ilert.com/developer-docs/rest-api/api-reference/status-updates
 func (c *Client) UpdateStatusUpdate(input *UpdateStatusUpdateInput) (*UpdateStatusUpdateOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -536,9 +545,11 @@ type GetStatusUpdateLogEntriesOutput struct {
 	LogEntries []*StatusUpdateLogEntry
 }
 
-// GetStatusUpdateLogEntries lists the timeline of a status update, oldest first. The endpoint throttles bursts of
-// requests and answers them with a 403 "authentication failed" for about a minute, so a 403 here does
-// not necessarily mean the token is wrong. https://api.ilert.com/api/beta/openapi.json
+// GetStatusUpdateLogEntries lists the timeline of a status update, oldest first. Every call of an API token counts
+// towards its limit of 120 calls per minute. Once the token exceeds it, the timeline endpoints
+// answer with a 429 and then with a 403 "authentication failed" for about a minute, even after the
+// rest of the API accepts the token again, so a 403 here does not necessarily mean the token is
+// wrong. https://api.ilert.com/api/beta/openapi.json
 func (c *Client) GetStatusUpdateLogEntries(input *GetStatusUpdateLogEntriesInput) (*GetStatusUpdateLogEntriesOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")

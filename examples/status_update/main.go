@@ -67,7 +67,8 @@ func main() {
 		log.Printf("Subscriber: %+v\n", *subscriber)
 	}
 
-	// the update is appended to the history and notifies the subscribers
+	// changing the status or the message appends to the history, and notifies the subscribers
+	// because the status update was created with SendNotification
 	resolved := result.StatusUpdate
 	resolved.Status = ilert.StatusUpdateStatus.Resolved
 	resolved.Message = "The issue has been resolved."

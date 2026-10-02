@@ -23,11 +23,13 @@ func TestGetStatusUpdatesQueryParams(t *testing.T) {
 	defer srv.Close()
 
 	result, err := newTestClient(t, srv.URL).GetStatusUpdates(&GetStatusUpdatesInput{
-		Include:  []*string{String(StatusUpdateInclude.Subscribed)},
-		States:   []*string{String(StatusUpdateStatus.Investigating), String(StatusUpdateStatus.Monitoring)},
-		Services: []*int64{Int64(7)},
-		From:     String("2026-09-01T00:00:00Z"),
-		Until:    String("2026-09-30T00:00:00Z"),
+		StartIndex: Int(5),
+		MaxResults: Int(25),
+		Include:    []*string{String(StatusUpdateInclude.Subscribed)},
+		States:     []*string{String(StatusUpdateStatus.Investigating), String(StatusUpdateStatus.Monitoring)},
+		Services:   []*int64{Int64(7)},
+		From:       String("2026-09-01T00:00:00Z"),
+		Until:      String("2026-09-30T00:00:00Z"),
 	})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -42,8 +44,8 @@ func TestGetStatusUpdatesQueryParams(t *testing.T) {
 		t.Errorf("state is present, the API only reads states")
 	}
 	for key, want := range map[string]string{
-		"start-index": "0",
-		"max-results": "10",
+		"start-index": "5",
+		"max-results": "25",
 		"include":     "subscribed",
 		"services":    "7",
 		"from":        "2026-09-01T00:00:00Z",
@@ -84,7 +86,7 @@ func TestCreateStatusUpdateAcceptsCreated(t *testing.T) {
 }
 
 // The API answers the forecast with one entry per status page, and with an empty list when no
-// status page would show the status update.
+// status page would show the status update or the forecast is made without SendNotification.
 func TestGetStatusUpdateAffectedDecodesStatusPages(t *testing.T) {
 	var method, path string
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -114,7 +116,7 @@ func TestGetStatusUpdateDecodesHistoryAndETag(t *testing.T) {
 		query = r.URL.Query()
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("ETag", `"abc-def"`)
-		_, _ = w.Write([]byte(`{"id":4,"status":"RESOLVED","history":[{"id":"h1","content":"fixed","incidentStatus":"RESOLVED","creator":{"id":9,"firstName":"Ada"},"createdAt":"2026-09-30T10:00:00Z"}]}`))
+		_, _ = w.Write([]byte(`{"id":4,"status":"RESOLVED","incidentId":8,"history":[{"id":"h1","content":"fixed","incidentStatus":"RESOLVED","creator":{"id":9,"firstName":"Ada"},"updater":{"id":10},"createdAt":"2026-09-30T10:00:00Z","updatedAt":"2026-09-30T10:05:00Z"}]}`))
 	}))
 	defer srv.Close()
 
@@ -134,6 +136,75 @@ func TestGetStatusUpdateDecodesHistoryAndETag(t *testing.T) {
 	history := result.StatusUpdate.History
 	if len(history) != 1 || history[0].Status != StatusUpdateStatus.Resolved || history[0].Creator == nil || history[0].Creator.ID != 9 {
 		t.Errorf("history = %+v, want one RESOLVED entry by user 9", history)
+	}
+	if len(history) == 1 && (history[0].Updater == nil || history[0].Updater.ID != 10 || history[0].UpdatedAt == "") {
+		t.Errorf("history[0] = %+v, want it edited by user 10 with an update date", history[0])
+	}
+	if result.StatusUpdate.IncidentID != 8 {
+		t.Errorf("incident id = %d, want 8", result.StatusUpdate.IncidentID)
+	}
+}
+
+// Unset paging parameters are left to the API's defaults instead of being sent.
+func TestGetStatusUpdatesSendsNoUnsetPaging(t *testing.T) {
+	var query url.Values
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		query = r.URL.Query()
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`[]`))
+	}))
+	defer srv.Close()
+
+	if _, err := newTestClient(t, srv.URL).GetStatusUpdates(nil); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	for _, key := range []string{"start-index", "max-results", "include", "states", "services", "from", "until"} {
+		if _, ok := query[key]; ok {
+			t.Errorf("query %s is present, want it absent", key)
+		}
+	}
+}
+
+// The API renders the labels of a service nested in a status update as an entry list rather than
+// an object, which failed every operation returning a status update once one of its services had labels.
+func TestGetStatusUpdateWithLabelledAffectedService(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"id":4,"status":"INVESTIGATING","affectedServices":[{"impact":"DEGRADED","service":{"id":7,"name":"checkout","labels":{"entry":[{"key":"team","value":"payments"},{"key":"env","value":"prod"}]}}}]}`))
+	}))
+	defer srv.Close()
+
+	result, err := newTestClient(t, srv.URL).GetStatusUpdate(&GetStatusUpdateInput{StatusUpdateID: Int64(4)})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	service := result.StatusUpdate.AffectedServices[0].Service
+	if service.ID != 7 || service.Name != "checkout" || service.Labels == nil {
+		t.Fatalf("service = %+v, want service 7 with its labels", service)
+	}
+	if labels := *service.Labels; len(labels) != 2 || labels["team"] != "payments" || labels["env"] != "prod" {
+		t.Errorf("labels = %v, want team=payments and env=prod", labels)
+	}
+}
+
+func TestGetStatusUpdateSubscribers(t *testing.T) {
+	var path string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		path = r.URL.Path
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`[{"id":9,"name":"Ada","type":"USER"},{"id":12,"name":"payments","type":"TEAM"}]`))
+	}))
+	defer srv.Close()
+
+	result, err := newTestClient(t, srv.URL).GetStatusUpdateSubscribers(&GetStatusUpdateSubscribersInput{StatusUpdateID: Int64(4)})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if path != "/api/status-updates/4/private-subscribers" {
+		t.Errorf("path = %q, want /api/status-updates/4/private-subscribers", path)
+	}
+	if len(result.Subscribers) != 2 || result.Subscribers[1].Type != SubscriberType.Team {
+		t.Errorf("subscribers = %+v, want a user and a team", result.Subscribers)
 	}
 }
 
