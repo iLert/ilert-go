@@ -34,7 +34,8 @@ type Incident struct {
 	// possible values: "DECLARED", "INVESTIGATING", "IDENTIFIED", "MONITORING", "RESOLVED"
 	Status string `json:"status,omitempty"`
 
-	// optional severity in range 1..5
+	// required when creating an incident, in range 1..5. The published spec documents it as
+	// optional, but the API rejects a create without it.
 	Severity int `json:"severity,omitempty"`
 
 	DeclaredAt string `json:"declaredAt,omitempty"` // Date time string in ISO format
@@ -276,8 +277,9 @@ type CreateIncidentOutput struct {
 	Incident *Incident
 }
 
-// CreateIncident creates a new incident. Depending on the affected services this publishes
-// notifications to subscribers, GetIncidentAffected forecasts them. https://docs.ilert.com/developer-docs/rest-api/api-reference/incidents
+// CreateIncident creates a new incident, a title and a severity are required. Depending on the
+// affected services this publishes notifications to subscribers, GetIncidentAffected forecasts
+// them. https://docs.ilert.com/developer-docs/rest-api/api-reference/incidents
 func (c *Client) CreateIncident(input *CreateIncidentInput) (*CreateIncidentOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
@@ -464,8 +466,10 @@ type UpdateIncidentOutput struct {
 }
 
 // UpdateIncident updates the specific incident. Only the title, summary, status, severity and
-// affected services are written, and the API keeps whichever of them is left empty, so an update
-// does not have to carry the whole incident. Status updates are published separately through
+// affected services are written. The SDK leaves out an empty title, summary, status or severity,
+// which the API keeps as they are: an update does not have to carry the whole incident, but it
+// cannot clear the summary either. Affected services left nil are kept too, see
+// Incident.AffectedServices. Status updates are published separately through
 // CreateIncidentStatusUpdate. https://docs.ilert.com/developer-docs/rest-api/api-reference/incidents
 func (c *Client) UpdateIncident(input *UpdateIncidentInput) (*UpdateIncidentOutput, error) {
 	if input == nil {
@@ -686,9 +690,11 @@ type GetIncidentLogEntriesOutput struct {
 	LogEntries []*IncidentLogEntry
 }
 
-// GetIncidentLogEntries lists the timeline of an incident, newest first. The endpoint throttles bursts of
-// requests and answers them with a 403 "authentication failed" for about a minute, so a 403 here does
-// not necessarily mean the token is wrong. https://api.ilert.com/api/beta/openapi.json
+// GetIncidentLogEntries lists the timeline of an incident, newest first. Every call of an API token counts
+// towards its limit of 120 calls per minute. Once the token exceeds it, the timeline endpoints
+// answer with a 429 and then with a 403 "authentication failed" for about a minute, even after the
+// rest of the API accepts the token again, so a 403 here does not necessarily mean the token is
+// wrong. https://api.ilert.com/api/beta/openapi.json
 func (c *Client) GetIncidentLogEntries(input *GetIncidentLogEntriesInput) (*GetIncidentLogEntriesOutput, error) {
 	if input == nil {
 		return nil, errors.New("input is required")
