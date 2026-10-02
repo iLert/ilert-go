@@ -299,3 +299,24 @@ func TestGetIncidentLogEntriesRequiresBothEnds(t *testing.T) {
 		t.Fatal("expected an error for a window without a start")
 	}
 }
+
+func TestGetIncidentSubscribers(t *testing.T) {
+	var path string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		path = r.URL.Path
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`[{"id":9,"name":"Ada","type":"USER"}]`))
+	}))
+	defer srv.Close()
+
+	result, err := newTestClient(t, srv.URL).GetIncidentSubscribers(&GetIncidentSubscribersInput{IncidentID: Int64(8)})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if path != "/api/incidents/8/private-subscribers" {
+		t.Errorf("path = %q, want /api/incidents/8/private-subscribers", path)
+	}
+	if len(result.Subscribers) != 1 || result.Subscribers[0].ID != 9 || result.Subscribers[0].Type != SubscriberType.User {
+		t.Errorf("subscribers = %+v, want user 9", result.Subscribers)
+	}
+}

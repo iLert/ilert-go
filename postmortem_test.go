@@ -155,3 +155,37 @@ func TestUpdateAndDeleteIncidentPostmortem(t *testing.T) {
 		t.Errorf("requests = %v, want %v", requests, want)
 	}
 }
+
+func TestGetIncidentPostmortems(t *testing.T) {
+	var requests []string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests = append(requests, r.Method+" "+r.URL.Path)
+		w.Header().Set("Content-Type", "application/json")
+		if r.URL.Path == "/api/incidents/8/postmortems" {
+			_, _ = w.Write([]byte(`[{"id":6,"status":"LINKED","linkUrl":"https://wiki.example.com/pm","visibility":"PRIVATE","creator":{"id":9},"createdAt":"2026-10-01T10:00:00Z"}]`))
+			return
+		}
+		_, _ = w.Write([]byte(`{"id":6,"status":"CREATED","markdownUrl":"https://example.com/pm.md","visibility":"PUBLIC"}`))
+	}))
+	defer srv.Close()
+
+	client := newTestClient(t, srv.URL)
+	listed, err := client.GetIncidentPostmortems(&GetIncidentPostmortemsInput{IncidentID: Int64(8)})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(listed.Postmortems) != 1 || listed.Postmortems[0].Creator == nil || listed.Postmortems[0].Creator.ID != 9 || listed.Postmortems[0].CreatedAt == "" {
+		t.Errorf("postmortems = %+v, want one created by user 9", listed.Postmortems)
+	}
+	single, err := client.GetIncidentPostmortem(&GetIncidentPostmortemInput{IncidentID: Int64(8), PostmortemID: Int64(6)})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if single.Postmortem.Status != PostmortemStatus.Created || single.Postmortem.MarkdownURL == "" {
+		t.Errorf("postmortem = %+v, want a CREATED one with its document", single.Postmortem)
+	}
+	want := []string{"GET /api/incidents/8/postmortems", "GET /api/incidents/8/postmortems/6"}
+	if len(requests) != 2 || requests[0] != want[0] || requests[1] != want[1] {
+		t.Errorf("requests = %v, want %v", requests, want)
+	}
+}
