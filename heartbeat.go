@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// HeartbeatMethods defines uptime monitor regions
+// HeartbeatMethods defines heartbeat methods
 var HeartbeatMethods = struct {
 	HEAD string
 	GET  string

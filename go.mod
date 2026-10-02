@@ -1,4 +1,4 @@
-module github.com/iLert/ilert-go/v3
+module github.com/iLert/ilert-go/v4
 
 go 1.20
 
