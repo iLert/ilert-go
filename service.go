@@ -20,7 +20,12 @@ type Service struct {
 	Teams               []TeamShort    `json:"teams"`
 	Subscribed          bool           `json:"subscribed,omitempty"`
 	Uptime              *ServiceUptime `json:"uptime,omitempty"`
-	Incidents           []Incident     `json:"incidents,omitempty"`
+
+	// the open status updates of the service, at most 10 created within the last 90 days, only
+	// returned when "incidents" is requested through Include. A status update shows up from the
+	// minute after it was created. The API kept the name of the include and the field from
+	// before status updates were split from incidents.
+	StatusUpdates []StatusUpdate `json:"incidents,omitempty"`
 
 	// free-form key-value labels assigned to this service. A nil map disappears from the
 	// payload and leaves the labels untouched, a non-nil empty map marshals to
@@ -46,6 +51,64 @@ type Service struct {
 
 	ManagedBy *ManagedBy `json:"managedBy,omitempty"`
 	CreatedBy *ManagedBy `json:"createdBy,omitempty"`
+}
+
+// UnmarshalJSON tolerates the labels being returned as either a plain object or the
+// {"entry":[{"key":..,"value":..}]} list the API renders for a service nested in a status
+// update or an automation rule. Without it the operations returning either fail to decode
+// once one of their services has labels.
+func (s *Service) UnmarshalJSON(data []byte) error {
+	type alias Service
+	aux := struct {
+		Labels json.RawMessage `json:"labels,omitempty"`
+		*alias
+	}{alias: (*alias)(s)}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	if len(aux.Labels) == 0 {
+		return nil
+	}
+	labels, err := flexLabels(aux.Labels)
+	if err != nil {
+		return err
+	}
+	s.Labels = labels
+	return nil
+}
+
+// flexLabels reads labels sent as a plain object or as an entry list of key and value pairs
+func flexLabels(data json.RawMessage) (*map[string]string, error) {
+	if string(data) == "null" {
+		return nil, nil
+	}
+	plain := map[string]string{}
+	if err := json.Unmarshal(data, &plain); err == nil {
+		return &plain, nil
+	}
+	type entry struct {
+		Key   string `json:"key"`
+		Value string `json:"value"`
+	}
+	listed := struct {
+		Entry json.RawMessage `json:"entry"`
+	}{}
+	if err := json.Unmarshal(data, &listed); err != nil {
+		return nil, err
+	}
+	entries := []entry{}
+	if err := json.Unmarshal(listed.Entry, &entries); err != nil {
+		single := entry{}
+		if err := json.Unmarshal(listed.Entry, &single); err != nil {
+			return nil, fmt.Errorf("labels are neither an object nor an entry list: %s", string(data))
+		}
+		entries = append(entries, single)
+	}
+	labels := make(map[string]string, len(entries))
+	for _, e := range entries {
+		labels[e.Key] = e.Value
+	}
+	return &labels, nil
 }
 
 // ServiceDependencyType defines the strength of a service dependency
@@ -145,26 +208,26 @@ var ServiceStatusAll = []string{
 
 // ServiceInclude defines included services
 var ServiceInclude = struct {
-	Subscribed   string
-	Uptime       string
-	Incidents    string
-	Links        string
-	Dependencies string
-	PublicStatus string
+	Subscribed    string
+	Uptime        string
+	StatusUpdates string
+	Links         string
+	Dependencies  string
+	PublicStatus  string
 }{
-	Subscribed:   "subscribed",
-	Uptime:       "uptime",
-	Incidents:    "incidents",
-	Links:        "links",
-	Dependencies: "dependencies",
-	PublicStatus: "publicStatus",
+	Subscribed:    "subscribed",
+	Uptime:        "uptime",
+	StatusUpdates: "incidents",
+	Links:         "links",
+	Dependencies:  "dependencies",
+	PublicStatus:  "publicStatus",
 }
 
 // ServiceIncludeAll defines included services list
 var ServiceIncludeAll = []string{
 	ServiceInclude.Subscribed,
 	ServiceInclude.Uptime,
-	ServiceInclude.Incidents,
+	ServiceInclude.StatusUpdates,
 	ServiceInclude.Links,
 	ServiceInclude.Dependencies,
 	ServiceInclude.PublicStatus,

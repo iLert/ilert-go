@@ -1,6 +1,7 @@
 package ilert
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -105,5 +106,33 @@ func TestPublishServiceStatusRequiredInputs(t *testing.T) {
 	}
 	if _, err := c.PublishServiceStatus(&PublishServiceStatusInput{ServiceID: Int64(3)}); err == nil {
 		t.Error("PublishServiceStatus without a status = nil error, want an error")
+	}
+}
+
+// Labels come back as a plain object from the service endpoints and as an entry list when the
+// service is nested in a status update or an automation rule; both have to decode to the same map.
+func TestServiceLabelsDecodeInBothShapes(t *testing.T) {
+	for name, body := range map[string]string{
+		"object":       `{"id":1,"labels":{"team":"payments"}}`,
+		"entry list":   `{"id":1,"labels":{"entry":[{"key":"team","value":"payments"}]}}`,
+		"entry object": `{"id":1,"labels":{"entry":{"key":"team","value":"payments"}}}`,
+	} {
+		service := Service{}
+		if err := json.Unmarshal([]byte(body), &service); err != nil {
+			t.Errorf("%s: unexpected error: %v", name, err)
+			continue
+		}
+		if service.ID != 1 || service.Labels == nil || (*service.Labels)["team"] != "payments" || len(*service.Labels) != 1 {
+			t.Errorf("%s: service = %+v, want id 1 with team=payments", name, service)
+		}
+	}
+	for name, body := range map[string]string{"absent": `{"id":1}`, "null": `{"id":1,"labels":null}`} {
+		service := Service{}
+		if err := json.Unmarshal([]byte(body), &service); err != nil || service.Labels != nil {
+			t.Errorf("%s: labels = %v, err %v, want nil and no error", name, service.Labels, err)
+		}
+	}
+	if err := json.Unmarshal([]byte(`{"id":1,"labels":["team"]}`), &Service{}); err == nil {
+		t.Error("labels as a list decoded without an error, want one")
 	}
 }
