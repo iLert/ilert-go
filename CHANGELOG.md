@@ -1,6 +1,6 @@
 # Changelog
 
-## 02.10.2026, Version 4.0.0 - incidents split into operational incidents and status updates
+## 07.10.2026, Version 4.0.0 - incidents split into operational incidents and status updates
 
 - **Breaking:** the type called `Incident` up to 3.x is renamed to `StatusUpdate` and moves from `/api/incidents` to `/api/status-updates`. The API now serves two different entities on `/api/incidents` depending on the API contract version of the token: version 1 still gets these status updates, version 2 and later get operational incidents. A 3.x client with a newer token therefore decoded operational incidents into the status update struct. `/api/status-updates` serves status updates to every token, so the renamed operations work regardless of the contract version [#83](https://github.com/iLert/ilert-go/pull/83)
 - the renames, each with its input and output types, and `IncidentID` becomes `StatusUpdateID` on the inputs [#83](https://github.com/iLert/ilert-go/pull/83):
