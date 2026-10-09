@@ -9,6 +9,9 @@ import (
 )
 
 // SupportHour definition https://api.ilert.com/api-docs/#tag/SupportHours
+//
+// A write has to carry the weekly coverage in SupportDays or SupportWindows, the API rejects a
+// support hour with neither with a 400.
 type SupportHour struct {
 	ID          int64                  `json:"id"`
 	Name        string                 `json:"name"`
@@ -16,6 +19,31 @@ type SupportHour struct {
 	Timezone    string                 `json:"timezone,omitempty"`
 	SupportDays *SupportDays           `json:"supportDays"`
 	Exceptions  []SupportHourException `json:"exceptions,omitempty"`
+
+	// the complete weekly coverage, see SupportWindow. Returned whenever SupportDays, one window
+	// per day, cannot describe the coverage, and nil otherwise. SupportDays is lossy then: each day
+	// reports its first window, and a window running to midnight ends at 23:59. Sending back
+	// exactly the SupportDays that was read keeps the stored coverage, a different one is rejected
+	// with a 400.
+	//
+	// When sent it is the whole coverage: a nil pointer disappears from the payload, a pointer to an
+	// empty slice marshals to "supportWindows":[] and clears the coverage. Leave SupportDays nil when
+	// sending it: the API rejects the two with a 400 when they describe different coverage, which a
+	// SupportDays read before changing the windows does. A write takes at most 84 windows.
+	SupportWindows *[]SupportWindow `json:"supportWindows,omitempty"`
+}
+
+// SupportWindow is one window of the weekly coverage of a support hour, covering [From, To) in
+// the timezone of the support hour. A To at or before From wraps past Sunday midnight, so FRIDAY
+// 17:00 to MONDAY 09:00 is one window, and From equal to To is the whole week. Times are whole
+// minutes (HH:mm). The API merges overlapping and touching windows and returns them in ascending
+// order of From, the whole week as MONDAY 00:00 to MONDAY 00:00. Same shape as LayerRestriction.
+//
+// Only a support hour of its own has windows: the inline SupportHours of an alert source stays one
+// window per day, and the API rejects windows there.
+type SupportWindow struct {
+	From *TimeOfWeek `json:"from"`
+	To   *TimeOfWeek `json:"to"`
 }
 
 // SupportHourException definition
