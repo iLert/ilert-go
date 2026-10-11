@@ -1,6 +1,6 @@
 # Changelog
 
-## 09.10.2026, Version 4.1.0
+## 11.10.2026, Version 4.1.0
 
 - add `SupportHour.SupportWindows` and the `SupportWindow` type: the complete weekly coverage of a support hour as a list of windows, each covering `[From, To)`, which can say what one window per day cannot: several windows a day, windows across midnight or the weekend, and the whole week. A `To` at or before `From` wraps past Sunday midnight, and a `From` equal to `To` is the whole week. The API returns the windows merged and in ascending order of `From`, and the whole week as `MONDAY 00:00` to `MONDAY 00:00` [#84](https://github.com/iLert/ilert-go/pull/84)
 - `SupportWindows` is a pointer to a slice, so a write can send `"supportWindows":[]`, which clears the weekly coverage, while nil leaves the field out. When it is sent it is the whole coverage. Leave `SupportDays` nil next to it: the API rejects the two with a 400 when they describe different coverage, which is what a `SupportDays` read before changing the windows does. A write takes at most 84 windows, in whole minutes [#84](https://github.com/iLert/ilert-go/pull/84)
