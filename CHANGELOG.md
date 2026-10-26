@@ -1,5 +1,11 @@
 # Changelog
 
+## 26.10.2026, Version 4.2.0
+
+- add the `DEFINE_BRANCHES` call flow node as `CallFlowNodeType.DefineBranches`, along with `CallFlowNodeMetadata.Definitions` and the `CallFlowNodeMetadataDefinition` type. Each definition names a branch and holds the conditions that select it, and the node's branches match a definition with the condition `context.matchingBranchName == '<branch name>'`. The API takes 1 to 8 definitions with unique branch names [#85](https://github.com/iLert/ilert-go/pull/85)
+- add the `ivy` AI voice model as `CallFlowNodeMetadataAIVoiceModel.Ivy`. The API accepts it on audio message, IVR menu, PIN code, voicemail and agentic nodes [#85](https://github.com/iLert/ilert-go/pull/85)
+- add the `GRID` status page layout as `StatusPageLayout.Grid`. It is the only layout the API allows on a status page with more than 100 services [#85](https://github.com/iLert/ilert-go/pull/85)
+
 ## 11.10.2026, Version 4.1.0
 
 - add `SupportHour.SupportWindows` and the `SupportWindow` type: the complete weekly coverage of a support hour as a list of windows, each covering `[From, To)`, which can say what one window per day cannot: several windows a day, windows across midnight or the weekend, and the whole week. A `To` at or before `From` wraps past Sunday midnight, and a `From` equal to `To` is the whole week. The API returns the windows merged and in ascending order of `From`, and the whole week as `MONDAY 00:00` to `MONDAY 00:00` [#84](https://github.com/iLert/ilert-go/pull/84)
