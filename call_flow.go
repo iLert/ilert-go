@@ -78,6 +78,12 @@ type CallFlowNodeMetadata struct {
 	Gathers              []CallFlowNodeMetadataGather     `json:"gathers,omitempty"`              // AGENTIC
 	Enrichment           *CallFlowNodeMetadataEnrichment  `json:"enrichment,omitempty"`           // AGENTIC
 	DisableTranscription bool                             `json:"disableTranscription,omitempty"` // VOICEMAIL
+	Definitions          []CallFlowNodeMetadataDefinition `json:"definitions,omitempty"`          // DEFINE_BRANCHES
+}
+
+type CallFlowNodeMetadataDefinition struct {
+	BranchName string `json:"branchName"`
+	Conditions string `json:"conditions"`
 }
 
 type CallFlowNodeMetadataCode struct {
@@ -142,6 +148,7 @@ var CallFlowNodeType = struct {
 	CreateAlert       string
 	BlockNumbers      string
 	Agentic           string
+	DefineBranches    string
 }{
 	Root:              "ROOT",
 	IVRMenu:           "IVR_MENU",
@@ -155,6 +162,7 @@ var CallFlowNodeType = struct {
 	CreateAlert:       "CREATE_ALERT",
 	BlockNumbers:      "BLOCK_NUMBERS",
 	Agentic:           "AGENTIC",
+	DefineBranches:    "DEFINE_BRANCHES",
 }
 
 var CallFlowNodeTypeAll = []string{
@@ -170,6 +178,7 @@ var CallFlowNodeTypeAll = []string{
 	CallFlowNodeType.CreateAlert,
 	CallFlowNodeType.BlockNumbers,
 	CallFlowNodeType.Agentic,
+	CallFlowNodeType.DefineBranches,
 }
 
 var CallFlowBranchType = struct {
@@ -201,6 +210,7 @@ var CallFlowNodeMetadataAIVoiceModel = struct {
 	Alfred   string
 	Ellen    string
 	Barbara  string
+	Ivy      string
 }{
 	Emma:     "emma",
 	Liam:     "liam",
@@ -213,6 +223,7 @@ var CallFlowNodeMetadataAIVoiceModel = struct {
 	Alfred:   "alfred",
 	Ellen:    "ellen",
 	Barbara:  "barbara",
+	Ivy:      "ivy",
 }
 
 var CallFlowNodeMetadataAIVoiceModelAll = []string{
@@ -227,6 +238,7 @@ var CallFlowNodeMetadataAIVoiceModelAll = []string{
 	CallFlowNodeMetadataAIVoiceModel.Alfred,
 	CallFlowNodeMetadataAIVoiceModel.Ellen,
 	CallFlowNodeMetadataAIVoiceModel.Barbara,
+	CallFlowNodeMetadataAIVoiceModel.Ivy,
 }
 
 // CallFlowNodeMetadataLanguage defines the language

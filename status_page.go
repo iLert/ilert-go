@@ -101,15 +101,18 @@ var StatusPageElementTypeAll = []string{
 var StatusPageLayout = struct {
 	SingleColumn string
 	Responsive   string
+	Grid         string
 }{
 	SingleColumn: "SINGLE_COLUMN",
 	Responsive:   "RESPONSIVE",
+	Grid:         "GRID",
 }
 
 // StatusPageLayoutAll defines all status page layouts
 var StatusPageLayoutAll = []string{
 	StatusPageLayout.SingleColumn,
 	StatusPageLayout.Responsive,
+	StatusPageLayout.Grid,
 }
 
 // StatusPageAppearance defines status page appearance
