@@ -45,8 +45,8 @@ type CallFlowNodeOutput struct {
 }
 
 type CallFlowBranch struct {
-	ID         int64         `json:"id"`
-	BranchType string        `json:"branchType"` // one of CallFlowBranchType
+	ID         int64         `json:"id,omitempty"` // 0 omits the field, which creates a new branch: the API rejects an id of 0 on a node that already has branches
+	BranchType string        `json:"branchType"`   // one of CallFlowBranchType
 	Condition  string        `json:"condition,omitempty"`
 	Target     *CallFlowNode `json:"target"`
 }
@@ -66,13 +66,13 @@ type CallFlowNodeMetadata struct {
 	VarValue             string                           `json:"varValue,omitempty"`             // PLAIN
 	Codes                []CallFlowNodeMetadataCode       `json:"codes,omitempty"`                // PIN_CODE
 	SupportHoursId       int64                            `json:"supportHoursId,omitempty"`       // SUPPORT_HOURS
-	HoldAudioUrl         string                           `json:"holdAudioUrl,omitempty"`         // ROUTE_CALL
-	Targets              []CallFlowNodeMetadataCallTarget `json:"targets,omitempty"`              // ROUTE_CALL
-	CallStyle            string                           `json:"callStyle,omitempty"`            // ROUTE_CALL, one of CallFlowNodeMetadataCallStyle
+	HoldAudioUrl         string                           `json:"holdAudioUrl,omitempty"`         // ROUTE_CALL or PARALLEL_ROUTE_CALL
+	Targets              []CallFlowNodeMetadataCallTarget `json:"targets,omitempty"`              // ROUTE_CALL or PARALLEL_ROUTE_CALL, the API rejects NUMBER targets on PARALLEL_ROUTE_CALL
+	CallStyle            string                           `json:"callStyle,omitempty"`            // ROUTE_CALL (ORDERED or RANDOM) or PARALLEL_ROUTE_CALL (PARALLEL), one of CallFlowNodeMetadataCallStyle
 	AlertSourceId        int64                            `json:"alertSourceId,omitempty"`        // CREATE_ALERT
 	AcceptAlertOnAnswer  bool                             `json:"acceptAlertOnAnswer,omitempty"`  // CREATE_ALERT
-	Retries              int64                            `json:"retries,omitempty"`              // IVR_MENU or PIN_CODE or ROUTE_CALL
-	CallTimeoutSec       int64                            `json:"callTimeoutSec,omitempty"`       // ROUTE_CALL
+	Retries              int64                            `json:"retries,omitempty"`              // IVR_MENU or PIN_CODE or ROUTE_CALL or PARALLEL_ROUTE_CALL
+	CallTimeoutSec       int64                            `json:"callTimeoutSec,omitempty"`       // ROUTE_CALL or PARALLEL_ROUTE_CALL
 	Blacklist            []string                         `json:"blacklist,omitempty"`            // BLOCK_NUMBERS
 	Intents              []CallFlowNodeMetadataIntent     `json:"intents,omitempty"`              // AGENTIC
 	Gathers              []CallFlowNodeMetadataGather     `json:"gathers,omitempty"`              // AGENTIC

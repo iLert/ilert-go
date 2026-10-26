@@ -32,6 +32,31 @@ func TestCallFlowNodeMetadataDefinitions(t *testing.T) {
 	}
 }
 
+// TestCallFlowBranchID verifies that a branch without an id is sent without the
+// field, while an existing branch keeps its id. On a node that already has
+// branches the API rejects a branch with id 0 with a 400, "You have provided a
+// branch id 0 in node <id>, which does not exist", and creates a new branch when
+// the id is left out (verified against the API on 26.10.2026). See
+// iLert/engineering-tasks#2835.
+func TestCallFlowBranchID(t *testing.T) {
+	tests := []struct {
+		branch CallFlowBranch
+		want   string
+	}{
+		{CallFlowBranch{BranchType: "BRANCH", Condition: "context.option == '2'"}, `{"branchType":"BRANCH","condition":"context.option == '2'","target":null}`},
+		{CallFlowBranch{ID: 5, BranchType: "BRANCH", Condition: "context.option == '1'"}, `{"id":5,"branchType":"BRANCH","condition":"context.option == '1'","target":null}`},
+	}
+	for _, tt := range tests {
+		encoded, err := json.Marshal(tt.branch)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if string(encoded) != tt.want {
+			t.Errorf("payload = %s, want %s", encoded, tt.want)
+		}
+	}
+}
+
 // TestEnumsCoverAPIValues verifies that values the API accepts and returns are
 // part of the lists the Terraform provider validates against.
 func TestEnumsCoverAPIValues(t *testing.T) {
