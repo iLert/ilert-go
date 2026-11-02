@@ -36,8 +36,7 @@ func TestCallFlowNodeMetadataDefinitions(t *testing.T) {
 // field, while an existing branch keeps its id. On a node that already has
 // branches the API rejects a branch with id 0 with a 400, "You have provided a
 // branch id 0 in node <id>, which does not exist", and creates a new branch when
-// the id is left out (verified against the API on 26.10.2026). See
-// iLert/engineering-tasks#2835.
+// the id is left out. See iLert/engineering-tasks#2835.
 func TestCallFlowBranchID(t *testing.T) {
 	tests := []struct {
 		branch CallFlowBranch

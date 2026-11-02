@@ -2,7 +2,7 @@
 
 ## 02.11.2026, Version 4.2.1
 
-- fix adding a branch to a call flow node that already has branches, such as a new option on an IVR menu: `CallFlowBranch.ID` was sent as `"id": 0` for a new branch, which the API rejects on such a node with a 400, `You have provided a branch id 0 in node <id>, which does not exist`. An id of 0 is now left out, and the API creates the branch. Creating a call flow was not affected, the API accepts an id of 0 there (verified against the API on 26.10.2026) [#86](https://github.com/iLert/ilert-go/pull/86)
+- fix adding a branch to a call flow node that already has branches, such as a new option on an IVR menu: `CallFlowBranch.ID` was sent as `"id": 0` for a new branch, which the API rejects on such a node with a 400, `You have provided a branch id 0 in node <id>, which does not exist`. An id of 0 is now left out, and the API creates the branch. Creating a call flow was not affected, the API accepts an id of 0 there [#86](https://github.com/iLert/ilert-go/pull/86)
 
 ## 26.10.2026, Version 4.2.0
 
