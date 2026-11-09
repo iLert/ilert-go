@@ -423,8 +423,16 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 	}
 }
 
+// betaRequest starts a request to an early access endpoint, one of the routes
+// under /api/beta. The API rejects those without an ilert-beta header with a
+// 428, the value of the header is not interpreted.
+func (c *Client) betaRequest() *resty.Request {
+	return c.httpClient.R().SetHeader("ilert-beta", "true")
+}
+
 // apiRoutes defines api routes
 var apiRoutes = struct {
+	agents                string
 	alerts                string
 	alertActions          string
 	alertSources          string
@@ -435,6 +443,7 @@ var apiRoutes = struct {
 	chatChannels          string
 	connections           string
 	connectors            string
+	credentials           string
 	deploymentPipelines   string
 	escalationPolicies    string
 	events                string
@@ -458,6 +467,7 @@ var apiRoutes = struct {
 	teams                 string
 	tenants               string
 }{
+	agents:                "/api/beta/agents",
 	alerts:                "/api/alerts",
 	alertActions:          "/api/alert-actions",
 	alertSources:          "/api/alert-sources",
@@ -468,6 +478,7 @@ var apiRoutes = struct {
 	chatChannels:          "/api/chat-channels",
 	connections:           "/api/v1/connections",
 	connectors:            "/api/connectors",
+	credentials:           "/api/beta/credentials",
 	deploymentPipelines:   "/api/deployment-pipelines",
 	escalationPolicies:    "/api/escalation-policies",
 	events:                "/api/events",
