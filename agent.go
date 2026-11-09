@@ -41,8 +41,9 @@ type Agent struct {
 
 	// CustomConfig, RepositoryConfig, EnableCodingSessions and
 	// EnablePullRequestReviews are not available to customer accounts, the API
-	// rejects any other value than an empty one with a 400. They are here so an
-	// update can send back what a read returned.
+	// rejects any other value than an empty one with a 400. CustomConfig from
+	// an account outside the beta program is ignored instead, like the fields
+	// above. They are here so an update can send back what a read returned.
 	CustomConfig             json.RawMessage `json:"customConfig,omitempty"`
 	RepositoryConfig         json.RawMessage `json:"repositoryConfig,omitempty"`
 	EnableCodingSessions     bool            `json:"enableCodingSessions,omitempty"`
