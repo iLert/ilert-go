@@ -2,7 +2,7 @@
 
 ## 09.11.2026, Version 4.3.0
 
-- add `AlertSource.AutoRaiseAlerts`, which raises the priority of all pending alerts to high when support hours referenced by their id begin. The inline `SupportHours` keeps its own `AutoRaiseAlerts`, which only applies to it. With referenced support hours, the API sets the value from every write: nil leaves the field out, which turns it off, so send the current value to keep it
+- add `AlertSource.AutoRaiseAlerts`, which raises the priority of all pending alerts to high when support hours referenced by their id begin. The inline `SupportHours` keeps its own `AutoRaiseAlerts`, which only applies to it. With referenced support hours, the API sets the value from every write: nil leaves the field out, which turns it off, so send the current value to keep it [#88](https://github.com/iLert/ilert-go/pull/88)
 
 ## 02.11.2026, Version 4.2.1
 
