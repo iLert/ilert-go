@@ -8,11 +8,15 @@ import (
 
 func main() {
 	var apiToken = "your API token"
-	client := ilert.NewClient(ilert.WithAPIToken(apiToken))
+	// agents and credentials are early access APIs, so the client has to opt in to
+	// both, and then sends the ilert-beta header the API requires for them
+	client := ilert.NewClient(
+		ilert.WithAPIToken(apiToken),
+		ilert.WithEarlyAccess(ilert.EarlyAccess.Agents, ilert.EarlyAccess.Credentials),
+	)
 
-	// agents and credentials are early access, the client sends the ilert-beta
-	// header the API requires for them. A credential of a built-in MCP server is
-	// in the MCP category, with the short name of the server as sub category
+	// a credential of a built-in MCP server is in the MCP category, with the short
+	// name of the server as sub category
 	credentialResult, err := client.CreateCredential(&ilert.CreateCredentialInput{
 		Credential: &ilert.Credential{
 			Name:        "github mcp",

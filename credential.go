@@ -9,7 +9,8 @@ import (
 )
 
 // Credential definition, an early access resource behind /api/beta/credentials.
-// Its contract may change or be withdrawn while it is in early access.
+// Its contract may change or be withdrawn while it is in early access, and its
+// operations need a client opted in with WithEarlyAccess(EarlyAccess.Credentials).
 //
 // A credential holds a secret that ilert uses against another system, for
 // example the MCP servers of an agent. It cannot be changed once it is created:
@@ -133,7 +134,11 @@ func (c *Client) CreateCredential(input *CreateCredentialInput) (*CreateCredenti
 		return nil, errors.New("credential input is required")
 	}
 
-	resp, err := c.betaRequest().SetBody(input.Credential).Post(apiRoutes.credentials)
+	req, err := c.betaRequest(EarlyAccess.Credentials)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.SetBody(input.Credential).Post(apiRoutes.credentials)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +176,11 @@ func (c *Client) GetCredential(input *GetCredentialInput) (*GetCredentialOutput,
 		return nil, errors.New("credential id is required")
 	}
 
-	resp, err := c.betaRequest().Get(fmt.Sprintf("%s/%d", apiRoutes.credentials, *input.CredentialID))
+	req, err := c.betaRequest(EarlyAccess.Credentials)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Get(fmt.Sprintf("%s/%d", apiRoutes.credentials, *input.CredentialID))
 	if err != nil {
 		return nil, err
 	}
@@ -219,7 +228,11 @@ func (c *Client) GetCredentials(input *GetCredentialsInput) (*GetCredentialsOutp
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
 	}
 
-	resp, err := c.betaRequest().Get(fmt.Sprintf("%s?%s", apiRoutes.credentials, q.Encode()))
+	req, err := c.betaRequest(EarlyAccess.Credentials)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Get(fmt.Sprintf("%s?%s", apiRoutes.credentials, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -257,7 +270,11 @@ func (c *Client) SearchCredential(input *SearchCredentialInput) (*SearchCredenti
 		return nil, errors.New("credential name is required")
 	}
 
-	resp, err := c.betaRequest().Get(fmt.Sprintf("%s/name/%s", apiRoutes.credentials, url.PathEscape(*input.CredentialName)))
+	req, err := c.betaRequest(EarlyAccess.Credentials)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Get(fmt.Sprintf("%s/name/%s", apiRoutes.credentials, url.PathEscape(*input.CredentialName)))
 	if err != nil {
 		return nil, err
 	}
@@ -295,7 +312,11 @@ func (c *Client) DeleteCredential(input *DeleteCredentialInput) (*DeleteCredenti
 		return nil, errors.New("credential id is required")
 	}
 
-	resp, err := c.betaRequest().Delete(fmt.Sprintf("%s/%d", apiRoutes.credentials, *input.CredentialID))
+	req, err := c.betaRequest(EarlyAccess.Credentials)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Delete(fmt.Sprintf("%s/%d", apiRoutes.credentials, *input.CredentialID))
 	if err != nil {
 		return nil, err
 	}

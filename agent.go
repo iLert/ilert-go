@@ -11,7 +11,8 @@ import (
 )
 
 // Agent definition, an early access resource behind /api/beta/agents. Its
-// contract may change or be withdrawn while it is in early access.
+// contract may change or be withdrawn while it is in early access, and its
+// operations need a client opted in with WithEarlyAccess(EarlyAccess.Agents).
 //
 // The API replaces an agent with what an update sends, and clears most of the
 // fields it leaves out, among them the avatar and the MCP servers and tools.
@@ -298,7 +299,11 @@ func (c *Client) CreateAgent(input *CreateAgentInput) (*CreateAgentOutput, error
 		return nil, errors.New("agent input is required")
 	}
 
-	resp, err := c.betaRequest().SetBody(input.Agent).Post(apiRoutes.agents)
+	req, err := c.betaRequest(EarlyAccess.Agents)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.SetBody(input.Agent).Post(apiRoutes.agents)
 	if err != nil {
 		return nil, err
 	}
@@ -336,7 +341,11 @@ func (c *Client) GetAgent(input *GetAgentInput) (*GetAgentOutput, error) {
 		return nil, errors.New("agent id is required")
 	}
 
-	resp, err := c.betaRequest().Get(fmt.Sprintf("%s/%d", apiRoutes.agents, *input.AgentID))
+	req, err := c.betaRequest(EarlyAccess.Agents)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Get(fmt.Sprintf("%s/%d", apiRoutes.agents, *input.AgentID))
 	if err != nil {
 		return nil, err
 	}
@@ -386,7 +395,11 @@ func (c *Client) GetAgents(input *GetAgentsInput) (*GetAgentsOutput, error) {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
 	}
 
-	resp, err := c.betaRequest().Get(fmt.Sprintf("%s?%s", apiRoutes.agents, q.Encode()))
+	req, err := c.betaRequest(EarlyAccess.Agents)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Get(fmt.Sprintf("%s?%s", apiRoutes.agents, q.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -424,7 +437,11 @@ func (c *Client) SearchAgent(input *SearchAgentInput) (*SearchAgentOutput, error
 		return nil, errors.New("agent name is required")
 	}
 
-	resp, err := c.betaRequest().Get(fmt.Sprintf("%s/name/%s", apiRoutes.agents, url.PathEscape(*input.AgentName)))
+	req, err := c.betaRequest(EarlyAccess.Agents)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Get(fmt.Sprintf("%s/name/%s", apiRoutes.agents, url.PathEscape(*input.AgentName)))
 	if err != nil {
 		return nil, err
 	}
@@ -467,7 +484,11 @@ func (c *Client) UpdateAgent(input *UpdateAgentInput) (*UpdateAgentOutput, error
 		return nil, errors.New("agent id is required")
 	}
 
-	resp, err := c.betaRequest().SetBody(input.Agent).Put(fmt.Sprintf("%s/%d", apiRoutes.agents, *input.AgentID))
+	req, err := c.betaRequest(EarlyAccess.Agents)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.SetBody(input.Agent).Put(fmt.Sprintf("%s/%d", apiRoutes.agents, *input.AgentID))
 	if err != nil {
 		return nil, err
 	}
@@ -504,7 +525,11 @@ func (c *Client) DeleteAgent(input *DeleteAgentInput) (*DeleteAgentOutput, error
 		return nil, errors.New("agent id is required")
 	}
 
-	resp, err := c.betaRequest().Delete(fmt.Sprintf("%s/%d", apiRoutes.agents, *input.AgentID))
+	req, err := c.betaRequest(EarlyAccess.Agents)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := req.Delete(fmt.Sprintf("%s/%d", apiRoutes.agents, *input.AgentID))
 	if err != nil {
 		return nil, err
 	}
