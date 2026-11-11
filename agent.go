@@ -10,9 +10,9 @@ import (
 	"strconv"
 )
 
-// Agent definition, an early access resource behind /api/beta/agents. Its
-// contract may change or be withdrawn while it is in early access, and its
-// operations need a client opted in with WithEarlyAccess(EarlyAccess.Agents).
+// Agent definition, an early access resource behind /api/beta/agents. It may
+// change or be removed while it is in early access, and its operations need a
+// client opted in with WithEarlyAccess(EarlyAccess.Agents).
 //
 // The API replaces an agent with what an update sends, and clears most of the
 // fields it leaves out, among them the avatar and the MCP servers and tools.

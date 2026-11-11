@@ -9,8 +9,8 @@ import (
 )
 
 // Credential definition, an early access resource behind /api/beta/credentials.
-// Its contract may change or be withdrawn while it is in early access, and its
-// operations need a client opted in with WithEarlyAccess(EarlyAccess.Credentials).
+// It may change or be removed while it is in early access, and its operations
+// need a client opted in with WithEarlyAccess(EarlyAccess.Credentials).
 //
 // A credential holds a secret that ilert uses against another system, for
 // example the MCP servers of an agent. It cannot be changed once it is created:
