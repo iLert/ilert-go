@@ -21,7 +21,7 @@ func TestCreateCredentialSendsBetaHeader(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	result, err := newTestClient(t, srv.URL).CreateCredential(&CreateCredentialInput{
+	result, err := newEarlyAccessTestClient(t, srv.URL).CreateCredential(&CreateCredentialInput{
 		Credential: &Credential{
 			Name:        "github",
 			TypeHint:    CredentialType.Bearer,
@@ -60,7 +60,7 @@ func TestGetCredentialNotFound(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	_, err := newTestClient(t, srv.URL).GetCredential(&GetCredentialInput{CredentialID: Int64(3)})
+	_, err := newEarlyAccessTestClient(t, srv.URL).GetCredential(&GetCredentialInput{CredentialID: Int64(3)})
 	if _, ok := err.(*NotFoundAPIError); !ok {
 		t.Fatalf("expected *NotFoundAPIError, got %T: %v", err, err)
 	}
@@ -77,7 +77,7 @@ func TestDeleteCredential(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	if _, err := newTestClient(t, srv.URL).DeleteCredential(&DeleteCredentialInput{CredentialID: Int64(3)}); err != nil {
+	if _, err := newEarlyAccessTestClient(t, srv.URL).DeleteCredential(&DeleteCredentialInput{CredentialID: Int64(3)}); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	if method != http.MethodDelete || path != "/api/beta/credentials/3" {

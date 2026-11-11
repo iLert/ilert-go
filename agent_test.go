@@ -2,12 +2,97 @@ package ilert
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"sync/atomic"
 	"testing"
 )
+
+// newEarlyAccessTestClient is newTestClient opted in to every early access API
+func newEarlyAccessTestClient(t *testing.T, url string) *Client {
+	t.Helper()
+	c := newTestClient(t, url)
+	WithEarlyAccess(EarlyAccessAll...)(c)
+	return c
+}
+
+// Agents and credentials are early access APIs, so a client has to opt in to each.
+// The operations of an API it is not opted in to fail before anything is sent.
+func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
+	var requests atomic.Int32
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests.Add(1)
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer srv.Close()
+
+	c := newTestClient(t, srv.URL)
+	id, name := int64(1), "triage"
+	operations := map[string]map[string]func() error{
+		EarlyAccess.Agents: {
+			"CreateAgent": func() error { _, err := c.CreateAgent(&CreateAgentInput{Agent: &Agent{Name: name}}); return err },
+			"GetAgent":    func() error { _, err := c.GetAgent(&GetAgentInput{AgentID: &id}); return err },
+			"GetAgents":   func() error { _, err := c.GetAgents(nil); return err },
+			"SearchAgent": func() error { _, err := c.SearchAgent(&SearchAgentInput{AgentName: &name}); return err },
+			"UpdateAgent": func() error {
+				_, err := c.UpdateAgent(&UpdateAgentInput{AgentID: &id, Agent: &Agent{Name: name}})
+				return err
+			},
+			"DeleteAgent": func() error { _, err := c.DeleteAgent(&DeleteAgentInput{AgentID: &id}); return err },
+		},
+		EarlyAccess.Credentials: {
+			"CreateCredential": func() error {
+				_, err := c.CreateCredential(&CreateCredentialInput{Credential: &Credential{Name: name}})
+				return err
+			},
+			"GetCredential":  func() error { _, err := c.GetCredential(&GetCredentialInput{CredentialID: &id}); return err },
+			"GetCredentials": func() error { _, err := c.GetCredentials(nil); return err },
+			"SearchCredential": func() error {
+				_, err := c.SearchCredential(&SearchCredentialInput{CredentialName: &name})
+				return err
+			},
+			"DeleteCredential": func() error { _, err := c.DeleteCredential(&DeleteCredentialInput{CredentialID: &id}); return err },
+		},
+	}
+	refused := func(api string) {
+		t.Helper()
+		for operation, call := range operations[api] {
+			var disabled *EarlyAccessDisabledError
+			if err := call(); !errors.As(err, &disabled) || disabled.API != api {
+				t.Errorf("%s: err = %v, want an *EarlyAccessDisabledError for %s", operation, err, api)
+			}
+		}
+	}
+
+	for _, api := range EarlyAccessAll {
+		if c.EarlyAccessEnabled(api) {
+			t.Fatalf("%s is enabled without WithEarlyAccess", api)
+		}
+		refused(api)
+	}
+	if n := requests.Load(); n != 0 {
+		t.Errorf("%d requests were sent without early access, want none", n)
+	}
+
+	// each API is enabled on its own
+	WithEarlyAccess(EarlyAccess.Agents)(c)
+	if !c.EarlyAccessEnabled(EarlyAccess.Agents) || c.EarlyAccessEnabled(EarlyAccess.Credentials) {
+		t.Fatal("WithEarlyAccess(EarlyAccess.Agents) did not enable agents alone")
+	}
+	refused(EarlyAccess.Credentials)
+	if n := requests.Load(); n != 0 {
+		t.Errorf("%d requests were sent for credentials while only agents were enabled, want none", n)
+	}
+	for operation, call := range operations[EarlyAccess.Agents] {
+		var disabled *EarlyAccessDisabledError
+		if err := call(); errors.As(err, &disabled) {
+			t.Errorf("%s: refused although agents are enabled", operation)
+		}
+	}
+}
 
 func TestCreateAgentSendsBetaHeader(t *testing.T) {
 	var method, path, beta string
@@ -22,7 +107,7 @@ func TestCreateAgentSendsBetaHeader(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	result, err := newTestClient(t, srv.URL).CreateAgent(&CreateAgentInput{
+	result, err := newEarlyAccessTestClient(t, srv.URL).CreateAgent(&CreateAgentInput{
 		Agent: &Agent{
 			Name:       "triage",
 			Status:     AgentStatus.Enabled,
@@ -69,7 +154,7 @@ func TestUpdateAgentSendsBackWhatWasRead(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	client := newTestClient(t, srv.URL)
+	client := newEarlyAccessTestClient(t, srv.URL)
 	read, err := client.GetAgent(&GetAgentInput{AgentID: Int64(7)})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -117,7 +202,7 @@ func TestUpdateAgentKeepsUnchangedMcpListsAsRead(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	client := newTestClient(t, srv.URL)
+	client := newEarlyAccessTestClient(t, srv.URL)
 	read, err := client.GetAgent(&GetAgentInput{AgentID: Int64(7)})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -160,7 +245,7 @@ func TestUpdateAgentSendsChangedMcpLists(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	client := newTestClient(t, srv.URL)
+	client := newEarlyAccessTestClient(t, srv.URL)
 	read, err := client.GetAgent(&GetAgentInput{AgentID: Int64(7)})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -228,7 +313,7 @@ func TestSearchAgentEscapesName(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	result, err := newTestClient(t, srv.URL).SearchAgent(&SearchAgentInput{AgentName: String("on call triage")})
+	result, err := newEarlyAccessTestClient(t, srv.URL).SearchAgent(&SearchAgentInput{AgentName: String("on call triage")})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
