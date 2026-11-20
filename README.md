@@ -83,7 +83,7 @@ func main() {
 
 ## Early access
 
-Some APIs of ilert are in [early access](https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access): agents and credentials. They may change or be removed, even in a minor version of ilert-go, so a client has to opt in to each one it uses, by its path under `/api/beta`: `"agents"` for `/api/beta/agents` and `"credentials"` for `/api/beta/credentials`. Without the opt-in, their operations fail with an `EarlyAccessDisabledError` before anything is sent.
+Some APIs of ilert are in [early access](https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access): actions, agents and credentials. They may change or be removed, even in a minor version of ilert-go, so a client has to opt in to each one it uses, by its path under `/api/beta`: `"actions"` for `/api/beta/actions`, `"agents"` for `/api/beta/agents` and `"credentials"` for `/api/beta/credentials`. Without the opt-in, their operations fail with an `EarlyAccessDisabledError` before anything is sent.
 
 ```go
 package main
@@ -97,7 +97,7 @@ func main() {
 	var apiToken = "your API token"
 	client := ilert.NewClient(
 		ilert.WithAPIToken(apiToken),
-		ilert.WithEarlyAccess("agents", "credentials"),
+		ilert.WithEarlyAccess("actions", "agents", "credentials"),
 	)
 	...
 }

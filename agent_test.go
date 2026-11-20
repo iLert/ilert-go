@@ -15,11 +15,11 @@ import (
 func newEarlyAccessTestClient(t *testing.T, url string) *Client {
 	t.Helper()
 	c := newTestClient(t, url)
-	WithEarlyAccess("agents", "credentials")(c)
+	WithEarlyAccess("actions", "agents", "credentials")(c)
 	return c
 }
 
-// Agents and credentials are early access APIs, so a client has to opt in to each.
+// Actions, agents and credentials are early access APIs, so a client has to opt in to each.
 // The operations of an API it is not opted in to fail before anything is sent.
 func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
 	var requests atomic.Int32
@@ -42,6 +42,20 @@ func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
 				return err
 			},
 			"DeleteAgent": func() error { _, err := c.DeleteAgent(&DeleteAgentInput{AgentID: &id}); return err },
+		},
+		"actions": {
+			"CreateAction": func() error {
+				_, err := c.CreateAction(&CreateActionInput{Action: &Action{Name: name, EntityKind: ActionEntityKind.Alert}})
+				return err
+			},
+			"GetAction":    func() error { _, err := c.GetAction(&GetActionInput{ActionID: &id}); return err },
+			"GetActions":   func() error { _, err := c.GetActions(nil); return err },
+			"SearchAction": func() error { _, err := c.SearchAction(&SearchActionInput{ActionName: &name}); return err },
+			"UpdateAction": func() error {
+				_, err := c.UpdateAction(&UpdateActionInput{ActionID: &id, Action: &Action{Name: name}})
+				return err
+			},
+			"DeleteAction": func() error { _, err := c.DeleteAction(&DeleteActionInput{ActionID: &id}); return err },
 		},
 		"credentials": {
 			"CreateCredential": func() error {
@@ -67,7 +81,7 @@ func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
 		}
 	}
 
-	for _, api := range []string{"agents", "credentials"} {
+	for _, api := range []string{"actions", "agents", "credentials"} {
 		if c.EarlyAccessEnabled(api) {
 			t.Fatalf("%s is enabled without WithEarlyAccess", api)
 		}
