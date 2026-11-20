@@ -12,7 +12,7 @@ import (
 
 // Agent definition, an early access resource behind /api/beta/agents. It may
 // change or be removed while it is in early access, and its operations need a
-// client opted in with WithEarlyAccess(EarlyAccess.Agents).
+// client opted in with WithEarlyAccess("agents").
 //
 // The API replaces an agent with what an update sends, and clears most of the
 // fields it leaves out, among them the avatar and the MCP servers and tools.
@@ -299,7 +299,7 @@ func (c *Client) CreateAgent(input *CreateAgentInput) (*CreateAgentOutput, error
 		return nil, errors.New("agent input is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Agents)
+	req, err := c.betaRequest(apiRoutes.agents)
 	if err != nil {
 		return nil, err
 	}
@@ -341,7 +341,7 @@ func (c *Client) GetAgent(input *GetAgentInput) (*GetAgentOutput, error) {
 		return nil, errors.New("agent id is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Agents)
+	req, err := c.betaRequest(apiRoutes.agents)
 	if err != nil {
 		return nil, err
 	}
@@ -395,7 +395,7 @@ func (c *Client) GetAgents(input *GetAgentsInput) (*GetAgentsOutput, error) {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Agents)
+	req, err := c.betaRequest(apiRoutes.agents)
 	if err != nil {
 		return nil, err
 	}
@@ -437,7 +437,7 @@ func (c *Client) SearchAgent(input *SearchAgentInput) (*SearchAgentOutput, error
 		return nil, errors.New("agent name is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Agents)
+	req, err := c.betaRequest(apiRoutes.agents)
 	if err != nil {
 		return nil, err
 	}
@@ -484,7 +484,7 @@ func (c *Client) UpdateAgent(input *UpdateAgentInput) (*UpdateAgentOutput, error
 		return nil, errors.New("agent id is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Agents)
+	req, err := c.betaRequest(apiRoutes.agents)
 	if err != nil {
 		return nil, err
 	}
@@ -525,7 +525,7 @@ func (c *Client) DeleteAgent(input *DeleteAgentInput) (*DeleteAgentOutput, error
 		return nil, errors.New("agent id is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Agents)
+	req, err := c.betaRequest(apiRoutes.agents)
 	if err != nil {
 		return nil, err
 	}

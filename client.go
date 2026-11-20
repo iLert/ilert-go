@@ -82,7 +82,8 @@ func (aerr *BadRequestAPIError) Error() string {
 // a client that is not opted in to it with WithEarlyAccess. Nothing was sent to the
 // API.
 type EarlyAccessDisabledError struct {
-	// API is the early access API the operation belongs to, e.g. EarlyAccess.Agents
+	// API is the early access API the operation belongs to, named after its path
+	// under /api/beta, e.g. "agents"
 	API string
 }
 
@@ -388,29 +389,14 @@ func WithRetry(retryCount int, retryWaitTime time.Duration, retryMaxWaitTime tim
 	}
 }
 
-// EarlyAccess defines the early access APIs a client can be opted in to with
-// WithEarlyAccess. Their operations call the API under /api/beta, and they may
-// change or be removed, even in a minor version of this package, while they are
-// in early access, see https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access.
-// An API that leaves early access stays accepted here until the next major version.
-var EarlyAccess = struct {
-	Agents      string
-	Credentials string
-}{
-	Agents:      "agents",
-	Credentials: "credentials",
-}
-
-// EarlyAccessAll defines early access API list
-var EarlyAccessAll = []string{
-	EarlyAccess.Agents,
-	EarlyAccess.Credentials,
-}
-
-// WithEarlyAccess opts the client in to early access APIs, see EarlyAccess. Each has
-// to be enabled on its own: the operations of an API the client is not opted in to
-// fail with an *EarlyAccessDisabledError before anything is sent. Names that are not
-// in EarlyAccessAll have no effect.
+// WithEarlyAccess opts the client in to early access APIs of ilert, see
+// https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access.
+// An early access API is named after its path under /api/beta: "agents" for
+// /api/beta/agents and "credentials" for /api/beta/credentials. Its operations may
+// change or be removed, even in a minor version of this package. Each API has to be
+// enabled on its own: the operations of an API the client is not opted in to fail
+// with an *EarlyAccessDisabledError before anything is sent. Other names have no
+// effect, so the name of an API that leaves early access stays accepted.
 func WithEarlyAccess(apis ...string) ClientOptions {
 	return func(c *Client) {
 		if c.earlyAccess == nil {
@@ -476,11 +462,14 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 	}
 }
 
-// betaRequest starts a request to an endpoint of the early access API api, one of
-// the routes under /api/beta. The API rejects those without an ilert-beta header
-// with a 428, the value of the header is not interpreted. A client that is not
-// opted in to api gets an *EarlyAccessDisabledError instead, and nothing is sent.
-func (c *Client) betaRequest(api string) (*resty.Request, error) {
+// betaRequest starts a request to the early access API at route, one of the routes
+// under /api/beta. The API is named after that path, e.g. "agents" for
+// /api/beta/agents, so the name a client opts in to is always the one in the URL.
+// The API rejects requests without an ilert-beta header with a 428, the value of
+// the header is not interpreted. A client that is not opted in to the API gets an
+// *EarlyAccessDisabledError instead, and nothing is sent.
+func (c *Client) betaRequest(route string) (*resty.Request, error) {
+	api := strings.TrimPrefix(route, "/api/beta/")
 	if !c.earlyAccess[api] {
 		return nil, &EarlyAccessDisabledError{API: api}
 	}

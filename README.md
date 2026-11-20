@@ -83,7 +83,7 @@ func main() {
 
 ## Early access
 
-Some APIs of ilert are in [early access](https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access): agents and credentials. They may change or be removed, even in a minor version of ilert-go, so a client has to opt in to each one it uses. Without the opt-in, their operations fail with an `EarlyAccessDisabledError` before anything is sent.
+Some APIs of ilert are in [early access](https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access): agents and credentials. They may change or be removed, even in a minor version of ilert-go, so a client has to opt in to each one it uses, by its path under `/api/beta`: `"agents"` for `/api/beta/agents` and `"credentials"` for `/api/beta/credentials`. Without the opt-in, their operations fail with an `EarlyAccessDisabledError` before anything is sent.
 
 ```go
 package main
@@ -97,13 +97,13 @@ func main() {
 	var apiToken = "your API token"
 	client := ilert.NewClient(
 		ilert.WithAPIToken(apiToken),
-		ilert.WithEarlyAccess(ilert.EarlyAccess.Agents, ilert.EarlyAccess.Credentials),
+		ilert.WithEarlyAccess("agents", "credentials"),
 	)
 	...
 }
 ```
 
-`ilert.EarlyAccessAll` lists the early access APIs. An API that leaves early access stays accepted by `WithEarlyAccess` until the next major version.
+The name of an API that leaves early access stays accepted by `WithEarlyAccess`, without effect, so code that opts in to it keeps working.
 
 ## Versions overview
 

@@ -9,10 +9,11 @@ import (
 func main() {
 	var apiToken = "your API token"
 	// agents and credentials are early access APIs, so the client has to opt in to
-	// both, and then sends the ilert-beta header the API requires for them
+	// both by their paths under /api/beta, and then sends the ilert-beta header the
+	// API requires for them
 	client := ilert.NewClient(
 		ilert.WithAPIToken(apiToken),
-		ilert.WithEarlyAccess(ilert.EarlyAccess.Agents, ilert.EarlyAccess.Credentials),
+		ilert.WithEarlyAccess("agents", "credentials"),
 	)
 
 	// a credential of a built-in MCP server is in the MCP category, with the short

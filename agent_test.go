@@ -15,7 +15,7 @@ import (
 func newEarlyAccessTestClient(t *testing.T, url string) *Client {
 	t.Helper()
 	c := newTestClient(t, url)
-	WithEarlyAccess(EarlyAccessAll...)(c)
+	WithEarlyAccess("agents", "credentials")(c)
 	return c
 }
 
@@ -32,7 +32,7 @@ func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
 	c := newTestClient(t, srv.URL)
 	id, name := int64(1), "triage"
 	operations := map[string]map[string]func() error{
-		EarlyAccess.Agents: {
+		"agents": {
 			"CreateAgent": func() error { _, err := c.CreateAgent(&CreateAgentInput{Agent: &Agent{Name: name}}); return err },
 			"GetAgent":    func() error { _, err := c.GetAgent(&GetAgentInput{AgentID: &id}); return err },
 			"GetAgents":   func() error { _, err := c.GetAgents(nil); return err },
@@ -43,7 +43,7 @@ func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
 			},
 			"DeleteAgent": func() error { _, err := c.DeleteAgent(&DeleteAgentInput{AgentID: &id}); return err },
 		},
-		EarlyAccess.Credentials: {
+		"credentials": {
 			"CreateCredential": func() error {
 				_, err := c.CreateCredential(&CreateCredentialInput{Credential: &Credential{Name: name}})
 				return err
@@ -67,7 +67,7 @@ func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
 		}
 	}
 
-	for _, api := range EarlyAccessAll {
+	for _, api := range []string{"agents", "credentials"} {
 		if c.EarlyAccessEnabled(api) {
 			t.Fatalf("%s is enabled without WithEarlyAccess", api)
 		}
@@ -78,15 +78,15 @@ func TestEarlyAccessOperationsNeedTheOptIn(t *testing.T) {
 	}
 
 	// each API is enabled on its own
-	WithEarlyAccess(EarlyAccess.Agents)(c)
-	if !c.EarlyAccessEnabled(EarlyAccess.Agents) || c.EarlyAccessEnabled(EarlyAccess.Credentials) {
-		t.Fatal("WithEarlyAccess(EarlyAccess.Agents) did not enable agents alone")
+	WithEarlyAccess("agents")(c)
+	if !c.EarlyAccessEnabled("agents") || c.EarlyAccessEnabled("credentials") {
+		t.Fatal(`WithEarlyAccess("agents") did not enable agents alone`)
 	}
-	refused(EarlyAccess.Credentials)
+	refused("credentials")
 	if n := requests.Load(); n != 0 {
 		t.Errorf("%d requests were sent for credentials while only agents were enabled, want none", n)
 	}
-	for operation, call := range operations[EarlyAccess.Agents] {
+	for operation, call := range operations["agents"] {
 		var disabled *EarlyAccessDisabledError
 		if err := call(); errors.As(err, &disabled) {
 			t.Errorf("%s: refused although agents are enabled", operation)

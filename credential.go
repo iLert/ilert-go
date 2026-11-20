@@ -10,7 +10,7 @@ import (
 
 // Credential definition, an early access resource behind /api/beta/credentials.
 // It may change or be removed while it is in early access, and its operations
-// need a client opted in with WithEarlyAccess(EarlyAccess.Credentials).
+// need a client opted in with WithEarlyAccess("credentials").
 //
 // A credential holds a secret that ilert uses against another system, for
 // example the MCP servers of an agent. It cannot be changed once it is created:
@@ -134,7 +134,7 @@ func (c *Client) CreateCredential(input *CreateCredentialInput) (*CreateCredenti
 		return nil, errors.New("credential input is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Credentials)
+	req, err := c.betaRequest(apiRoutes.credentials)
 	if err != nil {
 		return nil, err
 	}
@@ -176,7 +176,7 @@ func (c *Client) GetCredential(input *GetCredentialInput) (*GetCredentialOutput,
 		return nil, errors.New("credential id is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Credentials)
+	req, err := c.betaRequest(apiRoutes.credentials)
 	if err != nil {
 		return nil, err
 	}
@@ -228,7 +228,7 @@ func (c *Client) GetCredentials(input *GetCredentialsInput) (*GetCredentialsOutp
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Credentials)
+	req, err := c.betaRequest(apiRoutes.credentials)
 	if err != nil {
 		return nil, err
 	}
@@ -270,7 +270,7 @@ func (c *Client) SearchCredential(input *SearchCredentialInput) (*SearchCredenti
 		return nil, errors.New("credential name is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Credentials)
+	req, err := c.betaRequest(apiRoutes.credentials)
 	if err != nil {
 		return nil, err
 	}
@@ -312,7 +312,7 @@ func (c *Client) DeleteCredential(input *DeleteCredentialInput) (*DeleteCredenti
 		return nil, errors.New("credential id is required")
 	}
 
-	req, err := c.betaRequest(EarlyAccess.Credentials)
+	req, err := c.betaRequest(apiRoutes.credentials)
 	if err != nil {
 		return nil, err
 	}
