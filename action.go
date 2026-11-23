@@ -55,7 +55,8 @@ type Action struct {
 
 	// CredentialID references the credential the action authenticates with
 	CredentialID *int64 `json:"credentialId,omitempty"`
-	// Transport can only be set to HTTP, on an action without a template
+	// Transport is how the action is delivered, see ActionTransport. It can only be
+	// set to HTTP, on an action without a template
 	Transport     string `json:"transport,omitempty"`
 	Bidirectional bool   `json:"bidirectional,omitempty"`
 
@@ -123,35 +124,116 @@ var ActionDispatchModeAll = []string{
 	ActionDispatchMode.Manual,
 }
 
-// ActionTriggerEventsAll defines the events an action can react to. The alert.*
+// ActionTriggerEvents defines the events an action can react to. The alert.*
 // events apply to alert actions, the incident.* events to incident actions.
+var ActionTriggerEvents = struct {
+	AlertCreated             string
+	AlertAccepted            string
+	AlertResolved            string
+	AlertRerouted            string
+	AlertEscalated           string
+	AlertEscalationEnded     string
+	AlertPriorityRaised      string
+	AlertResponderAdded      string
+	AlertResponderRemoved    string
+	AlertCommentAdded        string
+	AlertChannelAttached     string
+	AlertChannelDetached     string
+	AlertNotResolved         string
+	IncidentOpened           string
+	IncidentUpdated          string
+	IncidentStatusChanged    string
+	IncidentResolved         string
+	IncidentDeleted          string
+	IncidentResponderAdded   string
+	IncidentResponderRemoved string
+	IncidentResponderUpdated string
+	IncidentCommentAdded     string
+	IncidentChannelAttached  string
+	IncidentChannelDetached  string
+	IncidentPostmortemLinked string
+	IncidentNotResolved      string
+}{
+	AlertCreated:             "alert.created",
+	AlertAccepted:            "alert.accepted",
+	AlertResolved:            "alert.resolved",
+	AlertRerouted:            "alert.rerouted",
+	AlertEscalated:           "alert.escalated",
+	AlertEscalationEnded:     "alert.escalation_ended",
+	AlertPriorityRaised:      "alert.priority_raised",
+	AlertResponderAdded:      "alert.responder_added",
+	AlertResponderRemoved:    "alert.responder_removed",
+	AlertCommentAdded:        "alert.comment_added",
+	AlertChannelAttached:     "alert.channel_attached",
+	AlertChannelDetached:     "alert.channel_detached",
+	AlertNotResolved:         "alert.not_resolved",
+	IncidentOpened:           "incident.opened",
+	IncidentUpdated:          "incident.updated",
+	IncidentStatusChanged:    "incident.status_changed",
+	IncidentResolved:         "incident.resolved",
+	IncidentDeleted:          "incident.deleted",
+	IncidentResponderAdded:   "incident.responder_added",
+	IncidentResponderRemoved: "incident.responder_removed",
+	IncidentResponderUpdated: "incident.responder_updated",
+	IncidentCommentAdded:     "incident.comment_added",
+	IncidentChannelAttached:  "incident.channel_attached",
+	IncidentChannelDetached:  "incident.channel_detached",
+	IncidentPostmortemLinked: "incident.postmortem_linked",
+	IncidentNotResolved:      "incident.not_resolved",
+}
+
+// ActionTriggerEventsAll defines all events an action can react to
 var ActionTriggerEventsAll = []string{
-	"alert.created",
-	"alert.accepted",
-	"alert.resolved",
-	"alert.rerouted",
-	"alert.escalated",
-	"alert.escalation_ended",
-	"alert.priority_raised",
-	"alert.responder_added",
-	"alert.responder_removed",
-	"alert.comment_added",
-	"alert.channel_attached",
-	"alert.channel_detached",
-	"alert.not_resolved",
-	"incident.opened",
-	"incident.updated",
-	"incident.status_changed",
-	"incident.resolved",
-	"incident.deleted",
-	"incident.responder_added",
-	"incident.responder_removed",
-	"incident.responder_updated",
-	"incident.comment_added",
-	"incident.channel_attached",
-	"incident.channel_detached",
-	"incident.postmortem_linked",
-	"incident.not_resolved",
+	ActionTriggerEvents.AlertCreated,
+	ActionTriggerEvents.AlertAccepted,
+	ActionTriggerEvents.AlertResolved,
+	ActionTriggerEvents.AlertRerouted,
+	ActionTriggerEvents.AlertEscalated,
+	ActionTriggerEvents.AlertEscalationEnded,
+	ActionTriggerEvents.AlertPriorityRaised,
+	ActionTriggerEvents.AlertResponderAdded,
+	ActionTriggerEvents.AlertResponderRemoved,
+	ActionTriggerEvents.AlertCommentAdded,
+	ActionTriggerEvents.AlertChannelAttached,
+	ActionTriggerEvents.AlertChannelDetached,
+	ActionTriggerEvents.AlertNotResolved,
+	ActionTriggerEvents.IncidentOpened,
+	ActionTriggerEvents.IncidentUpdated,
+	ActionTriggerEvents.IncidentStatusChanged,
+	ActionTriggerEvents.IncidentResolved,
+	ActionTriggerEvents.IncidentDeleted,
+	ActionTriggerEvents.IncidentResponderAdded,
+	ActionTriggerEvents.IncidentResponderRemoved,
+	ActionTriggerEvents.IncidentResponderUpdated,
+	ActionTriggerEvents.IncidentCommentAdded,
+	ActionTriggerEvents.IncidentChannelAttached,
+	ActionTriggerEvents.IncidentChannelDetached,
+	ActionTriggerEvents.IncidentPostmortemLinked,
+	ActionTriggerEvents.IncidentNotResolved,
+}
+
+// ActionTransport defines how an action is delivered
+var ActionTransport = struct {
+	HTTP        string
+	SES         string
+	EventBridge string
+	Telegram    string
+	Internal    string
+}{
+	HTTP:        "HTTP",
+	SES:         "SES",
+	EventBridge: "EVENTBRIDGE",
+	Telegram:    "TELEGRAM",
+	Internal:    "INTERNAL",
+}
+
+// ActionTransportAll defines all action transports
+var ActionTransportAll = []string{
+	ActionTransport.HTTP,
+	ActionTransport.SES,
+	ActionTransport.EventBridge,
+	ActionTransport.Telegram,
+	ActionTransport.Internal,
 }
 
 // ActionOrigin defines where an action comes from
@@ -269,6 +351,9 @@ type GetActionsInput struct {
 	// the maximum number of results when paging through a list of entities.
 	// Default: 50, Maximum: 100
 	MaxResults *int
+
+	// filters the result by a search string matched against the action name
+	Query *string
 }
 
 // GetActionsOutput represents the output of a GetActions operation.
@@ -290,6 +375,9 @@ func (c *Client) GetActions(input *GetActionsInput) (*GetActionsOutput, error) {
 	}
 	if input.MaxResults != nil {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+	if input.Query != nil {
+		q.Add("query", *input.Query)
 	}
 
 	req, err := c.betaRequest(apiRoutes.actions)

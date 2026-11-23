@@ -205,7 +205,11 @@ type GetCredentialsInput struct {
 	StartIndex *int
 
 	// the maximum number of results when paging through a list of entities.
+	// Default: 50, Maximum: 100
 	MaxResults *int
+
+	// filters the result by a search string matched against the credential name
+	Query *string
 }
 
 // GetCredentialsOutput represents the output of a GetCredentials operation.
@@ -226,6 +230,9 @@ func (c *Client) GetCredentials(input *GetCredentialsInput) (*GetCredentialsOutp
 	}
 	if input.MaxResults != nil {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+	if input.Query != nil {
+		q.Add("query", *input.Query)
 	}
 
 	req, err := c.betaRequest(apiRoutes.credentials)

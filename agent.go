@@ -26,11 +26,11 @@ type Agent struct {
 	Teams     []TeamShort `json:"teams"`
 
 	// McpServers are the MCP servers the agent can call tools on. A read of a
-	// single agent always returns them, the list only on request.
+	// single agent always returns them, the list only when Include asks for them.
 	McpServers []AgentMcpServer `json:"mcpServers"`
 
 	// McpTools are the tools of the servers the agent may call. A read of a
-	// single agent always returns them, the list only on request.
+	// single agent always returns them, the list only when Include asks for them.
 	McpTools []AgentMcpTool `json:"mcpTools"`
 
 	// AdditionalInstructions, RcaPolicy and AutonomyLevel are only taken from
@@ -38,7 +38,7 @@ type Agent struct {
 	// and keeps what is stored.
 	AdditionalInstructions string          `json:"additionalInstructions,omitempty"`
 	RcaPolicy              *AgentRcaPolicy `json:"rcaPolicy,omitempty"`
-	AutonomyLevel          string          `json:"autonomyLevel,omitempty"`
+	AutonomyLevel          string          `json:"autonomyLevel,omitempty"` // see AgentAutonomyLevel
 
 	// CustomConfig, RepositoryConfig, EnableCodingSessions and
 	// EnablePullRequestReviews are not available to customer accounts, the API
@@ -234,7 +234,7 @@ func agentMcpToolInputValueString(value any) (string, error) {
 
 // AgentRcaPolicy defines when an agent starts a root cause investigation
 type AgentRcaPolicy struct {
-	Type           string `json:"type,omitempty"`
+	Type           string `json:"type,omitempty"` // see AgentRcaPolicyType
 	Condition      string `json:"condition,omitempty"`
 	ScoreThreshold *int   `json:"scoreThreshold,omitempty"`
 }
@@ -252,6 +252,42 @@ var AgentStatus = struct {
 var AgentStatusAll = []string{
 	AgentStatus.Enabled,
 	AgentStatus.Disabled,
+}
+
+// AgentAutonomyLevel defines how far an agent acts on its own
+var AgentAutonomyLevel = struct {
+	Semi  string
+	Fully string
+}{
+	Semi:  "SEMI",
+	Fully: "FULLY",
+}
+
+// AgentAutonomyLevelAll defines all agent autonomy levels
+var AgentAutonomyLevelAll = []string{
+	AgentAutonomyLevel.Semi,
+	AgentAutonomyLevel.Fully,
+}
+
+// AgentRcaPolicyType defines which alerts an agent starts a root cause investigation for
+var AgentRcaPolicyType = struct {
+	AllInScope           string
+	SpecificAlertSources string
+	Custom               string
+	Manual               string
+}{
+	AllInScope:           "ALL_IN_SCOPE",
+	SpecificAlertSources: "SPECIFIC_ALERT_SOURCES",
+	Custom:               "CUSTOM",
+	Manual:               "MANUAL",
+}
+
+// AgentRcaPolicyTypeAll defines all agent root cause investigation policy types
+var AgentRcaPolicyTypeAll = []string{
+	AgentRcaPolicyType.AllInScope,
+	AgentRcaPolicyType.SpecificAlertSources,
+	AgentRcaPolicyType.Custom,
+	AgentRcaPolicyType.Manual,
 }
 
 // AgentMcpToolInputType defines the type of a tool input
@@ -370,8 +406,15 @@ type GetAgentsInput struct {
 	StartIndex *int
 
 	// the maximum number of results when paging through a list of entities.
-	// Maximum: 100
+	// Default: 20, Maximum: 100
 	MaxResults *int
+
+	// describes optional properties that should be included in the response
+	// possible values: "mcpServers", "mcpTools", "additionalInstructions"
+	Include []*string
+
+	// filters the result by a search string matched against the agent name
+	Query *string
 }
 
 // GetAgentsOutput represents the output of a GetAgents operation.
@@ -380,8 +423,8 @@ type GetAgentsOutput struct {
 	Agents []*Agent
 }
 
-// GetAgents lists existing agent resources. The agents in the list carry no MCP
-// servers and tools, GetAgent returns them.
+// GetAgents lists existing agent resources. The agents in the list carry their MCP
+// servers and tools only when Include asks for them, GetAgent always returns them.
 func (c *Client) GetAgents(input *GetAgentsInput) (*GetAgentsOutput, error) {
 	if input == nil {
 		input = &GetAgentsInput{}
@@ -393,6 +436,12 @@ func (c *Client) GetAgents(input *GetAgentsInput) (*GetAgentsOutput, error) {
 	}
 	if input.MaxResults != nil {
 		q.Add("max-results", strconv.Itoa(*input.MaxResults))
+	}
+	if input.Query != nil {
+		q.Add("query", *input.Query)
+	}
+	for _, include := range input.Include {
+		q.Add("include", *include)
 	}
 
 	req, err := c.betaRequest(apiRoutes.agents)
