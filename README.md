@@ -81,6 +81,30 @@ func main() {
 }
 ```
 
+## Early access
+
+Some APIs of ilert are in [early access](https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access): actions, agents and credentials. They may change or be removed, even in a minor version of ilert-go, so a client has to opt in to each one it uses, by its path under `/api/beta`: `"actions"` for `/api/beta/actions`, `"agents"` for `/api/beta/agents` and `"credentials"` for `/api/beta/credentials`. Without the opt-in, their operations fail with an `EarlyAccessDisabledError` before anything is sent.
+
+```go
+package main
+
+import (
+	"log"
+	"github.com/iLert/ilert-go/v4"
+)
+
+func main() {
+	var apiToken = "your API token"
+	client := ilert.NewClient(
+		ilert.WithAPIToken(apiToken),
+		ilert.WithEarlyAccess("actions", "agents", "credentials"),
+	)
+	...
+}
+```
+
+The name of an API that leaves early access stays accepted by `WithEarlyAccess`, without effect, so code that opts in to it keeps working.
+
 ## Versions overview
 
 If you want to use older legacy versions of ilert-go, you can access previous major versions using one of the commands below.

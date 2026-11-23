@@ -27,6 +27,7 @@ const (
 type Client struct {
 	apiEndpoint string
 	httpClient  *resty.Client
+	earlyAccess map[string]bool
 }
 
 // GenericAPIError describes generic API response error e.g. bad request
@@ -75,6 +76,19 @@ type BadRequestAPIError struct {
 
 func (aerr *BadRequestAPIError) Error() string {
 	return fmt.Sprintf("Bad request: api respond with status code: %d, error code: %s, message: %s", aerr.Status, aerr.Code, aerr.Message)
+}
+
+// EarlyAccessDisabledError describes an operation of an early access API called on
+// a client that is not opted in to it with WithEarlyAccess. Nothing was sent to the
+// API.
+type EarlyAccessDisabledError struct {
+	// API is the early access API the operation belongs to, named after its path
+	// under /api/beta, e.g. "agents"
+	API string
+}
+
+func (aerr *EarlyAccessDisabledError) Error() string {
+	return fmt.Sprintf("the %[1]s API of ilert is in early access, and must be enabled with ilert.WithEarlyAccess(%[1]q)", aerr.API)
 }
 
 // GenericCountResponse describes generic resources count response
@@ -375,6 +389,32 @@ func WithRetry(retryCount int, retryWaitTime time.Duration, retryMaxWaitTime tim
 	}
 }
 
+// WithEarlyAccess opts the client in to early access APIs of ilert, see
+// https://docs.ilert.com/developer-docs/rest-api/api-reference/introduction/early-access.
+// An early access API is named after its path under /api/beta: "actions" for
+// /api/beta/actions, "agents" for /api/beta/agents and "credentials" for
+// /api/beta/credentials. Its operations may change or be removed, even in a minor
+// version of this package. Each API has to be enabled on its own: the operations of
+// an API the client is not opted in to fail with an *EarlyAccessDisabledError before
+// anything is sent. Other names have no effect, so the name of an API that leaves
+// early access stays accepted.
+func WithEarlyAccess(apis ...string) ClientOptions {
+	return func(c *Client) {
+		if c.earlyAccess == nil {
+			c.earlyAccess = make(map[string]bool)
+		}
+		for _, api := range apis {
+			c.earlyAccess[api] = true
+		}
+	}
+}
+
+// EarlyAccessEnabled reports whether the client is opted in to the early access
+// API, see WithEarlyAccess.
+func (c *Client) EarlyAccessEnabled(api string) bool {
+	return c.earlyAccess[api]
+}
+
 // getGenericAPIError extract API response error
 func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) error {
 	if intSliceContains(expectedStatusCode, response.StatusCode()) {
@@ -423,8 +463,24 @@ func getGenericAPIError(response *resty.Response, expectedStatusCode ...int) err
 	}
 }
 
+// betaRequest starts a request to the early access API at route, one of the routes
+// under /api/beta. The API is named after that path, e.g. "agents" for
+// /api/beta/agents, so the name a client opts in to is always the one in the URL.
+// The API rejects requests without an ilert-beta header with a 428, the value of
+// the header is not interpreted. A client that is not opted in to the API gets an
+// *EarlyAccessDisabledError instead, and nothing is sent.
+func (c *Client) betaRequest(route string) (*resty.Request, error) {
+	api := strings.TrimPrefix(route, "/api/beta/")
+	if !c.earlyAccess[api] {
+		return nil, &EarlyAccessDisabledError{API: api}
+	}
+	return c.httpClient.R().SetHeader("ilert-beta", "true"), nil
+}
+
 // apiRoutes defines api routes
 var apiRoutes = struct {
+	actions               string
+	agents                string
 	alerts                string
 	alertActions          string
 	alertSources          string
@@ -435,6 +491,7 @@ var apiRoutes = struct {
 	chatChannels          string
 	connections           string
 	connectors            string
+	credentials           string
 	deploymentPipelines   string
 	escalationPolicies    string
 	events                string
@@ -458,6 +515,8 @@ var apiRoutes = struct {
 	teams                 string
 	tenants               string
 }{
+	actions:               "/api/beta/actions",
+	agents:                "/api/beta/agents",
 	alerts:                "/api/alerts",
 	alertActions:          "/api/alert-actions",
 	alertSources:          "/api/alert-sources",
@@ -468,6 +527,7 @@ var apiRoutes = struct {
 	chatChannels:          "/api/chat-channels",
 	connections:           "/api/v1/connections",
 	connectors:            "/api/connectors",
+	credentials:           "/api/beta/credentials",
 	deploymentPipelines:   "/api/deployment-pipelines",
 	escalationPolicies:    "/api/escalation-policies",
 	events:                "/api/events",
