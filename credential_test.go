@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 )
 
@@ -82,5 +83,22 @@ func TestDeleteCredential(t *testing.T) {
 	}
 	if method != http.MethodDelete || path != "/api/beta/credentials/3" {
 		t.Errorf("request = %s %s, want DELETE /api/beta/credentials/3", method, path)
+	}
+}
+
+func TestGetCredentialsSendsQuery(t *testing.T) {
+	var query url.Values
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		query = r.URL.Query()
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`[]`))
+	}))
+	defer srv.Close()
+
+	if _, err := newEarlyAccessTestClient(t, srv.URL).GetCredentials(&GetCredentialsInput{Query: String("github")}); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if query.Get("query") != "github" {
+		t.Errorf("query = %v, want the search string", query)
 	}
 }

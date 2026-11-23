@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"reflect"
 	"sync/atomic"
 	"testing"
@@ -336,5 +337,29 @@ func TestSearchAgentEscapesName(t *testing.T) {
 	}
 	if result.Agent.ID != 7 {
 		t.Errorf("agent = %+v, want agent 7", result.Agent)
+	}
+}
+
+func TestGetAgentsSendsQueryAndInclude(t *testing.T) {
+	var query url.Values
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		query = r.URL.Query()
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`[{"id":7,"name":"on call triage","mcpServers":[{"name":"ilert-workforce-github-mcp","active":true}]}]`))
+	}))
+	defer srv.Close()
+
+	result, err := newEarlyAccessTestClient(t, srv.URL).GetAgents(&GetAgentsInput{
+		Query:   String("triage"),
+		Include: []*string{String("mcpServers"), String("mcpTools")},
+	})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if query.Get("query") != "triage" || !reflect.DeepEqual(query["include"], []string{"mcpServers", "mcpTools"}) {
+		t.Errorf("query = %v, want the search string and both includes", query)
+	}
+	if len(result.Agents) != 1 || len(result.Agents[0].McpServers) != 1 {
+		t.Errorf("agents = %+v, want the agent with its server", result.Agents)
 	}
 }

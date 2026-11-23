@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 )
 
@@ -197,5 +198,22 @@ func TestDeleteActionAndNotFound(t *testing.T) {
 	_, err := client.GetAction(&GetActionInput{ActionID: Int64(9)})
 	if _, ok := err.(*NotFoundAPIError); !ok {
 		t.Errorf("err = %v, want a *NotFoundAPIError", err)
+	}
+}
+
+func TestGetActionsSendsQuery(t *testing.T) {
+	var query url.Values
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		query = r.URL.Query()
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`[]`))
+	}))
+	defer srv.Close()
+
+	if _, err := newEarlyAccessTestClient(t, srv.URL).GetActions(&GetActionsInput{Query: String("jira"), MaxResults: Int(10)}); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if query.Get("query") != "jira" || query.Get("max-results") != "10" {
+		t.Errorf("query = %v, want the search string and the page size", query)
 	}
 }
