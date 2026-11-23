@@ -34,6 +34,7 @@ type AlertSource struct {
 	AlertPriorityRule      string                 `json:"alertPriorityRule,omitempty"`
 	IncidentPriorityRule   string                 `json:"incidentPriorityRule,omitempty"` // @deprecated
 	SupportHours           interface{}            `json:"supportHours,omitempty"`
+	AutoRaiseAlerts        *bool                  `json:"autoRaiseAlerts,omitempty"` // Raise priority of all pending alerts to 'high' when the support hours referenced by id begin. Every write with such support hours sets it, so nil turns it off
 	EscalationPolicy       *EscalationPolicy      `json:"escalationPolicy,omitempty"`
 	Metadata               map[string]interface{} `json:"metadata,omitempty"`         // @deprecated
 	AutotaskMetadata       *AutotaskMetadata      `json:"autotaskMetadata,omitempty"` // @deprecated
