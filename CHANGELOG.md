@@ -1,6 +1,6 @@
 # Changelog
 
-## 17.11.2026, Version 4.3.0
+## 23.11.2026, Version 4.3.0
 
 - add agents: `CreateAgent`, `GetAgent`, `GetAgents`, `SearchAgent`, `UpdateAgent` and `DeleteAgent`, with the `Agent`, `AgentMcpServer`, `AgentMcpServerCredentials`, `AgentMcpTool`, `AgentMcpToolInputOverwrite`, `AgentMcpToolInputValues` and `AgentRcaPolicy` types and the `AgentStatus` and `AgentMcpToolInputType` constants. Agents are early access: the operations call `/api/beta/agents` and send the `ilert-beta` header the API requires there, and it may change or be removed while it is in early access [#87](https://github.com/iLert/ilert-go/pull/87)
 - the API replaces an agent with what `UpdateAgent` sends and clears most fields it leaves out, among them the avatar and the MCP servers and tools, so send the agent as `GetAgent` returned it with the changes applied. `GetAgents` returns the agents without their MCP servers and tools. `AdditionalInstructions`, `RcaPolicy` and `AutonomyLevel` are only taken from accounts in the beta program, the API ignores them for every other account and keeps what is stored. `CustomConfig`, `RepositoryConfig`, `EnableCodingSessions` and `EnablePullRequestReviews` are not available to customer accounts, the API rejects a value with a 400, except a `CustomConfig` from an account outside the beta program, which it ignores like the fields above [#87](https://github.com/iLert/ilert-go/pull/87)
